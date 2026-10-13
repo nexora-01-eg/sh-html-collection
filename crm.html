@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S — سليم للتسويق العقاري</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-card: #161616;
+  --bg-hover: #1e1e1e;
+  --gold: #C9A84C;
+  --gold-light: #E8C97A;
+  --gold-dim: rgba(201,168,76,0.15);
+  --gold-border: rgba(201,168,76,0.25);
+  --text-primary: #F0EAD6;
+  --text-secondary: #8A8070;
+  --text-muted: #4A4540;
+  --border: rgba(255,255,255,0.06);
+  --border-gold: rgba(201,168,76,0.2);
+  --success: #4CAF7A;
+  --danger: #E05555;
+  --warning: #E0A030;
+  --info: #4A90C4;
+  --sidebar-w: 240px;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --transition: 0.2s ease;
+}
+.light-mode {
+  --bg-primary: #F4F1EC;
+  --bg-secondary: #EAE6DE;
+  --bg-card: #FFFFFF;
+  --bg-hover: #F0EDE5;
+  --gold: #B8922A;
+  --gold-light: #C9A84C;
+  --gold-dim: rgba(184,146,42,0.1);
+  --gold-border: rgba(184,146,42,0.2);
+  --text-primary: #1A1610;
+  --text-secondary: #6B5F4A;
+  --text-muted: #A89880;
+  --border: rgba(0,0,0,0.08);
+  --border-gold: rgba(184,146,42,0.2);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  overflow: hidden;
+  transition: background 0.3s, color 0.3s;
+}
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 4px; }
+
+/* ===== SIDEBAR ===== */
+#sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  background: var(--bg-secondary);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-logo {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid var(--border-gold);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-circle {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 1.5px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700; color: var(--gold);
+  font-family: 'Tajawal', sans-serif;
+  flex-shrink: 0;
+}
+.logo-text { line-height: 1.2; }
+.logo-text .en { font-size: 11px; color: var(--gold); font-weight: 600; letter-spacing: 0.05em; }
+.logo-text .ar { font-size: 12px; color: var(--text-secondary); font-weight: 400; }
+
+.nav-section { padding: 8px 0; }
+.nav-label {
+  font-size: 10px; color: var(--text-muted); padding: 6px 18px 4px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 18px; cursor: pointer;
+  color: var(--text-secondary); font-size: 13px;
+  transition: var(--transition); border-right: 2px solid transparent;
+  position: relative;
+}
+.nav-item:hover { background: var(--bg-hover); color: var(--text-primary); }
+.nav-item.active {
+  color: var(--gold); background: var(--gold-dim);
+  border-right-color: var(--gold);
+}
+.nav-item .icon { font-size: 15px; width: 20px; text-align: center; }
+.nav-badge {
+  margin-right: auto; background: var(--gold); color: var(--bg-primary);
+  font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px;
+  min-width: 18px; text-align: center;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  padding: 12px 0;
+  border-top: 1px solid var(--border);
+}
+
+/* ===== MAIN ===== */
+#main {
+  margin-right: var(--sidebar-w);
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== TOPBAR ===== */
+#topbar {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 56px;
+  display: flex; align-items: center; gap: 12px;
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-title { font-size: 16px; font-weight: 600; flex: 1; }
+.topbar-title span { color: var(--text-muted); font-weight: 400; font-size: 13px; margin-right: 8px; }
+
+.search-box {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 6px 12px;
+  width: 220px; transition: var(--transition);
+}
+.search-box:focus-within { border-color: var(--gold-border); }
+.search-box input {
+  background: none; border: none; outline: none;
+  color: var(--text-primary); font-family: 'Cairo', sans-serif;
+  font-size: 13px; width: 100%; direction: rtl;
+}
+.search-box input::placeholder { color: var(--text-muted); }
+
+.btn-icon {
+  width: 34px; height: 34px; border-radius: var(--radius-sm);
+  background: var(--bg-card); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text-secondary); font-size: 15px;
+  transition: var(--transition);
+}
+.btn-icon:hover { background: var(--bg-hover); color: var(--text-primary); border-color: var(--border-gold); }
+.btn-icon.active { background: var(--gold-dim); color: var(--gold); border-color: var(--border-gold); }
+
+/* ===== PAGE CONTENT ===== */
+#page-content { padding: 20px 24px; flex: 1; }
+
+/* ===== STAT CARDS ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.stat-card:hover { border-color: var(--border-gold); transform: translateY(-1px); }
+.stat-card.gold { border-color: var(--gold-border); }
+.stat-card .stat-icon {
+  font-size: 20px; margin-bottom: 8px;
+  display: block;
+}
+.stat-card .stat-val {
+  font-size: 26px; font-weight: 700; color: var(--text-primary);
+  line-height: 1;
+}
+.stat-card.gold .stat-val { color: var(--gold); }
+.stat-card .stat-label { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.stat-card .stat-sub { font-size: 11px; color: var(--text-secondary); margin-top: 6px; }
+.stat-card .stat-bar {
+  position: absolute; bottom: 0; right: 0;
+  height: 2px; background: var(--gold);
+  transition: width 1s ease;
+}
+
+/* ===== SECTION HEADER ===== */
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.section-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.section-title span { color: var(--text-muted); font-weight: 400; font-size: 12px; margin-right: 6px; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: var(--radius-sm);
+  font-family: 'Cairo', sans-serif; font-size: 12px; font-weight: 500;
+  cursor: pointer; transition: var(--transition); border: none;
+}
+.btn-gold {
+  background: var(--gold); color: #0a0a0a;
+}
+.btn-gold:hover { background: var(--gold-light); }
+.btn-outline {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.btn-outline:hover { border-color: var(--border-gold); color: var(--text-primary); background: var(--bg-hover); }
+
+/* ===== FILTERS ===== */
+.filter-bar {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 14px; align-items: center;
+}
+.filter-chip {
+  padding: 5px 12px; border-radius: 20px;
+  font-size: 12px; cursor: pointer;
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text-secondary); transition: var(--transition);
+}
+.filter-chip:hover, .filter-chip.active {
+  background: var(--gold-dim); border-color: var(--gold-border); color: var(--gold);
+}
+
+/* ===== PROPERTY CARDS ===== */
+.props-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+.prop-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+.prop-card:hover { border-color: var(--border-gold); background: var(--bg-hover); }
+.prop-card-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.prop-type-badge {
+  font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 4px;
+}
+.badge-sell { background: rgba(74,144,196,0.15); color: #4A90C4; }
+.badge-rent { background: rgba(76,175,122,0.15); color: #4CAF7A; }
+.badge-furnished { background: rgba(201,168,76,0.15); color: var(--gold); }
+.badge-land { background: rgba(224,160,48,0.15); color: #E0A030; }
+.badge-house { background: rgba(180,100,200,0.15); color: #C464D0; }
+.badge-shop { background: rgba(224,85,85,0.15); color: #E05555; }
+.badge-wanted { background: rgba(100,180,100,0.15); color: #64B464; }
+
+.prop-hot {
+  font-size: 11px; color: #E05555;
+}
+.prop-area { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.prop-detail { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; }
+.prop-price { font-size: 18px; font-weight: 700; color: var(--gold); }
+.prop-price span { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+.prop-install { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+.prop-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border);
+}
+.prop-phone { font-size: 11px; color: var(--text-muted); direction: ltr; }
+.prop-actions { display: flex; gap: 6px; }
+.prop-action-btn {
+  width: 26px; height: 26px; border-radius: 5px;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 12px; color: var(--text-secondary);
+  transition: var(--transition);
+}
+.prop-action-btn:hover { background: var(--gold-dim); color: var(--gold); border-color: var(--border-gold); }
+
+/* ===== TABLE ===== */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.data-table th {
+  text-align: right; padding: 10px 14px;
+  background: var(--bg-secondary); color: var(--text-muted);
+  font-weight: 500; font-size: 11px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  color: var(--text-primary); vertical-align: middle;
+}
+.data-table tr:hover td { background: var(--bg-hover); }
+
+/* ===== TABLE WRAPPER ===== */
+.table-wrap {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.table-scroll { overflow-x: auto; }
+
+/* ===== MODAL / PANEL ===== */
+#panel-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 200;
+  display: none;
+  backdrop-filter: blur(2px);
+}
+#side-panel {
+  position: fixed; top: 0; left: 0;
+  width: 420px; height: 100vh;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-gold);
+  z-index: 201;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+#side-panel.open { transform: translateX(0); }
+.panel-header {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; background: var(--bg-secondary); z-index: 1;
+}
+.panel-body { padding: 20px; flex: 1; }
+.panel-close {
+  width: 30px; height: 30px; border-radius: var(--radius-sm);
+  background: var(--bg-card); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 14px; color: var(--text-secondary);
+}
+.panel-close:hover { color: var(--danger); border-color: var(--danger); }
+
+/* ===== FORM ===== */
+.form-group { margin-bottom: 14px; }
+.form-label { font-size: 11px; color: var(--text-muted); margin-bottom: 5px; display: block; font-weight: 500; }
+.form-control {
+  width: 100%; padding: 8px 12px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--text-primary);
+  font-family: 'Cairo', sans-serif; font-size: 13px;
+  outline: none; transition: var(--transition); direction: rtl;
+}
+.form-control:focus { border-color: var(--gold-border); }
+.form-control::placeholder { color: var(--text-muted); }
+select.form-control { cursor: pointer; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* ===== DETAIL ROWS ===== */
+.detail-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.detail-row:last-child { border-bottom: none; }
+.detail-label { color: var(--text-muted); font-size: 12px; }
+.detail-val { color: var(--text-primary); font-weight: 500; }
+.detail-val.gold { color: var(--gold); font-size: 16px; }
+
+/* ===== MATCHING ===== */
+.match-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 12px; margin-bottom: 8px;
+  cursor: pointer; transition: var(--transition);
+}
+.match-card:hover { border-color: var(--border-gold); }
+.match-pct {
+  font-size: 18px; font-weight: 700; color: var(--gold);
+}
+.match-bar-wrap { height: 3px; background: var(--bg-secondary); border-radius: 2px; margin: 6px 0; }
+.match-bar { height: 100%; background: var(--gold); border-radius: 2px; }
+
+/* ===== DASHBOARD CHART (CSS bars) ===== */
+.chart-bars {
+  display: flex; align-items: flex-end; gap: 8px;
+  height: 120px; padding-top: 10px;
+}
+.chart-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.chart-bar {
+  width: 100%; background: var(--gold-dim); border-radius: 3px 3px 0 0;
+  border: 1px solid var(--gold-border); transition: height 0.5s ease;
+  min-height: 4px;
+}
+.chart-bar:hover { background: var(--gold); cursor: pointer; }
+.chart-bar-label { font-size: 10px; color: var(--text-muted); }
+
+/* ===== TOAST ===== */
+#toast-container {
+  position: fixed; bottom: 20px; left: 20px; z-index: 999;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.toast {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px 16px;
+  font-size: 13px; color: var(--text-primary);
+  animation: slideIn 0.2s ease;
+  display: flex; align-items: center; gap: 8px;
+  min-width: 200px;
+}
+.toast.success { border-color: var(--success); }
+.toast.error { border-color: var(--danger); }
+.toast.info { border-color: var(--gold-border); }
+@keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* ===== PARSER ===== */
+.parser-area {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; margin-bottom: 16px;
+}
+.parser-result {
+  background: var(--bg-card); border: 1px solid var(--border-gold);
+  border-radius: var(--radius); padding: 16px;
+  display: none;
+}
+
+/* ===== KANBAN ===== */
+.kanban-board { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; }
+.kanban-col {
+  min-width: 200px; flex-shrink: 0;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 12px;
+}
+.kanban-col-title { font-size: 12px; font-weight: 600; margin-bottom: 10px; color: var(--text-secondary); }
+.kanban-item {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px; margin-bottom: 8px;
+  font-size: 12px; cursor: pointer; transition: var(--transition);
+}
+.kanban-item:hover { border-color: var(--border-gold); }
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  text-align: center; padding: 60px 20px; color: var(--text-muted);
+}
+.empty-state .icon { font-size: 40px; margin-bottom: 12px; }
+.empty-state p { font-size: 13px; }
+
+/* ===== PAGINATION ===== */
+.pagination { display: flex; gap: 6px; align-items: center; justify-content: center; margin-top: 16px; }
+.page-btn {
+  width: 32px; height: 32px; border-radius: var(--radius-sm);
+  background: var(--bg-card); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 12px; color: var(--text-secondary);
+  transition: var(--transition);
+}
+.page-btn:hover, .page-btn.active { background: var(--gold-dim); color: var(--gold); border-color: var(--border-gold); }
+.page-info { font-size: 12px; color: var(--text-muted); padding: 0 8px; }
+
+/* ===== TAGS ===== */
+.tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; border-radius: 4px; font-size: 11px;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+/* ===== STATUS DOTS ===== */
+.status-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+.dot-green { background: var(--success); }
+.dot-yellow { background: var(--warning); }
+.dot-red { background: var(--danger); }
+.dot-blue { background: var(--info); }
+.dot-gold { background: var(--gold); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  :root { --sidebar-w: 0px; }
+  #sidebar { transform: translateX(100%); }
+  #sidebar.mobile-open { transform: translateX(0); }
+  #main { margin-right: 0; }
+  #page-content { padding: 14px; }
+  .props-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  #side-panel { width: 100%; }
+}
+
+/* ===== MOBILE MENU BTN ===== */
+#mobile-menu-btn {
+  display: none;
+  width: 34px; height: 34px; border-radius: var(--radius-sm);
+  background: var(--bg-card); border: 1px solid var(--border);
+  align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px; color: var(--text-secondary);
+}
+@media (max-width: 768px) { #mobile-menu-btn { display: flex; } }
+
+/* ===== DEALS ===== */
+.deal-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px; margin-bottom: 10px;
+  display: flex; justify-content: space-between; align-items: center;
+  transition: var(--transition);
+}
+.deal-card:hover { border-color: var(--border-gold); }
+
+/* ===== ACTIVITY ===== */
+.activity-item {
+  display: flex; gap: 10px; padding: 10px 0;
+  border-bottom: 1px solid var(--border); font-size: 12px;
+}
+.activity-icon {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--gold-dim); border: 1px solid var(--border-gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; flex-shrink: 0; color: var(--gold);
+}
+.activity-text { flex: 1; }
+.activity-time { color: var(--text-muted); white-space: nowrap; font-size: 11px; }
+
+/* ===== INLINE-GRID HELPER ===== */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+/* ===== SECTION CARD ===== */
+.section-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; margin-bottom: 16px;
+}
+
+/* ===== DIVIDER ===== */
+.divider { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+
+/* ===== WHATSAPP BTN ===== */
+.wa-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 12px; border-radius: var(--radius-sm);
+  background: rgba(37,211,102,0.1); border: 1px solid rgba(37,211,102,0.3);
+  color: #25D366; font-size: 12px; cursor: pointer; transition: var(--transition);
+  text-decoration: none;
+}
+.wa-btn:hover { background: rgba(37,211,102,0.2); }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-circle">S</div>
+    <div class="logo-text">
+      <div class="en">SELIM CRM</div>
+      <div class="ar">سليم للتسويق العقاري</div>
+    </div>
+  </div>
+
+  <div style="flex:1; overflow-y:auto;">
+    <div class="nav-section">
+      <div class="nav-label">الرئيسية</div>
+      <div class="nav-item active" onclick="navigate('dashboard')">
+        <span class="icon">⊞</span> لوحة التحكم
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">العقارات</div>
+      <div class="nav-item" onclick="navigate('sell')">
+        <span class="icon">🏠</span> شقق بيع
+        <span class="nav-badge" id="badge-sell">0</span>
+      </div>
+      <div class="nav-item" onclick="navigate('rent')">
+        <span class="icon">🔑</span> إيجار بلاط
+        <span class="nav-badge" id="badge-rent">0</span>
+      </div>
+      <div class="nav-item" onclick="navigate('furnished')">
+        <span class="icon">🛋</span> مفروش
+        <span class="nav-badge" id="badge-furnished">0</span>
+      </div>
+      <div class="nav-item" onclick="navigate('land')">
+        <span class="icon">🌍</span> أراضي
+        <span class="nav-badge" id="badge-land">0</span>
+      </div>
+      <div class="nav-item" onclick="navigate('house')">
+        <span class="icon">🏡</span> بيوت
+        <span class="nav-badge" id="badge-house">0</span>
+      </div>
+      <div class="nav-item" onclick="navigate('shop')">
+        <span class="icon">🏪</span> محلات
+        <span class="nav-badge" id="badge-shop">0</span>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">العملاء</div>
+      <div class="nav-item" onclick="navigate('wanted')">
+        <span class="icon">📋</span> مطلوب
+        <span class="nav-badge" id="badge-wanted">0</span>
+      </div>
+      <div class="nav-item" onclick="navigate('matching')">
+        <span class="icon">🔥</span> المطابقات
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">الإدارة</div>
+      <div class="nav-item" onclick="navigate('followup')">
+        <span class="icon">📞</span> المتابعة اليومية
+      </div>
+      <div class="nav-item" onclick="navigate('deals')">
+        <span class="icon">✅</span> الصفقات المغلقة
+      </div>
+      <div class="nav-item" onclick="navigate('parser')">
+        <span class="icon">🤖</span> محلل النصوص AI
+      </div>
+      <div class="nav-item" onclick="navigate('reports')">
+        <span class="icon">📊</span> التقارير
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-bottom">
+    <div class="nav-item" onclick="toggleTheme()">
+      <span class="icon" id="theme-icon">☀</span> <span id="theme-label">الوضع الفاتح</span>
+    </div>
+    <div class="nav-item" onclick="navigate('add')">
+      <span class="icon">＋</span> إضافة إعلان جديد
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+  <!-- TOPBAR -->
+  <div id="topbar">
+    <button id="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+    <div class="topbar-title" id="page-title">لوحة التحكم <span>S Real Estate CRM</span></div>
+    <div class="search-box">
+      <span style="color:var(--text-muted);font-size:13px;">🔍</span>
+      <input type="text" placeholder="بحث سريع..." id="global-search" oninput="globalSearch(this.value)">
+    </div>
+    <div class="btn-icon" onclick="navigate('add')" title="إضافة جديد">＋</div>
+    <div class="btn-icon" id="notif-btn" title="الإشعارات">🔔</div>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div id="page-content"></div>
+</div>
+
+<!-- SIDE PANEL -->
+<div id="panel-overlay" onclick="closePanel()"></div>
+<div id="side-panel">
+  <div class="panel-header">
+    <div style="font-size:14px;font-weight:600;" id="panel-title">تفاصيل العقار</div>
+    <div class="panel-close" onclick="closePanel()">✕</div>
+  </div>
+  <div class="panel-body" id="panel-body"></div>
+</div>
+
+<!-- TOAST -->
+<div id="toast-container"></div>
+
+<script>
+// ============================================================
+// DATA STORE
+// ============================================================
+const DB_KEY = 'selim_crm_v1';
+
+const SAMPLE_DATA = {
+  properties: [
+    // SELL - زيتون
+    {id:'p001',type:'sell',area:'الزيتون',floor:'رابع أمامي',price:740000,installment:'720→1200/6س',rooms:3,finish:'جبسون+بوابات',phone:'غير محدد',hot:true,notes:'3 عدادات',date:'2025-01-15'},
+    {id:'p002',type:'sell',area:'الزيتون',floor:'ثاني سوبر لوكس',price:900000,installment:'930→1100/5س',rooms:3,finish:'سوبر لوكس',phone:'غير محدد',hot:true,notes:'',date:'2025-01-16'},
+    {id:'p003',type:'sell',area:'الزيتون',floor:'ثاني',price:810000,installment:'750ج ثابت/11س',rooms:3,finish:'تشطيب جهاز',phone:'01008952216',hot:false,notes:'كاملة',date:'2025-01-10'},
+    {id:'p004',type:'sell',area:'الزيتون',floor:'خامس كاش',price:650000,installment:'كاش',rooms:3,finish:'تشطيب جهاز',phone:'01019191835',hot:false,notes:'خالصة',date:'2025-01-12'},
+    {id:'p005',type:'sell',area:'الزيتون',floor:'أرضي',price:710000,installment:'720→1250',rooms:3,finish:'متشطبة',phone:'01061943237',hot:false,notes:'3 عدادات',date:'2025-01-08'},
+    // SELL - ال25
+    {id:'p006',type:'sell',area:'ال25',floor:'أرضي سوبر لوكس',price:800000,installment:'500ج/8س',rooms:3,finish:'سوبر لوكس',phone:'01000904411',hot:true,notes:'3 عدادات',date:'2025-01-20'},
+    {id:'p007',type:'sell',area:'ال25',floor:'ثاني أمامي',price:920000,installment:'900→1800/10س',rooms:3,finish:'',phone:'01202410640',hot:false,notes:'',date:'2025-01-18'},
+    {id:'p008',type:'sell',area:'ال25',floor:'خامس تاني نمرة أبو بكر',price:720000,installment:'740ج/5س',rooms:3,finish:'',phone:'01040613470',hot:false,notes:'',date:'2025-01-17'},
+    {id:'p009',type:'sell',area:'حي النور',floor:'أرضي',price:600000,installment:'1240ج/15س',rooms:3,finish:'',phone:'01017669622',hot:false,notes:'',date:'2025-01-14'},
+    {id:'p010',type:'sell',area:'حي النور',floor:'ثاني أمامي',price:700000,installment:'',rooms:3,finish:'',phone:'01285352335',hot:false,notes:'',date:'2025-01-11'},
+    {id:'p011',type:'sell',area:'المنطقة 14',floor:'أرضي',price:1050000,installment:'',rooms:3,finish:'',phone:'01099342277',hot:false,notes:'105م',date:'2025-01-09'},
+    {id:'p012',type:'sell',area:'المنطقة 14',floor:'أرضي مدخل خاص',price:1200000,installment:'',rooms:3,finish:'',phone:'01004985897',hot:false,notes:'130م',date:'2025-01-07'},
+    {id:'p013',type:'sell',area:'المنطقة 21',floor:'أرضي مدخل خاص',price:1300000,installment:'',rooms:3,finish:'',phone:'01015061654',hot:true,notes:'130م قطعة 896',date:'2025-01-22'},
+    {id:'p014',type:'sell',area:'المنطقة 11',floor:'أرضي',price:1300000,installment:'',rooms:3,finish:'',phone:'01070915100',hot:false,notes:'115م',date:'2025-01-06'},
+    {id:'p015',type:'sell',area:'المنطقة 11',floor:'ثاني',price:1500000,installment:'',rooms:3,finish:'',phone:'01070915100',hot:false,notes:'125م',date:'2025-01-06'},
+    // RENT
+    {id:'r001',type:'rent',area:'العاشرة',floor:'ثالث بحري',price:9000,installment:'',rooms:3,finish:'',phone:'01001349160',hot:false,notes:'',date:'2025-01-20'},
+    {id:'r002',type:'rent',area:'العاشرة',floor:'رابع 170م',price:8000,installment:'',rooms:3,finish:'',phone:'01019191835',hot:false,notes:'3 غرف',date:'2025-01-19'},
+    {id:'r003',type:'rent',area:'العاشرة',floor:'ثاني 150م',price:6500,installment:'',rooms:3,finish:'',phone:'01507009854',hot:false,notes:'3+ريسبشن+2حمام',date:'2025-01-18'},
+    {id:'r004',type:'rent',area:'ال14',floor:'رابع 165م',price:7500,installment:'',rooms:3,finish:'',phone:'01050151778',hot:false,notes:'3+صالتين+2حمام',date:'2025-01-15'},
+    {id:'r005',type:'rent',area:'السابعة القديمة',floor:'ثاني',price:8000,installment:'',rooms:3,finish:'',phone:'01009385484',hot:false,notes:'',date:'2025-01-14'},
+    {id:'r006',type:'rent',area:'ال23 أهالي',floor:'ثالث',price:6000,installment:'',rooms:3,finish:'',phone:'01007305524',hot:false,notes:'',date:'2025-01-12'},
+    {id:'r007',type:'rent',area:'ال12',floor:'ثالث 3 غرف',price:6000,installment:'',rooms:3,finish:'',phone:'01092728883',hot:false,notes:'',date:'2025-01-10'},
+    {id:'r008',type:'rent',area:'العشرين',floor:'ثالث',price:5000,installment:'',rooms:3,finish:'',phone:'01007305524',hot:false,notes:'',date:'2025-01-08'},
+    // FURNISHED
+    {id:'f001',type:'furnished',area:'الثامنة',floor:'ثاني',price:5500,installment:'',rooms:2,finish:'',phone:'01284771014',hot:false,notes:'غرفتين+صالة',date:'2025-01-20'},
+    {id:'f002',type:'furnished',area:'ال11',floor:'أرضي',price:4500,installment:'',rooms:2,finish:'',phone:'01200171130',hot:false,notes:'غرفتين+صالة',date:'2025-01-19'},
+    {id:'f003',type:'furnished',area:'الخامسة',floor:'ثاني',price:8000,installment:'',rooms:3,finish:'',phone:'01004774536',hot:false,notes:'3 غرف 6 سراير',date:'2025-01-18'},
+    {id:'f004',type:'furnished',area:'الثالثة أبو بكر',floor:'',price:17000,installment:'',rooms:3,finish:'3 تكييفات',phone:'01201200141',hot:true,notes:'',date:'2025-01-22'},
+    {id:'f005',type:'furnished',area:'العاشرة',floor:'أرضي مدخل خاص',price:12000,installment:'',rooms:3,finish:'',phone:'01270321985',hot:false,notes:'تشطيب عالي',date:'2025-01-15'},
+    {id:'f006',type:'furnished',area:'المنطقة 11',floor:'أرضي',price:7500,installment:'',rooms:3,finish:'',phone:'01270321985',hot:false,notes:'أهالي فرش نظيف',date:'2025-01-14'},
+    // LAND
+    {id:'l001',type:'land',area:'الكوثر 2',floor:'',price:1100000,installment:'',rooms:0,finish:'',phone:'01062556375',hot:false,notes:'قطعة 487',date:'2025-01-20'},
+    {id:'l002',type:'land',area:'الكوثر 2',floor:'',price:1120000,installment:'قسطين+محضر',rooms:0,finish:'',phone:'01159858472',hot:false,notes:'قطعة 287',date:'2025-01-18'},
+    {id:'l003',type:'land',area:'النرجس',floor:'',price:1430000,installment:'رخصة',rooms:0,finish:'',phone:'01020595495',hot:false,notes:'',date:'2025-01-15'},
+    {id:'l004',type:'land',area:'النرجس',floor:'',price:1300000,installment:'',rooms:0,finish:'',phone:'01285352335',hot:false,notes:'بحري شرقي جنينة',date:'2025-01-12'},
+    {id:'l005',type:'land',area:'الفردوس 3',floor:'',price:1580000,installment:'',rooms:0,finish:'',phone:'01211325469',hot:true,notes:'قطعة 439 ناصية',date:'2025-01-22'},
+    {id:'l006',type:'land',area:'الفردوس',floor:'',price:1420000,installment:'',rooms:0,finish:'',phone:'01007431811',hot:false,notes:'قطعة 317',date:'2025-01-10'},
+    {id:'l007',type:'land',area:'الريحان',floor:'',price:3700000,installment:'',rooms:0,finish:'',phone:'01206180029',hot:false,notes:'552 - على حديقة 600م',date:'2025-01-08'},
+    {id:'l008',type:'land',area:'الريحان',floor:'',price:3800000,installment:'',rooms:0,finish:'',phone:'01206180029',hot:false,notes:'775 ناصية بحري 636م',date:'2025-01-07'},
+    // HOUSES
+    {id:'h001',type:'house',area:'المنطقة 27',floor:'3 أدوار',price:5700000,installment:'',rooms:0,finish:'',phone:'01069463507',hot:false,notes:'276م',date:'2025-01-20'},
+    {id:'h002',type:'house',area:'ال28أ',floor:'بدروم+2+الثالث السقف',price:3800000,installment:'',rooms:0,finish:'',phone:'01273187841',hot:false,notes:'',date:'2025-01-18'},
+    {id:'h003',type:'house',area:'ال28',floor:'بدروم+3 أدوار',price:4800000,installment:'',rooms:0,finish:'',phone:'01121737105',hot:false,notes:'',date:'2025-01-15'},
+    {id:'h004',type:'house',area:'ال24',floor:'بدروم+دور+السقف',price:4800000,installment:'',rooms:0,finish:'',phone:'01029112902',hot:false,notes:'276م',date:'2025-01-12'},
+    {id:'h005',type:'house',area:'السادسة',floor:'بدروم و3 أدوار وروف',price:16000000,installment:'',rooms:0,finish:'سوبر لوكس',phone:'01127991755',hot:true,notes:'432م',date:'2025-01-22'},
+    {id:'h006',type:'house',area:'ال11',floor:'دور متشطب',price:1750000,installment:'',rooms:0,finish:'',phone:'01063141231',hot:false,notes:'',date:'2025-01-10'},
+    // SHOPS
+    {id:'s001',type:'shop',area:'مول دار مصر',floor:'أول السلم',price:1800000,installment:'',rooms:0,finish:'',phone:'01221560944',hot:false,notes:'40م - 45,000/م',date:'2025-01-20'},
+    {id:'s002',type:'shop',area:'مول إنتر سيتي',floor:'أرضي',price:5200000,installment:'',rooms:0,finish:'',phone:'01097981337',hot:false,notes:'52م - 100,000/م',date:'2025-01-18'},
+    {id:'s003',type:'shop',area:'سيتي مول',floor:'',price:4950000,installment:'متأجر 15 ألف',rooms:0,finish:'',phone:'01031209218',hot:false,notes:'45م - 110,000/م',date:'2025-01-15'},
+    {id:'s004',type:'shop',area:'جرين جولف',floor:'ثالث',price:1050000,installment:'',rooms:0,finish:'',phone:'01228318790',hot:false,notes:'42م - 25,000/م',date:'2025-01-12'},
+    // WANTED
+    {id:'w001',type:'wanted',area:'ال25',floor:'ثاني أو ثالث',price:750000,installment:'',rooms:3,finish:'',phone:'01006081241',hot:false,notes:'خالصة أقساط',date:'2025-01-22'},
+    {id:'w002',type:'wanted',area:'ال25',floor:'ثاني أو ثالث',price:750000,installment:'',rooms:3,finish:'',phone:'01288161443',hot:false,notes:'',date:'2025-01-20'},
+    {id:'w003',type:'wanted',area:'ال11 أهالي',floor:'',price:1500000,installment:'',rooms:3,finish:'متشطبة أو نص',phone:'01000904411',hot:false,notes:'',date:'2025-01-18'},
+    {id:'w004',type:'wanted',area:'المناطق 1-2-7-8',floor:'',price:1100000,installment:'',rooms:3,finish:'3 غرف بحري',phone:'غير محدد',hot:false,notes:'',date:'2025-01-15'},
+    {id:'w005',type:'wanted',area:'الكوثر 1 أو 2',floor:'',price:1000000,installment:'قسطين',rooms:0,finish:'',phone:'01014282614',hot:false,notes:'',date:'2025-01-12'},
+    {id:'w006',type:'wanted',area:'الفردوس 3',floor:'',price:1350000,installment:'خالصة+محضر',rooms:0,finish:'',phone:'01060279735',hot:false,notes:'',date:'2025-01-10'},
+    {id:'w007',type:'wanted',area:'ال26 أو 28',floor:'',price:6000000,installment:'',rooms:0,finish:'دورين متشطبين',phone:'01040060072',hot:false,notes:'',date:'2025-01-08'},
+    {id:'w008',type:'wanted',area:'مفروش - أهالي',floor:'',price:17000,installment:'',rooms:3,finish:'فرش عالي مكيف',phone:'غير محدد',hot:true,notes:'لمشرفين شركة',date:'2025-01-22'},
+  ],
+  deals: [
+    {id:'d001',property:'شقة الزيتون ثاني',client:'محمد أحمد',price:850000,commission:2,date:'2025-01-10',notes:'تم التعاقد'},
+    {id:'d002',property:'أرض النرجس',client:'علي محمود',price:1250000,commission:2,date:'2025-01-05',notes:''},
+  ],
+  followups: [
+    {id:'fu001',propId:'p001',client:'أحمد سليمان',phone:'01012345678',status:'interested',note:'مهتم جداً، طلب معاينة',date:'2025-01-22',next:'2025-01-25'},
+    {id:'fu002',propId:'p006',client:'هالة إبراهيم',phone:'01098765432',status:'negotiating',note:'اتفقنا على السعر تقريباً',date:'2025-01-21',next:'2025-01-23'},
+    {id:'fu003',propId:'l005',client:'كريم عمر',phone:'01055544433',status:'viewing',note:'زيارة ميعادها الخميس',date:'2025-01-20',next:'2025-01-24'},
+    {id:'fu004',propId:'r001',client:'سامية علي',phone:'01033322211',status:'no_answer',note:'لم يرد مرتين',date:'2025-01-19',next:'2025-01-22'},
+  ]
+};
+
+let DB = { properties: [], deals: [], followups: [] };
+let currentPage = 'dashboard';
+let currentFilter = 'all';
+let pageNum = 1;
+const PAGE_SIZE = 24;
+let lightMode = false;
+
+function loadDB() {
+  try {
+    const saved = localStorage.getItem(DB_KEY);
+    if (saved) { DB = JSON.parse(saved); }
+    else { DB = JSON.parse(JSON.stringify(SAMPLE_DATA)); saveDB(); }
+  } catch(e) { DB = JSON.parse(JSON.stringify(SAMPLE_DATA)); }
+  updateBadges();
+}
+
+function saveDB() {
+  try { localStorage.setItem(DB_KEY, JSON.stringify(DB)); } catch(e) {}
+}
+
+function updateBadges() {
+  const counts = { sell:0, rent:0, furnished:0, land:0, house:0, shop:0, wanted:0 };
+  DB.properties.forEach(p => { if(counts[p.type] !== undefined) counts[p.type]++; });
+  Object.keys(counts).forEach(k => {
+    const el = document.getElementById('badge-' + k);
+    if(el) el.textContent = counts[k];
+  });
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function navigate(page) {
+  currentPage = page;
+  pageNum = 1;
+  currentFilter = 'all';
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const titles = {
+    dashboard:'لوحة التحكم', sell:'شقق بيع', rent:'إيجار بلاط',
+    furnished:'مفروش', land:'أراضي وقطع', house:'بيوت',
+    shop:'محلات', wanted:'مطلوب', matching:'المطابقات الذكية',
+    followup:'المتابعة اليومية', deals:'الصفقات المغلقة',
+    parser:'محلل النصوص AI', reports:'التقارير', add:'إضافة إعلان'
+  };
+  document.getElementById('page-title').innerHTML = (titles[page]||page) + ' <span>S Real Estate CRM</span>';
+  renderPage(page);
+  // close mobile menu
+  document.getElementById('sidebar').classList.remove('mobile-open');
+}
+
+function renderPage(page) {
+  const el = document.getElementById('page-content');
+  switch(page) {
+    case 'dashboard': el.innerHTML = renderDashboard(); bindDashboard(); break;
+    case 'sell': el.innerHTML = renderPropsPage('sell','شقق بيع'); break;
+    case 'rent': el.innerHTML = renderPropsPage('rent','إيجار بلاط'); break;
+    case 'furnished': el.innerHTML = renderPropsPage('furnished','مفروش'); break;
+    case 'land': el.innerHTML = renderPropsPage('land','أراضي وقطع'); break;
+    case 'house': el.innerHTML = renderPropsPage('house','بيوت'); break;
+    case 'shop': el.innerHTML = renderPropsPage('shop','محلات'); break;
+    case 'wanted': el.innerHTML = renderPropsPage('wanted','مطلوب'); break;
+    case 'matching': el.innerHTML = renderMatching(); break;
+    case 'followup': el.innerHTML = renderFollowup(); break;
+    case 'deals': el.innerHTML = renderDeals(); break;
+    case 'parser': el.innerHTML = renderParser(); break;
+    case 'reports': el.innerHTML = renderReports(); break;
+    case 'add': el.innerHTML = renderAddForm(); break;
+    default: el.innerHTML = '<div class="empty-state"><div class="icon">🚧</div><p>قريباً</p></div>';
+  }
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function renderDashboard() {
+  const props = DB.properties;
+  const sells = props.filter(p=>p.type==='sell');
+  const rents = props.filter(p=>p.type==='rent');
+  const hot = props.filter(p=>p.hot);
+  const total = props.length;
+  const wanted = props.filter(p=>p.type==='wanted');
+  const deals = DB.deals;
+  const totalCommission = deals.reduce((a,d)=>a+(d.price*(d.commission/100)),0);
+
+  // area distribution
+  const areaCounts = {};
+  props.forEach(p=>{ areaCounts[p.area]=(areaCounts[p.area]||0)+1; });
+  const topAreas = Object.entries(areaCounts).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const maxArea = topAreas[0]?.[1]||1;
+
+  return `
+<div class="stats-grid">
+  <div class="stat-card gold" onclick="navigate('sell')">
+    <span class="stat-icon">🏠</span>
+    <div class="stat-val">${sells.length}</div>
+    <div class="stat-label">شقق بيع</div>
+    <div class="stat-bar" style="width:80%"></div>
+  </div>
+  <div class="stat-card" onclick="navigate('rent')">
+    <span class="stat-icon">🔑</span>
+    <div class="stat-val">${rents.length}</div>
+    <div class="stat-label">إيجار بلاط</div>
+  </div>
+  <div class="stat-card" onclick="navigate('land')">
+    <span class="stat-icon">🌍</span>
+    <div class="stat-val">${props.filter(p=>p.type==='land').length}</div>
+    <div class="stat-label">أراضي وقطع</div>
+  </div>
+  <div class="stat-card" onclick="navigate('house')">
+    <span class="stat-icon">🏡</span>
+    <div class="stat-val">${props.filter(p=>p.type==='house').length}</div>
+    <div class="stat-label">بيوت</div>
+  </div>
+  <div class="stat-card" onclick="navigate('wanted')">
+    <span class="stat-icon">📋</span>
+    <div class="stat-val">${wanted.length}</div>
+    <div class="stat-label">مطلوب</div>
+  </div>
+  <div class="stat-card gold" onclick="navigate('matching')">
+    <span class="stat-icon">🔥</span>
+    <div class="stat-val">${hot.length}</div>
+    <div class="stat-label">عقارات ساخنة</div>
+  </div>
+  <div class="stat-card" onclick="navigate('deals')">
+    <span class="stat-icon">✅</span>
+    <div class="stat-val">${deals.length}</div>
+    <div class="stat-label">صفقات مغلقة</div>
+  </div>
+  <div class="stat-card gold">
+    <span class="stat-icon">💰</span>
+    <div class="stat-val">${Math.round(totalCommission/1000)}k</div>
+    <div class="stat-label">إجمالي العمولات</div>
+  </div>
+</div>
+
+<div class="g2" style="margin-bottom:16px">
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-title">أكثر المناطق طلباً</div>
+    </div>
+    <div class="chart-bars" id="area-chart">
+      ${topAreas.map(([area,count])=>`
+        <div class="chart-bar-wrap">
+          <div class="chart-bar" style="height:${Math.round((count/maxArea)*100)}%" title="${area}: ${count}"></div>
+          <div class="chart-bar-label">${area.replace('المنطقة ','م').replace('الكوثر','كوثر').replace('الزيتون','زيتون').substring(0,6)}</div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-title">آخر النشاطات</div>
+    </div>
+    ${DB.properties.slice(-5).reverse().map(p=>`
+      <div class="activity-item">
+        <div class="activity-icon">${p.type==='sell'?'🏠':p.type==='rent'?'🔑':p.type==='land'?'🌍':'🏡'}</div>
+        <div class="activity-text">
+          <div style="font-weight:500">${p.area} — ${p.floor||'—'}</div>
+          <div style="color:var(--text-muted);font-size:11px">${formatPrice(p.price)}</div>
+        </div>
+        <div class="activity-time">${p.date}</div>
+      </div>
+    `).join('')}
+  </div>
+</div>
+
+<div class="section-card">
+  <div class="section-header">
+    <div class="section-title">العقارات الساخنة 🔥 <span>${hot.length} عقار</span></div>
+    <div class="btn btn-outline" onclick="navigate('matching')">عرض المطابقات</div>
+  </div>
+  <div class="props-grid">
+    ${hot.slice(0,6).map(p=>renderPropCard(p)).join('')}
+  </div>
+</div>
+
+<div class="section-card">
+  <div class="section-header">
+    <div class="section-title">المتابعة اليومية</div>
+    <div class="btn btn-outline" onclick="navigate('followup')">عرض الكل</div>
+  </div>
+  ${DB.followups.slice(0,4).map(fu=>`
+    <div class="activity-item">
+      <div class="activity-icon">${statusIcon(fu.status)}</div>
+      <div class="activity-text">
+        <div style="font-weight:500">${fu.client}</div>
+        <div style="color:var(--text-muted);font-size:11px">${fu.note||'—'}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
+        <span class="tag" style="font-size:10px">${statusLabel(fu.status)}</span>
+        <div class="activity-time">${fu.next}</div>
+      </div>
+    </div>
+  `).join('')}
+</div>
+`;
+}
+
+function bindDashboard() {}
+
+// ============================================================
+// PROPERTIES PAGE
+// ============================================================
+function renderPropsPage(type, title) {
+  const props = DB.properties.filter(p => p.type === type);
+  const areas = [...new Set(props.map(p=>p.area))];
+  const filtered = currentFilter === 'all' ? props : props.filter(p=>p.area===currentFilter);
+  const total = filtered.length;
+  const start = (pageNum-1)*PAGE_SIZE;
+  const paginated = filtered.slice(start, start+PAGE_SIZE);
+  const totalPages = Math.ceil(total/PAGE_SIZE);
+
+  return `
+<div class="section-header">
+  <div class="section-title">${title} <span>${total} إعلان</span></div>
+  <div style="display:flex;gap:8px">
+    <div class="btn btn-outline" onclick="navigate('add')">＋ إضافة</div>
+    <div class="btn btn-outline" onclick="exportData('${type}')">📥 تصدير</div>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-chip ${currentFilter==='all'?'active':''}" onclick="setFilter('all','${type}')">الكل (${props.length})</div>
+  ${areas.map(a=>`<div class="filter-chip ${currentFilter===a?'active':''}" onclick="setFilter('${a}','${type}')">${a} (${props.filter(p=>p.area===a).length})</div>`).join('')}
+</div>
+
+<div class="props-grid">
+  ${paginated.length ? paginated.map(p=>renderPropCard(p)).join('') : '<div class="empty-state"><div class="icon">🔍</div><p>لا توجد نتائج</p></div>'}
+</div>
+
+${totalPages > 1 ? `
+<div class="pagination">
+  <div class="page-btn" onclick="changePage(${pageNum-1},'${type}')">→</div>
+  ${Array.from({length:Math.min(totalPages,7)},(_,i)=>`<div class="page-btn ${i+1===pageNum?'active':''}" onclick="changePage(${i+1},'${type}')">${i+1}</div>`).join('')}
+  <div class="page-btn" onclick="changePage(${pageNum+1},'${type}')">←</div>
+  <div class="page-info">${start+1}–${Math.min(start+PAGE_SIZE,total)} من ${total}</div>
+</div>` : ''}
+`;
+}
+
+function setFilter(filter, type) {
+  currentFilter = filter;
+  pageNum = 1;
+  document.getElementById('page-content').innerHTML = renderPropsPage(type, '');
+}
+
+function changePage(p, type) {
+  const props = DB.properties.filter(x=>x.type===type);
+  const filtered = currentFilter==='all'?props:props.filter(x=>x.area===currentFilter);
+  const total = Math.ceil(filtered.length/PAGE_SIZE);
+  if(p<1||p>total) return;
+  pageNum = p;
+  document.getElementById('page-content').innerHTML = renderPropsPage(type,'');
+  document.getElementById('page-content').scrollIntoView({behavior:'smooth'});
+}
+
+function renderPropCard(p) {
+  const typeLabels = {sell:'بيع',rent:'إيجار بلاط',furnished:'مفروش',land:'أرض',house:'بيت',shop:'محل',wanted:'مطلوب'};
+  const badgeClass = {sell:'badge-sell',rent:'badge-rent',furnished:'badge-furnished',land:'badge-land',house:'badge-house',shop:'badge-shop',wanted:'badge-wanted'};
+  return `
+<div class="prop-card" onclick="openPanel('${p.id}')">
+  <div class="prop-card-top">
+    <span class="prop-type-badge ${badgeClass[p.type]}">${typeLabels[p.type]}</span>
+    ${p.hot?'<span class="prop-hot">🔥 ساخن</span>':''}
+  </div>
+  <div class="prop-area">${p.area}</div>
+  <div class="prop-detail">${p.floor||'—'}${p.rooms?' · '+p.rooms+' غرف':''}</div>
+  <div class="prop-price">${formatPrice(p.price)} ${p.type==='rent'||p.type==='furnished'?'<span>جنيه/شهر</span>':'<span>جنيه</span>'}</div>
+  ${p.installment?`<div class="prop-install">قسط: ${p.installment}</div>`:''}
+  <div class="prop-footer">
+    <div class="prop-phone">${p.phone}</div>
+    <div class="prop-actions">
+      <div class="prop-action-btn" onclick="callWA(event,'${p.phone}')" title="واتساب">💬</div>
+      <div class="prop-action-btn" onclick="copyText(event,'${p.area} - ${p.floor} - ${formatPrice(p.price)}')" title="نسخ">📋</div>
+      <div class="prop-action-btn" onclick="deleteItem(event,'${p.id}')" title="حذف">🗑</div>
+    </div>
+  </div>
+</div>`;
+}
+
+// ============================================================
+// PANEL
+// ============================================================
+function openPanel(id) {
+  const p = DB.properties.find(x=>x.id===id);
+  if(!p) return;
+  const typeLabels = {sell:'بيع',rent:'إيجار بلاط',furnished:'مفروش',land:'أرض',house:'بيت',shop:'محل',wanted:'مطلوب'};
+  const matches = findMatches(p);
+
+  document.getElementById('panel-title').textContent = p.area + ' — ' + (typeLabels[p.type]||'');
+  document.getElementById('panel-body').innerHTML = `
+<div class="detail-row"><span class="detail-label">المنطقة</span><span class="detail-val">${p.area}</span></div>
+<div class="detail-row"><span class="detail-label">الدور</span><span class="detail-val">${p.floor||'—'}</span></div>
+<div class="detail-row"><span class="detail-label">عدد الغرف</span><span class="detail-val">${p.rooms||'—'}</span></div>
+<div class="detail-row"><span class="detail-label">التشطيب</span><span class="detail-val">${p.finish||'—'}</span></div>
+<div class="detail-row"><span class="detail-label">السعر</span><span class="detail-val gold">${formatPrice(p.price)} جنيه</span></div>
+<div class="detail-row"><span class="detail-label">القسط</span><span class="detail-val">${p.installment||'كاش'}</span></div>
+<div class="detail-row"><span class="detail-label">التليفون</span><span class="detail-val" style="direction:ltr">${p.phone}</span></div>
+<div class="detail-row"><span class="detail-label">ملاحظات</span><span class="detail-val">${p.notes||'—'}</span></div>
+<div class="detail-row"><span class="detail-label">تاريخ الإضافة</span><span class="detail-val">${p.date}</span></div>
+<hr class="divider">
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+  <a class="wa-btn" href="https://wa.me/2${p.phone.replace(/[^0-9]/g,'')}" target="_blank">💬 واتساب</a>
+  <div class="btn btn-outline" onclick="copyPropText('${p.id}')">📋 نسخ الإعلان</div>
+  <div class="btn btn-gold" onclick="addFollowup('${p.id}')">📞 متابعة</div>
+</div>
+<hr class="divider">
+<div style="font-size:13px;font-weight:600;margin-bottom:10px">🔥 العملاء المطابقون (${matches.length})</div>
+${matches.length ? matches.map(m=>`
+  <div class="match-card" onclick="openWanted('${m.p.id}')">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:13px;font-weight:500">${m.p.area}</div>
+        <div style="font-size:11px;color:var(--text-muted)">${m.p.floor||'—'} · ${formatPrice(m.p.price)}</div>
+      </div>
+      <div class="match-pct">${m.score}%</div>
+    </div>
+    <div class="match-bar-wrap"><div class="match-bar" style="width:${m.score}%"></div></div>
+  </div>
+`).join('') : '<div style="color:var(--text-muted);font-size:12px">لا توجد مطابقات حالياً</div>'}
+`;
+  document.getElementById('panel-overlay').style.display = 'block';
+  document.getElementById('side-panel').classList.add('open');
+}
+
+function openWanted(id) {
+  openPanel(id);
+}
+
+function closePanel() {
+  document.getElementById('panel-overlay').style.display = 'none';
+  document.getElementById('side-panel').classList.remove('open');
+}
+
+// ============================================================
+// MATCHING ENGINE
+// ============================================================
+function findMatches(prop) {
+  if(prop.type !== 'sell' && prop.type !== 'rent' && prop.type !== 'furnished') return [];
+  const wanted = DB.properties.filter(p=>p.type==='wanted');
+  return wanted.map(w=>{
+    let score = 0;
+    if(w.area === prop.area) score += 40;
+    else if(w.area.includes(prop.area) || prop.area.includes(w.area.split(' ')[0])) score += 15;
+    if(prop.price <= w.price * 1.1 && prop.price >= w.price * 0.7) score += 30;
+    else if(prop.price <= w.price * 1.2) score += 15;
+    if(w.rooms && prop.rooms && w.rooms === prop.rooms) score += 20;
+    if(w.finish && prop.finish && prop.finish.includes(w.finish.split(' ')[0])) score += 10;
+    return { p: w, score: Math.min(score, 100) };
+  }).filter(m=>m.score>20).sort((a,b)=>b.score-a.score).slice(0,5);
+}
+
+function renderMatching() {
+  const props = DB.properties.filter(p=>p.type!=='wanted');
+  const wanted = DB.properties.filter(p=>p.type==='wanted');
+  const allMatches = [];
+  wanted.forEach(w=>{
+    props.forEach(p=>{
+      let score = 0;
+      if(w.area===p.area) score+=40;
+      else if(w.area.includes(p.area.split(' ')[0])||p.area.includes(w.area.split(' ')[0])) score+=15;
+      if(p.price<=w.price*1.1&&p.price>=w.price*0.7) score+=30;
+      else if(p.price<=w.price*1.2) score+=15;
+      if(w.rooms&&p.rooms&&w.rooms===p.rooms) score+=20;
+      if(score>30) allMatches.push({w,p,score:Math.min(score,100)});
+    });
+  });
+  allMatches.sort((a,b)=>b.score-a.score);
+
+  return `
+<div class="section-header">
+  <div class="section-title">المطابقات الذكية 🔥 <span>${allMatches.length} مطابقة</span></div>
+</div>
+<div class="table-wrap">
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr>
+        <th>المطلوب</th><th>العقار المتاح</th><th>المنطقة</th><th>السعر المطلوب</th><th>السعر المتاح</th><th>نسبة التطابق</th><th>إجراء</th>
+      </tr></thead>
+      <tbody>
+        ${allMatches.slice(0,50).map(m=>`
+          <tr>
+            <td>${m.w.area}<br><small style="color:var(--text-muted)">${m.w.phone}</small></td>
+            <td>${m.p.area} — ${m.p.floor||'—'}</td>
+            <td><span class="status-dot ${m.w.area===m.p.area?'dot-green':'dot-yellow'}"></span> ${m.w.area===m.p.area?'مطابق':'قريب'}</td>
+            <td>${formatPrice(m.w.price)}</td>
+            <td style="color:var(--gold)">${formatPrice(m.p.price)}</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px">
+                <div style="flex:1;height:4px;background:var(--bg-primary);border-radius:2px">
+                  <div style="width:${m.score}%;height:100%;background:${m.score>=70?'var(--success)':m.score>=50?'var(--warning)':'var(--danger)'};border-radius:2px"></div>
+                </div>
+                <span style="font-size:12px;font-weight:600;color:var(--gold)">${m.score}%</span>
+              </div>
+            </td>
+            <td>
+              <div style="display:flex;gap:6px">
+                <div class="btn btn-outline" style="padding:4px 8px;font-size:11px" onclick="openPanel('${m.p.id}')">تفاصيل</div>
+                <a class="wa-btn" style="padding:4px 8px;font-size:11px" href="https://wa.me/2${m.w.phone.replace(/[^0-9]/g,'')}" target="_blank">💬</a>
+              </div>
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  </div>
+</div>`;
+}
+
+// ============================================================
+// FOLLOW UP
+// ============================================================
+function renderFollowup() {
+  const statuses = ['no_answer','interested','viewing','negotiating','delayed','rejected','closed'];
+  const cols = {
+    no_answer:{label:'لم يرد',color:'var(--text-muted)'},
+    interested:{label:'مهتم',color:'var(--info)'},
+    viewing:{label:'معاينة',color:'var(--warning)'},
+    negotiating:{label:'تفاوض',color:'var(--gold)'},
+    delayed:{label:'مؤجل',color:'var(--danger)'},
+    rejected:{label:'رفض',color:'#E05555'},
+    closed:{label:'مغلقة ✅',color:'var(--success)'}
+  };
+  return `
+<div class="section-header">
+  <div class="section-title">المتابعة اليومية <span>${DB.followups.length} متابعة</span></div>
+  <div class="btn btn-gold" onclick="showAddFollowupForm()">＋ متابعة جديدة</div>
+</div>
+<div class="kanban-board">
+  ${Object.entries(cols).map(([status,{label,color}])=>{
+    const items = DB.followups.filter(f=>f.status===status);
+    return `
+    <div class="kanban-col">
+      <div class="kanban-col-title" style="color:${color}">${label} (${items.length})</div>
+      ${items.map(f=>`
+        <div class="kanban-item">
+          <div style="font-weight:500;margin-bottom:4px">${f.client}</div>
+          <div style="color:var(--text-muted);font-size:11px;margin-bottom:4px">${f.note||'—'}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:10px;color:var(--text-muted)">${f.next}</span>
+            <a class="wa-btn" style="padding:3px 7px;font-size:10px" href="https://wa.me/2${f.phone.replace(/[^0-9]/g,'')}" target="_blank">💬</a>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+  }).join('')}
+</div>
+
+<hr class="divider">
+<div class="section-header" style="margin-top:8px">
+  <div class="section-title">سجل المتابعات</div>
+</div>
+<div class="table-wrap">
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr><th>العميل</th><th>التليفون</th><th>الملاحظة</th><th>الحالة</th><th>التاريخ</th><th>الميعاد القادم</th><th>إجراء</th></tr></thead>
+      <tbody>
+        ${DB.followups.map(f=>`
+          <tr>
+            <td style="font-weight:500">${f.client}</td>
+            <td style="direction:ltr">${f.phone}</td>
+            <td style="color:var(--text-secondary)">${f.note||'—'}</td>
+            <td><span class="tag">${statusLabel(f.status)}</span></td>
+            <td>${f.date}</td>
+            <td style="color:var(--gold)">${f.next}</td>
+            <td>
+              <div style="display:flex;gap:6px">
+                <select onchange="updateFollowupStatus('${f.id}',this.value)" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-primary);padding:3px 6px;border-radius:4px;font-size:11px;font-family:'Cairo',sans-serif">
+                  ${Object.entries(cols).map(([k,v])=>`<option value="${k}" ${f.status===k?'selected':''}>${v.label}</option>`).join('')}
+                </select>
+                <a class="wa-btn" style="padding:4px 8px;font-size:11px" href="https://wa.me/2${f.phone.replace(/[^0-9]/g,'')}" target="_blank">💬</a>
+              </div>
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  </div>
+</div>`;
+}
+
+function updateFollowupStatus(id, status) {
+  const f = DB.followups.find(x=>x.id===id);
+  if(f) { f.status = status; saveDB(); toast('تم تحديث الحالة','success'); }
+}
+
+// ============================================================
+// DEALS
+// ============================================================
+function renderDeals() {
+  const total = DB.deals.reduce((a,d)=>a+d.price,0);
+  const totalComm = DB.deals.reduce((a,d)=>a+(d.price*(d.commission/100)),0);
+  return `
+<div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:16px">
+  <div class="stat-card gold">
+    <span class="stat-icon">✅</span>
+    <div class="stat-val">${DB.deals.length}</div>
+    <div class="stat-label">صفقات مغلقة</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">💵</span>
+    <div class="stat-val">${formatPrice(total)}</div>
+    <div class="stat-label">إجمالي المبيعات</div>
+  </div>
+  <div class="stat-card gold">
+    <span class="stat-icon">💰</span>
+    <div class="stat-val">${formatPrice(Math.round(totalComm))}</div>
+    <div class="stat-label">إجمالي العمولات</div>
+  </div>
+</div>
+<div class="section-header">
+  <div class="section-title">سجل الصفقات</div>
+  <div class="btn btn-gold" onclick="showAddDealForm()">＋ صفقة جديدة</div>
+</div>
+<div class="table-wrap">
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr><th>#</th><th>العقار</th><th>العميل</th><th>السعر النهائي</th><th>العمولة</th><th>المبلغ</th><th>التاريخ</th><th>ملاحظات</th></tr></thead>
+      <tbody>
+        ${DB.deals.map((d,i)=>`
+          <tr>
+            <td style="color:var(--text-muted)">${i+1}</td>
+            <td style="font-weight:500">${d.property}</td>
+            <td>${d.client}</td>
+            <td style="color:var(--gold)">${formatPrice(d.price)}</td>
+            <td>${d.commission}%</td>
+            <td style="color:var(--success)">${formatPrice(Math.round(d.price*(d.commission/100)))}</td>
+            <td>${d.date}</td>
+            <td style="color:var(--text-secondary)">${d.notes||'—'}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  </div>
+</div>`;
+}
+
+// ============================================================
+// AI PARSER
+// ============================================================
+function renderParser() {
+  return `
+<div class="section-header">
+  <div class="section-title">🤖 محلل النصوص بالذكاء الاصطناعي</div>
+</div>
+<div class="section-card">
+  <div style="font-size:13px;color:var(--text-secondary);margin-bottom:12px">
+    الصق أي نص — رسالة واتساب أو إعلان خام — والنظام هيستخرج البيانات تلقائياً
+  </div>
+  <div class="parser-area">
+    <textarea class="form-control" id="parser-input" rows="6" placeholder="مثال: شقة للبيع في الزيتون الدور الثاني سوبر لوكس 3 غرف السعر 850 ألف قسط 900 جنيه في الشهر التليفون 01012345678"></textarea>
+    <div style="margin-top:10px;display:flex;gap:8px">
+      <div class="btn btn-gold" onclick="parseText()">🤖 تحليل النص</div>
+      <div class="btn btn-outline" onclick="document.getElementById('parser-input').value=''">مسح</div>
+    </div>
+  </div>
+  <div class="parser-result" id="parser-result">
+    <div style="font-size:13px;font-weight:600;margin-bottom:12px;color:var(--gold)">✅ تم استخراج البيانات</div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">نوع العقار</label><select class="form-control" id="pr-type"><option value="sell">بيع</option><option value="rent">إيجار</option><option value="furnished">مفروش</option><option value="land">أرض</option><option value="house">بيت</option><option value="shop">محل</option></select></div>
+      <div class="form-group"><label class="form-label">المنطقة</label><input class="form-control" id="pr-area" placeholder="المنطقة"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">الدور</label><input class="form-control" id="pr-floor" placeholder="الدور"></div>
+      <div class="form-group"><label class="form-label">عدد الغرف</label><input class="form-control" id="pr-rooms" type="number" placeholder="عدد الغرف"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">السعر</label><input class="form-control" id="pr-price" type="number" placeholder="السعر"></div>
+      <div class="form-group"><label class="form-label">القسط</label><input class="form-control" id="pr-install" placeholder="القسط"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">التشطيب</label><input class="form-control" id="pr-finish" placeholder="التشطيب"></div>
+      <div class="form-group"><label class="form-label">التليفون</label><input class="form-control" id="pr-phone" placeholder="التليفون" dir="ltr"></div>
+    </div>
+    <div class="form-group"><label class="form-label">ملاحظات</label><textarea class="form-control" id="pr-notes" rows="2" placeholder="ملاحظات إضافية"></textarea></div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <div class="btn btn-gold" onclick="saveFromParser()">💾 حفظ في قاعدة البيانات</div>
+      <div class="btn btn-outline" onclick="document.getElementById('parser-result').style.display='none'">إلغاء</div>
+    </div>
+  </div>
+</div>`;
+}
+
+function parseText() {
+  const txt = document.getElementById('parser-input').value;
+  if(!txt.trim()) { toast('الرجاء إدخال نص','error'); return; }
+
+  // Extract data with regex
+  const phoneMatch = txt.match(/0[0-9]{10}/);
+  const priceMatch = txt.match(/(\d[\d,\.]*)\s*(ألف|الف|مليون|مليار|000)/i);
+  const floorMatch = txt.match(/(أرضي|ثاني|ثالث|رابع|خامس|سادس|سابع|روف|دور\s*\w+)/i);
+  const roomsMatch = txt.match(/(\d)\s*غرف?/i);
+  const installMatch = txt.match(/قسط[ًا]?\s*([\d,\.]+)/i);
+  const areaKeywords = ['الزيتون','النور','ال25','ال14','ال21','ال11','ال22','ال23','ال29','الرابعة','الثامنة','السابعة','الفردوس','الكوثر','النرجس','الريحان','الخامسة','التاسعة','العاشرة'];
+  let area = '';
+  areaKeywords.forEach(k => { if(txt.includes(k)) area = k; });
+
+  let price = 0;
+  if(priceMatch) {
+    const num = parseFloat(priceMatch[1].replace(/,/g,''));
+    const unit = priceMatch[2];
+    if(unit.includes('مليار')) price = num * 1000000000;
+    else if(unit.includes('مليون')) price = num * 1000000;
+    else if(unit.includes('ألف')||unit.includes('الف')) price = num * 1000;
+    else price = num * 1000;
+  } else {
+    const raw = txt.match(/(\d{6,})/);
+    if(raw) price = parseInt(raw[1]);
+  }
+
+  let type = 'sell';
+  if(/إيجار|للإيجار|أجار/.test(txt)) type = 'rent';
+  else if(/مفروش|مؤثث/.test(txt)) type = 'furnished';
+  else if(/أرض|قطعة/.test(txt)) type = 'land';
+  else if(/بيت|فيلا|منزل/.test(txt)) type = 'house';
+  else if(/محل|مكتب|عيادة/.test(txt)) type = 'shop';
+
+  let finish = '';
+  if(/سوبر لوكس/.test(txt)) finish = 'سوبر لوكس';
+  else if(/لوكس/.test(txt)) finish = 'لوكس';
+  else if(/متشطب/.test(txt)) finish = 'متشطب';
+
+  document.getElementById('pr-type').value = type;
+  document.getElementById('pr-area').value = area;
+  document.getElementById('pr-floor').value = floorMatch ? floorMatch[0] : '';
+  document.getElementById('pr-rooms').value = roomsMatch ? roomsMatch[1] : '';
+  document.getElementById('pr-price').value = price || '';
+  document.getElementById('pr-install').value = installMatch ? installMatch[1] + ' جنيه/شهر' : '';
+  document.getElementById('pr-finish').value = finish;
+  document.getElementById('pr-phone').value = phoneMatch ? phoneMatch[0] : '';
+  document.getElementById('pr-notes').value = '';
+
+  document.getElementById('parser-result').style.display = 'block';
+  toast('تم تحليل النص بنجاح ✅','success');
+}
+
+function saveFromParser() {
+  const newProp = {
+    id: 'p' + Date.now(),
+    type: document.getElementById('pr-type').value,
+    area: document.getElementById('pr-area').value || 'غير محدد',
+    floor: document.getElementById('pr-floor').value,
+    price: parseInt(document.getElementById('pr-price').value)||0,
+    installment: document.getElementById('pr-install').value,
+    rooms: parseInt(document.getElementById('pr-rooms').value)||0,
+    finish: document.getElementById('pr-finish').value,
+    phone: document.getElementById('pr-phone').value,
+    notes: document.getElementById('pr-notes').value,
+    hot: false, date: new Date().toISOString().split('T')[0]
+  };
+  DB.properties.push(newProp);
+  saveDB(); updateBadges();
+  document.getElementById('parser-result').style.display = 'none';
+  document.getElementById('parser-input').value = '';
+  toast('تم الحفظ في قاعدة البيانات ✅','success');
+}
+
+// ============================================================
+// REPORTS
+// ============================================================
+function renderReports() {
+  const props = DB.properties;
+  const typeCount = {};
+  props.forEach(p=>{ typeCount[p.type]=(typeCount[p.type]||0)+1; });
+  const areaCount = {};
+  props.forEach(p=>{ areaCount[p.area]=(areaCount[p.area]||0)+1; });
+  const topAreas = Object.entries(areaCount).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const hot = props.filter(p=>p.hot);
+  const withPhone = props.filter(p=>p.phone&&p.phone!=='غير محدد');
+
+  return `
+<div class="g2">
+  <div class="section-card">
+    <div class="section-title" style="margin-bottom:12px">توزيع العقارات حسب النوع</div>
+    <table class="data-table">
+      <thead><tr><th>النوع</th><th>العدد</th><th>النسبة</th></tr></thead>
+      <tbody>
+        ${Object.entries(typeCount).map(([t,c])=>`
+          <tr>
+            <td>${{sell:'شقق بيع',rent:'إيجار بلاط',furnished:'مفروش',land:'أراضي',house:'بيوت',shop:'محلات',wanted:'مطلوب'}[t]||t}</td>
+            <td style="color:var(--gold);font-weight:600">${c}</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px">
+                <div style="width:80px;height:4px;background:var(--bg-secondary);border-radius:2px">
+                  <div style="width:${Math.round(c/props.length*100)}%;height:100%;background:var(--gold);border-radius:2px"></div>
+                </div>
+                <span style="font-size:11px">${Math.round(c/props.length*100)}%</span>
+              </div>
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  </div>
+  <div class="section-card">
+    <div class="section-title" style="margin-bottom:12px">أكثر المناطق إعلاناً</div>
+    <table class="data-table">
+      <thead><tr><th>المنطقة</th><th>العدد</th></tr></thead>
+      <tbody>
+        ${topAreas.map(([a,c])=>`<tr><td>${a}</td><td style="color:var(--gold);font-weight:600">${c}</td></tr>`).join('')}
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="section-card">
+  <div class="section-title" style="margin-bottom:12px">إحصائيات عامة</div>
+  <div class="stats-grid">
+    <div class="stat-card"><span class="stat-icon">📊</span><div class="stat-val">${props.length}</div><div class="stat-label">إجمالي الإعلانات</div></div>
+    <div class="stat-card gold"><span class="stat-icon">🔥</span><div class="stat-val">${hot.length}</div><div class="stat-label">عقارات ساخنة</div></div>
+    <div class="stat-card"><span class="stat-icon">📞</span><div class="stat-val">${withPhone.length}</div><div class="stat-label">بتليفون واضح</div></div>
+    <div class="stat-card"><span class="stat-icon">✅</span><div class="stat-val">${DB.deals.length}</div><div class="stat-label">صفقات مغلقة</div></div>
+  </div>
+</div>
+<div style="display:flex;gap:8px;margin-top:8px">
+  <div class="btn btn-gold" onclick="exportAllData()">📥 تصدير كل البيانات JSON</div>
+  <div class="btn btn-outline" onclick="printReport()">🖨 طباعة التقرير</div>
+  <div class="btn btn-outline" onclick="importData()">📤 استيراد بيانات</div>
+</div>`;
+}
+
+// ============================================================
+// ADD FORM
+// ============================================================
+function renderAddForm() {
+  return `
+<div style="max-width:600px">
+  <div class="section-card">
+    <div class="section-title" style="margin-bottom:16px">＋ إضافة إعلان جديد</div>
+    <div class="form-group">
+      <label class="form-label">نوع العقار *</label>
+      <select class="form-control" id="add-type">
+        <option value="sell">🏠 شقة بيع</option>
+        <option value="rent">🔑 إيجار بلاط</option>
+        <option value="furnished">🛋 مفروش</option>
+        <option value="land">🌍 أرض / قطعة</option>
+        <option value="house">🏡 بيت</option>
+        <option value="shop">🏪 محل / مكتب</option>
+        <option value="wanted">📋 مطلوب</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">المنطقة *</label><input class="form-control" id="add-area" placeholder="مثال: الزيتون، ال25، النور"></div>
+      <div class="form-group"><label class="form-label">الدور</label><input class="form-control" id="add-floor" placeholder="مثال: ثاني أمامي"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">السعر (جنيه) *</label><input class="form-control" id="add-price" type="number" placeholder="0"></div>
+      <div class="form-group"><label class="form-label">القسط</label><input class="form-control" id="add-install" placeholder="مثال: 900→1800/10س"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">عدد الغرف</label><input class="form-control" id="add-rooms" type="number" placeholder="3"></div>
+      <div class="form-group"><label class="form-label">التشطيب</label><input class="form-control" id="add-finish" placeholder="مثال: سوبر لوكس"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">التليفون</label><input class="form-control" id="add-phone" placeholder="01xxxxxxxxx" dir="ltr"></div>
+      <div class="form-group">
+        <label class="form-label">عقار ساخن؟</label>
+        <select class="form-control" id="add-hot">
+          <option value="0">لا</option>
+          <option value="1">نعم 🔥</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">ملاحظات</label><textarea class="form-control" id="add-notes" rows="3" placeholder="أي تفاصيل إضافية..."></textarea></div>
+    <div style="display:flex;gap:8px;margin-top:4px">
+      <div class="btn btn-gold" onclick="saveNewProp()">💾 حفظ الإعلان</div>
+      <div class="btn btn-outline" onclick="navigate('dashboard')">إلغاء</div>
+    </div>
+  </div>
+</div>`;
+}
+
+function saveNewProp() {
+  const area = document.getElementById('add-area').value.trim();
+  const price = parseInt(document.getElementById('add-price').value)||0;
+  if(!area) { toast('الرجاء إدخال المنطقة','error'); return; }
+  const newProp = {
+    id: 'p'+Date.now(),
+    type: document.getElementById('add-type').value,
+    area, floor: document.getElementById('add-floor').value,
+    price, installment: document.getElementById('add-install').value,
+    rooms: parseInt(document.getElementById('add-rooms').value)||0,
+    finish: document.getElementById('add-finish').value,
+    phone: document.getElementById('add-phone').value,
+    hot: document.getElementById('add-hot').value==='1',
+    notes: document.getElementById('add-notes').value,
+    date: new Date().toISOString().split('T')[0]
+  };
+  DB.properties.push(newProp);
+  saveDB(); updateBadges();
+  toast('تم حفظ الإعلان بنجاح ✅','success');
+  navigate(newProp.type);
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function formatPrice(n) {
+  if(!n||n===0) return 'غ.م';
+  if(n>=1000000) return (n/1000000).toFixed(n%1000000===0?0:1)+' مليون';
+  if(n>=1000) return (n/1000).toFixed(n%1000===0?0:0)+' ألف';
+  return n.toLocaleString('ar-EG');
+}
+
+function statusLabel(s) {
+  const m = {no_answer:'لم يرد',interested:'مهتم',viewing:'معاينة',negotiating:'تفاوض',delayed:'مؤجل',rejected:'رفض',closed:'مغلق'};
+  return m[s]||s;
+}
+function statusIcon(s) {
+  const m = {no_answer:'📵',interested:'👀',viewing:'🏠',negotiating:'🤝',delayed:'⏰',rejected:'❌',closed:'✅'};
+  return m[s]||'📋';
+}
+
+function toast(msg, type='info') {
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.innerHTML = (type==='success'?'✅ ':type==='error'?'❌ ':'ℹ ') + msg;
+  document.getElementById('toast-container').appendChild(el);
+  setTimeout(()=>el.remove(), 3000);
+}
+
+function callWA(e, phone) {
+  e.stopPropagation();
+  if(!phone||phone==='غير محدد') { toast('لا يوجد رقم واتساب','error'); return; }
+  window.open('https://wa.me/2'+phone.replace(/[^0-9]/g,''),'_blank');
+}
+
+function copyText(e, text) {
+  e.stopPropagation();
+  navigator.clipboard.writeText(text).then(()=>toast('تم النسخ ✅','success'));
+}
+
+function copyPropText(id) {
+  const p = DB.properties.find(x=>x.id===id);
+  if(!p) return;
+  const text = `🏠 ${p.area}\nالدور: ${p.floor||'—'}\nالسعر: ${formatPrice(p.price)}\nالقسط: ${p.installment||'كاش'}\nالتليفون: ${p.phone}`;
+  navigator.clipboard.writeText(text).then(()=>toast('تم نسخ الإعلان ✅','success'));
+}
+
+function deleteItem(e, id) {
+  e.stopPropagation();
+  if(!confirm('هل تريد حذف هذا الإعلان؟')) return;
+  DB.properties = DB.properties.filter(p=>p.id!==id);
+  saveDB(); updateBadges();
+  navigate(currentPage);
+  toast('تم الحذف','success');
+}
+
+function globalSearch(q) {
+  if(!q||q.length<2) return;
+  const results = DB.properties.filter(p=>
+    p.area.includes(q)||p.floor.includes(q)||p.phone.includes(q)||p.notes.includes(q)
+  );
+  if(results.length===0) return;
+  const el = document.getElementById('page-content');
+  document.getElementById('page-title').innerHTML = `نتائج البحث عن "${q}" <span>${results.length} نتيجة</span>`;
+  el.innerHTML = `<div class="props-grid">${results.slice(0,24).map(p=>renderPropCard(p)).join('')}</div>`;
+}
+
+function toggleTheme() {
+  lightMode = !lightMode;
+  document.body.classList.toggle('light-mode', lightMode);
+  document.getElementById('theme-icon').textContent = lightMode ? '🌙' : '☀';
+  document.getElementById('theme-label').textContent = lightMode ? 'الوضع الداكن' : 'الوضع الفاتح';
+}
+
+function toggleMobileMenu() {
+  document.getElementById('sidebar').classList.toggle('mobile-open');
+}
+
+function exportAllData() {
+  const blob = new Blob([JSON.stringify(DB, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='selim_crm_backup.json'; a.click();
+  toast('تم التصدير ✅','success');
+}
+
+function exportData(type) {
+  const data = DB.properties.filter(p=>p.type===type);
+  const csv = ['المنطقة,الدور,السعر,القسط,الغرف,التليفون,ملاحظات']
+    .concat(data.map(p=>`${p.area},${p.floor},${p.price},${p.installment||''},${p.rooms||''},${p.phone},${p.notes||''}`))
+    .join('\n');
+  const blob = new Blob(['\ufeff'+csv], {type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=`selim_${type}.csv`; a.click();
+  toast('تم التصدير ✅','success');
+}
+
+function printReport() { window.print(); }
+
+function importData() {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = '.json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if(data.properties) { DB = data; saveDB(); updateBadges(); navigate('dashboard'); toast('تم الاستيراد ✅','success'); }
+        else toast('ملف غير صحيح','error');
+      } catch { toast('خطأ في الملف','error'); }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+function addFollowup(propId) {
+  const client = prompt('اسم العميل:');
+  if(!client) return;
+  const phone = prompt('التليفون:');
+  const note = prompt('ملاحظة:');
+  const next = prompt('ميعاد المتابعة القادم (YYYY-MM-DD):', new Date(Date.now()+3*86400000).toISOString().split('T')[0]);
+  DB.followups.push({
+    id:'fu'+Date.now(), propId, client, phone:phone||'',
+    status:'interested', note:note||'', date:new Date().toISOString().split('T')[0], next:next||''
+  });
+  saveDB();
+  closePanel();
+  toast('تمت إضافة المتابعة ✅','success');
+}
+
+function showAddFollowupForm() {
+  const client = prompt('اسم العميل:');
+  if(!client) return;
+  const phone = prompt('التليفون:');
+  const note = prompt('ملاحظة:');
+  const next = prompt('ميعاد المتابعة:', new Date(Date.now()+3*86400000).toISOString().split('T')[0]);
+  DB.followups.push({id:'fu'+Date.now(),propId:'',client,phone:phone||'',status:'interested',note:note||'',date:new Date().toISOString().split('T')[0],next:next||''});
+  saveDB();
+  navigate('followup');
+  toast('تمت الإضافة ✅','success');
+}
+
+function showAddDealForm() {
+  const property = prompt('اسم العقار:');
+  if(!property) return;
+  const client = prompt('اسم العميل:');
+  const price = parseInt(prompt('السعر النهائي:'))||0;
+  const commission = parseFloat(prompt('نسبة العمولة %:','2'))||2;
+  const notes = prompt('ملاحظات:');
+  DB.deals.push({id:'d'+Date.now(),property,client:client||'',price,commission,date:new Date().toISOString().split('T')[0],notes:notes||''});
+  saveDB();
+  navigate('deals');
+  toast('تمت إضافة الصفقة ✅','success');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadDB();
+navigate('dashboard');
+</script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.app{padding:20px;max-width:680px}
+.tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.tab{padding:8px 18px;border-radius:20px;border:0.5px solid var(--border);background:var(--surface-1);color:var(--text-secondary);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s}
+.tab.active{background:var(--bg-accent);color:var(--text-accent);border-color:var(--border-accent)}
+.search-wrap{position:relative;margin-bottom:20px}
+.search-wrap input{width:100%;padding:10px 14px 10px 38px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--surface-1);color:var(--text-primary);font-size:14px}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:16px}
+.count-bar{font-size:12px;color:var(--text-muted);margin-bottom:14px}
+.count-bar strong{color:var(--text-accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.card{background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.card:hover{border-color:var(--border-accent);background:var(--surface-2);transform:translateY(-2px)}
+.card.fav{border-color:var(--border-accent);background:var(--bg-accent)}
+.card-cat{font-size:10px;font-weight:500;color:var(--text-accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.card-name{font-size:15px;font-weight:500;color:var(--text-primary);margin-bottom:4px;line-height:1.3}
+.card-sub{font-size:12px;color:var(--text-muted);line-height:1.5}
+.card-fav{position:absolute;top:10px;right:10px;font-size:14px;opacity:.3;transition:opacity .2s}
+.card:hover .card-fav{opacity:.7}
+.card.fav .card-fav{opacity:1}
+.fav-bar{background:var(--bg-success);border:0.5px solid var(--border-success);border-radius:12px;padding:14px 18px;margin-bottom:18px;display:none}
+.fav-bar.show{display:block}
+.fav-bar-title{font-size:12px;font-weight:500;color:var(--text-success);margin-bottom:10px}
+.fav-chips{display:flex;flex-wrap:wrap;gap:6px}
+.fav-chip{background:var(--surface-2);border:0.5px solid var(--border-success);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:500;color:var(--text-primary)}
+.empty{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:14px}
+.send-btn{margin-top:20px;padding:10px 20px;border-radius:var(--radius);border:0.5px solid var(--border-strong);background:var(--surface-1);color:var(--text-primary);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.send-btn:hover{background:var(--surface-2)}
+</style>
+
+<div class="app">
+  <h2 class="sr-only">أداة اختيار الاسم والـ concept لشركة Shadow X Medical</h2>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="fav-bar" id="favBar">
+    <div class="fav-bar-title">اختياراتك المفضلة — اضغط على أي اسم لإلغائه</div>
+    <div class="fav-chips" id="favChips"></div>
+  </div>
+
+  <div class="search-wrap">
+    <i class="ti ti-search search-icon" aria-hidden="true"></i>
+    <input type="text" id="search" placeholder="ابحث في الأسماء والأفكار..." oninput="render()"/>
+  </div>
+
+  <div class="count-bar" id="countBar"></div>
+  <div class="grid" id="grid"></div>
+
+  <button class="send-btn" id="sendBtn" onclick="sendFavs()" style="display:none">
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+    تأكيد اختياراتك وابدأ التنفيذ ↗
+  </button>
+</div>
+
+<script>
+const DATA = [
+  // ── أسماء: تقنية وطبية ──
+  {cat:"اسم · تقنية طبية", name:"MediX", sub:"قصير، قوي، تقني — X تعطي طاقة"},
+  {cat:"اسم · تقنية طبية", name:"ClinicOS", sub:"زي نظام تشغيل للعيادة — Stripe vibes"},
+  {cat:"اسم · تقنية طبية", name:"MedLab Digital", sub:"مختبر الحلول الرقمية الطبية"},
+  {cat:"اسم · تقنية طبية", name:"PulseCore", sub:"نبض + جوهر — energetic وطبي"},
+  {cat:"اسم · تقنية طبية", name:"HealthStack", sub:"مجموعة حلول متكاملة للصحة"},
+  {cat:"اسم · تقنية طبية", name:"DocSphere", sub:"عالم الأطباء الرقمي"},
+  {cat:"اسم · تقنية طبية", name:"MedSync", sub:"مزامنة كل جوانب حضورك الطبي"},
+  {cat:"اسم · تقنية طبية", name:"NovaMed", sub:"nova = جديد + برق — مستقبلي"},
+  {cat:"اسم · تقنية طبية", name:"HelixBrand", sub:"حلزون الـ DNA + هوية بصرية"},
+  {cat:"اسم · تقنية طبية", name:"CliniqAI", sub:"عيادة + AI مدمجين في اسم واحد"},
+  {cat:"اسم · تقنية طبية", name:"MedForge", sub:"نصنع الهوية الطبية من الصفر"},
+  {cat:"اسم · تقنية طبية", name:"VitaLabs", sub:"vita = حياة، labs = ابتكار"},
+  {cat:"اسم · تقنية طبية", name:"OmniCare Digital", sub:"حضور طبي شامل 360 درجة"},
+  {cat:"اسم · تقنية طبية", name:"ApexMed Studio", sub:"قمة التصميم الطبي"},
+  {cat:"اسم · تقنية طبية", name:"MedVault", sub:"خزينة بياناتك ومحتواك الطبي"},
+
+  // ── أسماء: فخامة وبراند ──
+  {cat:"اسم · فخامة وبراند", name:"Noir Medical", sub:"noir = أسود بالفرنسي — luxury vibes"},
+  {cat:"اسم · فخامة وبراند", name:"Élite Clinic Brand", sub:"فرنسي + طبي = premium"},
+  {cat:"اسم · فخامة وبراند", name:"Prestige Health", sub:"هيبة وثقة وفخامة"},
+  {cat:"اسم · فخامة وبراند", name:"Maison Médicale", sub:"maison = دار — haute couture للطب"},
+  {cat:"اسم · فخامة وبراند", name:"Aurum Medical", sub:"aurum = ذهب باللاتيني"},
+  {cat:"اسم · فخامة وبراند", name:"LuxMed Agency", sub:"luxury + medical في اسم نظيف"},
+  {cat:"اسم · فخامة وبراند", name:"Vanguard Health", sub:"الطليعة في الصحة الرقمية"},
+  {cat:"اسم · فخامة وبراند", name:"Meridian Medical", sub:"خط الزوال — عالمي ومميز"},
+  {cat:"اسم · فخامة وبراند", name:"Zenith Clinic Brand", sub:"الذروة — أعلى نقطة"},
+  {cat:"اسم · فخامة وبراند", name:"Luminary Health", sub:"luminary = نجم مضيء في مجاله"},
+  {cat:"اسم · فخامة وبراند", name:"Pinnacle MedBrand", sub:"القمة — لا يوجد أعلى منها"},
+  {cat:"اسم · فخامة وبراند", name:"Orion Medical", sub:"كوكبة — واسع وقوي"},
+  {cat:"اسم · فخامة وبراند", name:"Sterling Health Studio", sub:"sterling = فضة خالصة — premium"},
+  {cat:"اسم · فخامة وبراند", name:"Crest Medical Brand", sub:"crest = قمة الموجة"},
+  {cat:"اسم · فخامة وبراند", name:"Emblem Health Digital", sub:"emblem = شعار وهوية"},
+
+  // ── أسماء: مستقبلية وـ AI ──
+  {cat:"اسم · مستقبل وـ AI", name:"MedMatrix", sub:"شبكة ذكاء اصطناعي للرعاية الصحية"},
+  {cat:"اسم · مستقبل وـ AI", name:"NeuroMed Digital", sub:"ذكاء اصطناعي عصبي للطب"},
+  {cat:"اسم · مستقبل وـ AI", name:"Quantum Health", sub:"تقنية كم للرعاية الصحية"},
+  {cat:"اسم · مستقبل وـ AI", name:"SynthMed", sub:"synthetic + medical — AI-first"},
+  {cat:"اسم · مستقبل وـ AI", name:"Cognify Medical", sub:"cognify = تفكير ذكي للطب"},
+  {cat:"اسم · مستقبل وـ AI", name:"Axon Health Studio", sub:"axon = خلية عصبية — AI vibes"},
+  {cat:"اسم · مستقبل وـ AI", name:"MedGen AI", sub:"الجيل القادم من حلول الطب"},
+  {cat:"اسم · مستقبل وـ AI", name:"HorizonMed", sub:"أفق جديد للحضور الطبي"},
+  {cat:"اسم · مستقبل وـ AI", name:"Tesseract Health", sub:"بُعد رابع في التسويق الطبي"},
+  {cat:"اسم · مستقبل وـ AI", name:"Nexus Medical Brand", sub:"nexus = نقطة التقاء كل شيء"},
+  {cat:"اسم · مستقبل وـ AI", name:"Cipher Health", sub:"كود + ذكاء + طب"},
+  {cat:"اسم · مستقبل وـ AI", name:"Aether Medical", sub:"aether = الطبقة العليا — digital cloud"},
+  {cat:"اسم · مستقبل وـ AI", name:"Praxis AI Health", sub:"praxis = تطبيق عملي للذكاء"},
+  {cat:"اسم · مستقبل وـ AI", name:"Fluxmed", sub:"flux = تدفق مستمر — agile وسريع"},
+  {cat:"اسم · مستقبل وـ AI", name:"Cortex Medical", sub:"cortex = قشرة المخ — ذكاء خالص"},
+
+  // ── أسماء: شرق أوسط وعربي ──
+  {cat:"اسم · شرق أوسط", name:"Nour Digital Health", sub:"نور — ضوء وإضاءة للعلامات"},
+  {cat:"اسم · شرق أوسط", name:"Majd Medical Brand", sub:"مجد — للهوية الطبية الفاخرة"},
+  {cat:"اسم · شرق أوسط", name:"Raqeem Digital", sub:"رقيم — رقمي وعربي وأصيل"},
+  {cat:"اسم · شرق أوسط", name:"Sama Health Studio", sub:"سما — ارتفاع وطموح"},
+  {cat:"اسم · شرق أوسط", name:"Rayyan Medical", sub:"ريان — اسم عربي قوي وجميل"},
+  {cat:"اسم · شرق أوسط", name:"Siraj Digital Med", sub:"سراج — ينير الطريق للأطباء"},
+  {cat:"اسم · شرق أوسط", name:"Wadi Health", sub:"وادي — عمق وأصالة وخصوبة"},
+  {cat:"اسم · شرق أوسط", name:"Kanz Medical Brand", sub:"كنز — نكتشف قيمتك الحقيقية"},
+  {cat:"اسم · شرق أوسط", name:"Falak Medical", sub:"فلك — علوم وطب ونجوم"},
+  {cat:"اسم · شرق أوسط", name:"Rawad Digital Health", sub:"رواد — رياده وريادة"},
+
+  // ── أفكار الـ concept والـ positioning ──
+  {cat:"concept · positioning", name:"The Medical OS", sub:"نظام تشغيل كامل لعيادتك"},
+  {cat:"concept · positioning", name:"We Don't Market. We Transform.", sub:"مش تسويق — تحول حقيقي"},
+  {cat:"concept · positioning", name:"Your Clinic. Our Obsession.", sub:"عيادتك هي أولويتنا المطلقة"},
+  {cat:"concept · positioning", name:"Healthcare × Technology × Design", sub:"معادلة النجاح الثلاثية"},
+  {cat:"concept · positioning", name:"Not an Agency. A Partner.", sub:"مش شركة — شريك استراتيجي"},
+  {cat:"concept · positioning", name:"Premium By Default", sub:"الجودة الفاخرة هي الحد الأدنى"},
+  {cat:"concept · positioning", name:"Build Once. Grow Forever.", sub:"نبني أساس يكبر معاك"},
+  {cat:"concept · positioning", name:"The Last Agency You'll Need", sub:"بعدنا مش هتحتاج حد تاني"},
+  {cat:"concept · positioning", name:"Where Healthcare Meets Excellence", sub:"ملتقى الطب والتميز"},
+  {cat:"concept · positioning", name:"Doctors Deserve Better Digital", sub:"الأطباء يستحقون أكتر"},
+  {cat:"concept · positioning", name:"From Invisible to Inevitable", sub:"من مجهول لحضور لا يُتجاهل"},
+  {cat:"concept · positioning", name:"The Brand Behind the Brand", sub:"نحن خلف نجاحك المرئي"},
+  {cat:"concept · positioning", name:"Turn Expertise Into Authority", sub:"خبرتك تتحول لسلطة رقمية"},
+  {cat:"concept · positioning", name:"Medical Brands That Convert", sub:"هويات طبية تحول زوار لمرضى"},
+  {cat:"concept · positioning", name:"Precision Branding for Precision Medicine", sub:"دقة في البراند = دقة في الطب"},
+
+  // ── أفكار الخدمات والمنتجات ──
+  {cat:"فكرة خدمة جديدة", name:"Clinic Growth Score", sub:"نقيم وضعك الرقمي بنقاط من 100"},
+  {cat:"فكرة خدمة جديدة", name:"AI Patient Journey", sub:"رحلة المريض المتكاملة بالذكاء"},
+  {cat:"فكرة خدمة جديدة", name:"Medical Reputation Shield", sub:"حماية وبناء السمعة الطبية"},
+  {cat:"فكرة خدمة جديدة", name:"Doctor Authority Program", sub:"برنامج بناء الخبير المرجعي"},
+  {cat:"فكرة خدمة جديدة", name:"Clinic Launch Package", sub:"حزمة إطلاق كاملة للعيادة"},
+  {cat:"فكرة خدمة جديدة", name:"MedContent Studio", sub:"محتوى طبي بثيم تصويري فاخر"},
+  {cat:"فكرة خدمة جديدة", name:"Patient Retention Engine", sub:"نظام ذكي لاستبقاء المرضى"},
+  {cat:"فكرة خدمة جديدة", name:"Healthcare Funnel Builder", sub:"نبني قمع تحويل طبي محترف"},
+  {cat:"فكرة خدمة جديدة", name:"Clinic Analytics Command", sub:"مركز تحكم بيانات عيادتك"},
+  {cat:"فكرة خدمة جديدة", name:"24h AI Receptionist", sub:"موظف استقبال ذكاء اصطناعي"},
+  {cat:"فكرة خدمة جديدة", name:"Medical Podcast Production", sub:"بودكاست طبي يبني Authority"},
+  {cat:"فكرة خدمة جديدة", name:"Multilingual Patient Portal", sub:"بوابة مرضى عربي + إنجليزي"},
+  {cat:"فكرة خدمة جديدة", name:"WhatsApp Marketing Flows", sub:"حملات واتساب مؤتمتة بالكامل"},
+  {cat:"فكرة خدمة جديدة", name:"Before & After Visual Engine", sub:"نحول نتائجك لمحتوى يبيع"},
+  {cat:"فكرة خدمة جديدة", name:"Referral System Builder", sub:"نظام إحالة يجيبلك مرضى جدد"},
+
+  // ── أفكار التصميم والـ visual ──
+  {cat:"فكرة تصميم / بصري", name:"Dark Medical Luxury", sub:"أسود + ذهبي + أزرق — ultra premium"},
+  {cat:"فكرة تصميم / بصري", name:"White Clinical Minimal", sub:"أبيض نظيف Apple-style"},
+  {cat:"فكرة تصميم / بصري", name:"Glassmorphism 2.0", sub:"زجاج متطور مع depth حقيقي"},
+  {cat:"فكرة تصميم / بصري", name:"Bioluminescence Theme", sub:"ألوان المحيط المضيء — unique جداً"},
+  {cat:"فكرة تصميم / بصري", name:"Blueprint Aesthetic", sub:"مخططات هندسية زرقاء — technical"},
+  {cat:"فكرة تصميم / بصري", name:"Holographic UI", sub:"ألوان هولوجرام مستقبلية"},
+  {cat:"فكرة تصميم / بصري", name:"Medical Data Art", sub:"البيانات الطبية كأعمال فنية"},
+  {cat:"فكرة تصميم / بصري", name:"Brutalist Medical", sub:"bold + raw + unconventional"},
+  {cat:"فكرة تصميم / بصري", name:"Organic Flow Design", sub:"أشكال عضوية مستوحاة من الجسم"},
+  {cat:"فكرة تصميم / بصري", name:"Monochrome + Accent Pop", sub:"رمادي مع لمسة لون واحدة"},
+
+  // ── أفكار المحتوى ──
+  {cat:"فكرة محتوى", name:"The Medical Thought Leader", sub:"نحولك لمرجع في تخصصك"},
+  {cat:"فكرة محتوى", name:"Doctor As Brand Campaign", sub:"الطبيب نفسه هو البراند"},
+  {cat:"فكرة محتوى", name:"Results-Only Marketing", sub:"نتائج فقط — مش وعود"},
+  {cat:"فكرة محتوى", name:"Patient Success Stories", sub:"قصص نجاح المرضى كـ content"},
+  {cat:"فكرة محتوى", name:"Behind the Clinic Series", sub:"كواليس العيادة — human touch"},
+  {cat:"فكرة محتوى", name:"Medical Myth Busting", sub:"كسر الأساطير الطبية — viral"},
+  {cat:"فكرة محتوى", name:"Ask the Doctor Format", sub:"أسئلة وأجوبة تبني ثقة"},
+  {cat:"فكرة محتوى", name:"Real Transformation Gallery", sub:"صور قبل وبعد موثقة باحترام"},
+  {cat:"فكرة محتوى", name:"Evidence-Based Content", sub:"محتوى مبني على أبحاث ودراسات"},
+  {cat:"فكرة محتوى", name:"Day In The Life Series", sub:"يوم في حياة الطبيب — authentic"},
+];
+
+const cats = ["الكل", ...new Set(DATA.map(d=>d.cat))];
+let activeTab = "الكل";
+let favs = new Set();
+
+const tabsEl = document.getElementById('tabs');
+const gridEl = document.getElementById('grid');
+const countEl = document.getElementById('countBar');
+const favBar = document.getElementById('favBar');
+const favChips = document.getElementById('favChips');
+const sendBtn = document.getElementById('sendBtn');
+
+cats.forEach(c=>{
+  const btn = document.createElement('button');
+  btn.className = 'tab' + (c===activeTab?' active':'');
+  btn.textContent = c;
+  btn.onclick = ()=>{ activeTab=c; document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); btn.classList.add('active'); render(); };
+  tabsEl.appendChild(btn);
+});
+
+function render(){
+  const q = document.getElementById('search').value.toLowerCase();
+  const items = DATA.filter(d=>{
+    const matchTab = activeTab==="الكل" || d.cat===activeTab;
+    const matchQ = !q || d.name.toLowerCase().includes(q) || d.sub.toLowerCase().includes(q) || d.cat.toLowerCase().includes(q);
+    return matchTab && matchQ;
+  });
+  countEl.innerHTML = `عرض <strong>${items.length}</strong> فكرة من أصل ${DATA.length}`;
+  gridEl.innerHTML = '';
+  items.forEach(d=>{
+    const card = document.createElement('div');
+    card.className = 'card' + (favs.has(d.name)?' fav':'');
+    card.innerHTML = `<div class="card-cat">${d.cat}</div><div class="card-name">${d.name}</div><div class="card-sub">${d.sub}</div><div class="card-fav">${favs.has(d.name)?'★':'☆'}</div>`;
+    card.onclick = ()=>{
+      if(favs.has(d.name)) favs.delete(d.name);
+      else favs.add(d.name);
+      updateFavs(); render();
+    };
+    gridEl.appendChild(card);
+  });
+  if(!items.length) gridEl.innerHTML = '<div class="empty">مفيش نتائج — جرب كلمة تانية</div>';
+}
+
+function updateFavs(){
+  favBar.className = 'fav-bar' + (favs.size?' show':'');
+  favChips.innerHTML = '';
+  favs.forEach(name=>{
+    const chip = document.createElement('div');
+    chip.className='fav-chip'; chip.textContent=name;
+    chip.onclick=()=>{ favs.delete(name); updateFavs(); render(); };
+    favChips.appendChild(chip);
+  });
+  sendBtn.style.display = favs.size ? 'flex' : 'none';
+}
+
+function sendFavs(){
+  const list = [...favs].join(' ، ');
+  sendPrompt(`اخترت الأسماء والأفكار دي: ${list} — ابدأ بتنفيذها على السايت وغير الاسم والـ concept بناءً على اختياراتي`);
+}
+
+render();
+</script>

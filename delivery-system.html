@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام التوصيل الشامل</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Lato:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #F9F6F0;
+            --bg-secondary: #F0EBE1;
+            --text-primary: #2C241B;
+            --text-secondary: #7A5C43;
+            --accent: #5C4033;
+            --accent-light: #8B6B52;
+            --font-display: 'Playfair Display', 'Aref Ruqaa', serif;
+            --font-body: 'Lato', 'Cairo', sans-serif;
+        }
+
+        html, body { margin: 0; padding: 0; height: 100%; overflow-x: hidden; background: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); }
+        html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+
+        /* Typography */
+        h1, h2, h3, .font-display { font-family: var(--font-display); font-weight: 700; color: var(--accent); }
+        p, li, .font-body { font-family: var(--font-body); color: var(--text-secondary); line-height: 1.8; }
+
+        /* Scale Layout */
+        .slide {
+            width: 100vw; height: 100vh; height: 100dvh;
+            scroll-snap-align: start;
+            position: relative; display: flex;
+            align-items: center; justify-content: center;
+        }
+
+        .slide-inner {
+            width: 1280px; height: 720px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+            position: relative;
+            transform-origin: center center;
+            display: flex; flex-direction: column;
+            padding: 60px 80px;
+        }
+
+        .slide-content {
+            flex: 1; display: flex; flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Navigation */
+        .nav-dots {
+            position: fixed; right: 30px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 12px; z-index: 100;
+        }
+        .dot {
+            width: 12px; height: 12px; border-radius: 50%;
+            background: rgba(92, 64, 51, 0.2); cursor: pointer; transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        .dot.active { background: var(--accent); transform: scale(1.3); border-color: var(--bg-primary); }
+
+        .keyboard-hint {
+            position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+            font-size: 14px; color: rgba(122, 92, 67, 0.6); z-index: 100;
+            transition: opacity 0.5s; pointer-events: none;
+            font-family: var(--font-body);
+        }
+
+        /* Animations */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+        .reveal:nth-child(1) { transition-delay: 0.1s; }
+        .reveal:nth-child(2) { transition-delay: 0.2s; }
+        .reveal:nth-child(3) { transition-delay: 0.3s; }
+        .reveal:nth-child(4) { transition-delay: 0.4s; }
+        .reveal:nth-child(5) { transition-delay: 0.5s; }
+
+        /* Custom UI Elements */
+        .decorative-line {
+            width: 80px; height: 2px; background: var(--accent);
+            margin: 24px 0;
+        }
+        .center-line { margin: 24px auto; }
+        
+        .border-frame {
+            position: absolute;
+            top: 20px; left: 20px; right: 20px; bottom: 20px;
+            border: 1px solid rgba(92, 64, 51, 0.15);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .border-frame::before, .border-frame::after {
+            content: ''; position: absolute; width: 10px; height: 10px; border: 1px solid var(--accent);
+        }
+        .border-frame::before { top: -5px; right: -5px; border-bottom: none; border-left: none; }
+        .border-frame::after { bottom: -5px; left: -5px; border-top: none; border-right: none; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; height: 100%; align-items: center; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 20px; }
+        
+        .card {
+            background: #FFFFFF;
+            padding: 40px 30px;
+            border-radius: 4px;
+            border: 1px solid rgba(92, 64, 51, 0.1);
+            box-shadow: 0 10px 30px rgba(44, 36, 27, 0.03);
+            text-align: center;
+            height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+        }
+        .card-icon {
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 24px;
+            color: var(--accent);
+            font-size: 28px;
+        }
+
+        .stat-box {
+            border-right: 2px solid var(--accent-light);
+            padding-right: 24px;
+            margin-bottom: 32px;
+        }
+        .stat-number { font-size: 48px; color: var(--accent); font-family: var(--font-display); line-height: 1; margin-bottom: 8px; }
+        .stat-label { font-size: 18px; color: var(--text-secondary); }
+
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li {
+            position: relative; padding-right: 32px; margin-bottom: 20px; font-size: 22px;
+        }
+        .feature-list li::before {
+            content: '♦'; position: absolute; right: 0; top: 2px; color: var(--accent-light); font-size: 18px;
+        }
+
+        /* Mobile */
+        @media (max-width: 767px) {
+            html { scroll-snap-type: none; }
+            .slide { height: auto; min-height: 100svh; overflow: visible; scroll-snap-align: none; }
+            .slide-inner { width: 100% !important; height: auto !important; transform: none !important; padding: 40px 20px; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 30px; }
+            .nav-dots { display: none; }
+            .border-frame { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-dots"></nav>
+
+    <!-- Slide 1: Title -->
+    <section class="slide">
+        <div class="slide-inner">
+            <div class="border-frame"></div>
+            <div class="slide-content" style="text-align: center; align-items: center;">
+                <h1 class="reveal" style="font-size: 84px; margin-bottom: 10px;">نظام التوصيل الشامل</h1>
+                <div class="decorative-line center-line reveal"></div>
+                <p class="reveal" style="font-size: 28px; max-width: 800px;">المنصة الفخمة لإدارة مكاتب التوصيل، المطاعم، وشركات الشحن باحترافية وكفاءة عالية</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: Intro -->
+    <section class="slide">
+        <div class="slide-inner">
+            <div class="border-frame"></div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div>
+                        <h2 class="reveal" style="font-size: 48px; margin-bottom: 20px;">رؤية كلاسيكية<br>بتقنيات حديثة</h2>
+                        <div class="decorative-line reveal"></div>
+                        <p class="reveal" style="font-size: 22px; margin-bottom: 30px;">نقدم تجربة إدارة استثنائية تجمع بين أناقة التصميم وقوة الأداء. نظامنا مصمم ليلبي احتياجات رواد الأعمال الذين يقدرون الفخامة والدقة في التفاصيل.</p>
+                        <ul class="feature-list reveal">
+                            <li>مكاتب التوصيل المتخصصة</li>
+                            <li>سلاسل المطاعم الراقية</li>
+                            <li>شركات الشحن والخدمات اللوجستية</li>
+                        </ul>
+                    </div>
+                    <div class="reveal" style="position: relative; height: 400px; background: var(--bg-secondary); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid rgba(92,64,51,0.2);">
+                        <div style="width: 200px; height: 200px; border-radius: 50%; border: 2px dashed var(--accent-light); position: absolute; animation: spin 20s linear infinite;"></div>
+                        <div style="font-family: var(--font-display); font-size: 120px; color: rgba(92,64,51,0.1); position: absolute;">التوصيل</div>
+                        <div style="z-index: 2; text-align: center;">
+                            <div style="font-size: 48px; color: var(--accent); margin-bottom: 10px;">✦</div>
+                            <h3 style="font-size: 28px;">تكامل تام</h3>
+                        </div>
+                        <style>@keyframes spin { 100% { transform: rotate(360deg); } }</style>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Dashboard -->
+    <section class="slide">
+        <div class="slide-inner">
+            <div class="border-frame"></div>
+            <div class="slide-content">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h2 class="reveal" style="font-size: 44px; margin-bottom: 10px;">لوحة التحكم الشاملة</h2>
+                    <div class="decorative-line center-line reveal"></div>
+                    <p class="reveal" style="font-size: 22px;">مركز القيادة الفاخر الخاص بك، حيث تتجسد البيانات في لوحات فنية قابلة للقراءة</p>
+                </div>
+                
+                <div class="grid-3">
+                    <div class="card reveal">
+                        <div class="card-icon">📈</div>
+                        <h3 style="font-size: 26px; margin-bottom: 16px;">إحصائيات حية</h3>
+                        <p style="font-size: 18px;">متابعة فورية للأرباح، الطلبات النشطة، وأداء السائقين في لحظتها وبدقة متناهية.</p>
+                    </div>
+                    <div class="card reveal" style="background: var(--bg-secondary);">
+                        <div class="card-icon" style="background: #fff;">👁️</div>
+                        <h3 style="font-size: 26px; margin-bottom: 16px;">رؤية بانورامية</h3>
+                        <p style="font-size: 17px;">شاشة واحدة تجمع كل العمليات، مصممة بأناقة لتمنحك الوضوح التام في اتخاذ القرارات.</p>
+                    </div>
+                    <div class="card reveal">
+                        <div class="card-icon">📊</div>
+                        <h3 style="font-size: 26px; margin-bottom: 16px;">تقارير ذكية</h3>
+                        <p style="font-size: 18px;">تحليلات دورية مفصلة تصدر بتنسيق راقٍ يعكس احترافية مؤسستك.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Orders -->
+    <section class="slide">
+        <div class="slide-inner">
+            <div class="border-frame"></div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div class="reveal" style="background: #fff; padding: 40px; border-radius: 4px; box-shadow: 0 20px 40px rgba(0,0,0,0.02); position: relative; border: 1px solid rgba(92,64,51,0.1);">
+                        <div style="position: absolute; top: -15px; right: 40px; background: var(--bg-primary); padding: 0 15px; font-family: var(--font-display); font-size: 24px; color: var(--accent);">سجل الطلبات</div>
+                        
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--bg-secondary); padding-bottom: 15px; margin-bottom: 15px;">
+                            <span style="font-weight: 700; color: var(--text-primary);">الطلب #١٠٤٢</span>
+                            <span style="color: #4CAF50;">قيد التوصيل</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--bg-secondary); padding-bottom: 15px; margin-bottom: 15px;">
+                            <span style="font-weight: 700; color: var(--text-primary);">الطلب #١٠٤٣</span>
+                            <span style="color: #2196F3;">تم الاستلام</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding-bottom: 15px;">
+                            <span style="font-weight: 700; color: var(--text-primary);">الطلب #١٠٤٤</span>
+                            <span style="color: #FF9800;">جاري التحضير</span>
+                        </div>
+                    </div>
+                    
+                    <div style="padding-right: 20px;">
+                        <h2 class="reveal" style="font-size: 48px; margin-bottom: 20px;">إدارة الطلبات</h2>
+                        <div class="decorative-line reveal"></div>
+                        <p class="reveal" style="font-size: 22px; margin-bottom: 30px;">دورة حياة الطلب من الاستلام وحتى التسليم تتم بسلاسة فائقة ودقة عالية.</p>
+                        
+                        <div class="stat-box reveal">
+                            <div class="stat-number">١٠٠٪</div>
+                            <div class="stat-label">دقة في تتبع مسار كل طلب عبر الخريطة</div>
+                        </div>
+                        <div class="stat-box reveal">
+                            <div class="stat-number">تلقائي</div>
+                            <div class="stat-label">توزيع ذكي للطلبات على أقرب السائقين</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Drivers -->
+    <section class="slide">
+        <div class="slide-inner">
+            <div class="border-frame"></div>
+            <div class="slide-content">
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <h2 class="reveal" style="font-size: 48px; margin-bottom: 10px;">إدارة السائقين (المندوبين)</h2>
+                    <div class="decorative-line center-line reveal"></div>
+                </div>
+                
+                <div class="grid-3" style="margin-top: 0;">
+                    <div class="card reveal" style="padding: 30px 20px;">
+                        <div style="font-size: 40px; margin-bottom: 15px;">📍</div>
+                        <h3 style="font-size: 24px; margin-bottom: 15px;">تتبع مسار الرحلة</h3>
+                        <p style="font-size: 16px;">مراقبة دقيقة لموقع السائق وحالة التوصيل باستخدام أحدث تقنيات الخرائط العالمية.</p>
+                    </div>
+                    <div class="card reveal" style="padding: 30px 20px;">
+                        <div style="font-size: 40px; margin-bottom: 15px;">⭐</div>
+                        <h3 style="font-size: 24px; margin-bottom: 15px;">تقييم الأداء</h3>
+                        <p style="font-size: 16px;">نظام تقييم متطور لضمان أعلى معايير الجودة والرقي في التعامل مع العملاء.</p>
+                    </div>
+                    <div class="card reveal" style="padding: 30px 20px;">
+                        <div style="font-size: 40px; margin-bottom: 15px;">📱</div>
+                        <h3 style="font-size: 24px; margin-bottom: 15px;">تطبيق خاص</h3>
+                        <p style="font-size: 16px;">تطبيق ذكي للسائق يسهل استلام الطلبات والتواصل مع الإدارة بشكل فوري.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Settings -->
+    <section class="slide">
+        <div class="slide-inner">
+            <div class="border-frame"></div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div>
+                        <h2 class="reveal" style="font-size: 48px; margin-bottom: 20px;">إعدادات مرنة وخاصة</h2>
+                        <div class="decorative-line reveal"></div>
+                        <p class="reveal" style="font-size: 22px; margin-bottom: 30px;">النظام مصمم ليتكيف مع هوية وطبيعة عملك، وليس العكس. تحكم كامل في كل تفصيلة.</p>
+                        
+                        <ul class="feature-list reveal">
+                            <li>تخصيص مناطق التسعير والتوصيل</li>
+                            <li>تحديد صلاحيات الموظفين بدقة</li>
+                            <li>تعديل واجهة الفواتير والإيصالات</li>
+                            <li>دعم بوابات الدفع الإلكتروني المتعددة</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="reveal" style="display: flex; flex-direction: column; gap: 15px; padding: 40px; background: #fff; border-radius: 4px; border: 1px solid rgba(92,64,51,0.1);">
+                        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--bg-secondary); padding-bottom: 10px;">
+                            <span style="font-size: 20px; font-weight: 600;">التنبيهات التلقائية</span>
+                            <div style="width: 40px; height: 20px; background: var(--accent); border-radius: 10px; position: relative;">
+                                <div style="width: 16px; height: 16px; background: #fff; border-radius: 50%; position: absolute; left: 2px; top: 2px;"></div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--bg-secondary); padding-bottom: 10px;">
+                            <span style="font-size: 20px; font-weight: 600;">تأكيد الدفع</span>
+                            <div style="width: 40px; height: 20px; background: var(--accent); border-radius: 10px; position: relative;">
+                                <div style="width: 16px; height: 16px; background: #fff; border-radius: 50%; position: absolute; left: 2px; top: 2px;"></div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span style="font-size: 20px; font-weight: 600;">الوضع الليلي</span>
+                            <div style="width: 40px; height: 20px; background: #ccc; border-radius: 10px; position: relative;">
+                                <div style="width: 16px; height: 16px; background: #fff; border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Closing -->
+    <section class="slide">
+        <div class="slide-inner">
+            <div class="border-frame"></div>
+            <div class="slide-content" style="text-align: center; align-items: center;">
+                <div class="reveal" style="font-size: 60px; color: var(--accent-light); margin-bottom: 20px;">✦</div>
+                <h1 class="reveal" style="font-size: 64px; margin-bottom: 20px;">شكراً لاختياركم الأناقة والتطور</h1>
+                <p class="reveal" style="font-size: 24px; max-width: 600px;">ارتقِ بأعمالك اللوجستية إلى مستوى جديد من الرفاهية والاحترافية مع نظام التوصيل الشامل.</p>
+                <div class="decorative-line center-line reveal"></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="keyboard-hint">استخدم أسهم لوحة المفاتيح ↑↓ للتنقل</div>
+
+    <script>
+        class SlidePresentation {
+            constructor() {
+                this.slides = document.querySelectorAll('.slide');
+                this.dots = document.querySelector('.nav-dots');
+                this.current = 0;
+                this.setupObserver();
+                this.setupKeyboard();
+                this.setupDots();
+                this.hideHintOnScroll();
+            }
+            setupObserver() {
+                const obs = new IntersectionObserver(entries => {
+                    entries.forEach(e => {
+                        if (e.isIntersecting) {
+                            e.target.classList.add('visible');
+                            this.current = [...this.slides].indexOf(e.target);
+                            this.updateDots();
+                        }
+                    });
+                }, { threshold: 0.5 });
+                this.slides.forEach(s => obs.observe(s));
+            }
+            setupKeyboard() {
+                window.addEventListener('keydown', e => {
+                    if (e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === ' ') {
+                        e.preventDefault(); this.go(this.current + 1);
+                    } else if (e.key === 'ArrowUp' || e.key === 'ArrowRight') {
+                        e.preventDefault(); this.go(this.current - 1);
+                    }
+                });
+            }
+            setupDots() {
+                this.slides.forEach((s, i) => {
+                    const dot = document.createElement('div');
+                    dot.className = 'dot';
+                    dot.onclick = () => this.go(i);
+                    this.dots.appendChild(dot);
+                });
+                this.updateDots();
+            }
+            updateDots() {
+                this.dots.querySelectorAll('.dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === this.current);
+                });
+            }
+            go(i) {
+                if (i >= 0 && i < this.slides.length) {
+                    this.slides[i].scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+            hideHintOnScroll() {
+                const hint = document.querySelector('.keyboard-hint');
+                if (!hint) return;
+                let hidden = false;
+                window.addEventListener('scroll', () => {
+                    if (!hidden && window.scrollY > 50) {
+                        hint.style.opacity = '0';
+                        hidden = true;
+                    }
+                });
+            }
+        }
+        
+        class ScaleController {
+            constructor(refWidth = 1280, refHeight = 720) {
+                this.refW = refWidth;
+                this.refH = refHeight;
+                this.inners = document.querySelectorAll('.slide-inner');
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+            }
+            isMobile() { return window.innerWidth < 768; }
+            resize() {
+                if (this.isMobile()) {
+                    this.inners.forEach(inner => { inner.style.transform = ''; });
+                    return;
+                }
+                const s = Math.min(window.innerWidth / this.refW, window.innerHeight / this.refH);
+                this.inners.forEach(inner => { inner.style.transform = `scale(${s})`; });
+            }
+        }
+        
+        new SlidePresentation();
+        new ScaleController();
+        
+        // Editable text
+        document.querySelectorAll('h1, h2, h3, p, li, span, div.stat-number, div.stat-label').forEach(el => {
+            if(!el.classList.contains('border-frame') && !el.classList.contains('dot') && !el.classList.contains('keyboard-hint') && el.children.length === 0) {
+                el.contentEditable = true;
+                el.style.outline = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

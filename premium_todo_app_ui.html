@@ -1,0 +1,525 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+  body { font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif; }
+
+  .scene { display: flex; gap: 32px; justify-content: center; align-items: flex-start; padding: 2rem 1rem; flex-wrap: wrap; background: transparent; }
+
+  .phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .mode-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-secondary); font-weight: 500; }
+
+  .phone { width: 320px; height: 680px; border-radius: 44px; overflow: hidden; position: relative; display: flex; flex-direction: column; border: 1.5px solid rgba(255,255,255,0.08); }
+
+  /* DARK PHONE */
+  .dark { background: #0d0d0f; color: #f0f0f0; }
+  .dark .status-bar { background: #0d0d0f; color: #aaa; }
+  .dark .profile-section { background: linear-gradient(180deg, #141416 0%, #0d0d0f 100%); }
+  .dark .avatar-ring { border-color: #b8942a; }
+  .dark .username { color: #f5f5f5; }
+  .dark .bio { color: #888; }
+  .dark .edit-btn { border-color: #b8942a44; color: #b8942a; }
+  .dark .date-label { color: #666; }
+  .dark .section-title { color: #f0f0f0; }
+  .dark .task-card { background: #1a1a1e; border: 0.5px solid #2a2a30; }
+  .dark .task-card.done { opacity: 0.5; }
+  .dark .task-title { color: #f0f0f0; }
+  .dark .task-title.struck { text-decoration: line-through; color: #555; }
+  .dark .task-note { color: #666; }
+  .dark .checkbox { border-color: #444; }
+  .dark .checkbox.checked { background: #b8942a; border-color: #b8942a; }
+  .dark .priority-dot.high { background: #e05252; }
+  .dark .priority-dot.med { background: #b8942a; }
+  .dark .priority-dot.low { background: #4a9e6e; }
+  .dark .fab { background: #b8942a; color: #0d0d0f; }
+  .dark .section-divider { border-color: #1e1e24; }
+  .dark .tag { background: #1e1e24; color: #888; }
+  .dark .tag.gold { background: #2a2210; color: #b8942a; }
+  .dark .modal-bg { background: rgba(0,0,0,0.75); }
+  .dark .modal { background: #1a1a1e; border: 0.5px solid #2a2a30; }
+  .dark .modal-input { background: #252528; border-color: #333; color: #f0f0f0; }
+  .dark .modal-title-text { color: #f0f0f0; }
+  .dark .modal-sub { color: #666; }
+  .dark .modal-add-btn { background: #b8942a; color: #0d0d0f; }
+  .dark .modal-cancel { color: #666; }
+  .dark .bottom-bar { background: #0d0d0f; border-color: #1e1e24; }
+  .dark .bottom-icon { color: #555; }
+  .dark .bottom-icon.active { color: #b8942a; }
+  .dark .swipe-hint { color: #444; }
+
+  /* LIGHT PHONE */
+  .light { background: #f2f4f8; color: #1a1a2e; }
+  .light .status-bar { background: #f2f4f8; color: #888; }
+  .light .profile-section { background: linear-gradient(180deg, #eaecf4 0%, #f2f4f8 100%); }
+  .light .avatar-ring { border-color: #c9a84c; }
+  .light .username { color: #1a1a2e; }
+  .light .bio { color: #8888aa; }
+  .light .edit-btn { border-color: #c9a84c55; color: #c9a84c; }
+  .light .date-label { color: #aaa; }
+  .light .section-title { color: #1a1a2e; }
+  .light .task-card { background: #fff; border: 0.5px solid #e4e6ef; }
+  .light .task-card.done { opacity: 0.45; }
+  .light .task-title { color: #1a1a2e; }
+  .light .task-title.struck { text-decoration: line-through; color: #bbb; }
+  .light .task-note { color: #aaa; }
+  .light .checkbox { border-color: #ddd; }
+  .light .checkbox.checked { background: #c9a84c; border-color: #c9a84c; }
+  .light .priority-dot.high { background: #e05252; }
+  .light .priority-dot.med { background: #c9a84c; }
+  .light .priority-dot.low { background: #4a9e6e; }
+  .light .fab { background: #c9a84c; color: #fff; }
+  .light .section-divider { border-color: #eaecf4; }
+  .light .tag { background: #eaecf4; color: #aaa; }
+  .light .tag.gold { background: #fdf5e0; color: #c9a84c; }
+  .light .modal-bg { background: rgba(0,0,0,0.35); }
+  .light .modal { background: #fff; border: 0.5px solid #e4e6ef; }
+  .light .modal-input { background: #f7f8fb; border-color: #e4e6ef; color: #1a1a2e; }
+  .light .modal-title-text { color: #1a1a2e; }
+  .light .modal-sub { color: #aaa; }
+  .light .modal-add-btn { background: #c9a84c; color: #fff; }
+  .light .modal-cancel { color: #bbb; }
+  .light .bottom-bar { background: #f2f4f8; border-color: #e4e6ef; }
+  .light .bottom-icon { color: #ccc; }
+  .light .bottom-icon.active { color: #c9a84c; }
+  .light .swipe-hint { color: #ccc; }
+
+  .status-bar { display: flex; justify-content: space-between; align-items: center; padding: 14px 22px 4px; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+  .status-right { display: flex; gap: 5px; align-items: center; }
+  .status-icon { width: 14px; height: 8px; background: currentColor; border-radius: 2px; opacity: 0.6; }
+
+  .scroll-area { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+
+  .profile-section { padding: 16px 22px 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .avatar-wrap { position: relative; }
+  .avatar-ring { width: 64px; height: 64px; border-radius: 50%; border: 2px solid; padding: 2px; }
+  .avatar-img { width: 100%; height: 100%; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 300; color: #fff; letter-spacing: -0.5px; }
+  .online-dot { position: absolute; bottom: 3px; right: 3px; width: 11px; height: 11px; border-radius: 50%; background: #4a9e6e; border: 2px solid; }
+  .dark .online-dot { border-color: #0d0d0f; }
+  .light .online-dot { border-color: #f2f4f8; }
+  .username { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; }
+  .bio { font-size: 11px; letter-spacing: 0.01em; }
+  .edit-btn { font-size: 10px; border: 0.5px solid; border-radius: 20px; padding: 3px 10px; letter-spacing: 0.05em; font-weight: 500; cursor: pointer; background: transparent; }
+
+  .stats-row { display: flex; gap: 12px; padding: 0 22px 16px; }
+  .stat-pill { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 1px; }
+  .dark .stat-pill { background: #1a1a1e; border: 0.5px solid #2a2a30; border-radius: 12px; padding: 8px 4px; }
+  .light .stat-pill { background: #fff; border: 0.5px solid #e4e6ef; border-radius: 12px; padding: 8px 4px; }
+  .stat-num { font-size: 17px; font-weight: 600; letter-spacing: -0.5px; }
+  .dark .stat-num { color: #b8942a; }
+  .light .stat-num { color: #c9a84c; }
+  .stat-lbl { font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .dark .stat-lbl { color: #555; }
+  .light .stat-lbl { color: #aaa; }
+
+  .tasks-area { flex: 1; overflow: hidden; padding: 0 18px 16px; display: flex; flex-direction: column; gap: 8px; }
+
+  .tasks-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4px; }
+  .date-label { font-size: 11px; letter-spacing: 0.04em; }
+  .section-title { font-size: 19px; font-weight: 700; letter-spacing: -0.5px; }
+  .header-count { font-size: 11px; }
+  .dark .header-count { color: #b8942a; }
+  .light .header-count { color: #c9a84c; }
+
+  .task-card { border-radius: 14px; padding: 11px 13px; display: flex; align-items: flex-start; gap: 11px; cursor: pointer; transition: opacity 0.3s ease; flex-shrink: 0; }
+
+  .checkbox { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all 0.25s ease; cursor: pointer; }
+  .checkbox.checked::after { content: ''; width: 6px; height: 4px; border-left: 1.5px solid; border-bottom: 1.5px solid; transform: rotate(-45deg) translate(0.5px, -0.5px); }
+  .dark .checkbox.checked::after { border-color: #0d0d0f; }
+  .light .checkbox.checked::after { border-color: #fff; }
+
+  .task-body { flex: 1; min-width: 0; }
+  .task-top-row { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+  .task-title { font-size: 13px; font-weight: 500; letter-spacing: -0.1px; line-height: 1.3; }
+  .task-note { font-size: 10.5px; margin-top: 3px; line-height: 1.4; }
+  .task-meta { display: flex; align-items: center; gap: 5px; margin-top: 5px; }
+  .tag { font-size: 9px; letter-spacing: 0.04em; border-radius: 6px; padding: 2px 6px; font-weight: 500; }
+  .priority-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+  .section-divider { border: none; border-top: 0.5px solid; margin: 2px 0; flex-shrink: 0; }
+
+  .bottom-bar { display: flex; justify-content: space-around; align-items: center; padding: 8px 10px 14px; border-top: 0.5px solid; flex-shrink: 0; position: relative; }
+  .bottom-icon { font-size: 20px; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; padding: 4px 10px; }
+  .b-dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
+
+  .fab { position: absolute; right: 18px; bottom: 14px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 300; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.18); transition: transform 0.15s ease; }
+  .fab:active { transform: scale(0.93); }
+
+  .modal-overlay { position: absolute; inset: 0; border-radius: 44px; overflow: hidden; display: flex; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal-bg { position: absolute; inset: 0; }
+  .modal { position: relative; z-index: 1; width: 100%; border-radius: 22px 22px 0 0; padding: 18px 20px 28px; }
+  .modal-handle { width: 36px; height: 4px; border-radius: 2px; margin: 0 auto 16px; }
+  .dark .modal-handle { background: #333; }
+  .light .modal-handle { background: #ddd; }
+  .modal-title-text { font-size: 14px; font-weight: 600; letter-spacing: -0.2px; margin-bottom: 12px; }
+  .modal-input { width: 100%; border: 0.5px solid; border-radius: 10px; padding: 9px 12px; font-size: 13px; outline: none; font-family: inherit; margin-bottom: 8px; }
+  .modal-input::placeholder { }
+  .dark .modal-input::placeholder { color: #444; }
+  .light .modal-input::placeholder { color: #ccc; }
+  .modal-row { display: flex; gap: 8px; margin-top: 4px; }
+  .modal-add-btn { flex: 1; border: none; border-radius: 10px; padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; letter-spacing: 0.01em; }
+  .modal-cancel { flex: 0; border: none; background: transparent; padding: 10px 14px; font-size: 13px; cursor: pointer; font-family: inherit; }
+
+  .swipe-hint { font-size: 9px; text-align: center; letter-spacing: 0.04em; padding: 4px 0 0; }
+</style>
+
+<div class="scene">
+
+  <div class="phone-wrap">
+    <div class="mode-label">Dark Mode</div>
+    <div class="phone dark" id="dark-phone">
+      <div class="status-bar">
+        <span>9:41</span>
+        <div class="status-right">
+          <span style="font-size:10px;">●●●</span>
+          <div class="status-icon"></div>
+          <span style="font-size:10px;">⚡</span>
+        </div>
+      </div>
+
+      <div class="scroll-area">
+        <div class="profile-section">
+          <div class="avatar-wrap">
+            <div class="avatar-ring">
+              <div class="avatar-img">S</div>
+            </div>
+            <div class="online-dot"></div>
+          </div>
+          <div class="username">Sofia Laurent</div>
+          <div class="bio">Product designer · Minimalist</div>
+          <button class="edit-btn">Edit Profile</button>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-pill">
+            <div class="stat-num">12</div>
+            <div class="stat-lbl">Total</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-num">7</div>
+            <div class="stat-lbl">Active</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-num">5</div>
+            <div class="stat-lbl">Done</div>
+          </div>
+        </div>
+
+        <div class="tasks-area">
+          <div class="tasks-header">
+            <div>
+              <div class="date-label">FRIDAY, APRIL 10</div>
+              <div class="section-title">My Tasks</div>
+            </div>
+            <div class="header-count">7 left</div>
+          </div>
+
+          <div class="task-card dark" onclick="toggleTask(this)">
+            <div class="checkbox dark"></div>
+            <div class="task-body">
+              <div class="task-top-row">
+                <div class="task-title dark">Review brand deck</div>
+                <div class="priority-dot high"></div>
+              </div>
+              <div class="task-note dark">Final revisions before client call at 3pm</div>
+              <div class="task-meta">
+                <span class="tag gold">Work</span>
+                <span class="tag" style="color:#e05252;background:#1e1012;">Today</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="task-card dark" onclick="toggleTask(this)">
+            <div class="checkbox dark"></div>
+            <div class="task-body">
+              <div class="task-top-row">
+                <div class="task-title dark">Order birthday flowers</div>
+                <div class="priority-dot med"></div>
+              </div>
+              <div class="task-note dark">White peonies · delivery Saturday</div>
+              <div class="task-meta">
+                <span class="tag dark">Personal</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="task-card dark done" onclick="toggleTask(this)" style="opacity:0.42">
+            <div class="checkbox dark checked"></div>
+            <div class="task-body">
+              <div class="task-top-row">
+                <div class="task-title dark struck">Morning journaling</div>
+                <div class="priority-dot low"></div>
+              </div>
+              <div class="task-note dark">10 min gratitude + intentions</div>
+              <div class="task-meta">
+                <span class="tag dark">Wellness</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="task-card dark" onclick="toggleTask(this)">
+            <div class="checkbox dark"></div>
+            <div class="task-body">
+              <div class="task-top-row">
+                <div class="task-title dark">Prepare Q2 report</div>
+                <div class="priority-dot high"></div>
+              </div>
+              <div class="task-note dark">Slides + data viz · due Friday</div>
+              <div class="task-meta">
+                <span class="tag gold">Work</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="task-card dark" onclick="toggleTask(this)">
+            <div class="checkbox dark"></div>
+            <div class="task-body">
+              <div class="task-top-row">
+                <div class="task-title dark">Meditation · 20 min</div>
+                <div class="priority-dot low"></div>
+              </div>
+              <div class="task-note dark">Evening wind-down routine</div>
+              <div class="task-meta">
+                <span class="tag dark">Wellness</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="swipe-hint">← swipe left to delete</div>
+        </div>
+      </div>
+
+      <div class="bottom-bar dark">
+        <div class="bottom-icon dark active">⊞<div class="b-dot"></div></div>
+        <div class="bottom-icon dark">☆</div>
+        <div class="bottom-icon dark">◎</div>
+        <div class="fab dark" onclick="openModal('dark-phone')">+</div>
+      </div>
+
+      <div class="modal-overlay" id="dark-modal">
+        <div class="modal-bg" onclick="closeModal('dark-modal')"></div>
+        <div class="modal dark">
+          <div class="modal-handle"></div>
+          <div class="modal-title-text dark">New Task</div>
+          <input class="modal-input dark" placeholder="Task title..." />
+          <input class="modal-input dark" placeholder="Add a note..." />
+          <div class="modal-row">
+            <button class="modal-cancel dark" onclick="closeModal('dark-modal')">Cancel</button>
+            <button class="modal-add-btn dark" onclick="addTask('dark-phone');closeModal('dark-modal')">Add Task</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phone-wrap">
+    <div class="mode-label">Light Mode</div>
+    <div class="phone light" id="light-phone">
+      <div class="status-bar">
+        <span>9:41</span>
+        <div class="status-right">
+          <span style="font-size:10px;">●●●</span>
+          <div class="status-icon"></div>
+          <span style="font-size:10px;">⚡</span>
+        </div>
+      </div>
+
+      <div class="scroll-area">
+        <div class="profile-section">
+          <div class="avatar-wrap">
+            <div class="avatar-ring">
+              <div class="avatar-img" style="background: linear-gradient(135deg, #84b6f4 0%, #4a90d9 100%);">S</div>
+            </div>
+            <div class="online-dot"></div>
+          </div>
+          <div class="username">Sofia Laurent</div>
+          <div class="bio">Product designer · Minimalist</div>
+          <button class="edit-btn">Edit Profile</button>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-pill">
+            <div class="stat-num">12</div>
+            <div class="stat-lbl">Total</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-num">7</div>
+            <div class="stat-lbl">Active</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-num">5</div>
+            <div class="stat-lbl">Done</div>
+          </div>
+        </div>
+
+        <div class="tasks-area">
+          <div class="tasks-header">
+            <div>
+              <div class="date-label">FRIDAY, APRIL 10</div>
+              <div class="section-title">My Tasks</div>
+            </div>
+            <div class="header-count">7 left</div>
+          </div>
+
+          <div class="task-card light" onclick="toggleTask(this)">
+            <div class="checkbox light"></div>
+            <div class="task-body">
+              <div class="task-top-row">
+                <div class="task-title light">Review brand deck</div>
+                <div class="priority-dot high"></div>
+              </div>
+              <div class="task-note light">Final revisions before client call at 3pm</div>
+              <div class="task-meta">
+                <span class="tag gold">Work</span>
+                <span class="tag" style="color:#c0392b;background:#fef0f0;">Today</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="task-card light" onclick="toggleTask(this)">
+            <div class="checkbox light"></div>
+            <div class="task-body">
+              <div class="task-top-row">
+                <div class="task-title light">Order birthday flowers</div>
+                <div class="priority-dot med"></div>
+              </div>
+              <div class="task-note light">White peonies · delivery Saturday</div>
+              <div class="task-meta">
+                <span class="tag light">Personal</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="task-card light done" onclick="toggleTask(this)" style="opacity:0.38">
+            <div class="checkbox light checked"></div>
+            <div class="task-body">
+              <div class="task-top-row">
+                <div class="task-title light struck">Morning journaling</div>
+                <div class="priority-dot low"></div>
+              </div>
+              <div class="task-note light">10 min gratitude + intentions</div>
+              <div class="task-meta">
+                <span class="tag light">Wellness</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="task-card light" onclick="toggleTask(this)">
+            <div class="checkbox light"></div>
+            <div class="task-body">
+              <div class="task-top-row">
+                <div class="task-title light">Prepare Q2 report</div>
+                <div class="priority-dot high"></div>
+              </div>
+              <div class="task-note light">Slides + data viz · due Friday</div>
+              <div class="task-meta">
+                <span class="tag gold">Work</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="task-card light" onclick="toggleTask(this)">
+            <div class="checkbox light"></div>
+            <div class="task-body">
+              <div class="task-top-row">
+                <div class="task-title light">Meditation · 20 min</div>
+                <div class="priority-dot low"></div>
+              </div>
+              <div class="task-note light">Evening wind-down routine</div>
+              <div class="task-meta">
+                <span class="tag light">Wellness</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="swipe-hint">← swipe left to delete</div>
+        </div>
+      </div>
+
+      <div class="bottom-bar light">
+        <div class="bottom-icon light active">⊞<div class="b-dot"></div></div>
+        <div class="bottom-icon light">☆</div>
+        <div class="bottom-icon light">◎</div>
+        <div class="fab light" onclick="openModal('light-phone')">+</div>
+      </div>
+
+      <div class="modal-overlay" id="light-modal">
+        <div class="modal-bg" onclick="closeModal('light-modal')"></div>
+        <div class="modal light">
+          <div class="modal-handle"></div>
+          <div class="modal-title-text light">New Task</div>
+          <input class="modal-input light" placeholder="Task title..." />
+          <input class="modal-input light" placeholder="Add a note..." />
+          <div class="modal-row">
+            <button class="modal-cancel light" onclick="closeModal('light-modal')">Cancel</button>
+            <button class="modal-add-btn light" onclick="addTask('light-phone');closeModal('light-modal')">Add Task</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleTask(card) {
+  const cb = card.querySelector('.checkbox');
+  const title = card.querySelector('.task-title');
+  const mode = card.classList.contains('dark') ? 'dark' : 'light';
+  const isChecked = cb.classList.contains('checked');
+  if (isChecked) {
+    cb.classList.remove('checked');
+    title.classList.remove('struck');
+    card.style.opacity = '';
+    card.style.transition = 'opacity 0.3s ease';
+  } else {
+    cb.classList.add('checked');
+    title.classList.add('struck');
+    card.style.transition = 'opacity 0.5s ease';
+    setTimeout(() => { card.style.opacity = mode === 'dark' ? '0.42' : '0.38'; }, 80);
+  }
+}
+
+function openModal(phoneId) {
+  const suffix = phoneId.startsWith('dark') ? 'dark' : 'light';
+  const overlay = document.getElementById(suffix + '-modal');
+  overlay.classList.add('open');
+  setTimeout(() => overlay.querySelector('input').focus(), 100);
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).classList.remove('open');
+}
+
+function addTask(phoneId) {
+  const suffix = phoneId.startsWith('dark') ? 'dark' : 'light';
+  const modal = document.getElementById(suffix + '-modal');
+  const inputs = modal.querySelectorAll('input');
+  const titleVal = inputs[0].value.trim();
+  const noteVal = inputs[1].value.trim();
+  if (!titleVal) return;
+
+  const phone = document.getElementById(phoneId);
+  const tasksArea = phone.querySelector('.tasks-area');
+  const hint = tasksArea.querySelector('.swipe-hint');
+
+  const card = document.createElement('div');
+  card.className = 'task-card ' + suffix;
+  card.onclick = function() { toggleTask(this); };
+  card.style.opacity = '0';
+  card.style.transition = 'opacity 0.35s ease';
+  card.innerHTML = `
+    <div class="checkbox ${suffix}"></div>
+    <div class="task-body">
+      <div class="task-top-row">
+        <div class="task-title ${suffix}">${titleVal}</div>
+        <div class="priority-dot low"></div>
+      </div>
+      ${noteVal ? `<div class="task-note ${suffix}">${noteVal}</div>` : ''}
+      <div class="task-meta"><span class="tag ${suffix}">New</span></div>
+    </div>`;
+  tasksArea.insertBefore(card, hint);
+  setTimeout(() => { card.style.opacity = '1'; }, 30);
+  inputs[0].value = '';
+  inputs[1].value = '';
+}
+</script>

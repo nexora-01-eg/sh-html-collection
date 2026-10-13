@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MUZAD — المزاد الخاص</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Tajawal:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c8a050;
+  --gold-light: #e8c878;
+  --gold-pale: #f5ead0;
+  --gold-dim: rgba(200,160,80,0.12);
+  --gold-border: rgba(200,160,80,0.28);
+  --black: #080808;
+  --black2: #0f0f0f;
+  --black3: #161616;
+  --black4: #1e1e1e;
+  --white: #f0ead8;
+  --white-dim: rgba(240,234,216,0.55);
+  --white-faint: rgba(240,234,216,0.2);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ─── CUSTOM CURSOR ─── */
+.cursor {
+  width: 8px; height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  position: fixed; top:0; left:0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform .15s ease, opacity .15s;
+  transform: translate(-50%,-50%);
+}
+.cursor-ring {
+  width: 32px; height: 32px;
+  border: 0.5px solid var(--gold-border);
+  border-radius: 50%;
+  position: fixed; top:0; left:0;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: transform .35s ease, width .2s, height .2s, border-color .2s;
+}
+body:has(a:hover) .cursor-ring,
+body:has(button:hover) .cursor-ring {
+  width: 48px; height: 48px;
+  border-color: var(--gold);
+}
+
+/* ─── GRAIN OVERLAY ─── */
+.grain {
+  position: fixed; inset:0; z-index: 9990;
+  pointer-events: none; opacity: .025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.5rem 3rem;
+  border-bottom: 0.5px solid transparent;
+  transition: border-color .4s, background .4s, padding .3s;
+}
+nav.scrolled {
+  border-color: var(--gold-border);
+  background: rgba(8,8,8,0.92);
+  backdrop-filter: blur(12px);
+  padding: 1rem 3rem;
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  letter-spacing: 8px;
+  color: var(--gold);
+  text-decoration: none;
+}
+.nav-links {
+  display: flex; gap: 2.5rem; list-style: none;
+}
+.nav-links a {
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--white-dim);
+  text-decoration: none;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold);
+  border: 0.5px solid var(--gold-border);
+  padding: .5rem 1.25rem;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: background .2s;
+}
+.nav-cta:hover { background: var(--gold-dim); }
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 6rem 2rem 4rem;
+}
+.hero-bg {
+  position: absolute; inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(200,160,80,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 80% 80%, rgba(200,160,80,0.04) 0%, transparent 60%);
+}
+.hero-lines {
+  position: absolute; inset:0; pointer-events:none; opacity:.06;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 79px, var(--gold) 80px);
+}
+.hero-eyebrow {
+  font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
+  color: var(--gold); opacity: .7;
+  margin-bottom: 2rem;
+  animation: fadeUp .8s ease both;
+}
+.hero-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(72px, 14vw, 160px);
+  font-weight: 700;
+  letter-spacing: 20px;
+  color: var(--gold);
+  line-height: 1;
+  animation: fadeUp .8s ease .1s both;
+}
+.hero-divider {
+  width: 60px; height: 0.5px; background: var(--gold);
+  margin: 2rem auto; opacity:.5;
+  animation: scaleX .6s ease .3s both;
+  transform-origin: center;
+}
+@keyframes scaleX { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.hero-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 3vw, 26px);
+  font-weight: 300;
+  color: var(--white-dim);
+  margin-bottom: 1rem;
+  animation: fadeUp .8s ease .4s both;
+}
+.hero-sub {
+  font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(200,160,80,.4);
+  margin-bottom: 3rem;
+  animation: fadeUp .8s ease .5s both;
+}
+.hero-btns {
+  display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  animation: fadeUp .8s ease .6s both;
+}
+.btn-primary {
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--black);
+  background: var(--gold);
+  border: none;
+  padding: .9rem 2.5rem;
+  border-radius: 2px;
+  cursor: none;
+  transition: background .2s, transform .15s;
+}
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+.btn-outline {
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold);
+  background: transparent;
+  border: 0.5px solid var(--gold-border);
+  padding: .9rem 2.5rem;
+  border-radius: 2px;
+  cursor: none;
+  transition: background .2s, transform .15s;
+}
+.btn-outline:hover { background: var(--gold-dim); transform: translateY(-1px); }
+.hero-scroll {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: .5rem;
+  animation: fadeUp .8s ease .9s both;
+}
+.hero-scroll span { font-size: 9px; letter-spacing: 3px; color: rgba(200,160,80,.4); text-transform: uppercase; }
+.scroll-line { width: 0.5px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s ease infinite; }
+@keyframes scrollPulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+/* ─── COUNTDOWN ─── */
+.countdown-section {
+  background: var(--black2);
+  border-top: 0.5px solid var(--gold-border);
+  border-bottom: 0.5px solid var(--gold-border);
+  padding: 3rem;
+  text-align: center;
+}
+.countdown-label {
+  font-size: 10px; letter-spacing: 4px; color: var(--gold); text-transform: uppercase;
+  margin-bottom: 1.5rem; opacity:.7;
+}
+.countdown-grid {
+  display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+}
+.countdown-unit { text-align: center; }
+.countdown-num {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 6vw, 56px);
+  color: var(--gold);
+  display: block; line-height: 1;
+}
+.countdown-name {
+  font-size: 10px; letter-spacing: 3px; color: var(--white-dim);
+  text-transform: uppercase; margin-top: .5rem;
+}
+.countdown-sep {
+  font-family: 'Playfair Display', serif;
+  font-size: 40px; color: var(--gold-border);
+  align-self: center; margin-top: -8px;
+}
+
+/* ─── SECTIONS COMMON ─── */
+section { padding: 7rem 3rem; }
+.section-eyebrow {
+  font-size: 10px; letter-spacing: 4px; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 1rem; opacity:.7;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 400; color: var(--white);
+  margin-bottom: 1.5rem;
+}
+.gold-accent { color: var(--gold); font-style: italic; }
+.section-divider { width: 40px; height: 0.5px; background: var(--gold); margin-bottom: 2rem; opacity:.5; }
+
+/* ─── UPCOMING AUCTIONS ─── */
+#auctions { background: var(--black); }
+.auctions-header { max-width: 600px; margin: 0 auto 4rem; text-align: center; }
+.lots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5px;
+  max-width: 1200px; margin: 0 auto;
+  border: 0.5px solid var(--gold-border);
+}
+.lot-card {
+  background: var(--black2);
+  padding: 2rem;
+  border: 0.5px solid transparent;
+  transition: border-color .3s, background .3s;
+  cursor: none;
+  position: relative;
+  overflow: hidden;
+}
+.lot-card::before {
+  content: '';
+  position: absolute; inset:0;
+  background: radial-gradient(ellipse at 0% 0%, rgba(200,160,80,.06) 0%, transparent 70%);
+  opacity: 0; transition: opacity .3s;
+}
+.lot-card:hover { border-color: var(--gold-border); background: var(--black3); }
+.lot-card:hover::before { opacity: 1; }
+.lot-num {
+  font-size: 10px; letter-spacing: 3px; color: rgba(200,160,80,.4);
+  text-transform: uppercase; margin-bottom: 1.25rem;
+}
+.lot-category {
+  font-size: 9px; letter-spacing: 2px; color: var(--gold);
+  text-transform: uppercase; border: 0.5px solid var(--gold-border);
+  display: inline-block; padding: 2px 8px; border-radius: 2px;
+  margin-bottom: 1rem;
+}
+.lot-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px; color: var(--white);
+  margin-bottom: .5rem; line-height: 1.3;
+}
+.lot-detail { font-size: 12px; color: var(--white-dim); margin-bottom: 1.5rem; line-height: 1.7; }
+.lot-bottom {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  border-top: 0.5px solid rgba(200,160,80,.1); padding-top: 1rem;
+}
+.lot-price-label { font-size: 9px; letter-spacing: 2px; color: rgba(200,160,80,.4); text-transform: uppercase; }
+.lot-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; color: var(--gold);
+}
+.lot-status { font-size: 10px; letter-spacing: 1px; color: var(--white-dim); }
+.lot-members-only {
+  background: rgba(200,160,80,.08);
+  border: 0.5px solid var(--gold-border);
+  border-radius: 2px;
+  padding: 1rem;
+  text-align: center;
+  font-size: 11px; letter-spacing: 2px; color: rgba(200,160,80,.5);
+  text-transform: uppercase;
+}
+
+/* ─── TIERS ─── */
+#membership { background: var(--black2); }
+.tiers-container { max-width: 1000px; margin: 0 auto; }
+.tiers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 0.5px solid var(--gold-border);
+}
+.tier-item {
+  padding: 3rem 2rem;
+  border-right: 0.5px solid var(--gold-border);
+  position: relative;
+  transition: background .3s;
+}
+.tier-item:last-child { border-right: none; }
+.tier-item.featured {
+  background: var(--black3);
+  border-top: 2px solid var(--gold);
+}
+.tier-sym {
+  font-size: 24px; color: var(--gold); display: block;
+  margin-bottom: 1.5rem; opacity: .6;
+}
+.tier-item.featured .tier-sym { opacity: 1; }
+.tier-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; color: var(--gold);
+  margin-bottom: .5rem;
+}
+.tier-price {
+  font-size: 13px; color: var(--white-dim);
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+}
+.tier-price strong { font-size: 28px; color: var(--white); font-family: 'Playfair Display', serif; }
+.tier-features { list-style: none; }
+.tier-features li {
+  font-size: 13px; color: var(--white-dim);
+  padding: .5rem 0;
+  border-bottom: 0.5px solid rgba(255,255,255,.05);
+  display: flex; align-items: center; gap: .75rem;
+  line-height: 1.5;
+}
+.tier-features li::before {
+  content: '—'; color: var(--gold); font-size: 10px; flex-shrink: 0;
+}
+.tier-features li.muted { opacity: .35; }
+.tier-cta {
+  display: block; margin-top: 2rem;
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold);
+  border: 0.5px solid var(--gold-border);
+  padding: .75rem 1.5rem;
+  border-radius: 2px; text-align: center;
+  text-decoration: none;
+  transition: background .2s;
+  cursor: none;
+}
+.tier-cta:hover { background: var(--gold-dim); }
+.tier-item.featured .tier-cta {
+  background: var(--gold); color: var(--black);
+  border-color: var(--gold);
+}
+.tier-item.featured .tier-cta:hover { background: var(--gold-light); }
+.tier-tag {
+  position: absolute; top: -1px; right: 50%; transform: translateX(50%);
+  background: var(--gold); color: var(--black);
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 3px 12px; border-radius: 0 0 4px 4px;
+  white-space: nowrap;
+}
+
+/* ─── HOW IT WORKS ─── */
+#how { background: var(--black); }
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0;
+  max-width: 1000px; margin: 0 auto;
+  border: 0.5px solid var(--gold-border);
+}
+.how-step {
+  padding: 2.5rem 2rem;
+  border-right: 0.5px solid var(--gold-border);
+  position: relative;
+}
+.how-step:last-child { border-right: none; }
+.how-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px; color: var(--gold); opacity: .15;
+  line-height: 1; margin-bottom: 1rem;
+}
+.how-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px; color: var(--white);
+  margin-bottom: .75rem;
+}
+.how-body { font-size: 13px; color: var(--white-dim); line-height: 1.8; }
+
+/* ─── MANIFESTO ─── */
+#manifesto {
+  background: var(--black2);
+  border-top: 0.5px solid var(--gold-border);
+  border-bottom: 0.5px solid var(--gold-border);
+  padding: 8rem 3rem;
+  text-align: center;
+}
+.manifesto-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(22px, 4vw, 38px);
+  font-weight: 300; font-style: italic;
+  color: var(--white); max-width: 800px;
+  margin: 0 auto 2rem; line-height: 1.6;
+}
+.manifesto-attr {
+  font-size: 10px; letter-spacing: 4px; color: rgba(200,160,80,.5);
+  text-transform: uppercase;
+}
+
+/* ─── WAITLIST ─── */
+#waitlist { background: var(--black); }
+.waitlist-inner {
+  max-width: 600px; margin: 0 auto; text-align: center;
+}
+.waitlist-form {
+  display: flex; gap: 0; margin-top: 2.5rem;
+  border: 0.5px solid var(--gold-border);
+}
+.waitlist-input {
+  flex: 1; background: transparent;
+  border: none; outline: none;
+  padding: 1rem 1.5rem;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 14px; color: var(--white);
+  border-right: 0.5px solid var(--gold-border);
+}
+.waitlist-input::placeholder { color: rgba(240,234,216,.25); }
+.waitlist-btn {
+  background: var(--gold); color: var(--black);
+  border: none; cursor: none;
+  padding: 1rem 2rem;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  font-weight: 500;
+  transition: background .2s;
+  white-space: nowrap;
+}
+.waitlist-btn:hover { background: var(--gold-light); }
+.waitlist-note {
+  margin-top: 1rem; font-size: 11px; color: rgba(200,160,80,.35);
+  letter-spacing: 1px;
+}
+.waitlist-success {
+  display: none;
+  margin-top: 2.5rem;
+  padding: 1.5rem;
+  border: 0.5px solid var(--gold-border);
+  text-align: center;
+}
+.waitlist-success .ws-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px; color: var(--gold); margin-bottom: .5rem;
+}
+.waitlist-success .ws-body { font-size: 13px; color: var(--white-dim); }
+
+/* ─── CONTACT / FOOTER ─── */
+footer {
+  background: var(--black2);
+  border-top: 0.5px solid var(--gold-border);
+  padding: 4rem 3rem 2rem;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem; max-width: 1200px; margin: 0 auto;
+  padding-bottom: 3rem;
+  border-bottom: 0.5px solid var(--gold-border);
+  margin-bottom: 2rem;
+}
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; letter-spacing: 8px; color: var(--gold);
+  display: block; margin-bottom: 1rem;
+}
+.footer-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px; color: var(--white-dim);
+  font-style: italic; margin-bottom: 1.5rem;
+}
+.footer-col-title {
+  font-size: 10px; letter-spacing: 3px; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 1.25rem; opacity:.7;
+}
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: .6rem; }
+.footer-links a {
+  font-size: 13px; color: var(--white-dim); text-decoration: none;
+  transition: color .2s;
+}
+.footer-links a:hover { color: var(--gold); }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: 1200px; margin: 0 auto;
+  font-size: 11px; color: rgba(200,160,80,.3);
+  flex-wrap: wrap; gap: 1rem;
+}
+
+/* ─── SCROLL REVEAL ─── */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+.reveal-delay-4 { transition-delay: .4s; }
+
+/* ─── MOBILE ─── */
+@media (max-width: 768px) {
+  nav { padding: 1.25rem 1.5rem; }
+  nav.scrolled { padding: .75rem 1.5rem; }
+  .nav-links { display: none; }
+  section { padding: 5rem 1.5rem; }
+  .tiers-grid { grid-template-columns: 1fr; }
+  .tier-item { border-right: none; border-bottom: 0.5px solid var(--gold-border); }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .waitlist-form { flex-direction: column; }
+  .waitlist-input { border-right: none; border-bottom: 0.5px solid var(--gold-border); }
+  .countdown-grid { gap: 1.5rem; }
+  .countdown-sep { display: none; }
+  .how-grid { grid-template-columns: 1fr; }
+  .how-step { border-right: none; border-bottom: 0.5px solid var(--gold-border); }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+<div class="grain"></div>
+
+<!-- ─── NAV ─── -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">MUZAD</a>
+  <ul class="nav-links">
+    <li><a href="#auctions">المزادات</a></li>
+    <li><a href="#membership">العضوية</a></li>
+    <li><a href="#how">كيف يعمل</a></li>
+    <li><a href="#waitlist">انضم</a></li>
+  </ul>
+  <a href="#waitlist" class="nav-cta">احجز مكانك</a>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-eyebrow">القاهرة · مصر · تأسس 2025</div>
+  <div class="hero-logo">MUZAD</div>
+  <div class="hero-divider"></div>
+  <div class="hero-tagline">المزاد الذي لا يعرفه الكل — بعد</div>
+  <div class="hero-sub">Where the unseen is won</div>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">احجز مكانك</button>
+    <button class="btn-outline" onclick="document.getElementById('auctions').scrollIntoView({behavior:'smooth'})">المزادات القادمة</button>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>اكتشف</span>
+  </div>
+</section>
+
+<!-- ─── COUNTDOWN ─── -->
+<div class="countdown-section reveal">
+  <div class="countdown-label">المزاد القادم — 20 مايو 2025 · القاهرة</div>
+  <div class="countdown-grid">
+    <div class="countdown-unit">
+      <span class="countdown-num" id="cd-days">00</span>
+      <div class="countdown-name">يوم</div>
+    </div>
+    <div class="countdown-sep">·</div>
+    <div class="countdown-unit">
+      <span class="countdown-num" id="cd-hours">00</span>
+      <div class="countdown-name">ساعة</div>
+    </div>
+    <div class="countdown-sep">·</div>
+    <div class="countdown-unit">
+      <span class="countdown-num" id="cd-mins">00</span>
+      <div class="countdown-name">دقيقة</div>
+    </div>
+    <div class="countdown-sep">·</div>
+    <div class="countdown-unit">
+      <span class="countdown-num" id="cd-secs">00</span>
+      <div class="countdown-name">ثانية</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── AUCTIONS ─── -->
+<section id="auctions">
+  <div class="auctions-header reveal">
+    <div class="section-eyebrow">المزاد القادم</div>
+    <h2 class="section-title">قطع <span class="gold-accent">نادرة</span> لا تُعرض في أي مكان آخر</h2>
+    <div class="section-divider" style="margin:0 auto 1rem"></div>
+    <p style="font-size:14px;color:var(--white-dim);line-height:1.8">كل قطعة تمر بمراجعة صارمة من أسر شخصياً. مفيش عشوائية — كل Lot قصة.</p>
+  </div>
+  <div class="lots-grid">
+    <div class="lot-card reveal reveal-delay-1">
+      <div class="lot-num">LOT 01</div>
+      <div class="lot-category">ساعات</div>
+      <div class="lot-name">Rolex Daytona<br>Ref. 116500LN</div>
+      <div class="lot-detail">2022 · White Dial · Full Set<br>Unworn — حالة مثالية</div>
+      <div class="lot-bottom">
+        <div>
+          <div class="lot-price-label">السعر الأولي</div>
+          <div class="lot-price">$12,500</div>
+        </div>
+        <div class="lot-status">متاح للجميع</div>
+      </div>
+    </div>
+    <div class="lot-card reveal reveal-delay-2">
+      <div class="lot-num">LOT 02</div>
+      <div class="lot-category">سيارات</div>
+      <div class="lot-name">Mercedes-AMG<br>GT 63 S 4-Door</div>
+      <div class="lot-detail">2021 · Obsidian Black · 12,000 km<br>Night Package + Burmester</div>
+      <div class="lot-bottom">
+        <div>
+          <div class="lot-price-label">السعر الأولي</div>
+          <div class="lot-price">$45,000</div>
+        </div>
+        <div class="lot-status">متاح للجميع</div>
+      </div>
+    </div>
+    <div class="lot-card reveal reveal-delay-3">
+      <div class="lot-num">LOT 03</div>
+      <div class="lot-category">فن</div>
+      <div class="lot-name">لوحة تجريدية<br>فنان مصري معاصر</div>
+      <div class="lot-detail">زيت على قماش · 120×90 cm<br>موقعة ومرقمة</div>
+      <div class="lot-bottom">
+        <div>
+          <div class="lot-price-label">السعر الأولي</div>
+          <div class="lot-price">$3,800</div>
+        </div>
+        <div class="lot-status">متاح للجميع</div>
+      </div>
+    </div>
+    <div class="lot-card reveal reveal-delay-1">
+      <div class="lot-num">LOT 04</div>
+      <div class="lot-category">عضوية فقط</div>
+      <div class="lot-members-only">هذا الـ Lot للأعضاء فقط<br><span style="opacity:.5;font-size:10px">انضم لرؤية التفاصيل</span></div>
+      <div class="lot-bottom" style="margin-top:1rem">
+        <div>
+          <div class="lot-price-label">السعر الأولي</div>
+          <div class="lot-price" style="filter:blur(6px);user-select:none">$00,000</div>
+        </div>
+        <div class="lot-status" style="color:var(--gold)">Members Only ◆</div>
+      </div>
+    </div>
+    <div class="lot-card reveal reveal-delay-2">
+      <div class="lot-num">LOT 05</div>
+      <div class="lot-category">عضوية فقط</div>
+      <div class="lot-members-only">هذا الـ Lot للأعضاء فقط<br><span style="opacity:.5;font-size:10px">انضم لرؤية التفاصيل</span></div>
+      <div class="lot-bottom" style="margin-top:1rem">
+        <div>
+          <div class="lot-price-label">السعر الأولي</div>
+          <div class="lot-price" style="filter:blur(6px);user-select:none">$00,000</div>
+        </div>
+        <div class="lot-status" style="color:var(--gold)">Members Only ◆</div>
+      </div>
+    </div>
+    <div class="lot-card reveal reveal-delay-3" style="background:var(--black3);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:260px">
+      <div style="font-size:10px;letter-spacing:3px;color:rgba(200,160,80,.3);text-transform:uppercase;margin-bottom:1rem">LOT 06 — Shadow</div>
+      <div style="font-family:'Playfair Display',serif;font-size:18px;color:rgba(200,160,80,.2)">✦</div>
+      <div style="font-size:12px;color:rgba(200,160,80,.25);margin-top:1rem;letter-spacing:2px">بالدعوة الشخصية فقط</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MANIFESTO ─── -->
+<section id="manifesto">
+  <div class="manifesto-quote reveal">
+    "المزاد ليس سوقاً — هو مسرح.<br>
+    القيمة لا تُحدد بالسعر، بل بمن <span style="color:var(--gold)">لا يُسمح له بالدخول</span>."
+  </div>
+  <div class="manifesto-attr reveal reveal-delay-1">— أسر · مؤسس MUZAD</div>
+</section>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section id="how">
+  <div style="max-width:800px;margin:0 auto 4rem;text-align:center" class="reveal">
+    <div class="section-eyebrow">آلية العمل</div>
+    <h2 class="section-title">كيف <span class="gold-accent">يعمل</span> MUZAD</h2>
+    <div class="section-divider" style="margin:0 auto"></div>
+  </div>
+  <div class="how-grid">
+    <div class="how-step reveal reveal-delay-1">
+      <div class="how-num">01</div>
+      <div class="how-title">انضم للقائمة</div>
+      <div class="how-body">ابعت اسمك — مش تسجيل عادي. كل طلب بيتراجع شخصياً من أسر قبل ما يُقبل.</div>
+    </div>
+    <div class="how-step reveal reveal-delay-2">
+      <div class="how-num">02</div>
+      <div class="how-title">وصول مبكر</div>
+      <div class="how-body">الأعضاء بيشوفوا الـ Lots قبل 48 ساعة من الكل. القطع النادرة بتروح قبل ما اللايف يبدأ.</div>
+    </div>
+    <div class="how-step reveal reveal-delay-3">
+      <div class="how-num">03</div>
+      <div class="how-title">المزايدة</div>
+      <div class="how-body">لايف على إنستجرام أو أونلاين من أي مكان في العالم. كل مزايدة موثقة بعقد رسمي.</div>
+    </div>
+    <div class="how-step reveal reveal-delay-4">
+      <div class="how-num">04</div>
+      <div class="how-title">التسليم</div>
+      <div class="how-body">كل صفقة بعقد ورقي معتمد وتوثيق كامل. التسليم شخصي أو شحن مؤمن لأي مكان.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MEMBERSHIP ─── -->
+<section id="membership">
+  <div style="max-width:700px;margin:0 auto 4rem;text-align:center" class="reveal">
+    <div class="section-eyebrow">العضوية</div>
+    <h2 class="section-title">اختر <span class="gold-accent">مستواك</span></h2>
+    <div class="section-divider" style="margin:0 auto 1rem"></div>
+    <p style="font-size:14px;color:var(--white-dim);line-height:1.8">الوصول ليس بالفلوس فقط — هو بالانتماء. كل مستوى له عالمه الخاص.</p>
+  </div>
+  <div class="tiers-container">
+    <div class="tiers-grid reveal">
+      <!-- Observer -->
+      <div class="tier-item">
+        <span class="tier-sym">○</span>
+        <div class="tier-name">Observer</div>
+        <div class="tier-price">مجاني تماماً</div>
+        <ul class="tier-features">
+          <li>مشاهدة المزاد لايف</li>
+          <li>متابعة الأسعار الحية</li>
+          <li>محتوى إنستجرام وتيك توك</li>
+          <li class="muted">لا مزايدة</li>
+          <li class="muted">لا وصول مبكر</li>
+          <li class="muted">لا Shadow access</li>
+        </ul>
+        <a href="#waitlist" class="tier-cta">ابدأ تتفرج</a>
+      </div>
+      <!-- Member -->
+      <div class="tier-item featured">
+        <div class="tier-tag">الأكثر قيمة</div>
+        <span class="tier-sym">◆</span>
+        <div class="tier-name">Member</div>
+        <div class="tier-price"><strong>$49</strong> / شهر</div>
+        <ul class="tier-features">
+          <li>وصول مبكر 48 ساعة</li>
+          <li>مزايدة أونلاين من أي مكان</li>
+          <li>بطاقة عضوية فيزيائية</li>
+          <li>واتساب VIP مع أسر مباشرة</li>
+          <li>أولوية في حجز القطع</li>
+          <li class="muted">لا Shadow access</li>
+        </ul>
+        <a href="#waitlist" class="tier-cta">انضم الآن</a>
+      </div>
+      <!-- Shadow -->
+      <div class="tier-item">
+        <span class="tier-sym" style="opacity:.3">✦</span>
+        <div class="tier-name">Shadow</div>
+        <div class="tier-price">بالدعوة الشخصية فقط</div>
+        <ul class="tier-features">
+          <li>مزادات سرية لا تُعلن</li>
+          <li>قطع لا تظهر للعامة أبداً</li>
+          <li>كود سري شخصي</li>
+          <li>تواصل مباشر مع أسر</li>
+          <li>أسبقية مطلقة على أي قطعة</li>
+          <li>عضوية لا تُشترى — تُمنح</li>
+        </ul>
+        <div class="tier-cta" style="opacity:.4;cursor:not-allowed">على دعوة فقط</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WAITLIST ─── -->
+<section id="waitlist">
+  <div class="waitlist-inner">
+    <div class="section-eyebrow reveal">انضم للقائمة</div>
+    <h2 class="section-title reveal">احجز <span class="gold-accent">مكانك</span> قبل الإغلاق</h2>
+    <div class="section-divider reveal" style="margin:0 auto 1.5rem"></div>
+    <p class="reveal" style="font-size:14px;color:var(--white-dim);line-height:1.8;margin-bottom:0">
+      مش تسجيل عادي. كل طلب بيتراجع شخصياً.<br>
+      الأماكن محدودة — القائمة بتُغلق بدون إشعار.
+    </p>
+    <div class="waitlist-form reveal">
+      <input class="waitlist-input" type="email" id="wl-email" placeholder="بريدك الإلكتروني" dir="ltr">
+      <button class="waitlist-btn" onclick="submitWaitlist()">ابعت طلبك</button>
+    </div>
+    <div class="waitlist-success" id="wl-success">
+      <div class="ws-title">طلبك اتسجل ✦</div>
+      <div class="ws-body">هنراجعه ونرد عليك شخصياً خلال 48 ساعة.<br>استعد.</div>
+    </div>
+    <div class="waitlist-note reveal">لا spam — بس رسائل المزادات</div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <span class="footer-logo">MUZAD</span>
+      <div class="footer-tagline">"Where the unseen is won"</div>
+      <div style="font-size:12px;color:rgba(200,160,80,.3);line-height:1.8">
+        القاهرة، مصر<br>
+        muzad.eg@gmail.com
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">المزادات</div>
+      <ul class="footer-links">
+        <li><a href="#auctions">القادمة</a></li>
+        <li><a href="#">الأرشيف</a></li>
+        <li><a href="#">السجل</a></li>
+        <li><a href="#">النتائج</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">العضوية</div>
+      <ul class="footer-links">
+        <li><a href="#membership">Observer</a></li>
+        <li><a href="#membership">Member ◆</a></li>
+        <li><a href="#membership">Shadow ✦</a></li>
+        <li><a href="#waitlist">انضم</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">تواصل</div>
+      <ul class="footer-links">
+        <li><a href="#">إنستجرام</a></li>
+        <li><a href="#">تيك توك</a></li>
+        <li><a href="#">واتساب</a></li>
+        <li><a href="#">يوتيوب</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2025 MUZAD — جميع الحقوق محفوظة</div>
+    <div style="font-family:'Playfair Display',serif;letter-spacing:4px;font-size:14px">MUZAD</div>
+    <div>القاهرة · مصر</div>
+  </div>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; });
+function animRing(){ rx+=(mx-rx)*.12; ry+=(my-ry)*.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); }
+animRing();
+
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Countdown
+function updateCountdown(){
+  const target = new Date('2025-05-20T19:00:00');
+  const now = new Date();
+  const diff = Math.max(0, target - now);
+  const d = Math.floor(diff/86400000);
+  const h = Math.floor((diff%86400000)/3600000);
+  const m = Math.floor((diff%3600000)/60000);
+  const s = Math.floor((diff%60000)/1000);
+  document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
+  document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
+  document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); }});
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Waitlist
+function submitWaitlist(){
+  const email = document.getElementById('wl-email').value.trim();
+  if(!email || !email.includes('@')) return;
+  document.querySelector('.waitlist-form').style.display = 'none';
+  document.getElementById('wl-success').style.display = 'block';
+  document.querySelector('.waitlist-note').style.display = 'none';
+}
+document.getElementById('wl-email').addEventListener('keydown', e => { if(e.key==='Enter') submitWaitlist(); });
+</script>
+</body>
+</html>

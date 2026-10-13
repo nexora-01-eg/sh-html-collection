@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #000000;
+    --deep: #0D0D0D;
+    --surface: #111111;
+    --surface2: #181818;
+    --surface3: #1e1e1e;
+    --gold: #E8BD70;
+    --gold2: #EDD185;
+    --gold3: #F5CB86;
+    --gold-dim: rgba(232,189,112,0.15);
+    --gold-glow: rgba(232,189,112,0.08);
+    --text: #F0EDE8;
+    --text-dim: rgba(240,237,232,0.5);
+    --text-muted: rgba(240,237,232,0.25);
+    --border: rgba(232,189,112,0.12);
+    --border-bright: rgba(232,189,112,0.3);
+  }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── SPLASH ── */
+  #splash {
+    position: fixed; inset: 0; z-index: 100;
+    background: #000;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 12px;
+    animation: splash-exit 0.6s 2.8s ease-in forwards;
+  }
+  @keyframes splash-exit { to { opacity: 0; pointer-events: none; } }
+
+  .splash-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 56px;
+    font-weight: 700;
+    letter-spacing: 12px;
+    color: transparent;
+    background: linear-gradient(135deg, var(--gold), var(--gold2), var(--gold3));
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: logo-emerge 1.6s 0.4s ease-out forwards;
+    opacity: 0;
+    text-shadow: none;
+    filter: drop-shadow(0 0 40px rgba(232,189,112,0.6));
+  }
+  @keyframes logo-emerge {
+    0% { opacity: 0; letter-spacing: 24px; transform: scale(0.9); }
+    60% { opacity: 1; }
+    100% { opacity: 1; letter-spacing: 12px; transform: scale(1); }
+  }
+  .splash-tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: var(--gold-dim);
+    color: rgba(232,189,112,0.5);
+    animation: fade-up 1s 1.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  @keyframes fade-up { to { opacity: 1; transform: translateY(0); } }
+  .splash-pulse {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    animation: pulse-line 1.4s 2s ease-in-out infinite;
+    opacity: 0;
+    margin-top: 20px;
+  }
+  @keyframes pulse-line {
+    0% { opacity: 0; transform: scaleY(0.3); }
+    50% { opacity: 1; transform: scaleY(1); }
+    100% { opacity: 0; transform: scaleY(0.3); }
+  }
+
+  /* ── MAIN APP ── */
+  #app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    animation: app-enter 0.8s 3.4s ease-out forwards;
+  }
+  @keyframes app-enter { to { opacity: 1; } }
+
+  /* ── TOP NAV ── */
+  .top-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px 12px;
+    border-bottom: 0.5px solid var(--border);
+    background: rgba(13,13,13,0.95);
+    backdrop-filter: blur(20px);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .nav-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: var(--gold);
+  }
+  .nav-date {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+  .nav-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--border-bright);
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: var(--gold); font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── TABS ── */
+  .tab-bar {
+    display: flex; gap: 0;
+    padding: 0 20px;
+    border-bottom: 0.5px solid var(--border);
+    background: var(--deep);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 12px 16px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 1.5px solid transparent;
+    transition: all 0.25s;
+    white-space: nowrap;
+    background: none; border: none; border-bottom: 1.5px solid transparent;
+    font-family: 'Inter', sans-serif;
+  }
+  .tab:hover { color: var(--text-dim); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ── SCREENS ── */
+  .screen { display: none; padding: 20px; animation: screen-in 0.3s ease-out; }
+  .screen.active { display: block; }
+  @keyframes screen-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── DASHBOARD ── */
+  .greeting {
+    margin-bottom: 20px;
+  }
+  .greeting-sub {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 4px;
+  }
+  .greeting-main {
+    font-family: 'Cinzel', serif;
+    font-size: 22px; font-weight: 600;
+    color: var(--text);
+    letter-spacing: 1px;
+  }
+  .greeting-main span { color: var(--gold); }
+
+  /* Aura Score Card */
+  .aura-score-card {
+    background: linear-gradient(135deg, #111 0%, #1a1500 100%);
+    border: 0.5px solid var(--border-bright);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .aura-score-card::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,189,112,0.12) 0%, transparent 70%);
+  }
+  .score-label {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); opacity: 0.7; margin-bottom: 8px;
+  }
+  .score-row {
+    display: flex; align-items: flex-end; gap: 12px; margin-bottom: 16px;
+  }
+  .score-number {
+    font-family: 'Cinzel', serif;
+    font-size: 52px; font-weight: 700;
+    line-height: 1;
+    color: var(--gold2);
+  }
+  .score-max { font-size: 18px; color: var(--text-muted); align-self: flex-end; padding-bottom: 6px; }
+  .score-rank {
+    margin-left: auto;
+    background: var(--gold-dim);
+    border: 0.5px solid var(--border-bright);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+    text-transform: uppercase;
+    align-self: flex-end;
+  }
+  .score-bar-track {
+    height: 3px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .score-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold3));
+    border-radius: 2px;
+    width: 0%;
+    transition: width 1.5s 3.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .score-meta {
+    display: flex; justify-content: space-between;
+    font-size: 10px; color: var(--text-muted); letter-spacing: 0.5px;
+  }
+
+  /* Stats grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.3;
+  }
+  .stat-icon {
+    font-size: 16px; margin-bottom: 8px;
+    filter: sepia(1) saturate(3) hue-rotate(15deg);
+  }
+  .stat-val {
+    font-family: 'Cinzel', serif;
+    font-size: 22px; font-weight: 600;
+    color: var(--text); margin-bottom: 2px;
+  }
+  .stat-lbl {
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .stat-sub { font-size: 10px; color: var(--gold); opacity: 0.7; margin-top: 2px; }
+
+  /* Weekly graph */
+  .section-title {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 12px;
+  }
+  .week-graph {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .week-bars {
+    display: flex; align-items: flex-end;
+    gap: 6px; height: 60px; margin-bottom: 8px;
+  }
+  .week-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .week-bar {
+    width: 100%;
+    border-radius: 3px 3px 0 0;
+    transition: height 1s 4s cubic-bezier(0.16,1,0.3,1);
+    min-height: 4px;
+    background: linear-gradient(to top, rgba(232,189,112,0.2), rgba(232,189,112,0.05));
+  }
+  .week-bar.today {
+    background: linear-gradient(to top, var(--gold), rgba(237,209,133,0.3));
+    box-shadow: 0 0 10px rgba(232,189,112,0.3);
+  }
+  .week-day { font-size: 9px; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; }
+
+  /* Quote */
+  .quote-card {
+    background: var(--surface);
+    border-left: 2px solid var(--gold);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+  .quote-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .quote-author { font-size: 10px; letter-spacing: 2px; color: var(--gold); opacity: 0.6; text-transform: uppercase; }
+
+  /* ── TASKS ── */
+  .task-header {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
+  }
+  .task-count {
+    font-size: 11px; color: var(--text-muted); letter-spacing: 1px;
+  }
+  .add-btn {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--gold-dim);
+    border: 0.5px solid var(--border-bright);
+    color: var(--gold);
+    font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .add-btn:hover { background: rgba(232,189,112,0.25); transform: scale(1.05); }
+
+  .task-group { margin-bottom: 20px; }
+  .task-group-label {
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 8px;
+    padding-left: 4px;
+  }
+  .task-item {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .task-item:hover { border-color: var(--border-bright); background: var(--surface2); }
+  .task-item.done { opacity: 0.45; }
+  .task-item.done .task-name { text-decoration: line-through; color: var(--text-muted); }
+  .task-check {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1.5px solid var(--border-bright);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.3s;
+    background: transparent;
+  }
+  .task-item.done .task-check {
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+  .task-check-icon { font-size: 10px; opacity: 0; transition: opacity 0.2s; }
+  .task-item.done .task-check-icon { opacity: 1; }
+  .task-info { flex: 1; min-width: 0; }
+  .task-name { font-size: 13px; color: var(--text); margin-bottom: 3px; }
+  .task-meta { font-size: 10px; color: var(--text-muted); }
+  .task-priority {
+    width: 6px; height: 6px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .priority-high { background: #c0513a; box-shadow: 0 0 6px rgba(192,81,58,0.5); }
+  .priority-med { background: var(--gold); box-shadow: 0 0 6px rgba(232,189,112,0.4); }
+  .priority-low { background: #3a6c4a; box-shadow: 0 0 6px rgba(58,108,74,0.4); }
+  .xp-pop {
+    position: absolute; right: 16px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px; font-weight: 600; color: var(--gold);
+    letter-spacing: 1px;
+    opacity: 0;
+    transition: all 0.4s;
+    pointer-events: none;
+  }
+  .task-item.just-done .xp-pop { opacity: 1; transform: translateY(-24px); }
+
+  /* ── HABITS ── */
+  .habit-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 10px;
+  }
+  .habit-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .habit-icon-wrap {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--gold-dim);
+    border: 0.5px solid var(--border-bright);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .habit-info { flex: 1; }
+  .habit-name { font-size: 13px; color: var(--text); margin-bottom: 2px; }
+  .habit-streak { font-size: 10px; color: var(--gold); opacity: 0.8; }
+  .habit-done-btn {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1.5px solid var(--border-bright);
+    background: transparent;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; color: var(--text-muted);
+  }
+  .habit-done-btn.checked {
+    background: var(--gold); border-color: var(--gold);
+    color: #000;
+  }
+  .heatmap {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
+  }
+  .heat-cell {
+    aspect-ratio: 1;
+    border-radius: 2px;
+    background: var(--surface3);
+    transition: all 0.2s;
+  }
+  .heat-cell.h1 { background: rgba(232,189,112,0.15); }
+  .heat-cell.h2 { background: rgba(232,189,112,0.35); }
+  .heat-cell.h3 { background: rgba(232,189,112,0.6); }
+  .heat-cell.h4 { background: var(--gold); }
+  .heat-cell.today-cell { outline: 1px solid var(--gold); outline-offset: 1px; }
+
+  /* ── FOCUS ── */
+  .focus-screen {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 24px 20px;
+    min-height: 500px;
+    position: relative;
+  }
+  .focus-task-label {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 12px;
+  }
+  .focus-task-name {
+    font-family: 'Cinzel', serif;
+    font-size: 16px; letter-spacing: 1px; text-align: center;
+    color: var(--text); margin-bottom: 40px;
+  }
+  .timer-ring-wrap {
+    position: relative; width: 200px; height: 200px; margin-bottom: 32px;
+  }
+  .timer-ring {
+    width: 200px; height: 200px;
+    transform: rotate(-90deg);
+  }
+  .timer-track { fill: none; stroke: rgba(255,255,255,0.04); stroke-width: 3; }
+  .timer-fill {
+    fill: none; stroke: url(#goldGrad); stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 565;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s linear;
+  }
+  .timer-center {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px;
+  }
+  .timer-time {
+    font-family: 'Cinzel', serif;
+    font-size: 36px; font-weight: 700;
+    color: var(--text); letter-spacing: 2px;
+  }
+  .timer-mode { font-size: 10px; letter-spacing: 3px; color: var(--gold); opacity: 0.7; text-transform: uppercase; }
+  .focus-controls { display: flex; gap: 12px; margin-bottom: 32px; }
+  .focus-btn {
+    width: 52px; height: 52px; border-radius: 50%;
+    border: 1px solid var(--border-bright);
+    background: var(--surface);
+    color: var(--gold); font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .focus-btn.primary {
+    width: 64px; height: 64px;
+    background: var(--gold-dim);
+    border-color: var(--gold);
+    font-size: 22px;
+  }
+  .focus-btn:hover { transform: scale(1.05); }
+  .ambient-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+  .ambient-grid { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .ambient-chip {
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 0.5px solid var(--border);
+    background: transparent;
+    font-size: 11px; letter-spacing: 1px; color: var(--text-muted);
+    cursor: pointer; transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .ambient-chip.on {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: var(--gold-dim);
+  }
+
+  /* ── STATS ── */
+  .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .big-stat {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .big-stat-val { font-family: 'Cinzel', serif; font-size: 28px; color: var(--gold2); margin-bottom: 4px; }
+  .big-stat-lbl { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); }
+  .big-stat-sub { font-size: 10px; color: var(--text-dim); margin-top: 4px; }
+
+  .radar-wrap {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 14px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .badge-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+  .badge {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 8px;
+    text-align: center;
+    transition: all 0.25s;
+  }
+  .badge.earned { border-color: var(--border-bright); background: linear-gradient(135deg, #111, #1a1500); }
+  .badge-icon { font-size: 22px; margin-bottom: 6px; }
+  .badge-name { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); line-height: 1.3; }
+  .badge.earned .badge-name { color: var(--gold); }
+
+  /* ── BOTTOM NAV ── */
+  .bottom-nav {
+    position: sticky; bottom: 0;
+    background: rgba(13,13,13,0.95);
+    backdrop-filter: blur(20px);
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    padding: 0 8px 8px;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+  .nav-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    gap: 3px; padding: 10px 4px 6px;
+    cursor: pointer; transition: all 0.2s;
+    background: none; border: none; font-family: 'Inter', sans-serif;
+  }
+  .nav-item-icon { font-size: 18px; transition: all 0.2s; }
+  .nav-item-lbl { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); }
+  .nav-item.active .nav-item-icon { filter: sepia(1) saturate(10) hue-rotate(10deg) brightness(1.2); }
+  .nav-item.active .nav-item-lbl { color: var(--gold); }
+
+  /* Progress ring */
+  .ring-svg { width: 56px; height: 56px; }
+  .ring-track { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 4; }
+  .ring-fill { fill: none; stroke: var(--gold); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 138; stroke-dashoffset: 138; transition: stroke-dashoffset 1.2s 4s cubic-bezier(0.16,1,0.3,1); }
+  .ring-inner { font-family:'Cinzel',serif; font-size:11px; fill: var(--gold); dominant-baseline:middle; text-anchor:middle; }
+
+  /* Streak */
+  .streak-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: linear-gradient(135deg, rgba(192,81,58,0.15), rgba(232,189,112,0.1));
+    border: 0.5px solid rgba(192,81,58,0.4);
+    border-radius: 20px; padding: 4px 10px;
+    font-size: 11px; color: #e87a5a;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<h2 class="sr-only" style="position:absolute;left:-9999px">AURA — Luxury Productivity OS. Interactive mobile app prototype with dashboard, tasks, habits, focus timer, and statistics screens.</h2>
+
+<!-- SPLASH -->
+<div id="splash" aria-hidden="true">
+  <div class="splash-logo">AURA</div>
+  <div class="splash-tag">Discipline Creates Freedom</div>
+  <div class="splash-pulse"></div>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+  <!-- TOP NAV -->
+  <nav class="top-nav">
+    <div class="nav-logo">AURA</div>
+    <div class="nav-date" id="nav-date"></div>
+    <div class="nav-avatar">AR</div>
+  </nav>
+
+  <!-- SCREENS -->
+  <div style="flex:1; overflow-y:auto; padding-bottom: 80px;">
+
+    <!-- DASHBOARD -->
+    <section id="screen-home" class="screen active">
+      <div class="greeting">
+        <div class="greeting-sub">Good morning</div>
+        <div class="greeting-main">Welcome back, <span>Alex.</span></div>
+      </div>
+
+      <!-- Aura Score -->
+      <div class="aura-score-card">
+        <div class="score-label">Daily Aura Score</div>
+        <div class="score-row">
+          <div class="score-number" id="score-num">0</div>
+          <div class="score-max">/100</div>
+          <div class="score-rank">⚡ Elite</div>
+        </div>
+        <div class="score-bar-track">
+          <div class="score-bar-fill" id="score-bar" style="width:87%"></div>
+        </div>
+        <div class="score-meta">
+          <span>Level 12 — Discipline Warrior</span>
+          <span>1,240 XP</span>
+        </div>
+      </div>
+
+      <!-- Stats grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">🔥</div>
+          <div class="stat-val">14</div>
+          <div class="stat-lbl">Day Streak</div>
+          <div class="stat-sub">↑ Personal best</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⏱</div>
+          <div class="stat-val">3h 42m</div>
+          <div class="stat-lbl">Focus Time</div>
+          <div class="stat-sub">Goal: 4h</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✓</div>
+          <div class="stat-val" id="task-done-count">5</div>
+          <div class="stat-lbl">Tasks Done</div>
+          <div class="stat-sub">of 8 today</div>
+        </div>
+        <div class="stat-card" style="display:flex;align-items:center;justify-content:center; flex-direction:column; gap:4px;">
+          <svg class="ring-svg" viewBox="0 0 44 44" aria-label="XP progress ring">
+            <circle class="ring-track" cx="22" cy="22" r="18"/>
+            <circle class="ring-fill" id="xp-ring" cx="22" cy="22" r="18" style="transform:rotate(-90deg);transform-origin:center;"/>
+            <text class="ring-inner" x="22" y="22">72%</text>
+          </svg>
+          <div class="stat-lbl">XP to Next</div>
+        </div>
+      </div>
+
+      <!-- Weekly momentum -->
+      <div class="week-graph">
+        <div class="section-title">Weekly Momentum</div>
+        <div class="week-bars" id="week-bars">
+          <!-- generated by JS -->
+        </div>
+        <div style="display:flex;justify-content:space-between; padding:0 2px;">
+          <span style="font-size:9px;color:var(--text-muted)">MON</span>
+          <span style="font-size:9px;color:var(--text-muted)">TUE</span>
+          <span style="font-size:9px;color:var(--text-muted)">WED</span>
+          <span style="font-size:9px;color:var(--text-muted)">THU</span>
+          <span style="font-size:9px;color:var(--text-muted)">FRI</span>
+          <span style="font-size:9px;color:var(--text-muted)">SAT</span>
+          <span style="font-size:9px;color:var(--text-gold);color:var(--gold)">SUN</span>
+        </div>
+      </div>
+
+      <!-- Quote -->
+      <div class="quote-card">
+        <div class="quote-text">"We are what we repeatedly do. Excellence, then, is not an act, but a habit."</div>
+        <div class="quote-author">— Aristotle</div>
+      </div>
+
+      <!-- Streak badge -->
+      <div style="margin-bottom:16px">
+        <span class="streak-badge">🔥 14-day streak — don't break the chain!</span>
+      </div>
+    </section>
+
+    <!-- TASKS -->
+    <section id="screen-tasks" class="screen">
+      <div class="task-header">
+        <div>
+          <div style="font-family:'Cinzel',serif;font-size:20px;letter-spacing:2px;color:var(--text)">Tasks</div>
+          <div class="task-count" id="task-header-count">5 of 8 completed</div>
+        </div>
+        <button class="add-btn" onclick="sendPrompt('Add a new task to AURA')">+</button>
+      </div>
+
+      <div class="task-group">
+        <div class="task-group-label">Priority</div>
+
+        <div class="task-item" id="t1" onclick="toggleTask('t1', 30)">
+          <div class="task-check"><span class="task-check-icon">✓</span></div>
+          <div class="task-info">
+            <div class="task-name">Deep Work Session — Product Strategy</div>
+            <div class="task-meta">09:00 · 2h block · Work</div>
+          </div>
+          <div class="task-priority priority-high"></div>
+          <div class="xp-pop">+30 XP</div>
+        </div>
+
+        <div class="task-item" id="t2" onclick="toggleTask('t2', 20)">
+          <div class="task-check"><span class="task-check-icon">✓</span></div>
+          <div class="task-info">
+            <div class="task-name">Review Q2 Analytics Report</div>
+            <div class="task-meta">11:00 · 45min · Work</div>
+          </div>
+          <div class="task-priority priority-high"></div>
+          <div class="xp-pop">+20 XP</div>
+        </div>
+
+        <div class="task-item done" id="t3" onclick="toggleTask('t3', 15)">
+          <div class="task-check"><span class="task-check-icon">✓</span></div>
+          <div class="task-info">
+            <div class="task-name">Morning Meditation — 20 mins</div>
+            <div class="task-meta">07:00 · Personal</div>
+          </div>
+          <div class="task-priority priority-med"></div>
+          <div class="xp-pop">+15 XP</div>
+        </div>
+      </div>
+
+      <div class="task-group">
+        <div class="task-group-label">Later Today</div>
+
+        <div class="task-item done" id="t4" onclick="toggleTask('t4', 25)">
+          <div class="task-check"><span class="task-check-icon">✓</span></div>
+          <div class="task-info">
+            <div class="task-name">Cold Shower — Discipline Training</div>
+            <div class="task-meta">06:30 · Health</div>
+          </div>
+          <div class="task-priority priority-med"></div>
+          <div class="xp-pop">+25 XP</div>
+        </div>
+
+        <div class="task-item" id="t5" onclick="toggleTask('t5', 20)">
+          <div class="task-check"><span class="task-check-icon">✓</span></div>
+          <div class="task-info">
+            <div class="task-name">Read 30 Pages — Atomic Habits</div>
+            <div class="task-meta">21:00 · Learning</div>
+          </div>
+          <div class="task-priority priority-low"></div>
+          <div class="xp-pop">+20 XP</div>
+        </div>
+
+        <div class="task-item done" id="t6" onclick="toggleTask('t6', 10)">
+          <div class="task-check"><span class="task-check-icon">✓</span></div>
+          <div class="task-info">
+            <div class="task-name">Workout — Upper Body Strength</div>
+            <div class="task-meta">06:00 · 75 min · Health</div>
+          </div>
+          <div class="task-priority priority-low"></div>
+          <div class="xp-pop">+10 XP</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HABITS -->
+    <section id="screen-habits" class="screen">
+      <div style="font-family:'Cinzel',serif;font-size:20px;letter-spacing:2px;color:var(--text);margin-bottom:6px">Habits</div>
+      <div style="font-size:11px;color:var(--text-muted);letter-spacing:1px;margin-bottom:20px">Tap to mark complete</div>
+
+      <div id="habit-list">
+        <!-- built by JS -->
+      </div>
+
+      <div class="section-title" style="margin-top:4px">28-Day Consistency Map</div>
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:16px">
+        <div class="heatmap" id="heatmap"></div>
+      </div>
+    </section>
+
+    <!-- FOCUS -->
+    <section id="screen-focus" class="screen" style="padding:0">
+      <div class="focus-screen">
+        <div class="focus-task-label">Now Focusing On</div>
+        <div class="focus-task-name">Deep Work Session<br>Product Strategy</div>
+
+        <div class="timer-ring-wrap">
+          <svg class="timer-ring" viewBox="0 0 200 200" aria-label="Focus timer">
+            <defs>
+              <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#E8BD70"/>
+                <stop offset="100%" stop-color="#F5CB86"/>
+              </linearGradient>
+            </defs>
+            <circle class="timer-track" cx="100" cy="100" r="90"/>
+            <circle class="timer-fill" id="timer-circle" cx="100" cy="100" r="90"/>
+          </svg>
+          <div class="timer-center">
+            <div class="timer-time" id="timer-display">25:00</div>
+            <div class="timer-mode" id="timer-mode-lbl">Focus</div>
+          </div>
+        </div>
+
+        <div class="focus-controls">
+          <button class="focus-btn" onclick="resetTimer()" title="Reset">↺</button>
+          <button class="focus-btn primary" id="play-btn" onclick="toggleTimer()">▶</button>
+          <button class="focus-btn" onclick="skipTimer()" title="Skip">⏭</button>
+        </div>
+
+        <div style="display:flex;gap:24px;margin-bottom:28px">
+          <div style="text-align:center">
+            <div style="font-family:'Cinzel',serif;font-size:18px;color:var(--gold)" id="pomodoro-count">3</div>
+            <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)">Sessions</div>
+          </div>
+          <div style="width:0.5px;background:var(--border)"></div>
+          <div style="text-align:center">
+            <div style="font-family:'Cinzel',serif;font-size:18px;color:var(--gold)">1h 15m</div>
+            <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)">Today's Focus</div>
+          </div>
+          <div style="width:0.5px;background:var(--border)"></div>
+          <div style="text-align:center">
+            <div style="font-family:'Cinzel',serif;font-size:18px;color:var(--gold)">5</div>
+            <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)">Break Left</div>
+          </div>
+        </div>
+
+        <div class="ambient-label">Ambient Atmosphere</div>
+        <div class="ambient-grid">
+          <button class="ambient-chip on" onclick="toggleAmbient(this)">🌧 Rain</button>
+          <button class="ambient-chip" onclick="toggleAmbient(this)">☕ Café</button>
+          <button class="ambient-chip" onclick="toggleAmbient(this)">🌌 Space</button>
+          <button class="ambient-chip" onclick="toggleAmbient(this)">🌊 Ocean</button>
+          <button class="ambient-chip" onclick="toggleAmbient(this)">🌬 Wind</button>
+          <button class="ambient-chip" onclick="toggleAmbient(this)">🕯 Dark</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section id="screen-stats" class="screen">
+      <div style="font-family:'Cinzel',serif;font-size:20px;letter-spacing:2px;color:var(--text);margin-bottom:20px">Analytics</div>
+
+      <div class="stats-row">
+        <div class="big-stat">
+          <div class="big-stat-val">87</div>
+          <div class="big-stat-lbl">Aura Score</div>
+          <div class="big-stat-sub">↑ 12 from last week</div>
+        </div>
+        <div class="big-stat">
+          <div class="big-stat-val">1,240</div>
+          <div class="big-stat-lbl">Total XP</div>
+          <div class="big-stat-sub">Top 8% this week</div>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div class="big-stat">
+          <div class="big-stat-val">18.5h</div>
+          <div class="big-stat-lbl">Focus Hours</div>
+          <div class="big-stat-sub">This month</div>
+        </div>
+        <div class="big-stat">
+          <div class="big-stat-val">94%</div>
+          <div class="big-stat-lbl">Habit Rate</div>
+          <div class="big-stat-sub">30-day avg</div>
+        </div>
+      </div>
+
+      <!-- SVG radar chart -->
+      <div class="section-title">Discipline Profile</div>
+      <div class="radar-wrap">
+        <svg width="200" height="200" viewBox="0 0 200 200" aria-label="Discipline radar chart showing focus, habits, tasks, streaks, and energy scores">
+          <defs>
+            <filter id="glow2">
+              <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- Grid rings -->
+          <polygon points="100,30 149,65 132,122 68,122 51,65" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+          <polygon points="100,50 134,73 122,108 78,108 66,73" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+          <polygon points="100,70 119,81 112,94 88,94 81,81" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+          <!-- Axes -->
+          <line x1="100" y1="100" x2="100" y2="30" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+          <line x1="100" y1="100" x2="149" y2="65" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+          <line x1="100" y1="100" x2="132" y2="122" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+          <line x1="100" y1="100" x2="68" y2="122" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+          <line x1="100" y1="100" x2="51" y2="65" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+          <!-- Data polygon -->
+          <polygon points="100,37 145,70 126,118 74,116 58,68" fill="rgba(232,189,112,0.12)" stroke="var(--gold)" stroke-width="1.5" filter="url(#glow2)"/>
+          <!-- Data points -->
+          <circle cx="100" cy="37" r="3" fill="var(--gold)"/>
+          <circle cx="145" cy="70" r="3" fill="var(--gold)"/>
+          <circle cx="126" cy="118" r="3" fill="var(--gold)"/>
+          <circle cx="74" cy="116" r="3" fill="var(--gold)"/>
+          <circle cx="58" cy="68" r="3" fill="var(--gold)"/>
+          <!-- Labels -->
+          <text x="100" y="22" text-anchor="middle" fill="rgba(240,237,232,0.5)" font-size="9" letter-spacing="1" font-family="Inter,sans-serif">FOCUS</text>
+          <text x="160" y="68" text-anchor="start" fill="rgba(240,237,232,0.5)" font-size="9" letter-spacing="1" font-family="Inter,sans-serif">HABITS</text>
+          <text x="135" y="135" text-anchor="middle" fill="rgba(240,237,232,0.5)" font-size="9" letter-spacing="1" font-family="Inter,sans-serif">TASKS</text>
+          <text x="65" y="135" text-anchor="middle" fill="rgba(240,237,232,0.5)" font-size="9" letter-spacing="1" font-family="Inter,sans-serif">STREAK</text>
+          <text x="32" y="68" text-anchor="end" fill="rgba(240,237,232,0.5)" font-size="9" letter-spacing="1" font-family="Inter,sans-serif">ENERGY</text>
+        </svg>
+      </div>
+
+      <!-- Badges -->
+      <div class="section-title">Achievements</div>
+      <div class="badge-grid">
+        <div class="badge earned">
+          <div class="badge-icon">⚡</div>
+          <div class="badge-name">Focus Master</div>
+        </div>
+        <div class="badge earned">
+          <div class="badge-icon">🔥</div>
+          <div class="badge-name">14 Day Streak</div>
+        </div>
+        <div class="badge earned">
+          <div class="badge-icon">⚔️</div>
+          <div class="badge-name">Discipline Warrior</div>
+        </div>
+        <div class="badge">
+          <div class="badge-icon">🌙</div>
+          <div class="badge-name">No Miss Week</div>
+        </div>
+        <div class="badge">
+          <div class="badge-icon">💎</div>
+          <div class="badge-name">30 Day Flawless</div>
+        </div>
+        <div class="badge">
+          <div class="badge-icon">🏆</div>
+          <div class="badge-name">Aura Elite</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" id="nav-home" onclick="switchTab('home')">
+      <span class="nav-item-icon">⬡</span>
+      <span class="nav-item-lbl">Home</span>
+    </button>
+    <button class="nav-item" id="nav-tasks" onclick="switchTab('tasks')">
+      <span class="nav-item-icon">◈</span>
+      <span class="nav-item-lbl">Tasks</span>
+    </button>
+    <button class="nav-item" id="nav-habits" onclick="switchTab('habits')">
+      <span class="nav-item-icon">◉</span>
+      <span class="nav-item-lbl">Habits</span>
+    </button>
+    <button class="nav-item" id="nav-focus" onclick="switchTab('focus')">
+      <span class="nav-item-icon">◎</span>
+      <span class="nav-item-lbl">Focus</span>
+    </button>
+    <button class="nav-item" id="nav-stats" onclick="switchTab('stats')">
+      <span class="nav-item-icon">◇</span>
+      <span class="nav-item-lbl">Stats</span>
+    </button>
+  </nav>
+</div>
+
+<script>
+// ── DATE ──
+const now = new Date();
+const days = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+document.getElementById('nav-date').textContent = `${days[now.getDay()]} · ${months[now.getMonth()]} ${now.getDate()}`;
+
+// ── SCORE ANIMATE ──
+setTimeout(() => {
+  let s = 0;
+  const el = document.getElementById('score-num');
+  const t = setInterval(() => {
+    s = Math.min(s + 3, 87);
+    el.textContent = s;
+    if (s >= 87) clearInterval(t);
+  }, 30);
+  // XP ring
+  const ring = document.getElementById('xp-ring');
+  const pct = 0.72;
+  ring.style.strokeDashoffset = 138 * (1 - pct);
+}, 3500);
+
+// ── WEEK BARS ──
+const heights = [52, 78, 45, 88, 72, 61, 87];
+const barsEl = document.getElementById('week-bars');
+heights.forEach((h, i) => {
+  const wrap = document.createElement('div');
+  wrap.className = 'week-bar-wrap';
+  const bar = document.createElement('div');
+  bar.className = 'week-bar' + (i === 6 ? ' today' : '');
+  bar.style.height = '4px';
+  bar.style.maxHeight = '100%';
+  wrap.appendChild(bar);
+  barsEl.appendChild(wrap);
+  setTimeout(() => { bar.style.transition = 'height 0.8s cubic-bezier(0.16,1,0.3,1)'; bar.style.height = h + '%'; }, 3600 + i * 80);
+});
+
+// ── TABS ──
+function switchTab(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  document.getElementById('nav-' + name).classList.add('active');
+}
+
+// ── TASKS ──
+let doneCount = 5;
+function toggleTask(id, xp) {
+  const el = document.getElementById(id);
+  const wasDone = el.classList.contains('done');
+  el.classList.toggle('done');
+  doneCount += wasDone ? -1 : 1;
+  doneCount = Math.max(0, Math.min(8, doneCount));
+  document.getElementById('task-done-count').textContent = doneCount;
+  document.getElementById('task-header-count').textContent = doneCount + ' of 8 completed';
+  if (!wasDone) {
+    el.classList.add('just-done');
+    el.querySelector('.xp-pop').textContent = '+' + xp + ' XP';
+    setTimeout(() => el.classList.remove('just-done'), 800);
+  }
+}
+
+// ── HABITS ──
+const habits = [
+  { icon: '🧘', name: 'Morning Meditation', streak: '14 days', done: true },
+  { icon: '💪', name: 'Workout', streak: '14 days', done: true },
+  { icon: '📚', name: 'Read 30 Pages', streak: '9 days', done: false },
+  { icon: '🚿', name: 'Cold Shower', streak: '7 days', done: true },
+  { icon: '✍️', name: 'Journal Entry', streak: '14 days', done: false },
+];
+const habitList = document.getElementById('habit-list');
+habits.forEach((h, i) => {
+  const el = document.createElement('div');
+  el.className = 'habit-card';
+  el.innerHTML = `
+    <div class="habit-top">
+      <div class="habit-icon-wrap">${h.icon}</div>
+      <div class="habit-info">
+        <div class="habit-name">${h.name}</div>
+        <div class="habit-streak">🔥 ${h.streak} streak</div>
+      </div>
+      <button class="habit-done-btn ${h.done ? 'checked' : ''}" onclick="toggleHabit(this, ${i})">${h.done ? '✓' : ''}</button>
+    </div>
+  `;
+  habitList.appendChild(el);
+});
+function toggleHabit(btn, i) {
+  btn.classList.toggle('checked');
+  habits[i].done = !habits[i].done;
+  btn.textContent = habits[i].done ? '✓' : '';
+}
+
+// ── HEATMAP ──
+const heatmap = document.getElementById('heatmap');
+const levels = [0,0,1,1,2,2,3,3,4,4,3,2,3,4,4,3,2,3,4,4,3,2,1,2,3,4,4,0];
+levels.forEach((l, i) => {
+  const cell = document.createElement('div');
+  cell.className = 'heat-cell' + (l ? ' h' + l : '') + (i === levels.length - 1 ? ' today-cell' : '');
+  heatmap.appendChild(cell);
+});
+
+// ── TIMER ──
+let timerInterval = null;
+let timerSeconds = 25 * 60;
+let isRunning = false;
+let totalSeconds = 25 * 60;
+const circle = document.getElementById('timer-circle');
+const circumference = 565;
+
+function updateTimerDisplay() {
+  const m = Math.floor(timerSeconds / 60);
+  const s = timerSeconds % 60;
+  document.getElementById('timer-display').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  const progress = timerSeconds / totalSeconds;
+  circle.style.strokeDashoffset = circumference * (1 - progress);
+}
+
+function toggleTimer() {
+  if (isRunning) {
+    clearInterval(timerInterval);
+    isRunning = false;
+    document.getElementById('play-btn').textContent = '▶';
+  } else {
+    isRunning = true;
+    document.getElementById('play-btn').textContent = '⏸';
+    timerInterval = setInterval(() => {
+      timerSeconds--;
+      if (timerSeconds <= 0) {
+        clearInterval(timerInterval);
+        isRunning = false;
+        document.getElementById('play-btn').textContent = '▶';
+        document.getElementById('pomodoro-count').textContent = parseInt(document.getElementById('pomodoro-count').textContent) + 1;
+        timerSeconds = 25 * 60;
+      }
+      updateTimerDisplay();
+    }, 1000);
+  }
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  isRunning = false;
+  timerSeconds = 25 * 60;
+  document.getElementById('play-btn').textContent = '▶';
+  updateTimerDisplay();
+}
+
+function skipTimer() {
+  clearInterval(timerInterval);
+  isRunning = false;
+  timerSeconds = 25 * 60;
+  document.getElementById('play-btn').textContent = '▶';
+  updateTimerDisplay();
+}
+
+function toggleAmbient(btn) {
+  btn.classList.toggle('on');
+}
+
+updateTimerDisplay();
+</script>
+</body>
+</html>

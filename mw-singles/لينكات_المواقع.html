@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لينكات المواقع المستخدمة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fbf7f0;
+    --text:#2c2620;
+    --muted:#847a6c;
+    --c1:#ffd166; --c1d:#f4b33e;
+    --c2:#ef8b6a; --c2d:#e0663f;
+    --c3:#8ecae6; --c3d:#5fa8d3;
+    --c4:#a9d6a2; --c4d:#7fbf78;
+    --c5:#d3a6e8; --c5d:#b674d6;
+    --c6:#f2b6c5; --c6d:#e28aa0;
+    --c7:#c9c2ff; --c7d:#a599f5;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:'Tajawal', sans-serif;
+  }
+  header{ padding:60px 24px 20px; text-align:center; }
+  h1{ font-size:clamp(28px,5vw,46px); font-weight:900; margin:0 0 10px; }
+  .sub{ color:var(--muted); font-size:16px; }
+  .wrap{ max-width:1100px; margin:0 auto; padding:30px 20px 100px; }
+
+  .toolbar{ display:flex; justify-content:center; margin-bottom:44px; }
+  .add-btn{
+    background:var(--text); color:var(--bg); border:none;
+    padding:14px 30px; border-radius:30px; font-family:'Tajawal'; font-weight:700;
+    font-size:15px; cursor:pointer;
+  }
+  .add-btn:hover{ opacity:.85; }
+
+  .section{ margin-bottom:44px; }
+  .section-title{
+    font-size:19px; font-weight:900; margin-bottom:16px;
+    display:inline-block; padding:6px 4px; border-bottom:4px solid var(--dot,#ddd);
+  }
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(210px,1fr));
+    gap:16px;
+  }
+  .note{
+    border-radius:16px;
+    padding:20px;
+    position:relative;
+    min-height:110px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    text-decoration:none;
+    color:var(--text);
+    box-shadow:0 6px 0 rgba(0,0,0,.08);
+    transform:rotate(var(--rot,0deg));
+    transition:transform .2s, box-shadow .2s;
+  }
+  .note:hover{
+    transform:rotate(0deg) translateY(-4px);
+    box-shadow:0 10px 18px rgba(0,0,0,.12);
+  }
+  .note .name{ font-weight:800; font-size:16px; line-height:1.4; }
+  .note .url{ font-size:12px; color:rgba(44,38,32,.65); direction:ltr; text-align:right; margin-top:10px; word-break:break-all;}
+  .del{
+    position:absolute; left:10px; top:10px; background:rgba(255,255,255,.5); border:none;
+    border-radius:50%; width:22px; height:22px; font-size:12px; cursor:pointer; opacity:0; transition:.2s;
+  }
+  .note:hover .del{ opacity:1; }
+
+  .modal-bg{
+    display:none; position:fixed; inset:0; background:rgba(44,38,32,.5);
+    align-items:center; justify-content:center; z-index:50; padding:20px;
+  }
+  .modal-bg.open{ display:flex; }
+  .modal{ background:#fff; max-width:440px; width:100%; padding:30px; border-radius:18px; }
+  .modal h2{ margin-top:0; font-size:20px; }
+  .modal label{ display:block; font-size:13px; color:var(--muted); margin:14px 0 6px; }
+  .modal input, .modal select{
+    width:100%; border:1px solid #e6ded0; padding:10px 12px; border-radius:8px;
+    font-family:'Tajawal'; font-size:14px;
+  }
+  .modal-actions{ display:flex; gap:10px; margin-top:22px; justify-content:flex-end; }
+  .btn-secondary{ background:transparent; border:1px solid #e6ded0; color:var(--muted); padding:10px 20px; border-radius:8px; cursor:pointer; font-family:'Tajawal'; }
+  .btn-primary{ background:var(--text); border:none; color:#fff; padding:10px 20px; border-radius:8px; cursor:pointer; font-family:'Tajawal'; font-weight:700; }
+  footer{ text-align:center; padding:30px; color:var(--muted); font-size:13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🔗 لينكات المواقع المستخدمة</h1>
+  <div class="sub">كل أدوات صناعة المحتوى في مكان واحد</div>
+</header>
+
+<div class="wrap">
+  <div class="toolbar">
+    <button class="add-btn" onclick="openModal()">+ إضافة رابط</button>
+  </div>
+  <div id="sections"></div>
+</div>
+
+<footer>محفوظة محليًا في هذه الجلسة</footer>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h2>رابط جديد</h2>
+    <label>الاسم / الوصف</label>
+    <input id="inName" placeholder="مثال: Midjourney — صور">
+    <label>الرابط</label>
+    <input id="inUrl" placeholder="https://example.com">
+    <label>القسم</label>
+    <select id="inSection"></select>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+      <button class="btn-primary" onclick="addLink()">إضافة</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const palette = ["c1","c2","c3","c4","c5","c6","c7"];
+const sections = [
+  {key:"core", title:"🧠 المساعدين الأساسيين", color:"c2", links:[
+    {name:"ChatGPT — أساسي", url:"https://chatgpt.com/"},
+    {name:"Claude — أساسي مميز", url:"https://claude.ai/"},
+    {name:"Gemini — صور وبوستات وتصميمات", url:"https://gemini.google.com/"},
+    {name:"Perplexity — بحث ومعلومات", url:"https://www.perplexity.ai/"},
+    {name:"Grok — موشن جرافيك وصور", url:"https://grok.com/"},
+  ]},
+  {key:"images", title:"🖼️ توليد الصور", color:"c1", links:[
+    {name:"Ideogram — صور", url:"https://ideogram.ai/"},
+    {name:"Leonardo AI — صور", url:"https://app.leonardo.ai/"},
+  ]},
+  {key:"video", title:"🎬 توليد الفيديو", color:"c3", links:[
+    {name:"Pika — توليد فيديو", url:"https://pika.art/"},
+    {name:"Dreamina (CapCut) — توليد فيديو", url:"https://dreamina.capcut.com/ai-tool/home/"},
+    {name:"Luma Labs — توليد فيديوهات", url:"https://app.lumalabs.ai/"},
+    {name:"Runway ML — توليد فيديو", url:"https://app.runwayml.com/"},
+  ]},
+  {key:"stock", title:"📚 مكتبات جاهزة", color:"c4", links:[
+    {name:"Mixkit — فيديوهات جاهزة للتصميم", url:"https://mixkit.co/"},
+    {name:"Pexels — فيديوهات وصور جاهزة", url:"https://www.pexels.com/"},
+  ]},
+  {key:"voice", title:"🎙️ الصوت والتعليق الصوتي", color:"c5", links:[
+    {name:"ElevenLabs — فويس أوفر", url:"https://elevenlabs.io/"},
+    {name:"TTS Maker — فويس أوفر", url:"https://ttsmaker.com/"},
+  ]},
+  {key:"web", title:"💻 الويب والبرمجة", color:"c6", links:[
+    {name:"Replit — #1 في الويب سايت والداش بورد", url:"https://replit.com/"},
+    {name:"Anygen.io — ويب سايت أو داش بورد", url:"https://www.anygen.io/"},
+    {name:"Blackbox.ai — تعديلات على الكود", url:"https://app.blackbox.ai/"},
+    {name:"HTML CSS to Image — تحويل HTML لصورة", url:"https://htmlcsstoimage.com/"},
+    {name:"Netlify — رفع السايت على الإنترنت", url:"https://app.netlify.com/"},
+  ]},
+  {key:"org", title:"🗂️ التنظيم والنشر", color:"c7", links:[
+    {name:"Notion — للتنظيم", url:"https://www.notion.so/"},
+    {name:"Metricool — للنشر على السوشيال ميديا", url:"https://app.metricool.com/"},
+    {name:"Beacons — صفحة لينكات", url:"https://account.beacons.ai/"},
+    {name:"NotebookLM — نوت بوك (يفضل على الكمبيوتر)", url:"https://notebooklm.google/"},
+  ]},
+];
+
+function render(){
+  const select = document.getElementById('inSection');
+  select.innerHTML = sections.map(s=>`<option value="${s.key}">${s.title}</option>`).join('');
+
+  const el = document.getElementById('sections');
+  el.innerHTML = sections.map(sec=>`
+    <div class="section">
+      <div class="section-title" style="--dot:var(--${sec.color}d)">${sec.title}</div>
+      <div class="cards">
+        ${sec.links.map((l,i)=>{
+          const rot = (i % 3 === 0) ? '-1.2deg' : (i % 3 === 1) ? '1deg' : '-0.4deg';
+          return `
+          <a class="note" href="${l.url}" target="_blank" rel="noopener"
+             style="background:var(--${sec.color}); --rot:${rot}">
+            <button class="del" onclick="event.preventDefault(); event.stopPropagation(); removeLink('${sec.key}', ${i})">×</button>
+            <div class="name">${l.name}</div>
+            <div class="url">${l.url.replace(/^https?:\/\//,'')}</div>
+          </a>`;
+        }).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+function openModal(){ document.getElementById('modalBg').classList.add('open'); }
+function closeModal(){
+  document.getElementById('modalBg').classList.remove('open');
+  document.getElementById('inName').value='';
+  document.getElementById('inUrl').value='';
+}
+function addLink(){
+  const name = document.getElementById('inName').value.trim();
+  let url = document.getElementById('inUrl').value.trim();
+  const secKey = document.getElementById('inSection').value;
+  if(!name || !url){ alert('من فضلك أدخل الاسم والرابط'); return; }
+  if(!/^https?:\/\//.test(url)) url = 'https://' + url;
+  const sec = sections.find(s=>s.key===secKey);
+  sec.links.push({name, url});
+  render();
+  closeModal();
+}
+function removeLink(secKey, i){
+  const sec = sections.find(s=>s.key===secKey);
+  sec.links.splice(i,1);
+  render();
+}
+render();
+</script>
+</body>
+</html>

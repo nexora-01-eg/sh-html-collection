@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Media Posts Cover</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .cover {
+    width: 1700px;
+    height: 970px;
+    background: #000;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #2a2a2a;
+  }
+
+  /* Background texture */
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(212,175,55,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(212,175,55,0.04) 0%, transparent 40%),
+      radial-gradient(ellipse at 80% 70%, rgba(212,175,55,0.04) 0%, transparent 40%);
+    z-index: 0;
+  }
+
+  /* Subtle grid lines */
+  .cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(212,175,55,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(212,175,55,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 0;
+  }
+
+  /* Top gold line */
+  .top-line {
+    position: absolute;
+    top: 50px;
+    left: 60px;
+    right: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #D4AF37, #FFD700, #D4AF37, transparent);
+    z-index: 2;
+  }
+
+  /* Bottom gold line */
+  .bottom-line {
+    position: absolute;
+    bottom: 50px;
+    left: 60px;
+    right: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #D4AF37, #FFD700, #D4AF37, transparent);
+    z-index: 2;
+  }
+
+  /* Corner decorations */
+  .corner {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    z-index: 3;
+  }
+  .corner-tl { top: 35px; left: 45px; border-top: 2px solid #D4AF37; border-left: 2px solid #D4AF37; }
+  .corner-tr { top: 35px; right: 45px; border-top: 2px solid #D4AF37; border-right: 2px solid #D4AF37; }
+  .corner-bl { bottom: 35px; left: 45px; border-bottom: 2px solid #D4AF37; border-left: 2px solid #D4AF37; }
+  .corner-br { bottom: 35px; right: 45px; border-bottom: 2px solid #D4AF37; border-right: 2px solid #D4AF37; }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 60px;
+    width: 100%;
+  }
+
+  .top-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 10px;
+    color: #D4AF37;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    opacity: 0.8;
+  }
+
+  .number {
+    font-family: 'Playfair Display', serif;
+    font-size: 260px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+    text-shadow:
+      0 0 80px rgba(212,175,55,0.18),
+      0 0 160px rgba(212,175,55,0.08),
+      2px 2px 30px rgba(0,0,0,0.9);
+    letter-spacing: -10px;
+    display: block;
+    margin-bottom: -20px;
+  }
+
+  .social-media {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 46px;
+    font-weight: 700;
+    letter-spacing: 16px;
+    color: #fff;
+    text-transform: uppercase;
+    text-shadow: 0 0 40px rgba(255,255,255,0.1);
+    display: block;
+  }
+
+  .posts-word {
+    font-family: 'Playfair Display', serif;
+    font-size: 100px;
+    font-weight: 700;
+    color: #fff;
+    display: block;
+    letter-spacing: 6px;
+    text-shadow:
+      0 0 50px rgba(255,255,255,0.15),
+      2px 2px 20px rgba(0,0,0,0.9);
+    margin-top: 5px;
+  }
+
+  .divider {
+    width: 340px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+    margin: 36px auto;
+  }
+
+  .tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    color: #D4AF37;
+    font-style: italic;
+    letter-spacing: 4px;
+    text-shadow:
+      0 0 40px rgba(212,175,55,0.5),
+      0 0 80px rgba(212,175,55,0.2);
+    display: block;
+    margin-bottom: 36px;
+  }
+
+  .icons-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 28px;
+  }
+
+  .icon-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #D4AF37;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    opacity: 0.9;
+  }
+
+  .icon-wrap svg {
+    filter: drop-shadow(0 0 10px rgba(212,175,55,0.7));
+  }
+
+  .icon-dot {
+    width: 5px;
+    height: 5px;
+    background: #D4AF37;
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+
+  .bottom-text {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .bottom-text span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+  }
+
+  /* Cinematic light beam */
+  .light-beam {
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 1200px;
+    background: linear-gradient(180deg, rgba(212,175,55,0.05) 0%, transparent 70%);
+    z-index: 1;
+    clip-path: polygon(38% 0%, 62% 0%, 75% 100%, 25% 100%);
+  }
+
+  /* Side accent lines */
+  .side-accent-l, .side-accent-r {
+    position: absolute;
+    top: 80px;
+    bottom: 80px;
+    width: 1px;
+    z-index: 2;
+    background: linear-gradient(180deg, transparent, rgba(212,175,55,0.2), rgba(212,175,55,0.2), transparent);
+  }
+  .side-accent-l { left: 40px; }
+  .side-accent-r { right: 40px; }
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="light-beam"></div>
+  <div class="top-line"></div>
+  <div class="bottom-line"></div>
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
+  <div class="side-accent-l"></div>
+  <div class="side-accent-r"></div>
+
+  <div class="content">
+    <span class="top-label">Ultimate Collection</span>
+
+    <span class="number">20</span>
+    <span class="social-media">Social Media</span>
+    <span class="posts-word">Posts</span>
+
+    <div class="divider"></div>
+
+    <span class="tagline">Professional &amp; Engaging</span>
+
+    <div class="icons-row">
+      <!-- Facebook Icon -->
+      <div class="icon-wrap">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="#D4AF37" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+        </svg>
+        Facebook
+      </div>
+      <div class="icon-dot"></div>
+      <!-- Instagram Icon -->
+      <div class="icon-wrap">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+        Instagram
+      </div>
+    </div>
+
+    <div class="bottom-text">
+      <span>Ready for Facebook &amp; Instagram</span>
+      <span>Increase Your Engagement</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

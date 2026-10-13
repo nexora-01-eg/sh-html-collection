@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أدوات المحتوى | Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0f12;
+    --card:#16191d;
+    --card-hover:#1d2126;
+    --line:#252a30;
+    --lime:#c8ff4d;
+    --text:#e9ecef;
+    --muted:#8b9199;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Tajawal', sans-serif;
+    min-height:100vh;
+  }
+  .grid-bg{
+    position:fixed; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size:40px 40px;
+    pointer-events:none;
+    z-index:0;
+  }
+  header{
+    padding:70px 24px 30px;
+    text-align:center;
+    position:relative; z-index:1;
+  }
+  .tag{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--lime);
+    font-size:13px;
+    letter-spacing:.1em;
+    margin-bottom:16px;
+  }
+  h1{
+    font-size:clamp(30px,5vw,50px);
+    font-weight:900;
+    margin:0 0 8px;
+  }
+  .sub{ color:var(--muted); font-size:16px; }
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:40px 20px 100px;
+    position:relative; z-index:1;
+  }
+  .row{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px 22px;
+    margin-bottom:14px;
+    transition:.2s;
+    text-decoration:none;
+    color:var(--text);
+  }
+  .row:hover{
+    background:var(--card-hover);
+    border-color:var(--lime);
+    transform:translateX(-4px);
+  }
+  .idx{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--lime);
+    font-size:14px;
+    min-width:28px;
+  }
+  .info{ flex:1; }
+  .name{ font-weight:700; font-size:17px; margin-bottom:3px;}
+  .url{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--muted);
+    font-size:13px;
+    direction:ltr;
+    text-align:right;
+    word-break:break-all;
+  }
+  .arrow{ color:var(--muted); font-size:20px; }
+  .del{
+    background:none; border:none; color:var(--muted);
+    font-family:'Tajawal'; font-size:12px; cursor:pointer;
+    opacity:.6; padding:4px 8px;
+  }
+  .del:hover{ color:#ff5c5c; opacity:1; }
+  .toolbar{
+    display:flex; justify-content:center; margin-bottom:36px;
+  }
+  .add-btn{
+    background:var(--lime);
+    color:#0d0f12;
+    border:none;
+    padding:14px 30px;
+    font-family:'Tajawal';
+    font-weight:700;
+    font-size:15px;
+    border-radius:30px;
+    cursor:pointer;
+  }
+  .add-btn:hover{ opacity:.85; }
+  .modal-bg{
+    display:none; position:fixed; inset:0;
+    background:rgba(0,0,0,.7);
+    align-items:center; justify-content:center;
+    z-index:50; padding:20px;
+  }
+  .modal-bg.open{ display:flex; }
+  .modal{
+    background:var(--card);
+    border:1px solid var(--line);
+    max-width:440px; width:100%;
+    padding:30px; border-radius:14px;
+  }
+  .modal h2{ margin-top:0; font-size:20px; }
+  .modal label{ display:block; font-size:13px; color:var(--muted); margin:14px 0 6px; }
+  .modal input{
+    width:100%; background:#0d0f12; border:1px solid var(--line);
+    color:var(--text); padding:10px 12px; border-radius:8px;
+    font-family:'JetBrains Mono'; direction:ltr;
+  }
+  .modal input#inName{ font-family:'Tajawal'; direction:rtl; }
+  .modal-actions{ display:flex; gap:10px; margin-top:22px; justify-content:flex-end; }
+  .btn-secondary{
+    background:transparent; border:1px solid var(--line); color:var(--muted);
+    padding:10px 20px; border-radius:8px; cursor:pointer; font-family:'Tajawal';
+  }
+  .btn-primary{
+    background:var(--lime); border:none; color:#0d0f12;
+    padding:10px 20px; border-radius:8px; cursor:pointer; font-family:'Tajawal'; font-weight:700;
+  }
+  footer{ text-align:center; padding:30px; color:var(--muted); font-size:13px; position:relative; z-index:1;}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<header>
+  <div class="tag">// toolbox.config</div>
+  <h1>أدوات الشغل</h1>
+  <div class="sub">روابط سريعة للأدوات المستخدمة</div>
+</header>
+
+<div class="wrap">
+  <div class="toolbar">
+    <button class="add-btn" onclick="openModal()">+ إضافة أداة</button>
+  </div>
+  <div id="list"></div>
+</div>
+
+<footer>محفوظة محليًا في هذه الجلسة</footer>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h2>أداة جديدة</h2>
+    <label>الاسم</label>
+    <input id="inName" placeholder="مثال: Postiz">
+    <label>الرابط</label>
+    <input id="inUrl" placeholder="https://example.com">
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+      <button class="btn-primary" onclick="addTool()">إضافة</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let tools = [
+  {name:"Postiz — جدولة ونشر المحتوى", url:"https://platform.postiz.com/launches"},
+  {name:"n8n — أتمتة سير العمل", url:"https://vx07.app.n8n.cloud/home/workflows"},
+  {name:"Hetzner — استضافة سيرفرات", url:"https://www.hetzner.com/"},
+];
+
+function render(){
+  const el = document.getElementById('list');
+  el.innerHTML = tools.map((t,i)=>`
+    <div style="display:flex; align-items:center; gap:8px;">
+      <a class="row" href="${t.url}" target="_blank" rel="noopener" style="flex:1;">
+        <span class="idx">${String(i+1).padStart(2,'0')}</span>
+        <span class="info">
+          <div class="name">${t.name}</div>
+          <div class="url">${t.url}</div>
+        </span>
+        <span class="arrow">←</span>
+      </a>
+      <button class="del" onclick="removeTool(${i})">حذف</button>
+    </div>
+  `).join('');
+}
+function openModal(){ document.getElementById('modalBg').classList.add('open'); }
+function closeModal(){
+  document.getElementById('modalBg').classList.remove('open');
+  document.getElementById('inName').value='';
+  document.getElementById('inUrl').value='';
+}
+function addTool(){
+  const name = document.getElementById('inName').value.trim();
+  let url = document.getElementById('inUrl').value.trim();
+  if(!name || !url){ alert('من فضلك أدخل الاسم والرابط'); return; }
+  if(!/^https?:\/\//.test(url)) url = 'https://' + url;
+  tools.push({name, url});
+  render();
+  closeModal();
+}
+function removeTool(i){ tools.splice(i,1); render(); }
+render();
+</script>
+</body>
+</html>

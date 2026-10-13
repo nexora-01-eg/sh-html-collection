@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shadow X — قائمة العيادات</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0f;
+    color: #e0f0ff;
+    font-family: 'Cairo', sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .brand {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #7dd4fc;
+    letter-spacing: 4px;
+    text-shadow: 0 0 30px #38bdf840;
+  }
+
+  .brand span { color: #fff; }
+
+  .subtitle {
+    font-size: 1rem;
+    color: #7dd4fc99;
+    margin-top: 4px;
+    letter-spacing: 2px;
+  }
+
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 1.5rem 0 2rem;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    text-align: center;
+    background: #0f1929;
+    border: 1px solid #1e3a5f;
+    border-radius: 12px;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .stat-num {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #7dd4fc;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: #7dd4fc80;
+  }
+
+  .search-box {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .search-box input {
+    width: 100%;
+    max-width: 500px;
+    padding: 0.7rem 1.2rem;
+    border-radius: 10px;
+    border: 1px solid #1e3a5f;
+    background: #0f1929;
+    color: #e0f0ff;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+  }
+
+  .search-box input:focus {
+    border-color: #38bdf8;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid #1e3a5f;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+  }
+
+  thead tr {
+    background: #0f1929;
+  }
+
+  th {
+    padding: 1rem 1.2rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #38bdf8;
+    text-align: right;
+    border-bottom: 1px solid #1e3a5f;
+    white-space: nowrap;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #111827;
+    transition: background 0.15s;
+  }
+
+  tbody tr:hover {
+    background: #0f1929;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+
+  td {
+    padding: 0.85rem 1.2rem;
+    font-size: 0.9rem;
+    color: #cbd5e1;
+    vertical-align: middle;
+  }
+
+  .num-badge {
+    background: #0f1929;
+    color: #7dd4fc;
+    border: 1px solid #1e3a5f;
+    border-radius: 8px;
+    padding: 2px 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .spec-badge {
+    background: #0a1628;
+    color: #93c5fd;
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  .phone-text {
+    color: #7dd4fc;
+    font-weight: 600;
+    font-size: 0.92rem;
+    direction: ltr;
+    text-align: left;
+    display: block;
+  }
+
+  .no-phone {
+    color: #374151;
+    font-size: 0.82rem;
+  }
+
+  .wa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #064e3b;
+    color: #6ee7b7;
+    border: 1px solid #065f46;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+  }
+
+  .wa-btn:hover {
+    background: #065f46;
+    color: #a7f3d0;
+  }
+
+  .wa-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+
+  .no-btn {
+    color: #374151;
+    font-size: 0.82rem;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 2.5rem;
+    color: #1e3a5f;
+    font-size: 0.82rem;
+  }
+
+  .footer span { color: #38bdf860; }
+
+  @media (max-width: 600px) {
+    .brand { font-size: 2rem; }
+    th, td { padding: 0.7rem 0.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">Shadow<span>X</span></div>
+  <div class="subtitle">قائمة عيادات شبين الكوم — المنوفية</div>
+</div>
+
+<div class="stats-row">
+  <div class="stat">
+    <div class="stat-num" id="total-count">82</div>
+    <div class="stat-label">إجمالي العيادات</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" id="phone-count">72</div>
+    <div class="stat-label">لديهم رقم</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">شبين الكوم</div>
+    <div class="stat-label">المنطقة</div>
+  </div>
+</div>
+
+<div class="search-box">
+  <input type="text" id="searchInput" placeholder="ابحث باسم الدكتور أو التخصص..." oninput="filterTable()" />
+</div>
+
+<div class="table-wrap">
+  <table id="clinicsTable">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>الاسم</th>
+        <th>التخصص</th>
+        <th>الرقم</th>
+        <th>واتساب</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">Shadow X &nbsp;|&nbsp; <span>+20 100 548 8474</span> &nbsp;|&nbsp; شريكك الرقمي</div>
+
+<script>
+const clinics = [
+  { name: "InShape Clinic Menofia", spec: "مركز طبي", phone: "0221266800" },
+  { name: "Soly Clinic", spec: "ليزر إزالة شعر", phone: "01050830071" },
+  { name: "مجمع أبو بكر الصديق الطبي", spec: "عيادات متعددة", phone: "01068876011" },
+  { name: "عيادة الميدان — د. محمود السيد إبراهيم", spec: "أسنان", phone: "01150737055" },
+  { name: "د. محمود عمارة — كلى وسكر", spec: "كلى وسكر", phone: "01011818222" },
+  { name: "برج الفيروز", spec: "عيادة طبية", phone: "01098049039" },
+  { name: "عيادة الأمراض الصدرية", spec: "صدرية", phone: "01068643435" },
+  { name: "Dr Beauty Clinic", spec: "مركز طبي", phone: "01025805558" },
+  { name: "د. عبد الرحمن الزفزاف", spec: "باطنة عامة", phone: "01066376859" },
+  { name: "د. محمد شرباش — Smart Clinic", spec: "أسنان", phone: "01000642333" },
+  { name: "مجمع سلسبيل الطبي", spec: "خدمات طبية", phone: "01022664008" },
+  { name: "Ivory Dental Clinic", spec: "أسنان", phone: "01023682038" },
+  { name: "د. باسم سويد", spec: "أنف وأذن وحنجرة", phone: "01012010645" },
+  { name: "Denty Clinic", spec: "أسنان", phone: "01150048779" },
+  { name: "Perfect Braces Shebin ElKom", spec: "تقويم أسنان", phone: "01008533551" },
+  { name: "مستشفى الدرة التخصصي", spec: "مستشفى", phone: "01028110027" },
+  { name: "Smart Dental Center", spec: "أسنان", phone: "01015699885" },
+  { name: "د. أحمد نشأت عليم — أنف وأذن وحنجرة", spec: "أنف وأذن وحنجرة", phone: "01094180332" },
+  { name: "Arac Dental Center", spec: "أسنان", phone: "01011116848" },
+  { name: "Dr Style Clinic", spec: "جلدية", phone: "01004429973" },
+  { name: "مستشفى شبين الكوم التعليمي", spec: "مستشفى", phone: "0482221277" },
+  { name: "Sparkle Cosmetic Clinic", spec: "تجميل", phone: "01097790511" },
+  { name: "Glowy Beauty Clinic", spec: "ليزر وبشرة", phone: "01286607231" },
+  { name: "المستشفى الجامعي التخصصي", spec: "مستشفى جامعي", phone: "0482084315" },
+  { name: "Unique Dental — د. نوران العباسي", spec: "أسنان", phone: "01288114403" },
+  { name: "معمل أسنان رزق عزيز", spec: "أسنان", phone: "0482224136" },
+  { name: "Pearly Dental — د. إبراهيم حماد", spec: "أسنان", phone: "01012164587" },
+  { name: "د. عبد الله الطملاوي — تجميل وحروق", spec: "تجميل", phone: "01025767511" },
+  { name: "د. مهاب المؤذن — فيزيو بلس", spec: "علاج طبيعي", phone: "01061106258" },
+  { name: "عيادة مايند — طب نفسي", spec: "نفسي وسلوكي", phone: "01068746461" },
+  { name: "Smile House Dental", spec: "أسنان", phone: "01027001143" },
+  { name: "Dent Care Clinic", spec: "أسنان", phone: "01065212185" },
+  { name: "عيادات نيولايف للتجميل", spec: "تجميل", phone: "01008273733" },
+  { name: "Talal Hagag Clinic", spec: "عيادة طبية", phone: "01060672487" },
+  { name: "معهد الكبد القومي", spec: "كبد وجهاز هضمي", phone: "0482222740" },
+  { name: "Nour Studio", spec: "عناية بالبشرة", phone: "01067323451" },
+  { name: "د. عماد الكوع — علاج طبيعي", spec: "علاج طبيعي", phone: "01001474434" },
+  { name: "د. خالد الغنيمي", spec: "عيون", phone: "01203429163" },
+  { name: "د. أسامة المحرات", spec: "تغذية", phone: "01004466030" },
+  { name: "د. لؤي سرور", spec: "علاج طبيعي", phone: "01062100343" },
+  { name: "Dr Maha Elsawaf Dental", spec: "أسنان", phone: "01558033638" },
+  { name: "د. محمود بهرام", spec: "عيادة طبية", phone: "0482329760" },
+  { name: "د. ياسر شبل — جلدية", spec: "جلدية", phone: "01098665656" },
+  { name: "د. جمال الجندي", spec: "أنف وأذن وحنجرة", phone: "0482223948" },
+  { name: "د. محمد البهات — أوعية دموية", spec: "أوعية دموية وقدم سكري", phone: "01003923421" },
+  { name: "د. عبد الله البهنسي", spec: "باطنة عامة", phone: "01018327000" },
+  { name: "د. سعيد شلبي — قلب", spec: "أمراض قلب", phone: "01007873847" },
+  { name: "عيادة أبو بكر — تأمين صحي", spec: "مركز طبي", phone: "0482331120" },
+  { name: "د. إسماعيل الشامي — هضمي وسكر", spec: "جهاز هضمي وسكر", phone: "01016600646" },
+  { name: "Signature Dental Clinic", spec: "أسنان", phone: "01090903458" },
+  { name: "مركز المروة للعلاج الطبيعي", spec: "علاج طبيعي", phone: "01010743170" },
+  { name: "د. علاء عفت عبد الحميد", spec: "عيادة طبية", phone: "01272459859" },
+  { name: "Dr Mohamed Nada Dental", spec: "أسنان", phone: "01060606467" },
+  { name: "OneDay Plastic Surgery", spec: "تجميل", phone: "01026275015" },
+  { name: "د. محمد حبيب — Habib Dental", spec: "أسنان", phone: "01555466688" },
+  { name: "مركز مودة للعيون والليزك", spec: "عيون", phone: "01066691886" },
+  { name: "Majestic Dental Center", spec: "أسنان", phone: "01007899300" },
+  { name: "د. حازم أبو النصر", spec: "جراحة أعصاب", phone: "0483218780" },
+  { name: "Dr Haytham Badr Clinic", spec: "عيادة طبية", phone: "0482223040" },
+  { name: "د. زين عبد اللطيف", spec: "طبيب", phone: "01009775612" },
+  { name: "مستوصف السيدة العذراء", spec: "مستوصف عام", phone: "0482227811" },
+  { name: "عيادة الشفاء للطب النفسي", spec: "نفسي", phone: "01097765868" },
+  { name: "د. أحمد هاني", spec: "صحة نفسية", phone: "01007945130" },
+  { name: "Haikal Dental Clinic", spec: "أسنان", phone: "01121929845" },
+  { name: "مركز رعاية — د. محمد الشرقاوي", spec: "علاج طبيعي", phone: "01024755888" },
+  { name: "د. أحمد عادل — جراحة عامة وأوعية", spec: "جراحة عامة وأوعية", phone: "01003118605" },
+  { name: "د. رانيا — نساء وتوليد", spec: "نساء وتوليد", phone: "01099529995" },
+  { name: "د. زياد السيد — Dental", spec: "أسنان", phone: "01103490903" },
+  { name: "عيادة كريستال", spec: "أسنان", phone: "01007118326" },
+  { name: "Medical Clinic — أنف وأذن", spec: "أنف وأذن وحنجرة", phone: "01006961361" },
+  { name: "د. محمد غراب — مسالك بولية", spec: "مسالك بولية", phone: "01005216594" },
+  { name: "Laser Art Center", spec: "طبيب ليزر", phone: "01032848686" },
+  { name: "عيادة د. عزت أبو السعد", spec: "أنف وأذن وحنجرة", phone: "01006961361" },
+  { name: "د. محمد عبد الله — أطفال", spec: "أطفال", phone: "01223578849" },
+  { name: "د. محمد السنباوي — أورام", spec: "أورام", phone: "0482333595" },
+  { name: "د. تامر سليم — أطفال", spec: "أطفال", phone: "01094243676" },
+  { name: "د. أحمد حسب الله — عظام", spec: "عظام وعمود فقري", phone: "01011738204" },
+  { name: "مركز الزهراء — سمع واتزان", spec: "سمع واتزان", phone: "01004299201" },
+  { name: "د. إسلام إبراهيم — جراحة صدر", spec: "جراحة صدرية", phone: "01005184086" },
+  { name: "د. ماجد أبو شادي — حساسية", spec: "أمراض حساسية", phone: "01554135263" },
+  { name: "د. أشرف غراب — أسنان", spec: "أسنان", phone: "0482320450" },
+  { name: "د. عبد العزيز مجدي — جراحة أطفال", spec: "جراحة أطفال", phone: "01000575827" },
+  { name: "د. محمد عصام الدين", spec: "طبيب", phone: "0482222680" },
+  { name: "د. أحمد عطية", spec: "طبيب", phone: "01099016021" },
+  { name: "د. أيمن كيلاني", spec: "طبيب", phone: "0482571172" },
+  { name: "د. هشام فايد جاد الله", spec: "طبيب", phone: "01065243162" },
+  { name: "د. محمد نبيل المرواني — مخ وأعصاب", spec: "مخ وأعصاب", phone: "01092772600" },
+  { name: "مركز د. أحمد فرجاني — تجميل وليزر", spec: "تجميل وحروق", phone: "01069459408" },
+  { name: "د. مصطفى النجار — غدد صماء", spec: "غدد صماء", phone: "" },
+  { name: "د. أحمد سعيد — قلب وقسطرة", spec: "قلب وقسطرة", phone: "" },
+  { name: "عيادة د. شرشر — غضروف", spec: "علاج غضروف", phone: "01111655275" },
+  { name: "عيادة الباهي — مخ وأعصاب ونفسي", spec: "مخ وأعصاب ونفسي", phone: "" },
+];
+
+function formatPhone(p) {
+  if (!p) return null;
+  let clean = p.replace(/\D/g, '');
+  if (clean.startsWith('0') && clean.length === 11) return '2' + clean;
+  if (clean.startsWith('20')) return clean;
+  return '20' + clean;
+}
+
+function buildTable(data) {
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = '';
+  data.forEach((c, i) => {
+    const intl = formatPhone(c.phone);
+    const hasPhone = c.phone && c.phone.trim() !== '';
+    const waLink = hasPhone ? `https://wa.me/${intl}` : null;
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span class="num-badge">${i + 1}</span></td>
+      <td>${c.name}</td>
+      <td><span class="spec-badge">${c.spec}</span></td>
+      <td>${hasPhone ? `<span class="phone-text">${c.phone}</span>` : '<span class="no-phone">غير متاح</span>'}</td>
+      <td>${waLink
+        ? `<a class="wa-btn" href="${waLink}" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            واتساب
+           </a>`
+        : '<span class="no-btn">—</span>'
+      }</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function filterTable() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const filtered = clinics.filter(c =>
+    c.name.toLowerCase().includes(q) || c.spec.toLowerCase().includes(q)
+  );
+  buildTable(filtered);
+}
+
+buildTable(clinics);
+
+const withPhone = clinics.filter(c => c.phone && c.phone.trim() !== '').length;
+document.getElementById('total-count').textContent = clinics.length;
+document.getElementById('phone-count').textContent = withPhone;
+</script>
+</body>
+</html>

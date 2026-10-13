@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تعلم البرمجة مجانًا</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e14;
+    --panel:#111621;
+    --panel2:#161c2b;
+    --line:#232a3b;
+    --text:#dbe2f0;
+    --muted:#7c8aa8;
+    --green:#7ee787;
+    --purple:#c297ff;
+    --orange:#ffab70;
+    --cyan:#79d4ff;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:'Tajawal', sans-serif;
+  }
+  header{
+    padding:60px 24px 30px; text-align:center;
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg, #0f1420, #0b0e14);
+  }
+  .prompt{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--green); font-size:13px; margin-bottom:16px;
+  }
+  .prompt::before{ content:"$ "; color:var(--muted); }
+  h1{
+    font-size:clamp(28px,5vw,48px); font-weight:900; margin:0 0 10px;
+  }
+  .sub{ color:var(--muted); font-size:16px; }
+
+  .wrap{ max-width:1050px; margin:0 auto; padding:44px 20px 100px; }
+
+  .path{
+    background:var(--panel2);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:24px 26px;
+    margin-bottom:44px;
+  }
+  .path h3{ margin:0 0 14px; font-size:16px; color:var(--cyan); font-family:'JetBrains Mono'; }
+  .path .chain{
+    font-family:'JetBrains Mono', monospace;
+    font-size:14px;
+    color:var(--text);
+    line-height:2;
+  }
+  .path .chain b{ color:var(--orange); }
+
+  .section{ margin-bottom:40px; }
+  .section-head{
+    display:flex; align-items:center; gap:10px; margin-bottom:16px;
+    padding-bottom:10px; border-bottom:1px solid var(--line);
+  }
+  .section-title{ font-size:19px; font-weight:700; }
+  .table{
+    display:grid; gap:10px;
+  }
+  .tr{
+    display:grid;
+    grid-template-columns:150px 1fr 2fr auto;
+    gap:14px;
+    align-items:center;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 18px;
+    transition:.15s;
+  }
+  .tr:hover{ border-color:var(--cyan); }
+  .tech{ font-weight:700; font-family:'JetBrains Mono'; color:var(--purple); font-size:14px; }
+  .site{
+    font-family:'JetBrains Mono', monospace; font-size:13px; color:var(--cyan);
+    direction:ltr; text-align:left;
+  }
+  .site a{ color:var(--cyan); text-decoration:none; }
+  .site a:hover{ text-decoration:underline; }
+  .desc{ color:var(--muted); font-size:13.5px; }
+  .del{
+    background:none; border:none; color:var(--muted); font-size:12px; cursor:pointer;
+  }
+  .del:hover{ color:#ff7b7b; }
+
+  @media (max-width:700px){
+    .tr{ grid-template-columns:1fr; gap:6px; }
+    .del{ justify-self:start; }
+  }
+
+  .toolbar{ display:flex; justify-content:center; margin:10px 0 40px; }
+  .add-btn{
+    background:var(--green); color:#0b0e14; border:none;
+    padding:13px 26px; border-radius:8px; font-family:'JetBrains Mono'; font-weight:700;
+    font-size:14px; cursor:pointer;
+  }
+  .add-btn:hover{ opacity:.85; }
+
+  .modal-bg{
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,.6);
+    align-items:center; justify-content:center; z-index:50; padding:20px;
+  }
+  .modal-bg.open{ display:flex; }
+  .modal{ background:var(--panel2); border:1px solid var(--line); max-width:460px; width:100%; padding:30px; border-radius:14px; }
+  .modal h2{ margin-top:0; font-size:19px; font-family:'JetBrains Mono'; color:var(--green); }
+  .modal label{ display:block; font-size:13px; color:var(--muted); margin:14px 0 6px; }
+  .modal input, .modal select{
+    width:100%; background:var(--bg); border:1px solid var(--line); color:var(--text);
+    padding:10px 12px; border-radius:8px; font-family:'Tajawal';
+  }
+  .modal-actions{ display:flex; gap:10px; margin-top:22px; justify-content:flex-end; }
+  .btn-secondary{ background:transparent; border:1px solid var(--line); color:var(--muted); padding:10px 20px; border-radius:8px; cursor:pointer; font-family:'Tajawal'; }
+  .btn-primary{ background:var(--green); border:none; color:#0b0e14; padding:10px 20px; border-radius:8px; cursor:pointer; font-family:'Tajawal'; font-weight:700; }
+  footer{ text-align:center; padding:30px; color:var(--muted); font-size:13px; font-family:'JetBrains Mono'; }
+</style>
+</head>
+<body>
+<header>
+  <div class="prompt">learn --free --all</div>
+  <h1>تعلم البرمجة مجانًا 🎓💻</h1>
+  <div class="sub">كل المصادر هنا 100% مجانية ولا تحتاج أي دفع</div>
+</header>
+
+<div class="wrap">
+  <div class="toolbar">
+    <button class="add-btn" onclick="openModal()">+ resource --add</button>
+  </div>
+
+  <div id="sections"></div>
+
+  <div class="path">
+    <h3>🗺️ من أين تبدأ؟</h3>
+    <div class="chain">
+      إذا كنت مبتدئاً تماماً: <b>HTML</b> ← <b>CSS</b> ← <b>JavaScript</b> ← <b>React</b><br>
+      إذا تريد الـ Backend: <b>Python</b> ← <b>Django</b> أو <b>Flask</b> ← <b>SQL</b><br>
+      إذا تريد الأمن السيبراني: <b>Linux</b> ← <b>Networking</b> ← <b>TryHackMe</b><br>
+      إذا تريد الذكاء الاصطناعي: <b>Python</b> ← <b>SQL</b> ← <b>Elements of AI</b>
+    </div>
+  </div>
+</div>
+
+<footer>// saved for this session only</footer>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h2>+ إضافة مصدر تعلّم</h2>
+    <label>اسم التقنية</label>
+    <input id="inTech" placeholder="مثال: Kotlin">
+    <label>الموقع</label>
+    <input id="inSite" placeholder="kotlinlang.org">
+    <label>ماذا ستتعلم</label>
+    <input id="inDesc" placeholder="مثال: تطبيقات أندرويد الحديثة">
+    <label>القسم</label>
+    <select id="inSection"></select>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+      <button class="btn-primary" onclick="addResource()">إضافة</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const sections = [
+  {key:"web", title:"🌐 تطوير الويب الأساسي", items:[
+    {tech:"HTML", site:"html.com", desc:"بناء هيكل المواقع"},
+    {tech:"CSS", site:"web.dev/learn/css", desc:"تصميم وتنسيق المواقع"},
+    {tech:"JavaScript", site:"javascript.info", desc:"جعل المواقع تفاعلية"},
+  ]},
+  {key:"frontend", title:"⚛️ أطر عمل الواجهة الأمامية", items:[
+    {tech:"React", site:"reactplay.io", desc:"مكتبة JS الأشهر من Facebook"},
+    {tech:"Vue", site:"learnvue.co", desc:"إطار عمل سهل وخفيف"},
+    {tech:"Angular", site:"angular.dev/tutorials", desc:"إطار عمل من Google"},
+    {tech:"Next.js", site:"nextjs.org/learn", desc:"React مع Server Side"},
+    {tech:"TypeScript", site:"typescriptlang.org/docs", desc:"JavaScript بأنواع بيانات"},
+  ]},
+  {key:"langs", title:"🔧 لغات البرمجة", items:[
+    {tech:"Python", site:"learnpython.org", desc:"الأسهل للمبتدئين، AI والبيانات"},
+    {tech:"PHP", site:"phptherightway.com", desc:"مواقع الخادم الخلفي"},
+    {tech:"Go", site:"learn-golang.org", desc:"لغة سريعة من Google"},
+    {tech:"Rust", site:"rust-lang.org/learn", desc:"لغة سريعة وآمنة جداً"},
+    {tech:"C++", site:"cplusplus.com/doc/tutorial", desc:"الألعاب والأنظمة"},
+    {tech:"Java", site:"docs.oracle.com/javase/tutorial", desc:"تطبيقات ضخمة وأندرويد"},
+    {tech:"C#", site:"dotnet.microsoft.com/learn/csharp", desc:"تطوير Microsoft والألعاب"},
+    {tech:"Swift", site:"swift.org/learn", desc:"تطبيقات iPhone وMac"},
+  ]},
+  {key:"data", title:"🗄️ قواعد البيانات والـ API", items:[
+    {tech:"SQL", site:"w3schools.com/sql", desc:"التعامل مع قواعد البيانات"},
+    {tech:"API", site:"rapidapi.com/learn", desc:"ربط التطبيقات مع بعض"},
+  ]},
+  {key:"devtools", title:"🛠️ أدوات المطور", items:[
+    {tech:"Git", site:"git-scm.com/book", desc:"حفظ وإدارة الكود"},
+    {tech:"Docker", site:"docker.com/get-started", desc:"تغليف التطبيقات"},
+    {tech:"Kubernetes", site:"kubernetes.io/docs/tutorials", desc:"إدارة التطبيقات على نطاق واسع"},
+    {tech:"Linux", site:"linuxjourney.com", desc:"نظام التشغيل للمطورين"},
+  ]},
+  {key:"backend", title:"🚀 تطوير الخلفية (Backend)", items:[
+    {tech:"Django", site:"djangoproject.com/start", desc:"إطار عمل Python للمواقع"},
+    {tech:"Flask", site:"flask.palletsprojects.com/tutorial", desc:"إطار Python خفيف"},
+  ]},
+  {key:"cloud", title:"☁️ الحوسبة السحابية", items:[
+    {tech:"AWS", site:"aws.amazon.com/training", desc:"سحابة Amazon الأشهر"},
+    {tech:"GCP", site:"cloudskillsboost.google", desc:"سحابة Google"},
+    {tech:"Azure", site:"microsoft.com/learn/azure", desc:"سحابة Microsoft"},
+  ]},
+  {key:"special", title:"🔐 تقنيات متخصصة", items:[
+    {tech:"Cybersecurity", site:"tryhackme.com", desc:"الأمن السيبراني الأخلاقي"},
+    {tech:"DevOps", site:"roadmap.sh/devops", desc:"ربط التطوير بالعمليات"},
+    {tech:"Web3", site:"learnweb3.io", desc:"تطوير البلوكشين"},
+    {tech:"Blockchain", site:"cryptozombies.io", desc:"عقود ذكية بطريقة ممتعة"},
+    {tech:"AI Basics", site:"elementsofai.com", desc:"أساسيات الذكاء الاصطناعي"},
+    {tech:"Design Patterns", site:"refactoring.guru", desc:"أنماط تصميم الكود الاحترافي"},
+  ]},
+];
+
+function normalizeUrl(u){ return /^https?:\/\//.test(u) ? u : 'https://' + u; }
+
+function render(){
+  const select = document.getElementById('inSection');
+  select.innerHTML = sections.map(s=>`<option value="${s.key}">${s.title}</option>`).join('');
+
+  const el = document.getElementById('sections');
+  el.innerHTML = sections.map(sec=>`
+    <div class="section">
+      <div class="section-head"><div class="section-title">${sec.title}</div></div>
+      <div class="table">
+        ${sec.items.map((it,i)=>`
+          <div class="tr">
+            <div class="tech">${it.tech}</div>
+            <div class="site"><a href="${normalizeUrl(it.site)}" target="_blank" rel="noopener">${it.site}</a></div>
+            <div class="desc">${it.desc}</div>
+            <button class="del" onclick="removeItem('${sec.key}', ${i})">حذف</button>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+function openModal(){ document.getElementById('modalBg').classList.add('open'); }
+function closeModal(){
+  document.getElementById('modalBg').classList.remove('open');
+  ['inTech','inSite','inDesc'].forEach(id=>document.getElementById(id).value='');
+}
+function addResource(){
+  const tech = document.getElementById('inTech').value.trim();
+  const site = document.getElementById('inSite').value.trim();
+  const desc = document.getElementById('inDesc').value.trim();
+  const secKey = document.getElementById('inSection').value;
+  if(!tech || !site){ alert('من فضلك أدخل اسم التقنية والموقع'); return; }
+  const sec = sections.find(s=>s.key===secKey);
+  sec.items.push({tech, site, desc: desc || '—'});
+  render();
+  closeModal();
+}
+function removeItem(secKey, i){
+  const sec = sections.find(s=>s.key===secKey);
+  sec.items.splice(i,1);
+  render();
+}
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ahmed AbdelGhaffar Sadek — CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Tajawal:wght@300;400;500;700;800&family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #f4f1ea;
+    --paper: #fbfaf6;
+    --ink: #22303f;
+    --ink-soft: #4d5c6b;
+    --ink-muted: #8b95a1;
+    --navy: #1f3350;
+    --navy-deep: #16263d;
+    --slate: #5c7a94;
+    --line: #d9d3c4;
+    --line-soft: #e7e2d5;
+    --accent: #9a7b4f;
+    --radius: 10px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Tajawal',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    min-height:100vh;
+    padding:44px 18px 70px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .page{
+    max-width:880px;margin:0 auto;background:var(--paper);
+    border:1px solid var(--line-soft);
+    box-shadow:0 30px 70px -30px rgba(31,51,80,.18);
+    border-radius:16px;overflow:hidden;
+    opacity:0;transform:translateY(18px);
+    animation:pageIn .8s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  @keyframes pageIn{to{opacity:1;transform:translateY(0)}}
+
+  /* ---------- Header ---------- */
+  .header{
+    position:relative;
+    background:linear-gradient(135deg,var(--navy-deep),var(--navy) 60%,#284363);
+    color:#f4f1ea;
+    padding:44px 40px 38px;
+    display:flex;align-items:center;gap:30px;
+    overflow:hidden;
+  }
+  .header::before{
+    content:'';position:absolute;inset:0;
+    background:
+      radial-gradient(420px 260px at 90% -10%, rgba(255,255,255,.07), transparent 60%),
+      repeating-linear-gradient(115deg, rgba(255,255,255,.025) 0 2px, transparent 2px 34px);
+    pointer-events:none;
+  }
+  .photo-slot{
+    flex-shrink:0;width:118px;height:118px;border-radius:50%;
+    background:rgba(255,255,255,.06);
+    border:2px solid rgba(244,241,234,.35);
+    display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;
+    opacity:0;transform:scale(.85);
+    animation:photoIn .7s cubic-bezier(.34,1.4,.64,1) .25s forwards;
+  }
+  @keyframes photoIn{to{opacity:1;transform:scale(1)}}
+  /* ضع صورتك هنا يدويًا: استبدل الوسم <div class="photo-slot"> بـ
+     <img src="photo.jpg" class="photo-slot" style="object-fit:cover"> */
+  .photo-slot svg{width:44px;height:44px;color:rgba(244,241,234,.5)}
+  .photo-slot .ring{
+    position:absolute;inset:-2px;border-radius:50%;
+    border:1px dashed rgba(244,241,234,.3);
+  }
+
+  .head-text{position:relative;z-index:1}
+  .head-eyebrow{
+    font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+    color:#c9b98a;font-weight:700;margin-bottom:8px;
+    opacity:0;animation:fadeUp .6s ease .45s forwards;
+  }
+  h1.name{
+    font-family:'Cormorant Garamond',serif;font-weight:600;
+    font-size:clamp(28px,4vw,38px);line-height:1.15;letter-spacing:.01em;
+    margin-bottom:10px;color:#faf8f2;
+    opacity:0;animation:fadeUp .6s ease .55s forwards;
+  }
+  .head-contacts{
+    display:flex;flex-wrap:wrap;gap:14px 22px;font-size:12.5px;color:#d7dde5;
+    opacity:0;animation:fadeUp .6s ease .68s forwards;
+  }
+  .head-contacts span{display:flex;align-items:center;gap:6px}
+  .head-contacts svg{width:13px;height:13px;color:#c9b98a;flex-shrink:0}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ---------- Body ---------- */
+  .body{padding:36px 40px 44px;display:grid;grid-template-columns:1fr;gap:0}
+
+  .section{
+    padding:22px 0;border-bottom:1px solid var(--line-soft);
+    opacity:0;transform:translateY(14px);
+    animation:secIn .6s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  .section:last-child{border-bottom:none}
+  @keyframes secIn{to{opacity:1;transform:translateY(0)}}
+
+  .sec-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+  .sec-num{
+    font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--accent);
+    font-weight:700;letter-spacing:.05em;
+  }
+  .sec-title{
+    font-family:'Cormorant Garamond',serif;font-weight:600;
+    font-size:20px;color:var(--navy);letter-spacing:.01em;
+  }
+  .sec-rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+
+  /* Summary */
+  .summary-text{font-size:14px;line-height:2;color:var(--ink-soft)}
+
+  /* Experience */
+  .job{position:relative;padding-inline-start:22px;margin-bottom:22px}
+  .job:last-child{margin-bottom:0}
+  .job::before{
+    content:'';position:absolute;inset-inline-start:0;top:6px;width:8px;height:8px;
+    border-radius:50%;background:var(--navy);border:2px solid var(--paper);
+    box-shadow:0 0 0 1px var(--line);
+  }
+  .job::after{
+    content:'';position:absolute;inset-inline-start:3.5px;top:16px;bottom:-4px;width:1px;
+    background:var(--line-soft);
+  }
+  .job:last-child::after{display:none}
+  .job-row{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:4px}
+  .job-title{font-size:15.5px;font-weight:700;color:var(--ink)}
+  .job-dates{font-size:11.5px;color:var(--accent);font-weight:700;letter-spacing:.03em;white-space:nowrap}
+  .job-company{font-size:12.5px;color:var(--slate);font-weight:500;margin-bottom:9px}
+  .job-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+  .job-list li{font-size:13px;color:var(--ink-soft);line-height:1.7;position:relative;padding-inline-start:16px}
+  .job-list li::before{content:'—';position:absolute;inset-inline-start:0;color:var(--accent)}
+
+  /* Two column grid for lower sections */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+  @media (max-width:640px){.grid2{grid-template-columns:1fr}}
+
+  /* Education */
+  .edu-title{font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:3px}
+  .edu-sub{font-size:12.5px;color:var(--slate);margin-bottom:2px}
+  .edu-meta{font-size:11.5px;color:var(--ink-muted)}
+
+  /* Skills */
+  .skill-tags{display:flex;flex-wrap:wrap;gap:8px}
+  .skill-tag{
+    font-size:12px;padding:6px 14px;border-radius:20px;
+    background:var(--bg);border:1px solid var(--line);color:var(--ink-soft);
+    font-weight:500;transition:all .25s;
+  }
+  .skill-tag:hover{border-color:var(--accent);color:var(--navy);transform:translateY(-1px)}
+
+  /* Languages / meter */
+  .lang-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .lang-row:last-child{margin-bottom:0}
+  .lang-name{font-size:13px;color:var(--ink);font-weight:600}
+  .lang-level{font-size:11px;color:var(--ink-muted)}
+  .meter{height:5px;border-radius:4px;background:var(--line-soft);margin-top:6px;overflow:hidden}
+  .meter-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--slate),var(--navy));width:0;
+    transition:width 1.1s cubic-bezier(.2,.7,.2,1);}
+
+  /* Certificates */
+  .cert-list{list-style:none;display:flex;flex-direction:column;gap:9px}
+  .cert-list li{font-size:13px;color:var(--ink-soft);line-height:1.6;position:relative;padding-inline-start:18px}
+  .cert-list li::before{content:'✦';position:absolute;inset-inline-start:0;color:var(--accent);font-size:11px;top:2px}
+
+  /* Personal data */
+  .pdata{display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--ink-soft)}
+  .pdata b{color:var(--ink);font-weight:700}
+
+  /* Interests */
+  .interest-tags{display:flex;flex-wrap:wrap;gap:8px}
+  .interest-tag{
+    font-size:12px;padding:6px 14px;border-radius:8px;
+    background:linear-gradient(135deg,var(--navy-deep),var(--navy));
+    color:#f0ede2;font-weight:500;
+  }
+
+  .footer-note{
+    text-align:center;font-size:10.5px;color:var(--ink-muted);
+    padding:16px 40px 6px;letter-spacing:.05em;
+  }
+
+  @media print{
+    body{padding:0;background:#fff}
+    .page{box-shadow:none;border:none;border-radius:0}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="header">
+    <!-- ضع صورتك هنا يدويًا: بدّل هذا الـ div بـ
+         <img src="photo.jpg" class="photo-slot" style="object-fit:cover" alt="Ahmed Sadek"> -->
+    <div class="photo-slot">
+      <div class="ring"></div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+    </div>
+    <div class="head-text">
+      <div class="head-eyebrow">Curriculum Vitae</div>
+      <h1 class="name">Ahmed AbdelGhaffar Mohamed Sadek</h1>
+      <div class="head-contacts">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg> 01000025179</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg> 01033744464</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"></path><path d="M22 6 12 13 2 6"></path><path d="M2 6h20v12H2z"></path></svg> Ahmed.sadek17@outlook.com</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> Tenth District, Block 6, 6 October, Giza, Egypt</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- Summary -->
+    <div class="section" style="animation-delay:.15s">
+      <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">نبذة مهنية</span><span class="sec-rule"></span></div>
+      <p class="summary-text">
+        محترف في خدمة العملاء والمحاسبة بخبرة تمتد لأكثر من 4 سنوات، تجمع بين الدقة المالية والقدرة على بناء علاقات
+        قوية مع العملاء. حاليًا أعمل كممثل متجر في فودافون مصر، مع خلفية سابقة في المحاسبة داخل قطاعي الصناعات
+        الدوائية والمكاتب المحاسبية. سريع التعلّم، يعمل بكفاءة تحت الضغط، وطموح لتطوير مهاراته باستمرار.
+      </p>
+    </div>
+
+    <!-- Experience -->
+    <div class="section" style="animation-delay:.22s">
+      <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">الخبرة العملية</span><span class="sec-rule"></span></div>
+
+      <div class="job">
+        <div class="job-row">
+          <span class="job-title">Store Representative</span>
+          <span class="job-dates">يوليو 2024 — حتى الآن</span>
+        </div>
+        <div class="job-company">Vodafone Egypt</div>
+        <ul class="job-list">
+          <li>مساعدة العملاء في إيجاد المنتجات المناسبة وتقديم توصيات بناءً على احتياجاتهم.</li>
+          <li>متابعة مشاكل العملاء وتقديم الدعم اللازم لحلها بفعالية.</li>
+          <li>تنفيذ المعاملات بدقة وكفاءة عبر نظام نقاط البيع.</li>
+          <li>التعامل مع الاستفسارات والشكاوى بشكل احترافي وفي الوقت المناسب.</li>
+          <li>تحديد العملاء المحتملين وتحديد المواعيد وإجراء مكالمات بيع مؤهلة وفعالة.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-row">
+          <span class="job-title">Accountant</span>
+          <span class="job-dates">أغسطس 2022 — مارس 2023</span>
+        </div>
+        <div class="job-company">ATM Pharmaceutical Industries</div>
+        <ul class="job-list">
+          <li>المسؤولية عن المقبوضات والمدفوعات والبنوك والمبيعات والمخازن.</li>
+          <li>إعداد تقارير حركة الخزينة يوميًا وأسبوعيًا وشهريًا.</li>
+          <li>إعداد ومراجعة أرصدة العملاء.</li>
+          <li>إعداد فواتير المبيعات ومردودات المبيعات والتقارير المرتبطة بها.</li>
+          <li>مراجعة أرصدة المخازن ومتابعة الجرد الدوري.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-row">
+          <span class="job-title">Accountant</span>
+          <span class="job-dates">يناير 2020 — يوليو 2022</span>
+        </div>
+        <div class="job-company">مكتب حسام الدين سعيد حسام الدين للمحاسبة</div>
+        <ul class="job-list">
+          <li>إعداد الميزانية العمومية.</li>
+          <li>إعداد تقارير ضرائب المبيعات.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Education + Languages -->
+    <div class="section grid2" style="animation-delay:.28s">
+      <div>
+        <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">التعليم</span><span class="sec-rule"></span></div>
+        <div class="edu-title">بكالوريوس تجارة — محاسبة</div>
+        <div class="edu-sub">جامعة المنوفية، كلية التجارة</div>
+        <div class="edu-meta">سبتمبر 2018 — يوليو 2022 · تقدير جيد</div>
+      </div>
+      <div>
+        <div class="sec-head"><span class="sec-num">04</span><span class="sec-title">اللغات</span><span class="sec-rule"></span></div>
+        <div class="lang-row-wrap">
+          <div class="lang-row"><span class="lang-name">العربية</span><span class="lang-level">اللغة الأم</span></div>
+          <div class="meter"><div class="meter-fill" data-w="100"></div></div>
+        </div>
+        <div class="lang-row-wrap" style="margin-top:14px">
+          <div class="lang-row"><span class="lang-name">الإنجليزية</span><span class="lang-level">جيد جدًا — كتابة ومحادثة</span></div>
+          <div class="meter"><div class="meter-fill" data-w="78"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills + Certificates -->
+    <div class="section grid2" style="animation-delay:.35s">
+      <div>
+        <div class="sec-head"><span class="sec-num">05</span><span class="sec-title">المهارات</span><span class="sec-rule"></span></div>
+        <div class="skill-tags">
+          <span class="skill-tag">خدمة العملاء</span>
+          <span class="skill-tag">المحاسبة المالية</span>
+          <span class="skill-tag">Microsoft Excel</span>
+          <span class="skill-tag">Microsoft Word</span>
+          <span class="skill-tag">ICDL</span>
+          <span class="skill-tag">العمل تحت الضغط</span>
+          <span class="skill-tag">التواصل الفعّال</span>
+          <span class="skill-tag">العمل الجماعي</span>
+          <span class="skill-tag">ولاء العملاء للعلامة التجارية</span>
+        </div>
+      </div>
+      <div>
+        <div class="sec-head"><span class="sec-num">06</span><span class="sec-title">الشهادات والتدريب</span><span class="sec-rule"></span></div>
+        <ul class="cert-list">
+          <li>المحاسبة والقوائم المالية</li>
+          <li>مكافحة غسل الأموال وتمويل الإرهاب — المعهد المصرفي المصري</li>
+          <li>مهارات التواصل الفعّال</li>
+          <li>أفضل 10 ممارسات في خدمة العملاء</li>
+          <li>رخصة ICDL الدولية</li>
+          <li>تدريب بنك مصر — فتح الحسابات، الشهادات، البطاقات، التحويلات (أغسطس 2021)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Personal + Interests -->
+    <div class="section grid2" style="animation-delay:.42s">
+      <div>
+        <div class="sec-head"><span class="sec-num">07</span><span class="sec-title">بيانات شخصية</span><span class="sec-rule"></span></div>
+        <div class="pdata">
+          <div><b>تاريخ الميلاد:</b> 17 / 09 / 2000</div>
+          <div><b>الجنسية:</b> مصري</div>
+          <div><b>الموقف من التجنيد:</b> أدى الخدمة</div>
+        </div>
+      </div>
+      <div>
+        <div class="sec-head"><span class="sec-num">08</span><span class="sec-title">الاهتمامات</span><span class="sec-rule"></span></div>
+        <div class="interest-tags">
+          <span class="interest-tag">تعلّم اللغات</span>
+          <span class="interest-tag">التسويق</span>
+          <span class="interest-tag">الرياضة</span>
+          <span class="interest-tag">استكشاف الثقافات</span>
+          <span class="interest-tag">العمل المجتمعي</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-note">References available upon request</div>
+</div>
+
+<script>
+  // Reveal sections progressively + animate language meters once visible
+  const sections = document.querySelectorAll('.section');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.style.animationPlayState = 'running';
+        e.target.querySelectorAll('.meter-fill').forEach(m=>{
+          m.style.width = m.dataset.w + '%';
+        });
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:.2});
+  sections.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

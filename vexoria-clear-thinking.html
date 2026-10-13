@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEXORIA — Clear Thinking System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cinzel:wght@400;500;600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #F7DC97;
+    --gold-deep: #C9A030;
+    --gold-dark: #7B5010;
+    --gold-dim: #3a2200;
+    --black: #030302;
+    --black2: #060504;
+    --black3: #0a0908;
+    --body: #b8965a;
+    --muted: #5a3d18;
+    --faint: #2a1e0a;
+    --white-soft: #FFF8E0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--body);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    line-height: 1.85;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.35;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--black2); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 2px; }
+
+  /* ── TYPOGRAPHY ── */
+  h1, h2, h3 { font-family: 'Cinzel', serif; letter-spacing: 0.08em; font-weight: 400; }
+
+  .display-brand {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(3rem, 10vw, 7.5rem);
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 35%, var(--white-soft) 50%, var(--gold) 65%, var(--gold-dark) 100%);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmerText 5s ease-in-out infinite, breathe 4s ease-in-out infinite;
+    position: relative;
+  }
+
+  .display-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.65rem, 2vw, 0.9rem);
+    letter-spacing: 0.45em;
+    color: var(--gold-dark);
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.5em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    color: var(--gold-deep);
+    font-weight: 400;
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.06em;
+  }
+
+  .lead {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+    color: var(--gold);
+    font-style: italic;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  p { margin-bottom: 1.4rem; }
+
+  strong { color: var(--gold-deep); font-weight: 500; }
+
+  em { color: var(--gold); font-style: italic; }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+  }
+
+  .container-wide {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+  }
+
+  section {
+    padding: clamp(4rem, 10vw, 8rem) 0;
+    position: relative;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 3.5rem 0;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--muted));
+  }
+  .divider::after { background: linear-gradient(to left, transparent, var(--muted)); }
+  .divider-icon {
+    color: var(--gold-dark);
+    font-size: 1rem;
+    letter-spacing: 0.3em;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,160,48,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(247,220,151,0.04) 0%, transparent 60%);
+  }
+
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.7em;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+  }
+
+  .hero-brand-wrap {
+    position: relative;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.6s forwards;
+  }
+
+  .hero-brand-glow {
+    position: absolute;
+    inset: -20px;
+    background: radial-gradient(ellipse at center, rgba(201,160,48,0.12) 0%, transparent 70%);
+    animation: breatheGlow 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .hero-tagline {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.6rem, 1.8vw, 0.8rem);
+    letter-spacing: 0.55em;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.9s forwards;
+  }
+
+  .hero-quote {
+    max-width: 600px;
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(1.2rem, 3vw, 1.7rem);
+    color: var(--gold);
+    font-style: italic;
+    line-height: 1.6;
+    margin: 0 auto 3rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.2s forwards;
+  }
+
+  .hero-line {
+    width: 1px;
+    height: 0;
+    background: linear-gradient(to bottom, var(--gold-dark), transparent);
+    margin: 0 auto 2rem;
+    animation: growLine 1.5s ease 1.6s forwards;
+  }
+
+  .scroll-hint {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.6em;
+    color: var(--muted);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 1s ease 2s forwards, sPulse 2.5s ease 2s infinite;
+  }
+
+  /* ── NUMBER CARDS ── */
+  .bias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin: 3rem 0;
+  }
+
+  .bias-card {
+    background: linear-gradient(135deg, rgba(58,34,0,0.4) 0%, rgba(6,5,4,0.8) 100%);
+    border: 1px solid rgba(123,80,16,0.3);
+    border-radius: 2px;
+    padding: 2rem 1.75rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.4s ease, transform 0.4s ease;
+  }
+
+  .bias-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dark), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .bias-card:hover { border-color: rgba(201,160,48,0.4); transform: translateY(-3px); }
+  .bias-card:hover::before { opacity: 1; }
+
+  .bias-number {
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    color: rgba(123,80,16,0.4);
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+
+  .bias-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: var(--gold-deep);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+  }
+
+  .bias-desc {
+    font-size: 0.95rem;
+    color: var(--body);
+    line-height: 1.7;
+  }
+
+  /* ── FRAMEWORK STEPS ── */
+  .framework-steps {
+    margin: 3rem 0;
+    position: relative;
+  }
+
+  .framework-steps::before {
+    content: '';
+    position: absolute;
+    left: 2rem;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--muted) 10%, var(--muted) 90%, transparent);
+  }
+
+  .step {
+    display: flex;
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .step-number-wrap {
+    flex-shrink: 0;
+    width: 2rem;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-dot {
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    background: var(--black2);
+    border: 1px solid var(--gold-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    color: var(--gold-dark);
+    letter-spacing: 0.05em;
+    margin-top: 0.25rem;
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  .step:hover .step-dot {
+    border-color: var(--gold-deep);
+    color: var(--gold-deep);
+    background: rgba(123,80,16,0.15);
+  }
+
+  .step-content h3 {
+    font-size: 1rem;
+    color: var(--gold-deep);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.12em;
+    font-weight: 500;
+  }
+
+  .step-content p {
+    font-size: 1rem;
+    margin-bottom: 0;
+    color: var(--body);
+  }
+
+  /* ── QUOTE BLOCK ── */
+  .quote-block {
+    border-left: 2px solid var(--gold-dark);
+    padding: 2rem 2.5rem;
+    margin: 3rem 0;
+    background: linear-gradient(to right, rgba(42,30,10,0.5), transparent);
+    position: relative;
+  }
+
+  .quote-block::before {
+    content: '\201C';
+    position: absolute;
+    top: -0.5rem;
+    left: 1.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    color: var(--gold-dark);
+    opacity: 0.4;
+    line-height: 1;
+  }
+
+  .quote-block p {
+    font-family: 'IM Fell English', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+    line-height: 1.65;
+  }
+
+  .quote-attr {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ── EXERCISE CARDS ── */
+  .exercise-list {
+    counter-reset: exercises;
+    list-style: none;
+    margin: 2.5rem 0;
+  }
+
+  .exercise-list li {
+    counter-increment: exercises;
+    padding: 2rem 2rem 2rem 4rem;
+    border-bottom: 1px solid rgba(90,61,24,0.3);
+    position: relative;
+    transition: background 0.3s;
+  }
+
+  .exercise-list li:hover { background: rgba(42,30,10,0.4); }
+
+  .exercise-list li::before {
+    content: counter(exercises, decimal-leading-zero);
+    position: absolute;
+    left: 1.5rem;
+    top: 2.1rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    color: var(--gold-dark);
+    letter-spacing: 0.05em;
+  }
+
+  .exercise-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: var(--gold-deep);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(123,80,16,0.15) 0%, rgba(42,30,10,0.4) 100%);
+    border: 1px solid rgba(123,80,16,0.35);
+    border-radius: 2px;
+    padding: 2.5rem;
+    margin: 2.5rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .highlight-box::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dark), transparent);
+  }
+
+  /* ── MODEL PILLARS ── */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--muted);
+    border: 1px solid var(--muted);
+    margin: 3rem 0;
+  }
+
+  .pillar {
+    background: var(--black2);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    transition: background 0.3s;
+  }
+
+  .pillar:hover { background: var(--faint); }
+
+  .pillar-icon {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .pillar-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    color: var(--gold-deep);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .pillar-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── APPLICATIONS GRID ── */
+  .applications {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+  }
+
+  .app-card {
+    padding: 2rem;
+    border-top: 1px solid var(--muted);
+    transition: border-color 0.3s;
+  }
+
+  .app-card:hover { border-color: var(--gold-deep); }
+
+  .app-area {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .app-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--gold-deep);
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 5rem 0 3rem;
+    text-align: center;
+    border-top: 1px solid var(--faint);
+  }
+
+  .footer-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.5em;
+    color: var(--gold-dark);
+    margin-bottom: 1rem;
+  }
+
+  .footer-line {
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+  }
+
+  /* ── FINAL SECTION ── */
+  #final {
+    text-align: center;
+    padding: clamp(6rem, 14vw, 12rem) 0;
+  }
+
+  #final .section-title {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    color: var(--gold);
+    max-width: 700px;
+    margin: 0 auto 2rem;
+  }
+
+  /* ── SECTION BG VARIATIONS ── */
+  .bg-alt {
+    background: linear-gradient(180deg, var(--black) 0%, var(--black3) 50%, var(--black) 100%);
+  }
+
+  /* ── REVEAL ANIMATION ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── KEYFRAMES ── */
+  @keyframes shimmerText {
+    0%   { background-position: 100% 0; }
+    50%  { background-position: 0% 0; }
+    100% { background-position: 100% 0; }
+  }
+
+  @keyframes breathe {
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(201,160,48,0.3)); }
+    50%       { filter: drop-shadow(0 0 24px rgba(247,220,151,0.45)); }
+  }
+
+  @keyframes breatheGlow {
+    0%, 100% { opacity: 0.5; transform: scale(0.95); }
+    50%       { opacity: 1; transform: scale(1.05); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes growLine {
+    from { height: 0; }
+    to   { height: 60px; }
+  }
+
+  @keyframes sPulse {
+    0%, 100% { opacity: 0.4; }
+    50%       { opacity: 1; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .framework-steps::before { display: none; }
+    .step { flex-direction: column; gap: 0.75rem; padding-left: 0; }
+    .step-number-wrap { width: auto; }
+    .pillars { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════ HERO ══════════════════════════════════ -->
+<section id="hero">
+  <p class="hero-eyebrow">A VEXORIA SYSTEM</p>
+
+  <div class="hero-brand-wrap">
+    <div class="hero-brand-glow"></div>
+    <h1 class="display-brand">VEXORIA</h1>
+  </div>
+
+  <p class="hero-tagline">Clear Thinking System &nbsp;·&nbsp; Cognitive Clarity Framework</p>
+
+  <blockquote class="hero-quote">
+    "Your life is shaped by your decisions.<br>Your decisions are shaped by how you think."
+  </blockquote>
+
+  <div class="hero-line"></div>
+  <p class="scroll-hint">Scroll to begin</p>
+</section>
+
+<!-- ══════════════════════════════════ INTRO ══════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Premise</p>
+      <h2 class="section-title">Most people have never examined how they think</h2>
+      <p class="lead">The mind is not a neutral lens. It bends, filters, amplifies, and distorts everything it touches — and it does this without telling you.</p>
+      <p>You believe you are thinking clearly. You believe you are weighing facts, drawing fair conclusions, making rational choices. But beneath the surface of every thought runs a current of invisible forces: emotional states, past experiences, deep assumptions, cognitive shortcuts, and the noise of a world that never stops demanding your attention.</p>
+      <p>Most people live their entire lives without ever examining this process. They think — but they do not think <em>about</em> how they think. The result is a quiet, persistent confusion that shapes their decisions, distorts their perception, and limits what they are capable of seeing and understanding.</p>
+      <p>This system exists to change that. Not by teaching you <em>what</em> to think — but by showing you <em>how</em> thinking actually works, and how to do it with greater clarity, precision, and confidence.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider container"><span class="divider-icon">◆</span></div>
+
+<!-- ══════════════════════════════════ S1 — WHY THINKING GOES WRONG ══════════════════════════════════ -->
+<section class="bg-alt">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Section I</p>
+      <h2 class="section-title">Why Thinking Goes Wrong</h2>
+      <p class="lead">The human mind was not designed for the world we now inhabit.</p>
+      <p>Our cognitive architecture evolved over hundreds of thousands of years in environments defined by scarcity, physical danger, and small social groups. It was built to be fast, reactive, and efficient — not slow, systematic, and accurate. That design still governs you today.</p>
+      <p>When you face a decision or a problem, your mind does not begin with careful analysis. It begins with an emotional response. A feeling about the situation arrives before a thought does. That feeling frames everything that follows — which information you notice, which options you consider, and what conclusion feels right.</p>
+      <p>This is not a personal weakness. It is the design. But in a complex world, that design creates predictable, costly errors.</p>
+
+      <div class="highlight-box">
+        <p style="color: var(--gold-deep); font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.1em; margin-bottom: 1rem;">Three forces corrupt clear thinking</p>
+        <p><strong>Emotional Reactivity</strong> — When emotions are high, analytical thinking weakens. You assess facts through the lens of how you feel, not how things are. Anger narrows options. Fear inflates risk. Excitement blinds you to flaws.</p>
+        <p><strong>Cognitive Shortcuts</strong> — The mind constantly uses heuristics: mental shortcuts that trade accuracy for speed. These work well in familiar, simple situations. They fail badly in complex, high-stakes ones.</p>
+        <p style="margin-bottom: 0;"><strong>Information Overload</strong> — The modern environment produces more information than any mind can process. Faced with excess data, the mind selects familiar patterns, defaults to the loudest signal, and ignores what it cannot easily categorize.</p>
+      </div>
+
+      <p>The first step toward clear thinking is simply acknowledging this: your mind has a default mode, and that mode is not optimized for the situations that matter most to you.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider container"><span class="divider-icon">◆</span></div>
+
+<!-- ══════════════════════════════════ S2 — MENTAL NOISE ══════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Section II</p>
+      <h2 class="section-title">Mental Noise</h2>
+      <p class="lead">Before you can think clearly, you must first understand what is preventing you from doing so.</p>
+      <p>Mental noise is not just distraction. It is the accumulated weight of unresolved thoughts, competing priorities, background anxiety, and the endless stream of input that modern life demands you process. It is the reason you can sit in silence and still feel unable to think.</p>
+      <p>Noise does not prevent thought. It <em>corrupts</em> it. It makes the mind feel busy while producing very little that is useful. You think about the same problems repeatedly without reaching resolution. You feel uncertain not because the situation is unclear, but because the lens you are using to examine it is clouded.</p>
+
+      <div class="quote-block">
+        <p>The quality of your thinking depends less on your intelligence than on the clarity of your mental state at the moment you think.</p>
+        <p class="quote-attr">Clear Thinking System — Core Principle</p>
+      </div>
+
+      <p>Mental noise comes from several sources. Unprocessed decisions accumulate as background weight. Competing demands split your attention before you have fully engaged with any single thing. Emotional residue from past events colors how you see present ones. And the habit of constant stimulation — screens, notifications, ambient information — trains the mind to resist stillness.</p>
+      <p>Clearing noise is not about willpower or discipline. It is about understanding what noise is and developing simple, repeatable practices for reducing its influence before you attempt serious thinking.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider container"><span class="divider-icon">◆</span></div>
+
+<!-- ══════════════════════════════════ S3 — COGNITIVE BIASES ══════════════════════════════════ -->
+<section class="bg-alt">
+  <div class="container reveal">
+    <p class="section-label">Section III</p>
+    <h2 class="section-title">Cognitive Biases</h2>
+    <p class="lead">A bias is not an opinion. It is a systematic error in thinking that occurs automatically, without your awareness, and in predictable directions.</p>
+    <p>Biases are not signs of low intelligence. They affect everyone, including experts. They are features of the cognitive architecture — shortcuts that helped humans survive and that now, in a more complex world, produce consistent, measurable distortions in reasoning.</p>
+    <p>Understanding them is not enough to eliminate them. But naming them, recognizing their patterns, and building checks against them significantly reduces their influence on your most important decisions.</p>
+  </div>
+
+  <div class="container-wide">
+    <div class="bias-grid reveal">
+      <div class="bias-card">
+        <div class="bias-number">01</div>
+        <div class="bias-name">Confirmation Bias</div>
+        <p class="bias-desc">You unconsciously seek, interpret, and remember information that confirms what you already believe — while ignoring, discounting, or forgetting information that contradicts it.</p>
+      </div>
+      <div class="bias-card">
+        <div class="bias-number">02</div>
+        <div class="bias-name">Availability Heuristic</div>
+        <p class="bias-desc">You judge how likely something is by how easily an example comes to mind. Recent, vivid, or emotionally charged events feel more probable than they statistically are.</p>
+      </div>
+      <div class="bias-card">
+        <div class="bias-number">03</div>
+        <div class="bias-name">Anchoring</div>
+        <p class="bias-desc">The first piece of information you encounter on a topic disproportionately shapes all subsequent judgments — even when that information is arbitrary or irrelevant.</p>
+      </div>
+      <div class="bias-card">
+        <div class="bias-number">04</div>
+        <div class="bias-name">Sunk Cost Fallacy</div>
+        <p class="bias-desc">Past investments of time, money, or effort make you persist in failing courses of action because abandoning them feels like loss — even when continuation is clearly the worse option.</p>
+      </div>
+      <div class="bias-card">
+        <div class="bias-number">05</div>
+        <div class="bias-name">Dunning-Kruger Effect</div>
+        <p class="bias-desc">Limited knowledge in a domain produces high confidence. Deep knowledge produces calibrated uncertainty. The least informed are often the most certain.</p>
+      </div>
+      <div class="bias-card">
+        <div class="bias-number">06</div>
+        <div class="bias-name">Attribution Error</div>
+        <p class="bias-desc">You explain your own failures through circumstances, and others' failures through character. You explain your successes through ability, and others' through luck.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container reveal">
+    <p>These six represent a fraction of the catalogued errors in human reasoning. What matters is not memorizing the list, but developing the habit of asking: <em>which of my assumptions here might be wrong, and why?</em></p>
+  </div>
+</section>
+
+<div class="divider container"><span class="divider-icon">◆</span></div>
+
+<!-- ══════════════════════════════════ S4 — CLEAR THINKING MODEL ══════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Section IV</p>
+      <h2 class="section-title">The Clear Thinking Model</h2>
+      <p class="lead">Clear thinking is not the absence of emotion or instinct. It is the structured integration of observation, reasoning, and judgment.</p>
+      <p>The mind operates in two fundamental modes. The first is fast, automatic, intuitive — driven by pattern recognition and emotion. The second is slow, deliberate, analytical — driven by structured reasoning and conscious attention. Neither mode is superior in all contexts. The mistake is using the fast mode when the slow mode is needed.</p>
+      <p>The Clear Thinking Model is built on a core insight: <strong>most thinking problems are not problems of intelligence but problems of structure.</strong> People do not fail to think because they lack capacity. They fail because they lack a reliable method for organizing what they observe, what they assume, and what they conclude.</p>
+    </div>
+
+    <div class="pillars reveal">
+      <div class="pillar">
+        <span class="pillar-icon">◉</span>
+        <div class="pillar-title">Observe</div>
+        <div class="pillar-desc">See what is actually present, not what you expect or fear to find</div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">◎</span>
+        <div class="pillar-title">Separate</div>
+        <div class="pillar-desc">Distinguish facts from interpretations, and data from emotion</div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">◈</span>
+        <div class="pillar-title">Question</div>
+        <div class="pillar-desc">Challenge your own assumptions before accepting your conclusions</div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">◇</span>
+        <div class="pillar-title">Synthesize</div>
+        <div class="pillar-desc">Build a coherent picture from multiple, sometimes contradictory inputs</div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">◈</span>
+        <div class="pillar-title">Decide</div>
+        <div class="pillar-desc">Commit to a clear course of action with defined criteria and acceptance of uncertainty</div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <p>This model does not promise certainty. No thinking system can. What it provides is a repeatable structure that significantly reduces the influence of noise, bias, and reactive emotion — and consistently produces better outcomes than unstructured thinking.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider container"><span class="divider-icon">◆</span></div>
+
+<!-- ══════════════════════════════════ S5 — THINKING FRAMEWORK ══════════════════════════════════ -->
+<section class="bg-alt">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Section V</p>
+      <h2 class="section-title">The Thinking Framework</h2>
+      <p class="lead">A framework is not a formula. It is a sequence of deliberate questions that guide attention through the territory of a problem.</p>
+      <p>Use the following framework whenever you face a complex situation, an important decision, or a problem that has resisted easy resolution. It can take five minutes or five hours, depending on the weight of what you are examining.</p>
+    </div>
+
+    <div class="framework-steps reveal">
+      <div class="step">
+        <div class="step-number-wrap"><div class="step-dot">I</div></div>
+        <div class="step-content">
+          <h3>Define the actual problem</h3>
+          <p>State clearly what is wrong, missing, or uncertain. Most thinking errors begin here — people solve the wrong problem because they never examined what the real problem is. Write it in a single sentence. If you cannot, you do not yet understand it.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number-wrap"><div class="step-dot">II</div></div>
+        <div class="step-content">
+          <h3>Separate facts from interpretations</h3>
+          <p>List what you know for certain. Then list what you believe, assume, or infer. This is the most important distinction in clear thinking. Facts are observable and verifiable. Everything else is interpretation — and interpretations can be wrong.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number-wrap"><div class="step-dot">III</div></div>
+        <div class="step-content">
+          <h3>Identify your emotional state</h3>
+          <p>Ask what emotion is present and what it is doing to your thinking. Fear constricts options. Anger narrows perspective. Hope can blind you to real risks. You do not need to eliminate the emotion — you need to see its influence clearly so it does not operate invisibly.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number-wrap"><div class="step-dot">IV</div></div>
+        <div class="step-content">
+          <h3>Consider the opposite view</h3>
+          <p>Deliberately construct the strongest possible argument against your current position. Not a weak version of it — the strongest. If you cannot do this, you do not understand the subject well enough to have a confident opinion about it.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number-wrap"><div class="step-dot">V</div></div>
+        <div class="step-content">
+          <h3>Examine your assumptions</h3>
+          <p>List the assumptions your current thinking depends on. Ask: what would need to be true for my conclusion to be wrong? Which of those things might actually be true? Assumptions are invisible until you name them. Once named, they can be tested.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number-wrap"><div class="step-dot">VI</div></div>
+        <div class="step-content">
+          <h3>Generate genuine alternatives</h3>
+          <p>Force yourself to produce at least three meaningfully different approaches or interpretations. Most people consider two options at most — and one of them is usually the status quo. The mind that generates more options makes better decisions.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number-wrap"><div class="step-dot">VII</div></div>
+        <div class="step-content">
+          <h3>Make the decision with defined criteria</h3>
+          <p>Specify in advance what a good outcome looks like and what you are optimizing for. Then evaluate options against those criteria, not against how each one makes you feel. Document your reasoning so you can review it later.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider container"><span class="divider-icon">◆</span></div>
+
+<!-- ══════════════════════════════════ S6 — DECISION CLARITY ══════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Section VI</p>
+      <h2 class="section-title">Decision Clarity</h2>
+      <p class="lead">A decision is not a guess. It is a structured commitment made under uncertainty, with defined criteria and accepted consequences.</p>
+      <p>Most people treat decisions as things that happen to them rather than things they construct. They wait to feel certain before choosing — but certainty almost never arrives. They wait to feel ready — but readiness is often a disguise for avoidance. And when they do decide, they do so reactively, choosing the option that produces the least immediate discomfort rather than the greatest long-term alignment with what they value.</p>
+
+      <div class="highlight-box reveal">
+        <p style="font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.15em; color: var(--gold-dark); margin-bottom: 1.5rem;">The three questions of clear decision-making</p>
+        <p><strong>What am I actually deciding?</strong> Most decisions are made without ever clearly stating what is being chosen. Name the decision precisely. Boundaries matter.</p>
+        <p><strong>What am I optimizing for?</strong> Every decision involves trade-offs. Knowing what you value most — and what you are willing to sacrifice — transforms the process from confusion to clarity.</p>
+        <p style="margin-bottom: 0;"><strong>What would need to be true to reverse this decision?</strong> Defining your exit criteria in advance prevents the sunk cost trap and keeps decisions reversible where they should be.</p>
+      </div>
+
+      <p>Decision clarity does not mean confidence that you will be right. It means confidence that your decision-making process was sound — which is the only thing you can actually control. Good decisions sometimes produce bad outcomes. The goal is not to be right every time. It is to have a process that produces the best possible odds.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider container"><span class="divider-icon">◆</span></div>
+
+<!-- ══════════════════════════════════ S7 — REAL-LIFE APPLICATIONS ══════════════════════════════════ -->
+<section class="bg-alt">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Section VII</p>
+      <h2 class="section-title">Real-Life Thinking Applications</h2>
+      <p class="lead">A thinking system has no value if it remains abstract. Its only measure is the quality of outcomes it produces in the actual conditions of your life.</p>
+    </div>
+  </div>
+
+  <div class="container-wide">
+    <div class="applications reveal">
+      <div class="app-card">
+        <p class="app-area">Domain</p>
+        <p class="app-title">Decisions</p>
+        <p>Applied clear thinking converts decision-making from a reactive, feeling-driven event into a structured process with defined inputs, criteria, and review. Major life choices — career, relationships, location, investment — improve measurably when examined through the framework.</p>
+      </div>
+      <div class="app-card">
+        <p class="app-area">Domain</p>
+        <p class="app-title">Problem Solving</p>
+        <p>Most problems that feel difficult are difficult because they have not been clearly defined. The framework forces you to separate the actual problem from the symptoms, the facts from the interpretations, and the options from the default path you were already on.</p>
+      </div>
+      <div class="app-card">
+        <p class="app-area">Domain</p>
+        <p class="app-title">Relationships</p>
+        <p>Interpersonal conflict is almost always a thinking problem before it is a relationship problem. The framework applied to disagreements — separating facts from interpretations, identifying emotional state, considering the other person's view — transforms conflicts that feel personal into problems that can be solved.</p>
+      </div>
+      <div class="app-card">
+        <p class="app-area">Domain</p>
+        <p class="app-title">Career &amp; Work</p>
+        <p>Professional environments generate constant noise: competing priorities, unclear objectives, social dynamics, fear of judgment. Clear thinking creates structure in ambiguity — separating what matters from what merely feels urgent, and what to pursue from what to decline.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider container"><span class="divider-icon">◆</span></div>
+
+<!-- ══════════════════════════════════ S8 — EXERCISES ══════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Section VIII</p>
+      <h2 class="section-title">Practical Thinking Exercises</h2>
+      <p class="lead">Clear thinking is a trainable capacity. These exercises do not teach knowledge — they develop the cognitive habits that make clear thinking automatic.</p>
+      <p>Practice each exercise consistently for two weeks before moving to the next. The goal is not performance in the exercise itself — it is the transfer of the underlying skill into your ordinary thinking.</p>
+    </div>
+
+    <ul class="exercise-list reveal">
+      <li>
+        <p class="exercise-title">The Daily Assumption Audit</p>
+        <p>Each morning, identify one belief or assumption you are holding about a current situation. Write it down. Then ask: what is this assumption based on? What would have to be true for it to be wrong? Hold the answer lightly throughout the day and notice what you observe.</p>
+      </li>
+      <li>
+        <p class="exercise-title">The Opposite Argument</p>
+        <p>Choose a position you hold strongly — about a person, a situation, a belief. Spend ten minutes writing the most honest, thoughtful argument for the opposite view. Not a straw man. A real case. Notice the resistance you feel. That resistance is where the learning is.</p>
+      </li>
+      <li>
+        <p class="exercise-title">The Emotion-Fact Separation</p>
+        <p>When you face a situation that produces a strong emotional reaction, take five minutes to write in two columns: what you know for certain (facts), and what you feel or believe (interpretations). The act of writing creates distance between the feeling and the reasoning process.</p>
+      </li>
+      <li>
+        <p class="exercise-title">The Decision Review</p>
+        <p>Review one significant past decision per week. Ask: what did I know when I made it? What did I assume? What was I feeling? What actually happened? What would I do differently? Pattern recognition over time is one of the most powerful tools for improving future judgment.</p>
+      </li>
+      <li>
+        <p class="exercise-title">The Silence Practice</p>
+        <p>Spend fifteen minutes each day with no input: no screens, no audio, no reading. Simply sit and observe the natural movement of your thoughts without engaging them. This is not meditation. It is training the mind to tolerate stillness — the precondition for deep, clear thinking.</p>
+      </li>
+      <li>
+        <p class="exercise-title">The Pre-Mortem</p>
+        <p>Before an important decision, imagine that it is twelve months from now and the decision has produced the worst possible outcome. Write a detailed account of how that happened. This exercise surfaces the risks and failure modes your optimism tends to suppress — and often reveals the single most important thing to watch for.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<div class="divider container"><span class="divider-icon">◆</span></div>
+
+<!-- ══════════════════════════════════ S9 — HABIT ══════════════════════════════════ -->
+<section class="bg-alt">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Section IX</p>
+      <h2 class="section-title">Building a Thinking Habit</h2>
+      <p class="lead">A system you use once is interesting. A system you use daily is transformative.</p>
+      <p>The challenge of building a thinking habit is not intellectual — it is behavioral. You understand the framework. You can follow it. But understanding and consistent practice are separated by a gap that motivation alone cannot close.</p>
+      <p>The key is environmental design. Clear thinking must be <strong>triggered by context</strong>, not by willpower. Associate specific moments — morning coffee, the start of the workday, the first moment of a difficult conversation — with specific thinking practices. The trigger activates the habit before the conscious mind has to decide to engage it.</p>
+
+      <div class="highlight-box">
+        <p style="font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.15em; color: var(--gold-dark); margin-bottom: 1.5rem;">Four elements of a sustainable thinking practice</p>
+        <p><strong>A fixed time.</strong> Thinking done reactively is thinking done poorly. Reserve a consistent window — even fifteen minutes — where you are not responding to the world but reflecting on it.</p>
+        <p><strong>A minimal tool.</strong> A notebook. A single document. A specific question you return to. Thinking needs an object — something external that holds the output of reflection and makes it visible.</p>
+        <p><strong>A low threshold for entry.</strong> The habit must be easy to start. Not comfortable to complete — but easy to begin. Reduce the barrier so that doing it is less effortful than deciding not to.</p>
+        <p style="margin-bottom: 0;"><strong>A review cycle.</strong> Return to past thinking regularly. Your beliefs and conclusions should evolve. A thinking system that never revises itself is a belief system — not a thinking system.</p>
+      </div>
+
+      <p>The goal is not perfection. The goal is consistency at a sustainable level. A person who practices structured thinking for ten minutes every day will, within six months, think in fundamentally different ways than they did before — not because they learned new facts, but because they changed the process by which they relate to any fact at all.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider container"><span class="divider-icon">◆</span></div>
+
+<!-- ══════════════════════════════════ S10 — FINAL INSIGHT ══════════════════════════════════ -->
+<section id="final">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label" style="text-align:center;">Section X</p>
+      <h2 class="section-title" style="text-align:center; max-width:700px; margin: 0 auto 2rem;">Clear thinking is not a technique.<br>It is a permanent advantage.</h2>
+      <p class="lead" style="text-align:center; max-width:600px; margin: 0 auto 2.5rem;">In a world that grows more complex, more noisy, and more demanding of rapid reaction — the person who can pause, observe, separate, and reason has an advantage that compounds over time.</p>
+    </div>
+
+    <div class="reveal" style="max-width:680px; margin: 0 auto;">
+      <p>Most people will continue to think reactively. They will continue to be shaped by biases they have never examined, emotions they have never named, and assumptions they have never questioned. Not from lack of intelligence — but from lack of structure and practice.</p>
+      <p>What you have in this system is a foundation. Not a final destination, but a beginning. The framework will evolve as your understanding deepens. The exercises will become habits. The habits will become instincts. And those instincts will, over time, become the way you simply are.</p>
+      <p>The investment in learning to think clearly repays itself in every domain of life, continuously, without diminishing returns. Every decision you make, every problem you face, every relationship you navigate, every opportunity you evaluate — all of these are thinking problems before they are anything else.</p>
+
+      <div class="quote-block" style="margin-top: 3rem;">
+        <p>The mind that knows how it works cannot be fooled by itself. That is the beginning of genuine freedom.</p>
+        <p class="quote-attr">VEXORIA — Clear Thinking System</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ FOOTER ══════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="reveal">
+      <p class="footer-brand">VEXORIA</p>
+      <div class="divider" style="max-width:300px; margin: 1.5rem auto;"><span class="divider-icon">◆</span></div>
+      <p class="footer-line">Clear Thinking System &nbsp;·&nbsp; Cognitive Clarity Framework</p>
+      <p style="margin-top: 1.5rem; font-size: 0.75rem; color: var(--faint); letter-spacing: 0.2em;">A VEXORIA KNOWLEDGE PRODUCT</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── SCROLL REVEAL ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // ── STAGGER CHILDREN ──
+  document.querySelectorAll('.bias-grid, .pillars, .applications').forEach(grid => {
+    const children = grid.querySelectorAll(':scope > *');
+    children.forEach((child, i) => {
+      if (!child.classList.contains('reveal')) {
+        child.style.transitionDelay = `${i * 0.08}s`;
+      }
+    });
+  });
+
+  // ── SUBTLE PARALLAX HERO ──
+  window.addEventListener('scroll', () => {
+    const hero = document.getElementById('hero');
+    const scrollY = window.scrollY;
+    if (scrollY < window.innerHeight * 1.2) {
+      hero.style.transform = `translateY(${scrollY * 0.18}px)`;
+    }
+  }, { passive: true });
+</script>
+
+</body>
+</html>

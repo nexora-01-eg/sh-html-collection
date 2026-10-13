@@ -1,0 +1,2660 @@
+<!DOCTYPE html>
+<!-- saved from url=(0102)file:///C:/Users/fagr/AppData/Local/Microsoft/Windows/INetCache/IE/DWVX2X1V/physics-master-pro[1].html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physics Master Pro — Mohamed Sadek</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Cairo:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#000;--bg1:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;
+  --glass:rgba(255,255,255,0.055);--glass2:rgba(255,255,255,0.09);
+  --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.15);
+  --text:#e5e5e5;--text2:#a0a0a0;--text3:#666;
+  --silver:#c0c0c0;--silver2:#e8e8e8;
+  --primary:#c0c0c0;--primary-bg:rgba(192,192,192,0.12);
+  --success:#00c853;--success-bg:rgba(0,200,83,0.12);
+  --danger:#ff3d00;--danger-bg:rgba(255,61,0,0.12);
+  --warning:#ffd600;--warning-bg:rgba(255,214,0,0.12);
+  --info:#3b82f6;--info-bg:rgba(59,130,246,0.12);
+  --purple:#8b5cf6;--purple-bg:rgba(139,92,246,0.12);
+  --radius:12px;--radius-lg:18px;--radius-xl:24px;
+  --shadow:0 8px 32px rgba(0,0,0,0.6);
+  --shadow-sm:0 2px 12px rgba(0,0,0,0.4);
+  --sidebar:240px;
+  --transition:0.2s ease;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;overflow:hidden}
+.arabic{font-family:'Cairo',sans-serif}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;outline:none;font-family:inherit}
+input,textarea,select{font-family:inherit;outline:none;border:none;background:none;color:var(--text)}
+input::placeholder,textarea::placeholder{color:var(--text3)}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#333}
+
+/* ===== LAYOUT ===== */
+#app{display:flex;height:100vh;overflow:hidden}
+#sidebar{width:var(--sidebar);background:var(--bg1);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;overflow-x:hidden;transition:width var(--transition)}
+#sidebar.collapsed{width:60px}
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+#topbar{height:56px;background:var(--bg1);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0}
+#content{flex:1;overflow-y:auto;padding:24px}
+
+/* ===== SIDEBAR ===== */
+.sidebar-logo{padding:20px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)}
+.logo-icon{width:36px;height:36px;background:var(--primary-bg);border:1px solid var(--border2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-text{overflow:hidden}
+.logo-title{font-size:13px;font-weight:800;color:var(--silver2);white-space:nowrap}
+.logo-sub{font-size:10px;color:var(--text3);white-space:nowrap}
+.nav-section{padding:8px 0}
+.nav-section-label{padding:8px 16px 4px;font-size:10px;font-weight:700;letter-spacing:1px;color:var(--text3);text-transform:uppercase;white-space:nowrap;overflow:hidden}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;border-radius:0;transition:background var(--transition);position:relative}
+.nav-item:hover{background:var(--glass)}
+.nav-item.active{background:var(--primary-bg)}
+.nav-item.active::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:3px;background:var(--primary);border-radius:0 3px 3px 0}
+.nav-icon{width:20px;height:20px;flex-shrink:0;opacity:0.6;display:flex;align-items:center;justify-content:center}
+.nav-item.active .nav-icon{opacity:1}
+.nav-label{font-size:13px;font-weight:500;color:var(--text2);white-space:nowrap;overflow:hidden;flex:1}
+.nav-item.active .nav-label{color:var(--silver2);font-weight:600}
+.nav-badge{background:var(--danger);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;flex-shrink:0}
+.sidebar-bottom{padding:12px 16px;border-top:1px solid var(--border);margin-top:auto}
+.sidebar-teacher{display:flex;align-items:center;gap:10px}
+.teacher-avatar{width:32px;height:32px;background:var(--primary-bg);border:1px solid var(--border2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--silver);flex-shrink:0}
+.teacher-info{overflow:hidden}
+.teacher-name{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.teacher-role{font-size:10px;color:var(--text3);white-space:nowrap}
+#sidebar.collapsed .nav-label,#sidebar.collapsed .nav-section-label,#sidebar.collapsed .logo-text,#sidebar.collapsed .teacher-info,#sidebar.collapsed .nav-badge{display:none}
+#sidebar.collapsed .sidebar-logo{padding:16px 12px;justify-content:center}
+#sidebar.collapsed .nav-item{padding:10px;justify-content:center}
+#sidebar.collapsed .sidebar-bottom{padding:12px 8px}
+#sidebar.collapsed .sidebar-teacher{justify-content:center}
+
+/* ===== TOPBAR ===== */
+#collapse-btn{width:32px;height:32px;background:var(--glass);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+#collapse-btn:hover{background:var(--glass2)}
+.topbar-title{font-size:16px;font-weight:700;flex:1}
+.topbar-subtitle{font-size:12px;color:var(--text3)}
+.topbar-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+.topbar-badge{background:var(--success-bg);border:1px solid var(--success);color:var(--success);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+
+/* ===== SCREENS ===== */
+.screen{display:none}
+.screen.active{display:block}
+
+/* ===== CARDS ===== */
+.card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px}
+.card-sm{padding:14px}
+.card-xs{padding:10px 14px}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:24px}
+.stat-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;display:flex;flex-direction:column;gap:8px}
+.stat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.stat-value{font-size:28px;font-weight:800;letter-spacing:-1px}
+.stat-label{font-size:12px;color:var(--text2)}
+.stat-change{font-size:11px;font-weight:600}
+
+/* ===== TABLES ===== */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:12px 14px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle}
+tr:hover td{background:rgba(255,255,255,0.02)}
+tr:last-child td{border-bottom:none}
+.td-name{font-weight:600;color:var(--text)}
+.td-sub{font-size:11px;color:var(--text3);margin-top:2px}
+
+/* ===== BADGES ===== */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.badge-success{background:var(--success-bg);color:var(--success)}
+.badge-danger{background:var(--danger-bg);color:var(--danger)}
+.badge-warning{background:var(--warning-bg);color:var(--warning)}
+.badge-muted{background:var(--bg3);color:var(--text3)}
+.badge-info{background:var(--info-bg);color:var(--info)}
+.badge-purple{background:var(--purple-bg);color:var(--purple)}
+.badge-silver{background:var(--primary-bg);color:var(--silver)}
+
+/* ===== BUTTONS ===== */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius);font-size:13px;font-weight:600;transition:all var(--transition);cursor:pointer}
+.btn-primary{background:var(--primary);color:#000}
+.btn-primary:hover{background:var(--silver2)}
+.btn-ghost{background:var(--glass);border:1px solid var(--border);color:var(--text)}
+.btn-ghost:hover{background:var(--glass2)}
+.btn-danger{background:var(--danger-bg);border:1px solid var(--danger);color:var(--danger)}
+.btn-danger:hover{background:rgba(255,61,0,0.2)}
+.btn-success{background:var(--success-bg);border:1px solid var(--success);color:var(--success)}
+.btn-success:hover{background:rgba(0,200,83,0.2)}
+.btn-sm{padding:5px 12px;font-size:12px}
+.btn-icon{width:32px;height:32px;padding:0;border-radius:8px;justify-content:center}
+.btn-icon-lg{width:38px;height:38px;border-radius:10px}
+
+/* ===== FORMS ===== */
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px}
+.form-control{width:100%;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);font-size:14px;color:var(--text);transition:border-color var(--transition)}
+.form-control:focus{border-color:var(--border2)}
+textarea.form-control{resize:vertical;min-height:80px}
+select.form-control{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.radio-group{display:flex;gap:10px;flex-wrap:wrap}
+.radio-btn{padding:6px 14px;border-radius:20px;border:1px solid var(--border);cursor:pointer;font-size:12px;font-weight:600;color:var(--text3);transition:all var(--transition)}
+.radio-btn.active{border-color:var(--primary);background:var(--primary-bg);color:var(--silver)}
+.search-box{position:relative}
+.search-box input{padding-left:36px}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.5}
+.filter-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+
+/* ===== MODALS ===== */
+#modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+#modal-overlay.open{display:flex}
+.modal{background:var(--bg1);border:1px solid var(--border);border-radius:var(--radius-xl);padding:24px;width:560px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow)}
+.modal-lg{width:720px}
+.modal-xl{width:860px}
+.modal-sm{width:400px}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.modal-title{font-size:17px;font-weight:700}
+.modal-close{width:32px;height:32px;background:var(--glass);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3)}
+.modal-close:hover{background:var(--glass2);color:var(--text)}
+.modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+
+/* ===== TOAST ===== */
+#toast-container{position:fixed;bottom:24px;right:24px;z-index:2000;display:flex;flex-direction:column;gap:8px}
+.toast{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);min-width:240px;animation:slideIn .2s ease}
+.toast-success{border-left:3px solid var(--success)}
+.toast-danger{border-left:3px solid var(--danger)}
+.toast-info{border-left:3px solid var(--info)}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* ===== UTILITY ===== */
+.flex{display:flex}.flex-col{flex-direction:column}
+.items-center{align-items:center}.items-start{align-items:flex-start}
+.justify-between{justify-content:space-between}.justify-end{justify-content:flex-end}
+.gap-4{gap:4px}.gap-6{gap:6px}.gap-8{gap:8px}.gap-10{gap:10px}.gap-12{gap:12px}.gap-16{gap:16px}.gap-20{gap:20px}.gap-24{gap:24px}
+.mb-4{margin-bottom:4px}.mb-8{margin-bottom:8px}.mb-12{margin-bottom:12px}.mb-16{margin-bottom:16px}.mb-20{margin-bottom:20px}.mb-24{margin-bottom:24px}
+.mt-4{margin-top:4px}.mt-8{margin-top:8px}.mt-12{margin-top:12px}.mt-16{margin-top:16px}
+.ml-auto{margin-left:auto}.mr-4{margin-right:4px}
+.text-muted{color:var(--text2)}.text-dim{color:var(--text3)}
+.text-success{color:var(--success)}.text-danger{color:var(--danger)}.text-warning{color:var(--warning)}
+.text-silver{color:var(--silver)}.text-sm{font-size:12px}.text-xs{font-size:11px}
+.fw-600{font-weight:600}.fw-700{font-weight:700}.fw-800{font-weight:800}
+.w-full{width:100%}.h-full{height:100%}
+.hidden{display:none!important}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--primary-bg);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--silver);flex-shrink:0}
+.avatar-lg{width:52px;height:52px;font-size:18px}
+.avatar-sm{width:28px;height:28px;font-size:11px}
+.divider{height:1px;background:var(--border);margin:16px 0}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.section-title{font-size:15px;font-weight:700}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;gap:12px}
+.empty-icon{opacity:0.25}
+.empty-text{font-size:14px;color:var(--text3)}
+.progress-bar{height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;transition:width .4s ease}
+.action-btns{display:flex;gap:6px;opacity:0;transition:opacity var(--transition)}
+tr:hover .action-btns{opacity:1}
+
+/* ===== ATTENDANCE GRID ===== */
+.att-grid{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.att-grid:last-child{border-bottom:none}
+.att-btns{display:flex;gap:6px}
+.att-btn{padding:5px 12px;border-radius:8px;border:1px solid var(--border);font-size:12px;font-weight:700;cursor:pointer;transition:all var(--transition);background:transparent;color:var(--text3)}
+.att-btn.present.active{border-color:var(--success);background:var(--success-bg);color:var(--success)}
+.att-btn.absent.active{border-color:var(--danger);background:var(--danger-bg);color:var(--danger)}
+.att-btn.late.active{border-color:var(--warning);background:var(--warning-bg);color:var(--warning)}
+.att-btn:hover{border-color:var(--border2)}
+
+/* ===== SCHEDULE GRID ===== */
+.schedule-grid{display:grid;grid-template-columns:80px repeat(6,1fr);gap:1px;background:var(--border)}
+.sched-cell{background:var(--bg);padding:8px;min-height:60px}
+.sched-header{background:var(--bg1);padding:10px 8px;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--text3);text-align:center}
+.sched-time{background:var(--bg1);padding:8px;font-size:11px;color:var(--text3);text-align:center;display:flex;align-items:center;justify-content:center}
+.sched-class{padding:6px 8px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;margin-bottom:4px}
+
+/* ===== EXAM QUESTIONS ===== */
+.question-block{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.option-btn{width:100%;text-align:left;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);font-size:13px;cursor:pointer;transition:all var(--transition);color:var(--text);margin-bottom:6px}
+.option-btn:hover{border-color:var(--border2);background:var(--glass)}
+.option-btn.selected{border-color:var(--primary);background:var(--primary-bg);color:var(--silver)}
+.option-btn.correct{border-color:var(--success);background:var(--success-bg);color:var(--success)}
+.option-btn.wrong{border-color:var(--danger);background:var(--danger-bg);color:var(--danger)}
+
+/* ===== CHARTS ===== */
+.chart-container{position:relative}
+canvas{display:block}
+
+/* ===== CONTENT CARDS ===== */
+.content-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;display:flex;align-items:flex-start;gap:14px;transition:border-color var(--transition)}
+.content-card:hover{border-color:var(--border2)}
+.content-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px}
+
+/* ===== PERFORMANCE ===== */
+.rank-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;display:flex;align-items:center;gap:12px;margin-bottom:8px;transition:all var(--transition)}
+.rank-card:hover{border-color:var(--border2)}
+.rank-num{font-size:18px;font-weight:800;width:32px;text-align:center;flex-shrink:0}
+.score-bar{flex:1;display:flex;flex-direction:column;gap:4px}
+
+/* ===== REPORT CHARTS ===== */
+.mini-bar{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.mini-bar-label{width:80px;font-size:12px;color:var(--text2)}
+.mini-bar-track{flex:1;height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden}
+.mini-bar-fill{height:100%;border-radius:4px;transition:width .6s ease}
+.mini-bar-val{font-size:12px;font-weight:600;width:50px;text-align:right}
+
+/* ===== FINANCE ===== */
+.finance-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;flex:1}
+.finance-amount{font-size:26px;font-weight:800;letter-spacing:-1px;margin-top:6px}
+
+/* ===== GROUP CARD ===== */
+.group-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;transition:border-color var(--transition)}
+.group-card:hover{border-color:var(--border2)}
+.group-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+
+/* ===== CONFIRM DIALOG ===== */
+#confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1100;display:none;align-items:center;justify-content:center}
+#confirm-overlay.open{display:flex}
+.confirm-box{background:var(--bg1);border:1px solid var(--border);border-radius:var(--radius-xl);padding:24px;width:360px;box-shadow:var(--shadow)}
+
+/* ===== STUDENT DETAIL PANEL ===== */
+#detail-panel{position:fixed;right:0;top:0;bottom:0;width:400px;background:var(--bg1);border-left:1px solid var(--border);transform:translateX(100%);transition:transform .3s ease;z-index:900;overflow-y:auto;padding:24px}
+#detail-panel.open{transform:translateX(0)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  :root{--sidebar:200px}
+  .form-row,.form-row-3{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  #sidebar{display:none}
+  .stat-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- SIDEBAR -->
+  <nav id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c0c0c0" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><ellipse cx="12" cy="12" rx="10" ry="4"></ellipse><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"></ellipse><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"></ellipse></svg>
+      </div>
+      <div class="logo-text">
+        <div class="logo-title">Physics Master Pro</div>
+        <div class="logo-sub">Mohamed Sadek</div>
+      </div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">Main</div>
+      <div class="nav-item active" data-route="dashboard">
+        <div class="nav-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg></div>
+        <span class="nav-label">Dashboard</span>
+      </div>
+      <div class="nav-item" data-route="students">
+        <div class="nav-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"></path></svg></div>
+        <span class="nav-label">Students</span>
+      </div>
+      <div class="nav-item" data-route="attendance">
+        <div class="nav-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
+        <span class="nav-label">Attendance</span>
+      </div>
+      <div class="nav-item" data-route="finance">
+        <div class="nav-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></div>
+        <span class="nav-label">Finance</span>
+      </div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">Academic</div>
+      <div class="nav-item" data-route="groups">
+        <div class="nav-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon></svg></div>
+        <span class="nav-label">Groups</span>
+      </div>
+      <div class="nav-item" data-route="schedule">
+        <div class="nav-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></div>
+        <span class="nav-label">Schedule</span>
+      </div>
+      <div class="nav-item" data-route="performance">
+        <div class="nav-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div>
+        <span class="nav-label">Performance</span>
+      </div>
+      <div class="nav-item" data-route="exams">
+        <div class="nav-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></div>
+        <span class="nav-label">Exams</span>
+      </div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">Tools</div>
+      <div class="nav-item" data-route="content">
+        <div class="nav-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"></path><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"></path></svg></div>
+        <span class="nav-label">Content</span>
+      </div>
+      <div class="nav-item" data-route="communication">
+        <div class="nav-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg></div>
+        <span class="nav-label">Messages</span>
+        <span class="nav-badge" id="msg-badge" style="">2</span>
+      </div>
+      <div class="nav-item" data-route="reports">
+        <div class="nav-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"></path></svg></div>
+        <span class="nav-label">Reports</span>
+      </div>
+      <div class="nav-item" data-route="settings">
+        <div class="nav-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"></path></svg></div>
+        <span class="nav-label">Settings</span>
+      </div>
+    </div>
+    <div class="sidebar-bottom">
+      <div class="sidebar-teacher">
+        <div class="teacher-avatar" id="sidebar-avatar">MS</div>
+        <div class="teacher-info">
+          <div class="teacher-name" id="sidebar-name">Mohamed Sadek</div>
+          <div class="teacher-role">Physics Teacher</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div id="main">
+    <div id="topbar">
+      <div id="collapse-btn" onclick="toggleSidebar()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </div>
+      <div>
+        <div class="topbar-title" id="topbar-title">Dashboard</div>
+        <div class="topbar-subtitle" id="topbar-sub">Overview &amp; quick stats</div>
+      </div>
+      <div class="topbar-actions">
+        <span class="topbar-badge">Physics Master Pro v1.0</span>
+        <button class="btn btn-ghost btn-sm" onclick="showExportModal()">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Export
+        </button>
+      </div>
+    </div>
+    <div id="content">
+      <!-- Dashboard -->
+      <div id="screen-dashboard" class="screen active">
+    <div class="stat-grid">
+      <div class="stat-card" style="border-left:3px solid var(--silver)">
+        <div class="stat-icon" style="background:var(--primary-bg)"><svg width="20" height="20" fill="none" stroke="var(--silver)" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"></path></svg></div>
+        <div class="stat-value">12</div>
+        <div class="stat-label">Total Students</div>
+        <div class="stat-change text-success">▲ 11 active</div>
+      </div>
+      <div class="stat-card" style="border-left:3px solid var(--success)">
+        <div class="stat-icon" style="background:var(--success-bg)"><svg width="20" height="20" fill="none" stroke="var(--success)" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
+        <div class="stat-value">4</div>
+        <div class="stat-label">Present Today</div>
+        <div class="stat-change text-muted">of 7 recorded</div>
+      </div>
+      <div class="stat-card" style="border-left:3px solid var(--success)">
+        <div class="stat-icon" style="background:var(--success-bg)"><svg width="20" height="20" fill="none" stroke="var(--success)" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></div>
+        <div class="stat-value" style="font-size:20px">5,200</div>
+        <div class="stat-label">Revenue (EGP)</div>
+        <div class="stat-change text-warning">4 pending</div>
+      </div>
+      <div class="stat-card" style="border-left:3px solid var(--info)">
+        <div class="stat-icon" style="background:var(--info-bg)"><svg width="20" height="20" fill="none" stroke="var(--info)" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon></svg></div>
+        <div class="stat-value">4</div>
+        <div class="stat-label">Active Groups</div>
+        <div class="stat-change text-muted">Total 70 seats</div>
+      </div>
+      <div class="stat-card" style="border-left:3px solid var(--warning)">
+        <div class="stat-icon" style="background:var(--warning-bg)"><svg width="20" height="20" fill="none" stroke="var(--warning)" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg></div>
+        <div class="stat-value">2</div>
+        <div class="stat-label">Unread Messages</div>
+        <div class="stat-change text-muted">4 total</div>
+      </div>
+      <div class="stat-card" style="border-left:3px solid var(--purple)">
+        <div class="stat-icon" style="background:var(--purple-bg)"><svg width="20" height="20" fill="none" stroke="var(--purple)" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>
+        <div class="stat-value">2</div>
+        <div class="stat-label">Published Exams</div>
+        <div class="stat-change text-muted">0 upcoming</div>
+      </div>
+    </div>
+    <div class="flex gap-20 mb-24" style="align-items:flex-start">
+      <!-- Attendance Chart -->
+      <div class="card" style="flex:2">
+        <div class="section-header">
+          <div class="section-title">Attendance — Last 7 Days</div>
+          <button class="btn btn-ghost btn-sm" onclick="navigate(&#39;attendance&#39;)">View All</button>
+        </div>
+        <canvas id="attChart" height="160" width="300"></canvas>
+      </div>
+      <!-- Level Distribution -->
+      <div class="card" style="flex:1">
+        <div class="section-header"><div class="section-title">Level Distribution</div></div>
+        <div style="margin-bottom:16px">
+          <div class="mini-bar">
+              <div class="mini-bar-label" style="color:var(--success)">Advanced</div>
+              <div class="mini-bar-track"><div class="mini-bar-fill" style="width:42%;background:var(--success)"></div></div>
+              <div class="mini-bar-val" style="color:var(--success)">5 (42%)</div>
+            </div><div class="mini-bar">
+              <div class="mini-bar-label" style="color:var(--warning)">Average</div>
+              <div class="mini-bar-track"><div class="mini-bar-fill" style="width:42%;background:var(--warning)"></div></div>
+              <div class="mini-bar-val" style="color:var(--warning)">5 (42%)</div>
+            </div><div class="mini-bar">
+              <div class="mini-bar-label" style="color:var(--danger)">Weak</div>
+              <div class="mini-bar-track"><div class="mini-bar-fill" style="width:17%;background:var(--danger)"></div></div>
+              <div class="mini-bar-val" style="color:var(--danger)">2 (17%)</div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="flex gap-16" style="flex-wrap:wrap">
+          <div style="text-align:center;flex:1;min-width:60px">
+              <div style="font-size:20px;font-weight:800;color:#3b82f6">5</div>
+              <div style="font-size:10px;color:var(--text3);margin-top:2px">Group A</div>
+            </div><div style="text-align:center;flex:1;min-width:60px">
+              <div style="font-size:20px;font-weight:800;color:#8b5cf6">4</div>
+              <div style="font-size:10px;color:var(--text3);margin-top:2px">Group B</div>
+            </div><div style="text-align:center;flex:1;min-width:60px">
+              <div style="font-size:20px;font-weight:800;color:#10b981">3</div>
+              <div style="font-size:10px;color:var(--text3);margin-top:2px">Group C</div>
+            </div><div style="text-align:center;flex:1;min-width:60px">
+              <div style="font-size:20px;font-weight:800;color:#f59e0b">0</div>
+              <div style="font-size:10px;color:var(--text3);margin-top:2px">Group D</div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex gap-20" style="align-items:flex-start">
+      <!-- Recent Students -->
+      <div class="card" style="flex:1">
+        <div class="section-header">
+          <div class="section-title">Recent Students</div>
+          <button class="btn btn-ghost btn-sm" onclick="navigate(&#39;students&#39;)">View All</button>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Student</th><th>Group</th><th>Level</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr onclick="showStudentDetail(&#39;s12&#39;)" style="cursor:pointer">
+                <td><div class="flex items-center gap-10"><div class="avatar avatar-sm">RE</div><div><div class="td-name">Rania Essam</div><div class="td-sub arabic">رانيا عصام</div></div></div></td>
+                <td><span style="font-size:12px">Group C</span></td>
+                <td><span class="badge badge-success">advanced</span></td>
+                <td><span class="badge badge-success">Active</span></td>
+              </tr><tr onclick="showStudentDetail(&#39;s11&#39;)" style="cursor:pointer">
+                <td><div class="flex items-center gap-10"><div class="avatar avatar-sm">SN</div><div><div class="td-name">Sherif Nasser</div><div class="td-sub arabic">شريف ناصر</div></div></div></td>
+                <td><span style="font-size:12px">Group C</span></td>
+                <td><span class="badge badge-warning">average</span></td>
+                <td><span class="badge badge-success">Active</span></td>
+              </tr><tr onclick="showStudentDetail(&#39;s10&#39;)" style="cursor:pointer">
+                <td><div class="flex items-center gap-10"><div class="avatar avatar-sm">DW</div><div><div class="td-name">Dina Walid</div><div class="td-sub arabic">دينا وليد</div></div></div></td>
+                <td><span style="font-size:12px">Group C</span></td>
+                <td><span class="badge badge-success">advanced</span></td>
+                <td><span class="badge badge-success">Active</span></td>
+              </tr><tr onclick="showStudentDetail(&#39;s9&#39;)" style="cursor:pointer">
+                <td><div class="flex items-center gap-10"><div class="avatar avatar-sm">MS</div><div><div class="td-name">Mahmoud Samy</div><div class="td-sub arabic">محمود سامي</div></div></div></td>
+                <td><span style="font-size:12px">Group B</span></td>
+                <td><span class="badge badge-danger">weak</span></td>
+                <td><span class="badge badge-success">Active</span></td>
+              </tr><tr onclick="showStudentDetail(&#39;s8&#39;)" style="cursor:pointer">
+                <td><div class="flex items-center gap-10"><div class="avatar avatar-sm">LA</div><div><div class="td-name">Lina Ahmed</div><div class="td-sub arabic">لينا أحمد</div></div></div></td>
+                <td><span style="font-size:12px">Group B</span></td>
+                <td><span class="badge badge-warning">average</span></td>
+                <td><span class="badge badge-danger">Inactive</span></td>
+              </tr>
+          </tbody>
+        </table></div>
+      </div>
+      <!-- Upcoming Exams -->
+      <div class="card" style="flex:1">
+        <div class="section-header">
+          <div class="section-title">Upcoming Exams</div>
+          <button class="btn btn-ghost btn-sm" onclick="navigate(&#39;exams&#39;)">Manage</button>
+        </div>
+        <div class="empty-state"><div class="empty-text">No upcoming exams</div></div>
+        <!-- Quick Actions -->
+        <div class="divider"></div>
+        <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Quick Actions</div>
+        <div class="flex gap-8" style="flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" onclick="navigate(&#39;students&#39;);setTimeout(openAddStudentModal,100)"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> Add Student</button>
+          <button class="btn btn-ghost btn-sm" onclick="navigate(&#39;attendance&#39;)"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Take Attendance</button>
+          <button class="btn btn-ghost btn-sm" onclick="navigate(&#39;finance&#39;);setTimeout(openAddPaymentModal,100)"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg> Record Payment</button>
+          <button class="btn btn-ghost btn-sm" onclick="navigate(&#39;communication&#39;);setTimeout(openComposeModal,100)"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg> Send Message</button>
+        </div>
+      </div>
+    </div></div>
+      <!-- Students -->
+      <div id="screen-students" class="screen"></div>
+      <!-- Attendance -->
+      <div id="screen-attendance" class="screen"></div>
+      <!-- Finance -->
+      <div id="screen-finance" class="screen"></div>
+      <!-- Groups -->
+      <div id="screen-groups" class="screen"></div>
+      <!-- Schedule -->
+      <div id="screen-schedule" class="screen"></div>
+      <!-- Performance -->
+      <div id="screen-performance" class="screen"></div>
+      <!-- Exams -->
+      <div id="screen-exams" class="screen"></div>
+      <!-- Content -->
+      <div id="screen-content" class="screen"></div>
+      <!-- Communication -->
+      <div id="screen-communication" class="screen"></div>
+      <!-- Reports -->
+      <div id="screen-reports" class="screen"></div>
+      <!-- Settings -->
+      <div id="screen-settings" class="screen"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL OVERLAY -->
+<div id="modal-overlay"><div id="modal-box"></div></div>
+<!-- CONFIRM -->
+<div id="confirm-overlay"><div class="confirm-box" id="confirm-box"></div></div>
+<!-- TOAST -->
+<div id="toast-container"></div>
+<!-- DETAIL PANEL -->
+<div id="detail-panel"><div id="detail-content"></div></div>
+<div id="panel-overlay" style="position:fixed;inset:0;z-index:899;display:none" onclick="closeDetail()"></div>
+
+<script>
+// ============================================================
+// DATABASE LAYER
+// ============================================================
+const DB = {
+  get(key){ try{ return JSON.parse(localStorage.getItem('pmp_'+key)||'null'); }catch{ return null; } },
+  set(key,val){ localStorage.setItem('pmp_'+key, JSON.stringify(val)); },
+  getAll(key){ return DB.get(key)||[]; },
+  save(key,arr){ DB.set(key,arr); },
+};
+
+const uid = ()=> Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const today = ()=> new Date().toISOString().split('T')[0];
+const fmt = d=>{ if(!d) return '—'; const x=new Date(d); return x.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}); };
+const fmtMoney = n=> n.toLocaleString()+' EGP';
+const clamp = (v,mn,mx)=>Math.min(mx,Math.max(mn,v));
+
+// ============================================================
+// DEMO DATA INIT
+// ============================================================
+function initDemoData(){
+  if(DB.get('initialized')) return;
+  const groups=[
+    {id:'g1',name:'Group A — Grade 11',nameAr:'مجموعة أ — الأول الثانوي',grade:'11',capacity:20,schedule:'Mon,Wed,Fri',time:'4:00 PM',classroom:'Room 101',color:'#3b82f6',notes:'Advanced group'},
+    {id:'g2',name:'Group B — Grade 11',nameAr:'مجموعة ب — الأول الثانوي',grade:'11',capacity:20,schedule:'Tue,Thu',time:'5:00 PM',classroom:'Room 102',color:'#8b5cf6',notes:''},
+    {id:'g3',name:'Group C — Grade 12',nameAr:'مجموعة ج — الثاني الثانوي',grade:'12',capacity:15,schedule:'Mon,Wed',time:'6:00 PM',classroom:'Room 103',color:'#10b981',notes:'Final year'},
+    {id:'g4',name:'Group D — Grade 12',nameAr:'مجموعة د — الثاني الثانوي',grade:'12',capacity:15,schedule:'Sat',time:'10:00 AM',classroom:'Room 104',color:'#f59e0b',notes:''},
+  ];
+  const students=[
+    {id:'s1',name:'Ahmed Hassan',nameAr:'أحمد حسن',grade:'11',phone:'01012345678',parentPhone:'01098765432',address:'Cairo, Heliopolis',joinDate:'2024-09-01',status:'active',level:'advanced',groupId:'g1',notes:'Excellent student, physics olympiad candidate'},
+    {id:'s2',name:'Sara Mohamed',nameAr:'سارة محمد',grade:'11',phone:'01023456789',parentPhone:'01187654321',address:'Cairo, Nasr City',joinDate:'2024-09-01',status:'active',level:'average',groupId:'g1',notes:''},
+    {id:'s3',name:'Omar Ali',nameAr:'عمر علي',grade:'11',phone:'01034567890',parentPhone:'01276543210',address:'Giza, 6th October',joinDate:'2024-09-15',status:'active',level:'advanced',groupId:'g1',notes:'Strong in mechanics'},
+    {id:'s4',name:'Nour Khaled',nameAr:'نور خالد',grade:'11',phone:'01045678901',parentPhone:'01365432109',address:'Cairo, Maadi',joinDate:'2024-10-01',status:'active',level:'average',groupId:'g1',notes:''},
+    {id:'s5',name:'Youssef Tarek',nameAr:'يوسف طارق',grade:'11',phone:'01056789012',parentPhone:'01454321098',address:'Cairo, Dokki',joinDate:'2024-09-01',status:'active',level:'weak',groupId:'g1',notes:'Needs extra attention'},
+    {id:'s6',name:'Fatma Ibrahim',nameAr:'فاطمة إبراهيم',grade:'11',phone:'01067890123',parentPhone:'01543210987',address:'Cairo, Helwan',joinDate:'2024-09-01',status:'active',level:'advanced',groupId:'g2',notes:'Top scorer in group B'},
+    {id:'s7',name:'Karim Mostafa',nameAr:'كريم مصطفى',grade:'11',phone:'01078901234',parentPhone:'01632109876',address:'Giza, Faisal',joinDate:'2024-09-01',status:'active',level:'average',groupId:'g2',notes:''},
+    {id:'s8',name:'Lina Ahmed',nameAr:'لينا أحمد',grade:'11',phone:'01089012345',parentPhone:'01721098765',address:'Cairo, Zamalek',joinDate:'2024-09-01',status:'inactive',level:'average',groupId:'g2',notes:'On leave'},
+    {id:'s9',name:'Mahmoud Samy',nameAr:'محمود سامي',grade:'11',phone:'01090123456',parentPhone:'01810987654',address:'Cairo, Shubra',joinDate:'2024-09-01',status:'active',level:'weak',groupId:'g2',notes:''},
+    {id:'s10',name:'Dina Walid',nameAr:'دينا وليد',grade:'12',phone:'01001234567',parentPhone:'01909876543',address:'Cairo, New Cairo',joinDate:'2024-09-01',status:'active',level:'advanced',groupId:'g3',notes:'Top of class'},
+    {id:'s11',name:'Sherif Nasser',nameAr:'شريف ناصر',grade:'12',phone:'01012340987',parentPhone:'01098760543',address:'Cairo, Rehab',joinDate:'2024-09-01',status:'active',level:'average',groupId:'g3',notes:''},
+    {id:'s12',name:'Rania Essam',nameAr:'رانيا عصام',grade:'12',phone:'01023451098',parentPhone:'01187651654',address:'Cairo, Fifth Settlement',joinDate:'2024-09-01',status:'active',level:'advanced',groupId:'g3',notes:'Consistent performer'},
+  ];
+  const now = today();
+  const yesterday = new Date(Date.now()-86400000).toISOString().split('T')[0];
+  const twoDaysAgo = new Date(Date.now()-172800000).toISOString().split('T')[0];
+  const attendance=[
+    {id:uid(),studentId:'s1',date:now,status:'present'},
+    {id:uid(),studentId:'s2',date:now,status:'present'},
+    {id:uid(),studentId:'s3',date:now,status:'late'},
+    {id:uid(),studentId:'s4',date:now,status:'absent'},
+    {id:uid(),studentId:'s5',date:now,status:'present'},
+    {id:uid(),studentId:'s6',date:now,status:'present'},
+    {id:uid(),studentId:'s7',date:now,status:'absent'},
+    {id:uid(),studentId:'s1',date:yesterday,status:'present'},
+    {id:uid(),studentId:'s2',date:yesterday,status:'absent'},
+    {id:uid(),studentId:'s3',date:yesterday,status:'present'},
+    {id:uid(),studentId:'s4',date:yesterday,status:'present'},
+    {id:uid(),studentId:'s5',date:yesterday,status:'present'},
+    {id:uid(),studentId:'s1',date:twoDaysAgo,status:'present'},
+    {id:uid(),studentId:'s2',date:twoDaysAgo,status:'present'},
+    {id:uid(),studentId:'s3',date:twoDaysAgo,status:'present'},
+  ];
+  const curMonth = new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  const payments=[
+    {id:uid(),studentId:'s1',amount:500,type:'monthly',status:'paid',date:'2025-06-01',month:curMonth,discount:0,notes:''},
+    {id:uid(),studentId:'s2',amount:500,type:'monthly',status:'paid',date:'2025-06-02',month:curMonth,discount:0,notes:''},
+    {id:uid(),studentId:'s3',amount:450,type:'monthly',status:'paid',date:'2025-06-01',month:curMonth,discount:50,notes:'Sibling discount'},
+    {id:uid(),studentId:'s4',amount:500,type:'monthly',status:'pending',date:'',month:curMonth,discount:0,notes:''},
+    {id:uid(),studentId:'s5',amount:500,type:'monthly',status:'late',date:'',month:curMonth,discount:0,notes:'2nd reminder sent'},
+    {id:uid(),studentId:'s6',amount:500,type:'monthly',status:'paid',date:'2025-06-03',month:curMonth,discount:0,notes:''},
+    {id:uid(),studentId:'s7',amount:500,type:'monthly',status:'pending',date:'',month:curMonth,discount:0,notes:''},
+    {id:uid(),studentId:'s1',amount:300,type:'private',status:'paid',date:'2025-06-10',month:curMonth,discount:0,notes:'Extra session'},
+    {id:uid(),studentId:'s10',amount:500,type:'monthly',status:'paid',date:'2025-06-01',month:curMonth,discount:0,notes:''},
+    {id:uid(),studentId:'s11',amount:500,type:'monthly',status:'pending',date:'',month:curMonth,discount:0,notes:''},
+    {id:uid(),studentId:'s12',amount:500,type:'monthly',status:'paid',date:'2025-06-05',month:curMonth,discount:0,notes:''},
+    {id:uid(),studentId:'s1',amount:500,type:'monthly',status:'paid',date:'2025-05-01',month:'May 2025',discount:0,notes:''},
+    {id:uid(),studentId:'s2',amount:500,type:'monthly',status:'paid',date:'2025-05-01',month:'May 2025',discount:0,notes:''},
+    {id:uid(),studentId:'s3',amount:500,type:'monthly',status:'paid',date:'2025-05-01',month:'May 2025',discount:0,notes:''},
+    {id:uid(),studentId:'s10',amount:500,type:'monthly',status:'paid',date:'2025-05-01',month:'May 2025',discount:0,notes:''},
+  ];
+  const exams=[
+    {id:'e1',title:'Mechanics Mid-Term',date:'2025-06-20',groupId:'g1',duration:60,published:true,
+     questions:[
+       {id:'q1',text:'A body of mass 2 kg is accelerated at 5 m/s². What force acts on it?',options:['5 N','10 N','2.5 N','7 N'],correct:1,category:'Mechanics'},
+       {id:'q2',text:"Newton's Third Law states that every action has...",options:['A greater reaction','An equal and opposite reaction','No reaction','A perpendicular reaction'],correct:1,category:'Mechanics'},
+       {id:'q3',text:'The SI unit of work is:',options:['Newton','Joule','Watt','Pascal'],correct:1,category:'Energy'},
+       {id:'q4',text:'Which quantity is a vector?',options:['Mass','Temperature','Velocity','Energy'],correct:2,category:'Mechanics'},
+       {id:'q5',text:'Kinetic energy formula is:',options:['mgh','½mv²','mv','F·d'],correct:1,category:'Energy'},
+     ]},
+    {id:'e2',title:'Waves & Sound Quiz',date:'2025-06-25',groupId:'g2',duration:30,published:false,
+     questions:[
+       {id:'q6',text:'Sound travels fastest in:',options:['Air','Water','Solids','Vacuum'],correct:2,category:'Waves'},
+       {id:'q7',text:'The frequency unit is:',options:['Hertz','Joule','Newton','Pascal'],correct:0,category:'Waves'},
+     ]},
+    {id:'e3',title:'Electricity Final Exam',date:'2025-07-01',groupId:'g3',duration:90,published:true,
+     questions:[
+       {id:'q8',text:"Ohm's Law states that V =",options:['I/R','IR','I²R','R/I'],correct:1,category:'Electricity'},
+       {id:'q9',text:'The unit of resistance is:',options:['Ampere','Volt','Ohm','Watt'],correct:2,category:'Electricity'},
+       {id:'q10',text:'In a parallel circuit, voltage across components is:',options:['Different','The same','Zero','Doubled'],correct:1,category:'Electricity'},
+     ]},
+  ];
+  const examResults=[
+    {id:uid(),examId:'e1',studentId:'s1',score:100,answers:[1,1,1,2,1],submittedAt:now+'T10:20:00',grade:'A+'},
+    {id:uid(),examId:'e1',studentId:'s2',score:80,answers:[1,1,1,2,0],submittedAt:now+'T10:35:00',grade:'B+'},
+    {id:uid(),examId:'e1',studentId:'s3',score:100,answers:[1,1,1,2,1],submittedAt:now+'T10:15:00',grade:'A+'},
+    {id:uid(),examId:'e1',studentId:'s4',score:60,answers:[0,1,1,2,0],submittedAt:now+'T11:00:00',grade:'C'},
+    {id:uid(),examId:'e1',studentId:'s5',score:60,answers:[1,0,0,2,1],submittedAt:now+'T11:05:00',grade:'C'},
+    {id:uid(),examId:'e3',studentId:'s10',score:100,answers:[1,2,1],submittedAt:now+'T09:00:00',grade:'A+'},
+    {id:uid(),examId:'e3',studentId:'s12',score:100,answers:[1,2,1],submittedAt:now+'T09:10:00',grade:'A+'},
+    {id:uid(),examId:'e3',studentId:'s11',score:67,answers:[1,2,0],submittedAt:now+'T09:20:00',grade:'C+'},
+  ];
+  const messages=[
+    {id:uid(),title:'Mechanics Exam Reminder',body:'Dear students, the Mechanics Mid-Term is scheduled for June 20. Please review Chapters 3–5 on Newton\'s Laws and Energy. Bring your calculator.',targetGroup:'g1',date:now,read:false},
+    {id:uid(),title:'تذكير بالواجب المنزلي',body:'يرجى حل مسائل الباب الثاني من الكتاب المدرسي (مسائل 1–10) قبل الحصة القادمة.',targetGroup:'g2',date:yesterday,read:false},
+    {id:uid(),title:'June Fees Reminder',body:'June monthly fees are due by June 20, 2025. Please ensure payment is made on time to avoid late charges. Contact us for any payment arrangements.',targetGroup:'all',date:yesterday,read:true},
+    {id:uid(),title:'Schedule Change — Saturday',body:'The Saturday session for Group D has been moved from 10:00 AM to 11:00 AM starting next week. Please update your schedule accordingly.',targetGroup:'g4',date:twoDaysAgo,read:true},
+  ];
+  const content=[
+    {id:uid(),title:'Mechanics — Chapter 3 Complete Notes',type:'pdf',groupId:'g1',date:'2025-06-10',description:"Complete summary of Newton's Laws with solved examples and practice problems. 45 pages."},
+    {id:uid(),title:'Wave Properties — Explained Video',type:'video',groupId:'g2',date:'2025-06-12',description:'30-minute video lecture covering transverse and longitudinal waves, frequency, wavelength, and amplitude.'},
+    {id:uid(),title:'Homework Set #5 — Energy',type:'homework',groupId:'g1',date:'2025-06-14',description:'10 problems on work-energy theorem and conservation of energy. Due at next class.'},
+    {id:uid(),title:'Past Exam 2024 — Full Paper',type:'exam',groupId:'all',date:'2025-06-01',description:'Complete past exam from June 2024 including model answers and marking scheme.'},
+    {id:uid(),title:'Electricity — Grade 12 Summary',type:'pdf',groupId:'g3',date:'2025-06-08',description:'Complete electricity chapter: Ohm\'s Law, Kirchhoff\'s laws, circuits, and capacitors.'},
+    {id:uid(),title:'Physics Formula Sheet',type:'pdf',groupId:'all',date:'2025-05-15',description:'All physics formulas for Grade 11 and 12. Print and keep for reference.'},
+  ];
+  const settings={teacherName:'Mohamed Sadek',teacherPhone:'01012345678',centerName:'Mohamed Sadek Physics Center',language:'en',monthlyFee:500,currency:'EGP'};
+  DB.save('groups',groups);
+  DB.save('students',students);
+  DB.save('attendance',attendance);
+  DB.save('payments',payments);
+  DB.save('exams',exams);
+  DB.save('examResults',examResults);
+  DB.save('messages',messages);
+  DB.save('content',content);
+  DB.set('settings',settings);
+  DB.set('initialized',true);
+}
+
+// ============================================================
+// ROUTER
+// ============================================================
+const routes={
+  dashboard:{title:'Dashboard',sub:'Overview & quick stats',render:renderDashboard},
+  students:{title:'Students',sub:'Manage all students',render:renderStudents},
+  attendance:{title:'Attendance',sub:'Daily attendance tracking',render:renderAttendance},
+  finance:{title:'Finance',sub:'Payments & revenue',render:renderFinance},
+  groups:{title:'Groups',sub:'Class group management',render:renderGroups},
+  schedule:{title:'Schedule',sub:'Weekly class timetable',render:renderSchedule},
+  performance:{title:'Performance',sub:'Academic analytics',render:renderPerformance},
+  exams:{title:'Online Exams',sub:'Create and manage exams',render:renderExams},
+  content:{title:'Learning Content',sub:'Educational materials library',render:renderContent},
+  communication:{title:'Communication',sub:'Messages & announcements',render:renderCommunication},
+  reports:{title:'Reports',sub:'Comprehensive analytics',render:renderReports},
+  settings:{title:'Settings',sub:'System configuration',render:renderSettings},
+};
+let currentRoute='dashboard';
+function navigate(route){
+  if(!routes[route]) return;
+  document.querySelectorAll('.nav-item').forEach(el=>{
+    el.classList.toggle('active', el.dataset.route===route);
+  });
+  document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
+  document.getElementById('screen-'+route).classList.add('active');
+  document.getElementById('topbar-title').textContent=routes[route].title;
+  document.getElementById('topbar-sub').textContent=routes[route].sub;
+  currentRoute=route;
+  routes[route].render();
+  updateMsgBadge();
+}
+document.querySelectorAll('.nav-item[data-route]').forEach(el=>{
+  el.addEventListener('click',()=>navigate(el.dataset.route));
+});
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('collapsed');
+}
+
+// ============================================================
+// TOAST & CONFIRM
+// ============================================================
+function toast(msg,type='info',dur=3000){
+  const tc=document.getElementById('toast-container');
+  const t=document.createElement('div');
+  const icons={success:'✓',danger:'✗',info:'ℹ'};
+  t.className=`toast toast-${type}`;
+  t.innerHTML=`<span style="font-size:16px">${icons[type]||'•'}</span><span>${msg}</span>`;
+  tc.appendChild(t);
+  setTimeout(()=>t.style.opacity='0',dur-300);
+  setTimeout(()=>t.remove(),dur);
+}
+
+let confirmCb=null;
+function confirm2(msg,cb,btnLabel='Delete',btnClass='btn-danger'){
+  confirmCb=cb;
+  document.getElementById('confirm-box').innerHTML=`
+    <div class="flex items-center gap-12 mb-16">
+      <div style="width:48px;height:48px;background:var(--danger-bg);border:1px solid var(--danger);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="22" height="22" fill="none" stroke="var(--danger)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Are you sure?</div>
+        <div style="font-size:13px;color:var(--text2)">${msg}</div>
+      </div>
+    </div>
+    <div class="flex justify-end gap-10">
+      <button class="btn btn-ghost" onclick="closeConfirm()">Cancel</button>
+      <button class="btn ${btnClass}" onclick="doConfirm()">${btnLabel}</button>
+    </div>`;
+  document.getElementById('confirm-overlay').classList.add('open');
+}
+function doConfirm(){ closeConfirm(); if(confirmCb) confirmCb(); }
+function closeConfirm(){ document.getElementById('confirm-overlay').classList.remove('open'); confirmCb=null; }
+
+// ============================================================
+// MODAL SYSTEM
+// ============================================================
+function openModal(html,cls=''){
+  const box=document.getElementById('modal-box');
+  box.className='modal '+(cls||'');
+  box.innerHTML=html;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal(){
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+document.getElementById('modal-overlay').addEventListener('click',function(e){
+  if(e.target===this) closeModal();
+});
+
+// ============================================================
+// DETAIL PANEL
+// ============================================================
+function openDetail(html){
+  document.getElementById('detail-content').innerHTML=html;
+  document.getElementById('detail-panel').classList.add('open');
+  document.getElementById('panel-overlay').style.display='block';
+}
+function closeDetail(){
+  document.getElementById('detail-panel').classList.remove('open');
+  document.getElementById('panel-overlay').style.display='none';
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function getStudent(id){ return DB.getAll('students').find(s=>s.id===id); }
+function getGroup(id){ return DB.getAll('groups').find(g=>g.id===id); }
+function levelBadge(l){ const m={advanced:'badge-success',average:'badge-warning',weak:'badge-danger'}; return `<span class="badge ${m[l]||'badge-muted'}">${l}</span>`; }
+function statusBadge(s){ return s==='active'?'<span class="badge badge-success">Active</span>':'<span class="badge badge-danger">Inactive</span>'; }
+function payStatusBadge(s){ const m={paid:'badge-success',pending:'badge-warning',late:'badge-danger'}; return `<span class="badge ${m[s]}">${s.charAt(0).toUpperCase()+s.slice(1)}</span>`; }
+function avatarInitials(name){ const p=name.trim().split(' '); return (p[0][0]+(p[1]?p[1][0]:'')).toUpperCase(); }
+function getSettings(){ return DB.get('settings')||{teacherName:'Mohamed Sadek',centerName:'Physics Center',monthlyFee:500,currency:'EGP'}; }
+function updateSidebarProfile(){
+  const s=getSettings();
+  const el=document.getElementById('sidebar-name');
+  if(el) el.textContent=s.teacherName;
+  const av=document.getElementById('sidebar-avatar');
+  if(av) av.textContent=avatarInitials(s.teacherName);
+}
+function updateMsgBadge(){
+  const unread=DB.getAll('messages').filter(m=>!m.read).length;
+  const b=document.getElementById('msg-badge');
+  if(b){ b.textContent=unread; b.style.display=unread>0?'':'none'; }
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function renderDashboard(){
+  const students=DB.getAll('students');
+  const payments=DB.getAll('payments');
+  const attendance=DB.getAll('attendance');
+  const groups=DB.getAll('groups');
+  const exams=DB.getAll('exams');
+  const messages=DB.getAll('messages');
+  const t=today();
+  const active=students.filter(s=>s.status==='active').length;
+  const todayAtt=attendance.filter(a=>a.date===t);
+  const present=todayAtt.filter(a=>a.status==='present').length;
+  const revenue=payments.filter(p=>p.status==='paid').reduce((s,p)=>s+p.amount-p.discount,0);
+  const pending=payments.filter(p=>p.status!=='paid').length;
+  const unread=messages.filter(m=>!m.read).length;
+  const upcoming=exams.filter(e=>e.date>=t&&e.published).slice(0,3);
+
+  // Attendance by day (last 7 days)
+  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const attChartData=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date(Date.now()-i*86400000);
+    const dateStr=d.toISOString().split('T')[0];
+    const dayAtt=attendance.filter(a=>a.date===dateStr);
+    const dayPresent=dayAtt.filter(a=>a.status==='present').length;
+    attChartData.push({label:days[d.getDay()],value:dayPresent,total:dayAtt.length||1});
+  }
+
+  const recentStudents=students.slice(-5).reverse();
+  const levelCount={advanced:students.filter(s=>s.level==='advanced').length,average:students.filter(s=>s.level==='average').length,weak:students.filter(s=>s.level==='weak').length};
+
+  document.getElementById('screen-dashboard').innerHTML=`
+    <div class="stat-grid">
+      <div class="stat-card" style="border-left:3px solid var(--silver)">
+        <div class="stat-icon" style="background:var(--primary-bg)"><svg width="20" height="20" fill="none" stroke="var(--silver)" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div class="stat-value">${students.length}</div>
+        <div class="stat-label">Total Students</div>
+        <div class="stat-change text-success">▲ ${active} active</div>
+      </div>
+      <div class="stat-card" style="border-left:3px solid var(--success)">
+        <div class="stat-icon" style="background:var(--success-bg)"><svg width="20" height="20" fill="none" stroke="var(--success)" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <div class="stat-value">${present}</div>
+        <div class="stat-label">Present Today</div>
+        <div class="stat-change text-muted">of ${todayAtt.length} recorded</div>
+      </div>
+      <div class="stat-card" style="border-left:3px solid var(--success)">
+        <div class="stat-icon" style="background:var(--success-bg)"><svg width="20" height="20" fill="none" stroke="var(--success)" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+        <div class="stat-value" style="font-size:20px">${revenue.toLocaleString()}</div>
+        <div class="stat-label">Revenue (EGP)</div>
+        <div class="stat-change text-warning">${pending} pending</div>
+      </div>
+      <div class="stat-card" style="border-left:3px solid var(--info)">
+        <div class="stat-icon" style="background:var(--info-bg)"><svg width="20" height="20" fill="none" stroke="var(--info)" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg></div>
+        <div class="stat-value">${groups.length}</div>
+        <div class="stat-label">Active Groups</div>
+        <div class="stat-change text-muted">Total ${groups.reduce((s,g)=>s+g.capacity,0)} seats</div>
+      </div>
+      <div class="stat-card" style="border-left:3px solid var(--warning)">
+        <div class="stat-icon" style="background:var(--warning-bg)"><svg width="20" height="20" fill="none" stroke="var(--warning)" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <div class="stat-value">${unread}</div>
+        <div class="stat-label">Unread Messages</div>
+        <div class="stat-change text-muted">${messages.length} total</div>
+      </div>
+      <div class="stat-card" style="border-left:3px solid var(--purple)">
+        <div class="stat-icon" style="background:var(--purple-bg)"><svg width="20" height="20" fill="none" stroke="var(--purple)" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <div class="stat-value">${exams.filter(e=>e.published).length}</div>
+        <div class="stat-label">Published Exams</div>
+        <div class="stat-change text-muted">${upcoming.length} upcoming</div>
+      </div>
+    </div>
+    <div class="flex gap-20 mb-24" style="align-items:flex-start">
+      <!-- Attendance Chart -->
+      <div class="card" style="flex:2">
+        <div class="section-header">
+          <div class="section-title">Attendance — Last 7 Days</div>
+          <button class="btn btn-ghost btn-sm" onclick="navigate('attendance')">View All</button>
+        </div>
+        <canvas id="attChart" height="160"></canvas>
+      </div>
+      <!-- Level Distribution -->
+      <div class="card" style="flex:1">
+        <div class="section-header"><div class="section-title">Level Distribution</div></div>
+        <div style="margin-bottom:16px">
+          ${['advanced','average','weak'].map(l=>{
+            const colors2={advanced:'var(--success)',average:'var(--warning)',weak:'var(--danger)'};
+            const pct=students.length?Math.round(levelCount[l]/students.length*100):0;
+            return `<div class="mini-bar">
+              <div class="mini-bar-label" style="color:${colors2[l]}">${l.charAt(0).toUpperCase()+l.slice(1)}</div>
+              <div class="mini-bar-track"><div class="mini-bar-fill" style="width:${pct}%;background:${colors2[l]}"></div></div>
+              <div class="mini-bar-val" style="color:${colors2[l]}">${levelCount[l]} (${pct}%)</div>
+            </div>`;
+          }).join('')}
+        </div>
+        <div class="divider"></div>
+        <div class="flex gap-16" style="flex-wrap:wrap">
+          ${groups.map(g=>{
+            const cnt=students.filter(s=>s.groupId===g.id).length;
+            return `<div style="text-align:center;flex:1;min-width:60px">
+              <div style="font-size:20px;font-weight:800;color:${g.color||'var(--silver)'}">${cnt}</div>
+              <div style="font-size:10px;color:var(--text3);margin-top:2px">${g.name.split('—')[0].trim()}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+    <div class="flex gap-20" style="align-items:flex-start">
+      <!-- Recent Students -->
+      <div class="card" style="flex:1">
+        <div class="section-header">
+          <div class="section-title">Recent Students</div>
+          <button class="btn btn-ghost btn-sm" onclick="navigate('students')">View All</button>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Student</th><th>Group</th><th>Level</th><th>Status</th></tr></thead>
+          <tbody>
+            ${recentStudents.map(s=>{
+              const g=getGroup(s.groupId);
+              return `<tr onclick="showStudentDetail('${s.id}')" style="cursor:pointer">
+                <td><div class="flex items-center gap-10"><div class="avatar avatar-sm">${avatarInitials(s.name)}</div><div><div class="td-name">${s.name}</div><div class="td-sub arabic">${s.nameAr}</div></div></div></td>
+                <td>${g?`<span style="font-size:12px">${g.name.split('—')[0].trim()}</span>`:'—'}</td>
+                <td>${levelBadge(s.level)}</td>
+                <td>${statusBadge(s.status)}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table></div>
+      </div>
+      <!-- Upcoming Exams -->
+      <div class="card" style="flex:1">
+        <div class="section-header">
+          <div class="section-title">Upcoming Exams</div>
+          <button class="btn btn-ghost btn-sm" onclick="navigate('exams')">Manage</button>
+        </div>
+        ${upcoming.length===0?'<div class="empty-state"><div class="empty-text">No upcoming exams</div></div>':
+          upcoming.map(e=>{
+            const g=getGroup(e.groupId);
+            return `<div class="flex items-center gap-12 mb-12 p-12" style="background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer" onclick="navigate('exams')">
+              <div style="width:40px;height:40px;background:var(--purple-bg);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="18" height="18" fill="none" stroke="var(--purple)" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <div style="flex:1">
+                <div style="font-weight:600;font-size:13px">${e.title}</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:2px">${g?g.name.split('—')[0].trim():'All'} &bull; ${fmt(e.date)} &bull; ${e.duration} min</div>
+              </div>
+              <span class="badge badge-success">Live</span>
+            </div>`;
+          }).join('')}
+        <!-- Quick Actions -->
+        <div class="divider"></div>
+        <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Quick Actions</div>
+        <div class="flex gap-8" style="flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" onclick="navigate('students');setTimeout(openAddStudentModal,100)"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Student</button>
+          <button class="btn btn-ghost btn-sm" onclick="navigate('attendance')"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Take Attendance</button>
+          <button class="btn btn-ghost btn-sm" onclick="navigate('finance');setTimeout(openAddPaymentModal,100)"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Record Payment</button>
+          <button class="btn btn-ghost btn-sm" onclick="navigate('communication');setTimeout(openComposeModal,100)"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Send Message</button>
+        </div>
+      </div>
+    </div>`;
+  // Draw chart
+  drawAttChart(attChartData);
+}
+
+function drawAttChart(data){
+  const canvas=document.getElementById('attChart');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.offsetWidth||600; const H=160;
+  canvas.width=W; canvas.height=H;
+  const pad={t:10,r:20,b:30,l:30};
+  const cw=W-pad.l-pad.r; const ch=H-pad.t-pad.b;
+  const max=Math.max(...data.map(d=>d.value),1);
+  const bw=Math.floor(cw/data.length*0.6);
+  const gap=Math.floor(cw/data.length*0.4);
+  ctx.clearRect(0,0,W,H);
+  data.forEach((d,i)=>{
+    const x=pad.l+i*(bw+gap)+gap/2;
+    const barH=Math.max(4,(d.value/max)*ch);
+    const y=pad.t+ch-barH;
+    const grad=ctx.createLinearGradient(0,y,0,pad.t+ch);
+    grad.addColorStop(0,'rgba(192,192,192,0.8)');
+    grad.addColorStop(1,'rgba(192,192,192,0.1)');
+    ctx.fillStyle=grad;
+    ctx.beginPath();
+    ctx.roundRect(x,y,bw,barH,4);
+    ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,0.5)';
+    ctx.font='10px Inter';
+    ctx.textAlign='center';
+    ctx.fillText(d.label,x+bw/2,H-8);
+    if(d.value>0){
+      ctx.fillStyle='rgba(255,255,255,0.7)';
+      ctx.fillText(d.value,x+bw/2,y-4);
+    }
+  });
+}
+
+// ============================================================
+// STUDENTS
+// ============================================================
+let studFilter={search:'',status:'all',level:'all',group:'all'};
+function renderStudents(){
+  document.getElementById('screen-students').innerHTML=`
+    <div class="flex items-center justify-between mb-20">
+      <div></div>
+      <button class="btn btn-primary" onclick="openAddStudentModal()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Student
+      </button>
+    </div>
+    <div class="filter-bar">
+      <div class="search-box" style="flex:1;max-width:300px">
+        <span class="search-icon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <input class="form-control" placeholder="Search name, phone, Arabic..." id="stud-search" value="${studFilter.search}" oninput="studFilter.search=this.value;renderStudentTable()">
+      </div>
+      <select class="form-control" style="width:140px" onchange="studFilter.status=this.value;renderStudentTable()">
+        <option value="all" ${studFilter.status==='all'?'selected':''}>All Status</option>
+        <option value="active" ${studFilter.status==='active'?'selected':''}>Active</option>
+        <option value="inactive" ${studFilter.status==='inactive'?'selected':''}>Inactive</option>
+      </select>
+      <select class="form-control" style="width:140px" onchange="studFilter.level=this.value;renderStudentTable()">
+        <option value="all" ${studFilter.level==='all'?'selected':''}>All Levels</option>
+        <option value="advanced" ${studFilter.level==='advanced'?'selected':''}>Advanced</option>
+        <option value="average" ${studFilter.level==='average'?'selected':''}>Average</option>
+        <option value="weak" ${studFilter.level==='weak'?'selected':''}>Weak</option>
+      </select>
+      <select class="form-control" style="width:160px" onchange="studFilter.group=this.value;renderStudentTable()">
+        <option value="all">All Groups</option>
+        ${DB.getAll('groups').map(g=>`<option value="${g.id}" ${studFilter.group===g.id?'selected':''}>${g.name.split('—')[0].trim()}</option>`).join('')}
+      </select>
+      <span id="stud-count" class="text-muted text-sm"></span>
+    </div>
+    <div class="card" style="padding:0">
+      <div class="table-wrap" id="stud-table"></div>
+    </div>`;
+  renderStudentTable();
+}
+
+function renderStudentTable(){
+  let students=DB.getAll('students');
+  if(studFilter.search){
+    const q=studFilter.search.toLowerCase();
+    students=students.filter(s=>s.name.toLowerCase().includes(q)||s.nameAr.includes(studFilter.search)||s.phone.includes(studFilter.search)||(s.address&&s.address.toLowerCase().includes(q)));
+  }
+  if(studFilter.status!=='all') students=students.filter(s=>s.status===studFilter.status);
+  if(studFilter.level!=='all') students=students.filter(s=>s.level===studFilter.level);
+  if(studFilter.group!=='all') students=students.filter(s=>s.groupId===studFilter.group);
+  document.getElementById('stud-count').textContent=`${students.length} students`;
+  if(students.length===0){
+    document.getElementById('stud-table').innerHTML='<div class="empty-state"><svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" class="empty-icon"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><div class="empty-text">No students found</div></div>';
+    return;
+  }
+  const groups=DB.getAll('groups');
+  document.getElementById('stud-table').innerHTML=`<table>
+    <thead><tr>
+      <th>Student</th><th>Grade</th><th>Group</th><th>Level</th><th>Phone</th><th>Status</th><th>Joined</th><th></th>
+    </tr></thead>
+    <tbody>
+      ${students.map(s=>{
+        const g=groups.find(x=>x.id===s.groupId);
+        return `<tr>
+          <td onclick="showStudentDetail('${s.id}')" style="cursor:pointer">
+            <div class="flex items-center gap-10">
+              <div class="avatar avatar-sm">${avatarInitials(s.name)}</div>
+              <div><div class="td-name">${s.name}</div><div class="td-sub arabic">${s.nameAr}</div></div>
+            </div>
+          </td>
+          <td>Grade ${s.grade}</td>
+          <td><span style="font-size:12px;color:${g?g.color:'var(--text3)'}">${g?g.name.split('—')[0].trim():'—'}</span></td>
+          <td>${levelBadge(s.level)}</td>
+          <td style="font-family:monospace;font-size:12px">${s.phone}</td>
+          <td>${statusBadge(s.status)}</td>
+          <td style="font-size:12px;color:var(--text3)">${fmt(s.joinDate)}</td>
+          <td>
+            <div class="action-btns">
+              <button class="btn btn-ghost btn-icon btn-sm" title="Edit" onclick="openEditStudentModal('${s.id}')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+              <button class="btn btn-danger btn-icon btn-sm" title="Delete" onclick="deleteStudent('${s.id}')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button>
+            </div>
+          </td>
+        </tr>`;
+      }).join('')}
+    </tbody>
+  </table>`;
+}
+
+function studentFormHTML(s={}){
+  const groups=DB.getAll('groups');
+  return `
+    <div class="modal-header">
+      <div class="modal-title">${s.id?'Edit Student':'Add New Student'}</div>
+      <div class="modal-close" onclick="closeModal()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Full Name (English)*</label><input class="form-control" id="sf-name" value="${s.name||''}" placeholder="Ahmed Hassan"></div>
+      <div class="form-group"><label class="form-label">الاسم (عربي)</label><input class="form-control arabic" id="sf-nameAr" value="${s.nameAr||''}" placeholder="أحمد حسن" dir="rtl"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Grade*</label><select class="form-control" id="sf-grade"><option value="10" ${s.grade==='10'?'selected':''}>Grade 10</option><option value="11" ${s.grade==='11'||!s.grade?'selected':''}>Grade 11</option><option value="12" ${s.grade==='12'?'selected':''}>Grade 12</option></select></div>
+      <div class="form-group"><label class="form-label">Level*</label><select class="form-control" id="sf-level"><option value="advanced" ${s.level==='advanced'?'selected':''}>Advanced</option><option value="average" ${s.level==='average'||!s.level?'selected':''}>Average</option><option value="weak" ${s.level==='weak'?'selected':''}>Weak</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Student Phone*</label><input class="form-control" id="sf-phone" value="${s.phone||''}" placeholder="01012345678" type="tel"></div>
+      <div class="form-group"><label class="form-label">Parent Phone</label><input class="form-control" id="sf-parentPhone" value="${s.parentPhone||''}" placeholder="01098765432" type="tel"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Address</label><input class="form-control" id="sf-address" value="${s.address||''}" placeholder="Cairo, Heliopolis"></div>
+      <div class="form-group"><label class="form-label">Group*</label><select class="form-control" id="sf-groupId"><option value="">— No Group —</option>${groups.map(g=>`<option value="${g.id}" ${s.groupId===g.id?'selected':''}>${g.name}</option>`).join('')}</select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Join Date</label><input class="form-control" id="sf-joinDate" type="date" value="${s.joinDate||today()}"></div>
+      <div class="form-group"><label class="form-label">Status</label><select class="form-control" id="sf-status"><option value="active" ${s.status==='active'||!s.status?'selected':''}>Active</option><option value="inactive" ${s.status==='inactive'?'selected':''}>Inactive</option></select></div>
+    </div>
+    <div class="form-group"><label class="form-label">Notes</label><textarea class="form-control" id="sf-notes" placeholder="Any additional notes...">${s.notes||''}</textarea></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveStudent('${s.id||''}')">${s.id?'Save Changes':'Add Student'}</button>
+    </div>`;
+}
+function openAddStudentModal(){ openModal(studentFormHTML(),'modal-lg'); }
+function openEditStudentModal(id){ const s=getStudent(id); if(!s) return; openModal(studentFormHTML(s),'modal-lg'); }
+function saveStudent(existingId){
+  const name=document.getElementById('sf-name').value.trim();
+  if(!name){ toast('Name is required','danger'); return; }
+  const obj={
+    id:existingId||uid(),
+    name,nameAr:document.getElementById('sf-nameAr').value.trim(),
+    grade:document.getElementById('sf-grade').value,
+    level:document.getElementById('sf-level').value,
+    phone:document.getElementById('sf-phone').value.trim(),
+    parentPhone:document.getElementById('sf-parentPhone').value.trim(),
+    address:document.getElementById('sf-address').value.trim(),
+    groupId:document.getElementById('sf-groupId').value,
+    joinDate:document.getElementById('sf-joinDate').value,
+    status:document.getElementById('sf-status').value,
+    notes:document.getElementById('sf-notes').value.trim(),
+  };
+  const students=DB.getAll('students');
+  if(existingId){ const i=students.findIndex(s=>s.id===existingId); if(i>-1) students[i]=obj; else students.push(obj); }
+  else students.push(obj);
+  DB.save('students',students);
+  closeModal();
+  toast(existingId?'Student updated':'Student added','success');
+  renderStudentTable();
+}
+function deleteStudent(id){
+  const s=getStudent(id);
+  confirm2(`Delete ${s?s.name:'this student'}? All their data will be removed.`,()=>{
+    DB.save('students',DB.getAll('students').filter(x=>x.id!==id));
+    DB.save('payments',DB.getAll('payments').filter(p=>p.studentId!==id));
+    DB.save('attendance',DB.getAll('attendance').filter(a=>a.studentId!==id));
+    DB.save('examResults',DB.getAll('examResults').filter(r=>r.studentId!==id));
+    toast('Student deleted','danger');
+    renderStudentTable();
+  });
+}
+function showStudentDetail(id){
+  const s=getStudent(id); if(!s) return;
+  const g=getGroup(s.groupId);
+  const payments=DB.getAll('payments').filter(p=>p.studentId===id);
+  const attendance=DB.getAll('attendance').filter(a=>a.studentId===id);
+  const results=DB.getAll('examResults').filter(r=>r.studentId===id);
+  const totalPaid=payments.filter(p=>p.status==='paid').reduce((sum,p)=>sum+p.amount-p.discount,0);
+  const attRate=attendance.length?Math.round(attendance.filter(a=>a.status==='present').length/attendance.length*100):0;
+  const avgScore=results.length?Math.round(results.reduce((sum,r)=>sum+r.score,0)/results.length):null;
+  openDetail(`
+    <div class="flex items-center justify-between mb-20">
+      <div class="flex items-center gap-12">
+        <div class="avatar avatar-lg">${avatarInitials(s.name)}</div>
+        <div>
+          <div style="font-size:17px;font-weight:800">${s.name}</div>
+          <div class="arabic" style="font-size:14px;color:var(--text2)">${s.nameAr}</div>
+          <div class="flex gap-6 mt-6">${statusBadge(s.status)} ${levelBadge(s.level)}</div>
+        </div>
+      </div>
+      <div class="flex gap-8">
+        <button class="btn btn-ghost btn-sm" onclick="closeDetail();openEditStudentModal('${id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="closeDetail();deleteStudent('${id}')">Delete</button>
+      </div>
+    </div>
+    <div class="flex gap-12 mb-20">
+      <div style="flex:1;background:var(--success-bg);border:1px solid var(--success);border-radius:var(--radius);padding:12px;text-align:center">
+        <div style="font-size:22px;font-weight:800;color:var(--success)">${attRate}%</div>
+        <div style="font-size:11px;color:var(--text3)">Attendance</div>
+      </div>
+      <div style="flex:1;background:var(--primary-bg);border:1px solid var(--border2);border-radius:var(--radius);padding:12px;text-align:center">
+        <div style="font-size:20px;font-weight:800;color:var(--silver)">${totalPaid.toLocaleString()}</div>
+        <div style="font-size:11px;color:var(--text3)">EGP Paid</div>
+      </div>
+      <div style="flex:1;background:var(--purple-bg);border:1px solid var(--purple);border-radius:var(--radius);padding:12px;text-align:center">
+        <div style="font-size:22px;font-weight:800;color:var(--purple)">${avgScore!==null?avgScore+'%':'N/A'}</div>
+        <div style="font-size:11px;color:var(--text3)">Avg Score</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    ${[
+      ['Grade','Grade '+s.grade],['Group',g?g.name:'—'],
+      ['Phone',s.phone],['Parent',s.parentPhone||'—'],
+      ['Address',s.address||'—'],['Joined',fmt(s.joinDate)],
+      ['Notes',s.notes||'—'],
+    ].map(([k,v])=>`<div class="flex items-center gap-10 mb-10"><div style="font-size:12px;color:var(--text3);width:70px">${k}</div><div style="font-size:13px;font-weight:500;flex:1">${v}</div></div>`).join('')}
+    ${results.length?`<div class="divider"></div><div style="font-size:13px;font-weight:700;margin-bottom:10px">Exam Results</div>${results.map(r=>{const ex=DB.getAll('exams').find(e=>e.id===r.examId);return `<div class="flex items-center justify-between mb-8" style="background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:10px 14px"><div style="font-size:12px;font-weight:600">${ex?ex.title:'Unknown Exam'}</div><div style="font-size:16px;font-weight:700;color:${r.score>=80?'var(--success)':r.score>=60?'var(--warning)':'var(--danger)'}">${r.score}%</div></div>`;}).join('')}`:''}
+    ${payments.length?`<div class="divider"></div><div style="font-size:13px;font-weight:700;margin-bottom:10px">Payment History</div>${payments.slice(0,5).map(p=>`<div class="flex items-center justify-between mb-6" style="background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:8px 12px"><div><div style="font-size:12px;font-weight:600">${p.month}</div><div style="font-size:11px;color:var(--text3)">${p.type}</div></div>${payStatusBadge(p.status)}<div style="font-size:13px;font-weight:700">${(p.amount-p.discount).toLocaleString()} EGP</div></div>`).join('')}`:''}
+  `);
+}
+
+// ============================================================
+// ATTENDANCE
+// ============================================================
+let attState={date:today(),groupId:'',records:{}};
+function renderAttendance(){
+  const groups=DB.getAll('groups');
+  if(!attState.groupId && groups.length) attState.groupId=groups[0].id;
+  document.getElementById('screen-attendance').innerHTML=`
+    <div class="flex gap-20 mb-16 items-end">
+      <div class="form-group" style="margin:0">
+        <label class="form-label">Date</label>
+        <input class="form-control" type="date" id="att-date" value="${attState.date}" onchange="attState.date=this.value;loadAttRecords()">
+      </div>
+      <div class="form-group" style="margin:0;flex:1;max-width:300px">
+        <label class="form-label">Group</label>
+        <select class="form-control" id="att-group" onchange="attState.groupId=this.value;loadAttRecords()">
+          ${groups.map(g=>`<option value="${g.id}" ${attState.groupId===g.id?'selected':''}>${g.name}</option>`).join('')}
+        </select>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="markAll('present')">Mark All Present</button>
+      <button class="btn btn-ghost btn-sm" onclick="markAll('absent')">Mark All Absent</button>
+      <button class="btn btn-primary" onclick="saveAttendance()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Save Attendance
+      </button>
+    </div>
+    <div class="flex gap-16 mb-20">
+      <div class="card card-sm flex-1" style="border-left:3px solid var(--success)">
+        <div style="font-size:24px;font-weight:800;color:var(--success)" id="att-present-count">0</div>
+        <div style="font-size:12px;color:var(--text3)">Present</div>
+      </div>
+      <div class="card card-sm flex-1" style="border-left:3px solid var(--danger)">
+        <div style="font-size:24px;font-weight:800;color:var(--danger)" id="att-absent-count">0</div>
+        <div style="font-size:12px;color:var(--text3)">Absent</div>
+      </div>
+      <div class="card card-sm flex-1" style="border-left:3px solid var(--warning)">
+        <div style="font-size:24px;font-weight:800;color:var(--warning)" id="att-late-count">0</div>
+        <div style="font-size:12px;color:var(--text3)">Late</div>
+      </div>
+      <div class="card card-sm flex-1">
+        <div style="font-size:24px;font-weight:800" id="att-pct">—</div>
+        <div style="font-size:12px;color:var(--text3)">Attendance Rate</div>
+      </div>
+    </div>
+    <div class="card" style="padding:0">
+      <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:13px;font-weight:600">Students</div>
+        <div style="font-size:12px;color:var(--text3)" id="att-group-name"></div>
+      </div>
+      <div id="att-list" style="padding:0 20px"></div>
+    </div>
+    <!-- History -->
+    <div class="mt-20">
+      <div class="section-header"><div class="section-title">Recent Attendance History</div></div>
+      <div id="att-history"></div>
+    </div>`;
+  loadAttRecords();
+  loadAttHistory();
+}
+
+function loadAttRecords(){
+  const groupId=attState.groupId;
+  const date=attState.date;
+  const students=DB.getAll('students').filter(s=>s.groupId===groupId&&s.status==='active');
+  const existing=DB.getAll('attendance').filter(a=>a.date===date&&students.some(s=>s.id===a.studentId));
+  attState.records={};
+  existing.forEach(a=>{ attState.records[a.studentId]=a.status; });
+  const g=getGroup(groupId);
+  const el=document.getElementById('att-group-name');
+  if(el) el.textContent=g?g.name:'';
+  renderAttList(students);
+  updateAttSummary(students);
+}
+
+function renderAttList(students){
+  const list=document.getElementById('att-list');
+  if(!list) return;
+  if(students.length===0){
+    list.innerHTML='<div class="empty-state"><div class="empty-text">No active students in this group</div></div>';
+    return;
+  }
+  list.innerHTML=students.map(s=>{
+    const st=attState.records[s.id]||null;
+    return `<div class="att-grid">
+      <div class="flex items-center gap-10">
+        <div class="avatar avatar-sm">${avatarInitials(s.name)}</div>
+        <div><div style="font-weight:600;font-size:13px">${s.name}</div><div class="text-xs text-dim arabic">${s.nameAr}</div></div>
+      </div>
+      <div class="att-btns">
+        <button class="att-btn present ${st==='present'?'active':''}" onclick="setAtt('${s.id}','present')">P</button>
+        <button class="att-btn absent ${st==='absent'?'active':''}" onclick="setAtt('${s.id}','absent')">A</button>
+        <button class="att-btn late ${st==='late'?'active':''}" onclick="setAtt('${s.id}','late')">L</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function setAtt(studentId,status){
+  const groupId=attState.groupId;
+  const date=attState.date;
+  const students=DB.getAll('students').filter(s=>s.groupId===groupId&&s.status==='active');
+  attState.records[studentId]=status;
+  // Update button classes
+  const allBtns=document.querySelectorAll('.att-btn');
+  allBtns.forEach(btn=>{
+    const row=btn.closest('.att-grid');
+    if(!row) return;
+    const sid=btn.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
+    if(sid===studentId){
+      btn.classList.remove('active');
+      if(btn.classList.contains(status)) btn.classList.add('active');
+    }
+  });
+  updateAttSummary(students);
+}
+
+function updateAttSummary(students){
+  const p=Object.values(attState.records).filter(v=>v==='present').length;
+  const a=Object.values(attState.records).filter(v=>v==='absent').length;
+  const l=Object.values(attState.records).filter(v=>v==='late').length;
+  const total=students.length;
+  const pct=total?Math.round(p/total*100):0;
+  const el1=document.getElementById('att-present-count'); if(el1) el1.textContent=p;
+  const el2=document.getElementById('att-absent-count'); if(el2) el2.textContent=a;
+  const el3=document.getElementById('att-late-count'); if(el3) el3.textContent=l;
+  const el4=document.getElementById('att-pct'); if(el4) el4.textContent=total?pct+'%':'—';
+}
+
+function markAll(status){
+  const groupId=attState.groupId;
+  const students=DB.getAll('students').filter(s=>s.groupId===groupId&&s.status==='active');
+  students.forEach(s=>{ attState.records[s.id]=status; });
+  renderAttList(students);
+  updateAttSummary(students);
+}
+
+function saveAttendance(){
+  const groupId=attState.groupId;
+  const date=attState.date;
+  const students=DB.getAll('students').filter(s=>s.groupId===groupId&&s.status==='active');
+  if(students.length===0){ toast('No students in group','danger'); return; }
+  let attendance=DB.getAll('attendance').filter(a=>!(a.date===date&&students.some(s=>s.id===a.studentId)));
+  students.forEach(s=>{
+    const status=attState.records[s.id]||'absent';
+    attendance.push({id:uid(),studentId:s.id,date,status});
+  });
+  DB.save('attendance',attendance);
+  toast('Attendance saved successfully','success');
+  loadAttHistory();
+}
+
+function loadAttHistory(){
+  const histEl=document.getElementById('att-history');
+  if(!histEl) return;
+  const groupId=attState.groupId;
+  const students=DB.getAll('students').filter(s=>s.groupId===groupId);
+  const allAtt=DB.getAll('attendance').filter(a=>students.some(s=>s.id===a.studentId));
+  const dateMap={};
+  allAtt.forEach(a=>{
+    if(!dateMap[a.date]) dateMap[a.date]={present:0,absent:0,late:0,total:0};
+    dateMap[a.date][a.status]++;
+    dateMap[a.date].total++;
+  });
+  const dates=Object.keys(dateMap).sort().reverse().slice(0,7);
+  if(dates.length===0){ histEl.innerHTML='<div class="empty-state"><div class="empty-text">No attendance records yet</div></div>'; return; }
+  histEl.innerHTML=`<div class="card" style="padding:0"><table>
+    <thead><tr><th>Date</th><th>Present</th><th>Absent</th><th>Late</th><th>Rate</th></tr></thead>
+    <tbody>
+      ${dates.map(d=>{
+        const r=dateMap[d];
+        const pct=r.total?Math.round(r.present/r.total*100):0;
+        return `<tr>
+          <td style="font-weight:600">${fmt(d)}</td>
+          <td><span class="badge badge-success">${r.present}</span></td>
+          <td><span class="badge badge-danger">${r.absent}</span></td>
+          <td><span class="badge badge-warning">${r.late}</span></td>
+          <td><div style="display:flex;align-items:center;gap:8px"><div class="progress-bar" style="width:80px"><div class="progress-fill" style="width:${pct}%;background:${pct>=80?'var(--success)':pct>=60?'var(--warning)':'var(--danger)'}"></div></div><span style="font-size:12px;font-weight:600">${pct}%</span></div></td>
+        </tr>`;
+      }).join('')}
+    </tbody>
+  </table></div>`;
+}
+
+// ============================================================
+// FINANCE
+// ============================================================
+let finFilter={status:'all',month:'all',type:'all'};
+function renderFinance(){
+  const payments=DB.getAll('payments');
+  const students=DB.getAll('students');
+  const paid=payments.filter(p=>p.status==='paid').reduce((s,p)=>s+p.amount-p.discount,0);
+  const pending=payments.filter(p=>p.status==='pending').reduce((s,p)=>s+p.amount,0);
+  const late=payments.filter(p=>p.status==='late').reduce((s,p)=>s+p.amount,0);
+  const total=paid+pending+late;
+  const months=[...new Set(payments.map(p=>p.month))].filter(Boolean);
+  document.getElementById('screen-finance').innerHTML=`
+    <div class="flex gap-16 mb-24">
+      <div class="finance-card" style="border-left:3px solid var(--success)">
+        <div style="font-size:12px;color:var(--text3)">Total Collected</div>
+        <div class="finance-amount text-success">${fmtMoney(paid)}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px">${payments.filter(p=>p.status==='paid').length} payments</div>
+      </div>
+      <div class="finance-card" style="border-left:3px solid var(--warning)">
+        <div style="font-size:12px;color:var(--text3)">Pending</div>
+        <div class="finance-amount text-warning">${fmtMoney(pending)}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px">${payments.filter(p=>p.status==='pending').length} students</div>
+      </div>
+      <div class="finance-card" style="border-left:3px solid var(--danger)">
+        <div style="font-size:12px;color:var(--text3)">Late / Overdue</div>
+        <div class="finance-amount text-danger">${fmtMoney(late)}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px">${payments.filter(p=>p.status==='late').length} students</div>
+      </div>
+      <div class="finance-card" style="border:1px solid var(--border)">
+        <div style="font-size:12px;color:var(--text3)">Expected Total</div>
+        <div class="finance-amount">${fmtMoney(total)}</div>
+        <div style="margin-top:8px"><div class="progress-bar"><div class="progress-fill" style="width:${total?Math.round(paid/total*100):0}%;background:var(--success)"></div></div></div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px">Collection rate: ${total?Math.round(paid/total*100):0}%</div>
+      </div>
+    </div>
+    <div class="flex items-center justify-between mb-16">
+      <div class="filter-bar" style="margin:0">
+        <select class="form-control" style="width:140px" onchange="finFilter.status=this.value;renderFinanceTable()">
+          <option value="all">All Status</option>
+          <option value="paid">Paid</option>
+          <option value="pending">Pending</option>
+          <option value="late">Late</option>
+        </select>
+        <select class="form-control" style="width:160px" onchange="finFilter.month=this.value;renderFinanceTable()">
+          <option value="all">All Months</option>
+          ${months.map(m=>`<option value="${m}">${m}</option>`).join('')}
+        </select>
+        <select class="form-control" style="width:140px" onchange="finFilter.type=this.value;renderFinanceTable()">
+          <option value="all">All Types</option>
+          <option value="monthly">Monthly Fee</option>
+          <option value="private">Private</option>
+        </select>
+        <span id="fin-count" class="text-muted text-sm"></span>
+      </div>
+      <button class="btn btn-primary" onclick="openAddPaymentModal()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Record Payment
+      </button>
+    </div>
+    <div class="card" style="padding:0" id="fin-table-wrap"></div>`;
+  renderFinanceTable();
+}
+function renderFinanceTable(){
+  let payments=DB.getAll('payments');
+  if(finFilter.status!=='all') payments=payments.filter(p=>p.status===finFilter.status);
+  if(finFilter.month!=='all') payments=payments.filter(p=>p.month===finFilter.month);
+  if(finFilter.type!=='all') payments=payments.filter(p=>p.type===finFilter.type);
+  payments.sort((a,b)=>b.date.localeCompare(a.date));
+  const el=document.getElementById('fin-count'); if(el) el.textContent=payments.length+' records';
+  const wrap=document.getElementById('fin-table-wrap');
+  if(!wrap) return;
+  if(payments.length===0){ wrap.innerHTML='<div class="empty-state"><div class="empty-text">No payment records found</div></div>'; return; }
+  wrap.innerHTML=`<div class="table-wrap"><table>
+    <thead><tr><th>Student</th><th>Month</th><th>Type</th><th>Amount</th><th>Discount</th><th>Net</th><th>Status</th><th>Date</th><th></th></tr></thead>
+    <tbody>
+      ${payments.map(p=>{
+        const s=getStudent(p.studentId);
+        return `<tr>
+          <td><div class="flex items-center gap-8">${s?`<div class="avatar avatar-sm">${avatarInitials(s.name)}</div><div class="td-name">${s.name}</div>`:'<span class="text-dim">Unknown</span>'}</div></td>
+          <td style="font-size:12px">${p.month}</td>
+          <td><span class="badge ${p.type==='monthly'?'badge-info':'badge-purple'}">${p.type==='monthly'?'Monthly':'Private'}</span></td>
+          <td style="font-weight:600">${p.amount.toLocaleString()}</td>
+          <td style="color:var(--success)">${p.discount>0?'-'+p.discount:'—'}</td>
+          <td style="font-weight:700">${(p.amount-p.discount).toLocaleString()}</td>
+          <td>${payStatusBadge(p.status)}</td>
+          <td style="font-size:12px;color:var(--text3)">${p.date?fmt(p.date):'—'}</td>
+          <td>
+            <div class="action-btns">
+              ${p.status!=='paid'?`<button class="btn btn-success btn-sm" onclick="markPaymentPaid('${p.id}')"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Paid</button>`:''}
+              <button class="btn btn-ghost btn-icon btn-sm" onclick="editPayment('${p.id}')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+              <button class="btn btn-danger btn-icon btn-sm" onclick="deletePayment('${p.id}')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+            </div>
+          </td>
+        </tr>`;
+      }).join('')}
+    </tbody>
+  </table></div>`;
+}
+function paymentFormHTML(p={}){
+  const students=DB.getAll('students');
+  const months=[];
+  const now=new Date();
+  for(let i=0;i<6;i++){
+    const d=new Date(now.getFullYear(),now.getMonth()-i,1);
+    months.push(d.toLocaleDateString('en-US',{month:'long',year:'numeric'}));
+  }
+  return `
+    <div class="modal-header"><div class="modal-title">${p.id?'Edit Payment':'Record Payment'}</div><div class="modal-close" onclick="closeModal()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Student*</label><select class="form-control" id="pf-student"><option value="">Select Student...</option>${students.map(s=>`<option value="${s.id}" ${p.studentId===s.id?'selected':''}>${s.name}</option>`).join('')}</select></div>
+      <div class="form-group"><label class="form-label">Month*</label><select class="form-control" id="pf-month">${months.map(m=>`<option value="${m}" ${p.month===m?'selected':''}>${m}</option>`).join('')}</select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Type</label><select class="form-control" id="pf-type"><option value="monthly" ${p.type==='monthly'||!p.type?'selected':''}>Monthly Fee</option><option value="private" ${p.type==='private'?'selected':''}>Private Lesson</option></select></div>
+      <div class="form-group"><label class="form-label">Status</label><select class="form-control" id="pf-status"><option value="paid" ${p.status==='paid'||!p.status?'selected':''}>Paid</option><option value="pending" ${p.status==='pending'?'selected':''}>Pending</option><option value="late" ${p.status==='late'?'selected':''}>Late</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Amount (EGP)*</label><input class="form-control" id="pf-amount" type="number" value="${p.amount||500}" min="0"></div>
+      <div class="form-group"><label class="form-label">Discount (EGP)</label><input class="form-control" id="pf-discount" type="number" value="${p.discount||0}" min="0"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Payment Date</label><input class="form-control" id="pf-date" type="date" value="${p.date||today()}"></div>
+      <div class="form-group"><label class="form-label">Notes</label><input class="form-control" id="pf-notes" value="${p.notes||''}" placeholder="Optional notes"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="savePayment('${p.id||''}')">${p.id?'Save Changes':'Record Payment'}</button>
+    </div>`;
+}
+function openAddPaymentModal(){ openModal(paymentFormHTML()); }
+function editPayment(id){ const p=DB.getAll('payments').find(x=>x.id===id); if(p) openModal(paymentFormHTML(p)); }
+function savePayment(existingId){
+  const studentId=document.getElementById('pf-student').value;
+  const amount=parseFloat(document.getElementById('pf-amount').value)||0;
+  if(!studentId){ toast('Select a student','danger'); return; }
+  if(amount<=0){ toast('Enter a valid amount','danger'); return; }
+  const obj={
+    id:existingId||uid(),
+    studentId,
+    month:document.getElementById('pf-month').value,
+    type:document.getElementById('pf-type').value,
+    status:document.getElementById('pf-status').value,
+    amount,
+    discount:parseFloat(document.getElementById('pf-discount').value)||0,
+    date:document.getElementById('pf-status').value==='paid'?document.getElementById('pf-date').value:'',
+    notes:document.getElementById('pf-notes').value.trim(),
+  };
+  const payments=DB.getAll('payments');
+  if(existingId){ const i=payments.findIndex(p=>p.id===existingId); if(i>-1) payments[i]=obj; else payments.push(obj); }
+  else payments.push(obj);
+  DB.save('payments',payments);
+  closeModal();
+  toast(existingId?'Payment updated':'Payment recorded','success');
+  renderFinanceTable();
+}
+function markPaymentPaid(id){
+  const payments=DB.getAll('payments');
+  const i=payments.findIndex(p=>p.id===id);
+  if(i>-1){ payments[i].status='paid'; payments[i].date=today(); }
+  DB.save('payments',payments);
+  toast('Payment marked as paid','success');
+  renderFinanceTable();
+}
+function deletePayment(id){
+  confirm2('Delete this payment record?',()=>{
+    DB.save('payments',DB.getAll('payments').filter(p=>p.id!==id));
+    toast('Payment deleted','danger');
+    renderFinanceTable();
+  });
+}
+
+// ============================================================
+// GROUPS
+// ============================================================
+function renderGroups(){
+  const groups=DB.getAll('groups');
+  const students=DB.getAll('students');
+  document.getElementById('screen-groups').innerHTML=`
+    <div class="flex items-center justify-between mb-20">
+      <div class="flex gap-12">
+        ${groups.map(g=>`<div class="card card-sm flex items-center gap-8" style="cursor:default;border-left:3px solid ${g.color||'var(--silver)'}">
+          <div style="font-size:20px;font-weight:800;color:${g.color}">${students.filter(s=>s.groupId===g.id).length}</div>
+          <div style="font-size:11px;color:var(--text3)">${g.name.split('—')[0].trim()}</div>
+        </div>`).join('')}
+      </div>
+      <button class="btn btn-primary" onclick="openAddGroupModal()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Group
+      </button>
+    </div>
+    <div class="group-grid">
+      ${groups.map(g=>{
+        const members=students.filter(s=>s.groupId===g.id);
+        const active=members.filter(s=>s.status==='active').length;
+        const pct=Math.min(100,Math.round(active/g.capacity*100));
+        return `<div class="group-card">
+          <div class="flex items-center justify-between mb-12">
+            <div class="flex items-center gap-10">
+              <div style="width:40px;height:40px;background:${g.color}22;border:1px solid ${g.color}44;border-radius:10px;display:flex;align-items:center;justify-content:center">
+                <svg width="18" height="18" fill="none" stroke="${g.color}" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg>
+              </div>
+              <div>
+                <div style="font-weight:700;font-size:14px">${g.name.split('—')[0].trim()}</div>
+                <div class="arabic text-xs text-dim">${g.nameAr}</div>
+              </div>
+            </div>
+            <div class="action-btns" style="opacity:1">
+              <button class="btn btn-ghost btn-icon btn-sm" onclick="openEditGroupModal('${g.id}')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+              <button class="btn btn-danger btn-icon btn-sm" onclick="deleteGroup('${g.id}')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+            </div>
+          </div>
+          <div class="flex gap-16 mb-12 text-sm" style="flex-wrap:wrap">
+            <div><span class="text-dim">Grade: </span><span class="fw-600">Grade ${g.grade}</span></div>
+            <div><span class="text-dim">Schedule: </span><span class="fw-600">${g.schedule}</span></div>
+            <div><span class="text-dim">Time: </span><span class="fw-600">${g.time}</span></div>
+            <div><span class="text-dim">Room: </span><span class="fw-600">${g.classroom}</span></div>
+          </div>
+          <div class="flex items-center gap-10 mb-8">
+            <div class="progress-bar" style="flex:1">
+              <div class="progress-fill" style="width:${pct}%;background:${pct>80?'var(--danger)':pct>60?'var(--warning)':'var(--success)'}"></div>
+            </div>
+            <div class="text-xs fw-600" style="width:80px;text-align:right">${active} / ${g.capacity} seats</div>
+          </div>
+          ${members.length>0?`<div style="margin-top:10px;border-top:1px solid var(--border);padding-top:10px">
+            <div class="text-xs text-dim mb-6">Members (${members.length})</div>
+            <div class="flex gap-4" style="flex-wrap:wrap">
+              ${members.slice(0,8).map(s=>`<div class="avatar avatar-sm" title="${s.name}" style="cursor:pointer" onclick="showStudentDetail('${s.id}')">${avatarInitials(s.name)}</div>`).join('')}
+              ${members.length>8?`<div class="avatar avatar-sm" style="background:var(--bg3);color:var(--text3)">+${members.length-8}</div>`:''}
+            </div>
+          </div>`:'<div class="text-xs text-dim mt-8">No students yet</div>'}
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+function groupFormHTML(g={}){
+  return `
+    <div class="modal-header"><div class="modal-title">${g.id?'Edit Group':'New Group'}</div><div class="modal-close" onclick="closeModal()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Group Name (English)*</label><input class="form-control" id="gf-name" value="${g.name||''}" placeholder="Group A — Grade 11"></div>
+      <div class="form-group"><label class="form-label">اسم المجموعة (عربي)</label><input class="form-control arabic" id="gf-nameAr" value="${g.nameAr||''}" placeholder="مجموعة أ" dir="rtl"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Grade*</label><select class="form-control" id="gf-grade"><option value="10" ${g.grade==='10'?'selected':''}>Grade 10</option><option value="11" ${!g.grade||g.grade==='11'?'selected':''}>Grade 11</option><option value="12" ${g.grade==='12'?'selected':''}>Grade 12</option></select></div>
+      <div class="form-group"><label class="form-label">Capacity</label><input class="form-control" id="gf-capacity" type="number" value="${g.capacity||20}" min="1"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Schedule Days</label><input class="form-control" id="gf-schedule" value="${g.schedule||''}" placeholder="Mon, Wed, Fri"></div>
+      <div class="form-group"><label class="form-label">Class Time</label><input class="form-control" id="gf-time" value="${g.time||''}" placeholder="4:00 PM"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Classroom</label><input class="form-control" id="gf-classroom" value="${g.classroom||''}" placeholder="Room 101"></div>
+      <div class="form-group"><label class="form-label">Color</label><input class="form-control" id="gf-color" type="color" value="${g.color||'#3b82f6'}"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Notes</label><textarea class="form-control" id="gf-notes" placeholder="Any notes...">${g.notes||''}</textarea></div>
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveGroup('${g.id||''}')">${g.id?'Save Changes':'Create Group'}</button></div>`;
+}
+function openAddGroupModal(){ openModal(groupFormHTML()); }
+function openEditGroupModal(id){ const g=getGroup(id); if(g) openModal(groupFormHTML(g)); }
+function saveGroup(existingId){
+  const name=document.getElementById('gf-name').value.trim();
+  if(!name){ toast('Group name is required','danger'); return; }
+  const obj={
+    id:existingId||uid(),
+    name,nameAr:document.getElementById('gf-nameAr').value.trim(),
+    grade:document.getElementById('gf-grade').value,
+    capacity:parseInt(document.getElementById('gf-capacity').value)||20,
+    schedule:document.getElementById('gf-schedule').value.trim(),
+    time:document.getElementById('gf-time').value.trim(),
+    classroom:document.getElementById('gf-classroom').value.trim(),
+    color:document.getElementById('gf-color').value,
+    notes:document.getElementById('gf-notes').value.trim(),
+  };
+  const groups=DB.getAll('groups');
+  if(existingId){ const i=groups.findIndex(g=>g.id===existingId); if(i>-1) groups[i]=obj; else groups.push(obj); }
+  else groups.push(obj);
+  DB.save('groups',groups);
+  closeModal();
+  toast(existingId?'Group updated':'Group created','success');
+  renderGroups();
+}
+function deleteGroup(id){
+  confirm2('Delete this group? Students will not be deleted but will be unassigned.',()=>{
+    const students=DB.getAll('students').map(s=>s.groupId===id?{...s,groupId:''}:s);
+    DB.save('students',students);
+    DB.save('groups',DB.getAll('groups').filter(g=>g.id!==id));
+    toast('Group deleted','danger');
+    renderGroups();
+  });
+}
+
+// ============================================================
+// SCHEDULE
+// ============================================================
+function renderSchedule(){
+  const groups=DB.getAll('groups');
+  const days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const shortDays={Monday:'Mon',Tuesday:'Tue',Wednesday:'Wed',Thursday:'Thu',Friday:'Fri',Saturday:'Sat'};
+  // Map groups to days
+  const dayMap={};
+  days.forEach(d=>{ dayMap[d]=[]; });
+  groups.forEach(g=>{
+    const sched=g.schedule||'';
+    days.forEach(d=>{
+      if(sched.toLowerCase().includes(d.toLowerCase().slice(0,3))||sched.toLowerCase().includes(d.toLowerCase())){
+        dayMap[d].push(g);
+      }
+    });
+  });
+  document.getElementById('screen-schedule').innerHTML=`
+    <div class="flex items-center justify-between mb-20">
+      <div class="text-muted text-sm">Weekly class timetable for all groups</div>
+      <button class="btn btn-ghost btn-sm" onclick="navigate('groups')">Manage Groups</button>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <div class="schedule-grid" style="grid-template-columns:80px repeat(${days.length},1fr)">
+        <div class="sched-header"></div>
+        ${days.map(d=>`<div class="sched-header">${d}</div>`).join('')}
+        <div class="sched-time">All Day</div>
+        ${days.map(d=>`<div class="sched-cell">
+          ${dayMap[d].map(g=>`<div class="sched-class" style="background:${g.color||'#3b82f6'}22;border:1px solid ${g.color||'#3b82f6'}44;color:${g.color||'#3b82f6'}" title="${g.name}">
+            <div style="font-weight:700">${g.name.split('—')[0].trim()}</div>
+            <div style="font-size:10px;opacity:.8">${g.time} &bull; ${g.classroom}</div>
+          </div>`).join('')}
+          ${dayMap[d].length===0?'<div style="color:var(--text3);font-size:11px;padding:4px">—</div>':''}
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="mt-20 flex gap-16" style="flex-wrap:wrap">
+      ${groups.map(g=>`<div class="flex items-center gap-8">
+        <div style="width:12px;height:12px;border-radius:3px;background:${g.color||'var(--silver)'}"></div>
+        <span class="text-sm">${g.name.split('—')[0].trim()}</span>
+        <span class="text-xs text-dim">${g.schedule} at ${g.time}</span>
+      </div>`).join('')}
+    </div>
+    <div class="card mt-20">
+      <div class="section-header mb-16"><div class="section-title">Group Schedule Details</div></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Group</th><th>Grade</th><th>Days</th><th>Time</th><th>Room</th><th>Students</th></tr></thead>
+        <tbody>
+          ${groups.map(g=>{
+            const cnt=DB.getAll('students').filter(s=>s.groupId===g.id&&s.status==='active').length;
+            return `<tr>
+              <td><div class="flex items-center gap-8"><div style="width:12px;height:12px;border-radius:3px;background:${g.color}"></div><span class="td-name">${g.name}</span></div></td>
+              <td>Grade ${g.grade}</td>
+              <td>${g.schedule}</td>
+              <td style="font-weight:600">${g.time}</td>
+              <td>${g.classroom}</td>
+              <td><span class="badge badge-info">${cnt} students</span></td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table></div>
+    </div>`;
+}
+
+// ============================================================
+// PERFORMANCE
+// ============================================================
+function renderPerformance(){
+  const students=DB.getAll('students');
+  const attendance=DB.getAll('attendance');
+  const examResults=DB.getAll('examResults');
+  const exams=DB.getAll('exams');
+  const groups=DB.getAll('groups');
+  let filterGroup=document.getElementById('perf-group-filter')?document.getElementById('perf-group-filter').value:'all';
+  const filtStudents=filterGroup==='all'?students:students.filter(s=>s.groupId===filterGroup);
+  const stats=filtStudents.map(s=>{
+    const results=examResults.filter(r=>r.studentId===s.id);
+    const avgScore=results.length?Math.round(results.reduce((sum,r)=>sum+r.score,0)/results.length):null;
+    const attRecs=attendance.filter(a=>a.studentId===s.id);
+    const attRate=attRecs.length?Math.round(attRecs.filter(a=>a.status==='present').length/attRecs.length*100):null;
+    return {...s,avgScore,attRate,examCount:results.length};
+  }).sort((a,b)=>(b.avgScore??-1)-(a.avgScore??-1));
+
+  document.getElementById('screen-performance').innerHTML=`
+    <div class="flex items-center gap-12 mb-20">
+      <select class="form-control" style="width:200px" id="perf-group-filter" onchange="renderPerformance()">
+        <option value="all">All Groups</option>
+        ${groups.map(g=>`<option value="${g.id}" ${filterGroup===g.id?'selected':''}>${g.name.split('—')[0].trim()}</option>`).join('')}
+      </select>
+      <span class="text-muted text-sm">${filtStudents.length} students</span>
+    </div>
+    <!-- Top 3 -->
+    ${stats.filter(s=>s.avgScore!==null).length>=3?`
+    <div class="flex gap-16 mb-24">
+      ${stats.filter(s=>s.avgScore!==null).slice(0,3).map((s,i)=>{
+        const medals=['#ffd600','#c0c0c0','#cd7f32'];
+        const g=getGroup(s.groupId);
+        return `<div class="card" style="flex:1;text-align:center;border-top:3px solid ${medals[i]}">
+          <div style="font-size:24px;margin-bottom:8px">${['🥇','🥈','🥉'][i]}</div>
+          <div class="avatar" style="margin:0 auto 8px;background:${medals[i]}22;border-color:${medals[i]}44;color:${medals[i]}">${avatarInitials(s.name)}</div>
+          <div style="font-weight:700;font-size:13px">${s.name}</div>
+          <div class="text-xs text-dim arabic">${s.nameAr}</div>
+          <div style="font-size:26px;font-weight:800;color:${medals[i]};margin:8px 0">${s.avgScore}%</div>
+          <div class="text-xs text-dim">${g?g.name.split('—')[0].trim():''}</div>
+        </div>`;
+      }).join('')}
+    </div>`:''} 
+    <!-- Full Rankings -->
+    <div class="card" style="padding:0">
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
+        <div class="section-title">Student Rankings</div>
+        <span class="badge badge-muted">${stats.length} students</span>
+      </div>
+      <div style="padding:8px 20px">
+        ${stats.map((s,i)=>{
+          const g=getGroup(s.groupId);
+          const scoreColor=s.avgScore===null?'var(--text3)':s.avgScore>=80?'var(--success)':s.avgScore>=60?'var(--warning)':'var(--danger)';
+          return `<div class="rank-card" onclick="showStudentDetail('${s.id}')" style="cursor:pointer">
+            <div class="rank-num" style="color:${i<3?['#ffd600','#c0c0c0','#cd7f32'][i]:'var(--text3)'}">#${i+1}</div>
+            <div class="avatar avatar-sm">${avatarInitials(s.name)}</div>
+            <div style="flex:1">
+              <div style="font-weight:600;font-size:13px">${s.name} <span class="arabic text-xs text-dim">${s.nameAr}</span></div>
+              <div class="text-xs text-dim">${g?g.name.split('—')[0].trim():'No group'} &bull; ${s.examCount} exams taken</div>
+            </div>
+            <div class="score-bar" style="max-width:160px">
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-xs text-dim">Exam avg</span>
+                <span style="font-size:13px;font-weight:700;color:${scoreColor}">${s.avgScore!==null?s.avgScore+'%':'N/A'}</span>
+              </div>
+              ${s.avgScore!==null?`<div class="progress-bar"><div class="progress-fill" style="width:${s.avgScore}%;background:${scoreColor}"></div></div>`:''}
+            </div>
+            <div style="text-align:center;min-width:60px">
+              ${s.attRate!==null?`<div style="font-size:14px;font-weight:700;color:${s.attRate>=80?'var(--success)':s.attRate>=60?'var(--warning)':'var(--danger)'}">${s.attRate}%</div><div class="text-xs text-dim">Attendance</div>`:'<div class="text-xs text-dim">No att.</div>'}
+            </div>
+            ${levelBadge(s.level)}
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+    <!-- Exam Overview -->
+    <div class="card mt-20">
+      <div class="section-header mb-16"><div class="section-title">Exam Performance Overview</div></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Exam</th><th>Group</th><th>Date</th><th>Submissions</th><th>Avg Score</th><th>Pass Rate</th></tr></thead>
+        <tbody>
+          ${exams.map(e=>{
+            const g=getGroup(e.groupId);
+            const results=examResults.filter(r=>r.examId===e.id);
+            const avg=results.length?Math.round(results.reduce((s,r)=>s+r.score,0)/results.length):null;
+            const pass=results.length?Math.round(results.filter(r=>r.score>=60).length/results.length*100):null;
+            return `<tr>
+              <td class="td-name">${e.title}</td>
+              <td>${g?g.name.split('—')[0].trim():'—'}</td>
+              <td class="text-xs text-dim">${fmt(e.date)}</td>
+              <td><span class="badge badge-muted">${results.length}</span></td>
+              <td style="font-weight:700;color:${avg===null?'var(--text3)':avg>=80?'var(--success)':avg>=60?'var(--warning)':'var(--danger)'}">${avg!==null?avg+'%':'—'}</td>
+              <td>${pass!==null?`<div class="flex items-center gap-8"><div class="progress-bar" style="width:80px"><div class="progress-fill" style="width:${pass}%;background:${pass>=80?'var(--success)':'var(--warning)'}"></div></div><span class="text-xs fw-600">${pass}%</span></div>`:'—'}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table></div>
+    </div>`;
+}
+
+// ============================================================
+// EXAMS
+// ============================================================
+let examEditing=null;
+function renderExams(){
+  const exams=DB.getAll('exams');
+  const examResults=DB.getAll('examResults');
+  const groups=DB.getAll('groups');
+  document.getElementById('screen-exams').innerHTML=`
+    <div class="flex items-center justify-between mb-20">
+      <div class="flex gap-12">
+        <div class="card card-sm flex items-center gap-8"><div style="font-size:20px;font-weight:800;color:var(--success)">${exams.filter(e=>e.published).length}</div><div class="text-xs text-dim">Published</div></div>
+        <div class="card card-sm flex items-center gap-8"><div style="font-size:20px;font-weight:800;color:var(--warning)">${exams.filter(e=>!e.published).length}</div><div class="text-xs text-dim">Drafts</div></div>
+        <div class="card card-sm flex items-center gap-8"><div style="font-size:20px;font-weight:800;color:var(--purple)">${examResults.length}</div><div class="text-xs text-dim">Total Results</div></div>
+      </div>
+      <button class="btn btn-primary" onclick="openCreateExamModal()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Create Exam
+      </button>
+    </div>
+    <div class="group-grid">
+      ${exams.map(e=>{
+        const g=getGroup(e.groupId);
+        const results=examResults.filter(r=>r.examId===e.id);
+        const avg=results.length?Math.round(results.reduce((s,r)=>s+r.score,0)/results.length):null;
+        return `<div class="card" style="transition:border-color .2s">
+          <div class="flex items-start justify-between mb-12">
+            <div style="flex:1">
+              <div style="font-weight:700;font-size:15px;margin-bottom:4px">${e.title}</div>
+              <div class="flex gap-6 mt-6">
+                <span class="badge ${e.published?'badge-success':'badge-muted'}">${e.published?'Published':'Draft'}</span>
+                <span class="badge badge-muted">${e.questions.length} questions</span>
+                <span class="badge badge-info">${e.duration} min</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-16 text-sm mb-12" style="flex-wrap:wrap">
+            <div><span class="text-dim">Group: </span><span style="font-weight:600;color:${g?g.color:'var(--text3)'}">${g?g.name.split('—')[0].trim():'All'}</span></div>
+            <div><span class="text-dim">Date: </span><span class="fw-600">${fmt(e.date)}</span></div>
+            <div><span class="text-dim">Results: </span><span class="fw-600">${results.length}</span></div>
+            ${avg!==null?`<div><span class="text-dim">Avg: </span><span style="font-weight:600;color:${avg>=80?'var(--success)':avg>=60?'var(--warning)':'var(--danger)'}">${avg}%</span></div>`:''}
+          </div>
+          <div class="flex gap-8">
+            <button class="btn btn-ghost btn-sm" onclick="openTakeExamModal('${e.id}')"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Take</button>
+            <button class="btn btn-ghost btn-sm" onclick="viewExamResults('${e.id}')"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Results</button>
+            <button class="btn btn-ghost btn-sm" onclick="openEditExamModal('${e.id}')"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteExam('${e.id}')"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+function openCreateExamModal(){
+  examEditing=null;
+  openExamEditor({id:uid(),title:'',date:today(),groupId:DB.getAll('groups')[0]?.id||'',duration:45,published:true,questions:[]});
+}
+function openEditExamModal(id){
+  const e=DB.getAll('exams').find(x=>x.id===id);
+  if(e){ examEditing=e.id; openExamEditor(JSON.parse(JSON.stringify(e))); }
+}
+let examDraft=null;
+function openExamEditor(exam){
+  examDraft=exam;
+  const groups=DB.getAll('groups');
+  openModal(`
+    <div class="modal-header"><div class="modal-title">${examEditing?'Edit Exam':'Create New Exam'}</div><div class="modal-close" onclick="closeModal()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Exam Title*</label><input class="form-control" id="ef-title" value="${exam.title}" placeholder="e.g. Mechanics Mid-Term"></div>
+      <div class="form-group"><label class="form-label">Date</label><input class="form-control" id="ef-date" type="date" value="${exam.date}"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Group</label><select class="form-control" id="ef-group"><option value="">All Groups</option>${groups.map(g=>`<option value="${g.id}" ${exam.groupId===g.id?'selected':''}>${g.name}</option>`).join('')}</select></div>
+      <div class="form-group"><label class="form-label">Duration (min)</label><input class="form-control" id="ef-duration" type="number" value="${exam.duration||45}" min="5"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Publish Status</label>
+      <select class="form-control" id="ef-published"><option value="true" ${exam.published?'selected':''}>Published</option><option value="false" ${!exam.published?'selected':''}>Draft</option></select></div>
+    <div class="divider"></div>
+    <div class="flex items-center justify-between mb-12">
+      <div style="font-weight:700">Questions (${exam.questions.length})</div>
+      <button class="btn btn-ghost btn-sm" onclick="addExamQuestion()">+ Add Question</button>
+    </div>
+    <div id="exam-questions">
+      ${exam.questions.map((q,i)=>renderQuestionBlock(q,i)).join('')}
+    </div>
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveExamDraft()">Save Exam</button></div>
+  `,'modal-xl');
+}
+function renderQuestionBlock(q,i){
+  return `<div class="question-block" id="qb-${q.id}">
+    <div class="flex items-center justify-between mb-10">
+      <div style="font-weight:600;font-size:13px">Question ${i+1}</div>
+      <button class="btn btn-danger btn-icon btn-sm" onclick="removeQuestion('${q.id}')"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="form-group"><label class="form-label">Question Text*</label><textarea class="form-control" id="qtext-${q.id}" style="min-height:60px" placeholder="Enter question...">${q.text}</textarea></div>
+    <div class="form-label mb-4">Options (click radio to set correct answer)</div>
+    ${q.options.map((opt,oi)=>`<div class="flex items-center gap-8 mb-6">
+      <input type="radio" name="correct-${q.id}" value="${oi}" ${q.correct===oi?'checked':''} onchange="setCorrect('${q.id}',${oi})" style="cursor:pointer;accent-color:var(--success)">
+      <input class="form-control" id="qopt-${q.id}-${oi}" value="${opt}" placeholder="Option ${oi+1}">
+    </div>`).join('')}
+    <div class="form-group mt-8"><label class="form-label">Category</label><input class="form-control" id="qcat-${q.id}" value="${q.category||''}" placeholder="e.g. Mechanics, Energy, Waves..."></div>
+  </div>`;
+}
+function addExamQuestion(){
+  const q={id:uid(),text:'',options:['','','',''],correct:0,category:''};
+  examDraft.questions.push(q);
+  const container=document.getElementById('exam-questions');
+  if(container){ const div=document.createElement('div'); div.innerHTML=renderQuestionBlock(q,examDraft.questions.length-1); container.appendChild(div.firstElementChild); }
+  document.querySelector('.modal-header .modal-title').textContent=(examEditing?'Edit Exam':'Create New Exam')+` (${examDraft.questions.length} Q)`;
+}
+function removeQuestion(qid){
+  examDraft.questions=examDraft.questions.filter(q=>q.id!==qid);
+  const el=document.getElementById('qb-'+qid); if(el) el.remove();
+}
+function setCorrect(qid,oi){
+  const q=examDraft.questions.find(x=>x.id===qid);
+  if(q) q.correct=oi;
+}
+function saveExamDraft(){
+  const title=document.getElementById('ef-title').value.trim();
+  if(!title){ toast('Exam title required','danger'); return; }
+  examDraft.questions.forEach(q=>{
+    q.text=document.getElementById('qtext-'+q.id)?.value.trim()||q.text;
+    q.options=q.options.map((_,oi)=>document.getElementById(`qopt-${q.id}-${oi}`)?.value.trim()||'');
+    q.category=document.getElementById('qcat-'+q.id)?.value.trim()||'';
+    const radios=document.querySelectorAll(`input[name="correct-${q.id}"]`);
+    radios.forEach(r=>{ if(r.checked) q.correct=parseInt(r.value); });
+  });
+  examDraft.title=title;
+  examDraft.date=document.getElementById('ef-date').value;
+  examDraft.groupId=document.getElementById('ef-group').value;
+  examDraft.duration=parseInt(document.getElementById('ef-duration').value)||45;
+  examDraft.published=document.getElementById('ef-published').value==='true';
+  const exams=DB.getAll('exams');
+  if(examEditing){ const i=exams.findIndex(e=>e.id===examEditing); if(i>-1) exams[i]=examDraft; else exams.push(examDraft); }
+  else exams.push(examDraft);
+  DB.save('exams',exams);
+  closeModal();
+  toast(examEditing?'Exam updated':'Exam created','success');
+  renderExams();
+}
+function deleteExam(id){
+  confirm2('Delete this exam and all its results?',()=>{
+    DB.save('exams',DB.getAll('exams').filter(e=>e.id!==id));
+    DB.save('examResults',DB.getAll('examResults').filter(r=>r.examId!==id));
+    toast('Exam deleted','danger');
+    renderExams();
+  });
+}
+
+let takeExamState={examId:null,studentId:null,answers:{},startTime:null,timer:null};
+function openTakeExamModal(examId){
+  const exam=DB.getAll('exams').find(e=>e.id===examId);
+  if(!exam){ toast('Exam not found','danger'); return; }
+  if(exam.questions.length===0){ toast('This exam has no questions','danger'); return; }
+  const students=DB.getAll('students');
+  openModal(`
+    <div class="modal-header"><div class="modal-title">Take Exam: ${exam.title}</div><div class="modal-close" onclick="closeModal()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div></div>
+    <div class="form-group"><label class="form-label">Select Student*</label><select class="form-control" id="take-student"><option value="">Select Student...</option>${students.map(s=>`<option value="${s.id}">${s.name}</option>`).join('')}</select></div>
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="startExam('${examId}')">Start Exam</button></div>
+  `,'modal-sm');
+}
+function startExam(examId){
+  const studentId=document.getElementById('take-student').value;
+  if(!studentId){ toast('Select a student','danger'); return; }
+  const exam=DB.getAll('exams').find(e=>e.id===examId);
+  takeExamState={examId,studentId,answers:{},startTime:Date.now(),timer:null};
+  openModal(renderExamSheet(exam),'modal-xl');
+  startExamTimer(exam.duration*60);
+}
+function renderExamSheet(exam){
+  return `
+    <div class="modal-header">
+      <div class="modal-title">${exam.title}</div>
+      <div class="flex items-center gap-12">
+        <div id="exam-timer" style="font-size:18px;font-weight:800;color:var(--warning);font-variant-numeric:tabular-nums"></div>
+        <div class="modal-close" onclick="closeModal()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+      </div>
+    </div>
+    <div class="text-sm text-muted mb-16">${exam.questions.length} questions &bull; ${exam.duration} minutes</div>
+    ${exam.questions.map((q,i)=>`<div class="question-block mb-16">
+      <div style="font-weight:600;margin-bottom:10px">Q${i+1}. ${q.text}${q.category?`<span class="badge badge-muted ml-auto" style="float:right">${q.category}</span>`:''}</div>
+      ${q.options.map((opt,oi)=>`<button class="option-btn" id="opt-${q.id}-${oi}" onclick="selectAnswer('${q.id}',${oi})">${String.fromCharCode(65+oi)}. ${opt}</button>`).join('')}
+    </div>`).join('')}
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="submitExam()">Submit Exam</button></div>`;
+}
+let examTimerInterval=null;
+function startExamTimer(seconds){
+  clearInterval(examTimerInterval);
+  let remaining=seconds;
+  examTimerInterval=setInterval(()=>{
+    remaining--;
+    const el=document.getElementById('exam-timer');
+    if(!el){ clearInterval(examTimerInterval); return; }
+    const m=Math.floor(remaining/60), s=remaining%60;
+    el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    if(remaining<=60) el.style.color='var(--danger)';
+    if(remaining<=0){ clearInterval(examTimerInterval); submitExam(); }
+  },1000);
+}
+function selectAnswer(qid,oi){
+  const exam=DB.getAll('exams').find(e=>e.id===takeExamState.examId);
+  if(!exam) return;
+  const q=exam.questions.find(x=>x.id===qid);
+  if(!q) return;
+  takeExamState.answers[qid]=oi;
+  q.options.forEach((_,i)=>{
+    const btn=document.getElementById(`opt-${qid}-${i}`);
+    if(btn){ btn.classList.toggle('selected',i===oi); }
+  });
+}
+function submitExam(){
+  clearInterval(examTimerInterval);
+  const exam=DB.getAll('exams').find(e=>e.id===takeExamState.examId);
+  if(!exam) return;
+  let correct=0;
+  exam.questions.forEach(q=>{ if(takeExamState.answers[q.id]===q.correct) correct++; });
+  const score=exam.questions.length?Math.round(correct/exam.questions.length*100):0;
+  const grade=score>=90?'A+':score>=80?'A':score>=70?'B+':score>=60?'B':score>=50?'C':'F';
+  // Show answers
+  exam.questions.forEach(q=>{
+    const chosen=takeExamState.answers[q.id];
+    q.options.forEach((_,i)=>{
+      const btn=document.getElementById(`opt-${q.id}-${i}`);
+      if(!btn) return;
+      btn.classList.remove('selected');
+      if(i===q.correct) btn.classList.add('correct');
+      else if(i===chosen && chosen!==q.correct) btn.classList.add('wrong');
+    });
+  });
+  const result={id:uid(),examId:takeExamState.examId,studentId:takeExamState.studentId,score,grade,answers:exam.questions.map(q=>takeExamState.answers[q.id]??-1),submittedAt:new Date().toISOString()};
+  const results=DB.getAll('examResults');
+  results.push(result);
+  DB.save('examResults',results);
+  const footer=document.querySelector('.modal-footer');
+  if(footer){
+    const s=getStudent(takeExamState.studentId);
+    footer.innerHTML=`
+      <div style="flex:1;padding:12px;background:${score>=60?'var(--success-bg)':'var(--danger-bg)'};border:1px solid ${score>=60?'var(--success)':'var(--danger)'};border-radius:var(--radius);display:flex;align-items:center;gap:12px">
+        <div style="font-size:32px;font-weight:800;color:${score>=60?'var(--success)':'var(--danger)'}">${score}%</div>
+        <div><div style="font-weight:700">${s?s.name:''} — Grade ${grade}</div><div class="text-xs text-dim">${correct}/${exam.questions.length} correct answers</div></div>
+      </div>
+      <button class="btn btn-primary" onclick="closeModal();renderExams()">Done</button>`;
+  }
+}
+function viewExamResults(examId){
+  const exam=DB.getAll('exams').find(e=>e.id===examId);
+  const results=DB.getAll('examResults').filter(r=>r.examId===examId).sort((a,b)=>b.score-a.score);
+  openModal(`
+    <div class="modal-header"><div class="modal-title">Results: ${exam?exam.title:''}</div><div class="modal-close" onclick="closeModal()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div></div>
+    ${results.length===0?'<div class="empty-state"><div class="empty-text">No results yet</div></div>':
+    `<div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Student</th><th>Score</th><th>Grade</th><th>Submitted</th><th></th></tr></thead>
+      <tbody>
+        ${results.map((r,i)=>{
+          const s=getStudent(r.studentId);
+          const scoreColor=r.score>=80?'var(--success)':r.score>=60?'var(--warning)':'var(--danger)';
+          return `<tr>
+            <td style="font-weight:600;color:var(--text3)">${i+1}</td>
+            <td><div class="flex items-center gap-8">${s?`<div class="avatar avatar-sm">${avatarInitials(s.name)}</div><span class="td-name">${s.name}</span>`:'Unknown'}</div></td>
+            <td><span style="font-size:18px;font-weight:800;color:${scoreColor}">${r.score}%</span></td>
+            <td><span class="badge ${r.score>=80?'badge-success':r.score>=60?'badge-warning':'badge-danger'}">${r.grade||'—'}</span></td>
+            <td class="text-xs text-dim">${new Date(r.submittedAt).toLocaleString()}</td>
+            <td><button class="btn btn-danger btn-icon btn-sm" onclick="deleteExamResult('${r.id}','${examId}')"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button></td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table></div>`}
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal()">Close</button></div>
+  `,'modal-lg');
+}
+function deleteExamResult(rid,examId){
+  DB.save('examResults',DB.getAll('examResults').filter(r=>r.id!==rid));
+  toast('Result deleted','danger');
+  viewExamResults(examId);
+}
+
+// ============================================================
+// CONTENT
+// ============================================================
+let contentFilter={type:'all',group:'all'};
+function renderContent(){
+  const content=DB.getAll('content');
+  const groups=DB.getAll('groups');
+  const typeConfig={pdf:{color:'#ef4444',label:'PDF',icon:'📄'},video:{color:'#3b82f6',label:'Video',icon:'🎬'},homework:{color:'#f59e0b',label:'Homework',icon:'✏️'},exam:{color:'#8b5cf6',label:'Past Exam',icon:'📋'}};
+  document.getElementById('screen-content').innerHTML=`
+    <div class="flex items-center justify-between mb-16">
+      <div class="filter-bar" style="margin:0">
+        <div class="radio-group">
+          <span class="radio-btn ${contentFilter.type==='all'?'active':''}" onclick="contentFilter.type='all';renderContent()">All</span>
+          ${Object.entries(typeConfig).map(([t,c])=>`<span class="radio-btn ${contentFilter.type===t?'active':''}" onclick="contentFilter.type='${t}';renderContent()">${c.label}</span>`).join('')}
+        </div>
+        <select class="form-control" style="width:160px" onchange="contentFilter.group=this.value;renderContent()">
+          <option value="all">All Groups</option>
+          <option value="all-shared" ${contentFilter.group==='all-shared'?'selected':''}>Shared (All)</option>
+          ${groups.map(g=>`<option value="${g.id}" ${contentFilter.group===g.id?'selected':''}>${g.name.split('—')[0].trim()}</option>`).join('')}
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="openAddContentModal()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Add Content
+      </button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px">
+      ${content.filter(c=>{
+        const matchType=contentFilter.type==='all'||c.type===contentFilter.type;
+        const matchGroup=contentFilter.group==='all'||(contentFilter.group==='all-shared'&&c.groupId==='all')||(c.groupId===contentFilter.group||c.groupId==='all');
+        return matchType&&matchGroup;
+      }).map(c=>{
+        const cfg=typeConfig[c.type]||{color:'var(--text3)',label:c.type,icon:'📎'};
+        const g=getGroup(c.groupId);
+        return `<div class="content-card">
+          <div class="content-icon" style="background:${cfg.color}22">${cfg.icon}</div>
+          <div style="flex:1">
+            <div style="font-weight:600;font-size:14px;margin-bottom:4px">${c.title}</div>
+            <div class="flex gap-6 mb-6">
+              <span class="badge" style="background:${cfg.color}22;color:${cfg.color}">${cfg.label}</span>
+              <span class="badge badge-muted">${c.groupId==='all'?'All Groups':g?g.name.split('—')[0].trim():'Unknown'}</span>
+            </div>
+            <div class="text-xs text-dim">${fmt(c.date)}</div>
+            ${c.description?`<div style="font-size:12px;color:var(--text2);margin-top:6px;line-height:1.5">${c.description}</div>`:''}
+          </div>
+          <button class="btn btn-danger btn-icon btn-sm" style="flex-shrink:0;align-self:flex-start" onclick="deleteContent('${c.id}')"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+        </div>`;
+      }).join('')}
+    </div>
+    ${content.length===0?'<div class="empty-state"><div class="empty-text">No content added yet</div></div>':''}`;
+}
+function openAddContentModal(){
+  const groups=DB.getAll('groups');
+  openModal(`
+    <div class="modal-header"><div class="modal-title">Add Learning Content</div><div class="modal-close" onclick="closeModal()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div></div>
+    <div class="form-group"><label class="form-label">Title*</label><input class="form-control" id="cf-title" placeholder="e.g. Chapter 3 Notes PDF"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Type*</label><select class="form-control" id="cf-type"><option value="pdf">PDF Document</option><option value="video">Video Lecture</option><option value="homework">Homework</option><option value="exam">Past Exam</option></select></div>
+      <div class="form-group"><label class="form-label">Group</label><select class="form-control" id="cf-group"><option value="all">All Groups (Shared)</option>${groups.map(g=>`<option value="${g.id}">${g.name}</option>`).join('')}</select></div>
+    </div>
+    <div class="form-group"><label class="form-label">Date</label><input class="form-control" id="cf-date" type="date" value="${today()}"></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-control" id="cf-desc" placeholder="Brief description of the content..."></textarea></div>
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveContent()">Add Content</button></div>
+  `);
+}
+function saveContent(){
+  const title=document.getElementById('cf-title').value.trim();
+  if(!title){ toast('Title is required','danger'); return; }
+  const obj={id:uid(),title,type:document.getElementById('cf-type').value,groupId:document.getElementById('cf-group').value,date:document.getElementById('cf-date').value,description:document.getElementById('cf-desc').value.trim()};
+  const content=DB.getAll('content');
+  content.unshift(obj);
+  DB.save('content',content);
+  closeModal();
+  toast('Content added','success');
+  renderContent();
+}
+function deleteContent(id){
+  confirm2('Delete this content item?',()=>{
+    DB.save('content',DB.getAll('content').filter(c=>c.id!==id));
+    toast('Content deleted','danger');
+    renderContent();
+  });
+}
+
+// ============================================================
+// COMMUNICATION
+// ============================================================
+function renderCommunication(){
+  const messages=DB.getAll('messages');
+  const groups=DB.getAll('groups');
+  document.getElementById('screen-communication').innerHTML=`
+    <div class="flex items-center justify-between mb-20">
+      <div class="flex gap-12">
+        <div class="card card-sm flex items-center gap-8"><div style="font-size:20px;font-weight:800;color:var(--danger)">${messages.filter(m=>!m.read).length}</div><div class="text-xs text-dim">Unread</div></div>
+        <div class="card card-sm flex items-center gap-8"><div style="font-size:20px;font-weight:800">${messages.length}</div><div class="text-xs text-dim">Total</div></div>
+      </div>
+      <div class="flex gap-10">
+        ${messages.some(m=>!m.read)?`<button class="btn btn-ghost btn-sm" onclick="markAllRead()">Mark All Read</button>`:''}
+        <button class="btn btn-primary" onclick="openComposeModal()">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Compose
+        </button>
+      </div>
+    </div>
+    <div id="msg-list" style="display:flex;flex-direction:column;gap:10px">
+      ${messages.length===0?'<div class="empty-state"><div class="empty-text">No messages</div></div>':
+        messages.map(m=>{
+          const g=getGroup(m.targetGroup);
+          return `<div class="card" style="${!m.read?'border-left:3px solid var(--primary)':''};cursor:pointer" onclick="openMessageDetail('${m.id}')">
+            <div class="flex items-start gap-12">
+              <div style="width:40px;height:40px;background:var(--primary-bg);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="18" height="18" fill="none" stroke="var(--silver)" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              </div>
+              <div style="flex:1">
+                <div class="flex items-center gap-8 mb-4">
+                  <div style="font-weight:${m.read?'600':'700'};font-size:14px">${m.title}</div>
+                  ${!m.read?'<span class="badge badge-silver" style="font-size:10px">NEW</span>':''}
+                </div>
+                <div style="font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:6px">${m.body.slice(0,120)}${m.body.length>120?'...':''}</div>
+                <div class="flex gap-10 text-xs text-dim">
+                  <span>${m.targetGroup==='all'?'📢 All Students':g?`Group: ${g.name.split('—')[0].trim()}`:'Unknown'}</span>
+                  <span>&bull; ${fmt(m.date)}</span>
+                </div>
+              </div>
+              <button class="btn btn-danger btn-icon btn-sm" onclick="event.stopPropagation();deleteMessage('${m.id}')"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+            </div>
+          </div>`;
+        }).join('')}
+    </div>`;
+}
+function openComposeModal(){
+  const groups=DB.getAll('groups');
+  openModal(`
+    <div class="modal-header"><div class="modal-title">Compose Announcement</div><div class="modal-close" onclick="closeModal()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div></div>
+    <div class="form-group"><label class="form-label">Title*</label><input class="form-control" id="mf-title" placeholder="e.g. Exam Reminder"></div>
+    <div class="form-group"><label class="form-label">Send To</label>
+      <select class="form-control" id="mf-group">
+        <option value="all">📢 All Students</option>
+        ${groups.map(g=>`<option value="${g.id}">${g.name}</option>`).join('')}
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Message Body*</label><textarea class="form-control" id="mf-body" style="min-height:120px" placeholder="Write your announcement here..."></textarea></div>
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="sendMessage()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send</button></div>
+  `);
+}
+function sendMessage(){
+  const title=document.getElementById('mf-title').value.trim();
+  const body=document.getElementById('mf-body').value.trim();
+  if(!title||!body){ toast('Title and body are required','danger'); return; }
+  const obj={id:uid(),title,body,targetGroup:document.getElementById('mf-group').value,date:today(),read:false};
+  const messages=DB.getAll('messages');
+  messages.unshift(obj);
+  DB.save('messages',messages);
+  closeModal();
+  toast('Message sent','success');
+  updateMsgBadge();
+  renderCommunication();
+}
+function openMessageDetail(id){
+  const messages=DB.getAll('messages');
+  const m=messages.find(x=>x.id===id);
+  if(!m) return;
+  if(!m.read){ m.read=true; DB.save('messages',messages); updateMsgBadge(); }
+  const g=getGroup(m.targetGroup);
+  openDetail(`
+    <div class="flex items-center justify-between mb-20">
+      <div style="font-size:17px;font-weight:800">${m.title}</div>
+      <button class="btn btn-danger btn-sm" onclick="closeDetail();deleteMessage('${m.id}')">Delete</button>
+    </div>
+    <div class="flex gap-10 mb-16">
+      <span class="badge badge-silver">${m.targetGroup==='all'?'All Students':g?g.name:'Unknown'}</span>
+      <span class="badge badge-muted">${fmt(m.date)}</span>
+    </div>
+    <div style="background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:16px;font-size:14px;line-height:1.7;color:var(--text)">${m.body.replace(/\n/g,'<br>')}</div>
+  `);
+}
+function markAllRead(){
+  const messages=DB.getAll('messages').map(m=>({...m,read:true}));
+  DB.save('messages',messages);
+  updateMsgBadge();
+  renderCommunication();
+}
+function deleteMessage(id){
+  confirm2('Delete this message?',()=>{
+    DB.save('messages',DB.getAll('messages').filter(m=>m.id!==id));
+    updateMsgBadge();
+    toast('Message deleted','danger');
+    renderCommunication();
+  });
+}
+
+// ============================================================
+// REPORTS
+// ============================================================
+function renderReports(){
+  const students=DB.getAll('students');
+  const payments=DB.getAll('payments');
+  const attendance=DB.getAll('attendance');
+  const groups=DB.getAll('groups');
+  const examResults=DB.getAll('examResults');
+  const paid=payments.filter(p=>p.status==='paid').reduce((s,p)=>s+p.amount-p.discount,0);
+  const pending=payments.filter(p=>p.status==='pending').reduce((s,p)=>s+p.amount,0);
+  const late=payments.filter(p=>p.status==='late').reduce((s,p)=>s+p.amount,0);
+  const total=paid+pending+late;
+  const attRate=attendance.length?Math.round(attendance.filter(a=>a.status==='present').length/attendance.length*100):0;
+  const avgScore=examResults.length?Math.round(examResults.reduce((s,r)=>s+r.score,0)/examResults.length):0;
+
+  // Revenue by month
+  const monthRevMap={};
+  payments.filter(p=>p.status==='paid').forEach(p=>{
+    monthRevMap[p.month]=(monthRevMap[p.month]||0)+(p.amount-p.discount);
+  });
+  const revenueMonths=Object.entries(monthRevMap).sort((a,b)=>a[0].localeCompare(b[0])).slice(-6);
+
+  document.getElementById('screen-reports').innerHTML=`
+    <div class="flex gap-16 mb-24" style="flex-wrap:wrap">
+      <div class="card flex-1" style="min-width:200px;border-left:3px solid var(--success)">
+        <div style="font-size:28px;font-weight:800;color:var(--success)">${students.filter(s=>s.status==='active').length}</div>
+        <div class="text-sm text-muted">Active Students</div>
+        <div class="text-xs text-dim mt-4">${students.length} total enrolled</div>
+      </div>
+      <div class="card flex-1" style="min-width:200px;border-left:3px solid var(--info)">
+        <div style="font-size:28px;font-weight:800;color:var(--info)">${attRate}%</div>
+        <div class="text-sm text-muted">Overall Attendance</div>
+        <div class="text-xs text-dim mt-4">${attendance.length} records</div>
+      </div>
+      <div class="card flex-1" style="min-width:200px;border-left:3px solid var(--purple)">
+        <div style="font-size:28px;font-weight:800;color:var(--purple)">${avgScore}%</div>
+        <div class="text-sm text-muted">Average Exam Score</div>
+        <div class="text-xs text-dim mt-4">${examResults.length} results</div>
+      </div>
+      <div class="card flex-1" style="min-width:200px;border-left:3px solid var(--success)">
+        <div style="font-size:24px;font-weight:800;color:var(--success)">${paid.toLocaleString()} EGP</div>
+        <div class="text-sm text-muted">Total Collected</div>
+        <div class="text-xs text-dim mt-4">${total?Math.round(paid/total*100):0}% collection rate</div>
+      </div>
+    </div>
+    <div class="flex gap-20 mb-24" style="align-items:flex-start">
+      <div class="card" style="flex:1">
+        <div class="section-header mb-16"><div class="section-title">Student Level Distribution</div></div>
+        ${['advanced','average','weak'].map(l=>{
+          const cnt=students.filter(s=>s.level===l).length;
+          const pct=students.length?Math.round(cnt/students.length*100):0;
+          const colors3={advanced:'var(--success)',average:'var(--warning)',weak:'var(--danger)'};
+          return `<div class="mini-bar mb-12">
+            <div class="mini-bar-label" style="color:${colors3[l]};text-transform:capitalize">${l}</div>
+            <div class="mini-bar-track"><div class="mini-bar-fill" style="width:${pct}%;background:${colors3[l]}"></div></div>
+            <div class="mini-bar-val" style="color:${colors3[l]}">${cnt} (${pct}%)</div>
+          </div>`;
+        }).join('')}
+        <div class="divider"></div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:10px">By Status</div>
+        ${['active','inactive'].map(st=>{
+          const cnt=students.filter(s=>s.status===st).length;
+          const pct=students.length?Math.round(cnt/students.length*100):0;
+          return `<div class="mini-bar">
+            <div class="mini-bar-label" style="color:${st==='active'?'var(--success)':'var(--danger)'};text-transform:capitalize">${st}</div>
+            <div class="mini-bar-track"><div class="mini-bar-fill" style="width:${pct}%;background:${st==='active'?'var(--success)':'var(--danger)'}"></div></div>
+            <div class="mini-bar-val">${cnt} (${pct}%)</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="card" style="flex:1">
+        <div class="section-header mb-16"><div class="section-title">Revenue by Month</div></div>
+        ${revenueMonths.length===0?'<div class="empty-state"><div class="empty-text">No revenue data</div></div>':
+          (() => {
+            const maxRev=Math.max(...revenueMonths.map(([,v])=>v),1);
+            return revenueMonths.map(([m,v])=>`<div class="mini-bar">
+              <div class="mini-bar-label text-xs" style="font-size:10px">${m.split(' ')[0]}</div>
+              <div class="mini-bar-track"><div class="mini-bar-fill" style="width:${Math.round(v/maxRev*100)}%;background:var(--success)"></div></div>
+              <div class="mini-bar-val text-xs">${(v/1000).toFixed(1)}K</div>
+            </div>`).join('');
+          })()}
+        <div class="divider"></div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:10px">Revenue Breakdown</div>
+        ${[['Collected',paid,'var(--success)'],['Pending',pending,'var(--warning)'],['Late/Overdue',late,'var(--danger)']].map(([l,v,c])=>{
+          const pct=total?Math.round(v/total*100):0;
+          return `<div class="mini-bar">
+            <div class="mini-bar-label" style="color:${c}">${l}</div>
+            <div class="mini-bar-track"><div class="mini-bar-fill" style="width:${pct}%;background:${c}"></div></div>
+            <div class="mini-bar-val" style="color:${c}">${(v/1000).toFixed(1)}K</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+    <!-- Group Reports -->
+    <div class="card mb-20">
+      <div class="section-header mb-16"><div class="section-title">Group Performance Report</div></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Group</th><th>Members</th><th>Paid</th><th>Pending</th><th>Attendance</th><th>Avg Score</th></tr></thead>
+        <tbody>
+          ${groups.map(g=>{
+            const members=students.filter(s=>s.groupId===g.id);
+            const gPaid=payments.filter(p=>p.status==='paid'&&members.some(s=>s.id===p.studentId)).reduce((s,p)=>s+p.amount-p.discount,0);
+            const gPending=payments.filter(p=>p.status!=='paid'&&members.some(s=>s.id===p.studentId)).reduce((s,p)=>s+p.amount,0);
+            const gAtt=attendance.filter(a=>members.some(s=>s.id===a.studentId));
+            const gAttRate=gAtt.length?Math.round(gAtt.filter(a=>a.status==='present').length/gAtt.length*100):null;
+            const gResults=examResults.filter(r=>members.some(s=>s.id===r.studentId));
+            const gAvg=gResults.length?Math.round(gResults.reduce((s,r)=>s+r.score,0)/gResults.length):null;
+            return `<tr>
+              <td><div class="flex items-center gap-8"><div style="width:10px;height:10px;border-radius:2px;background:${g.color}"></div><span class="td-name">${g.name.split('—')[0].trim()}</span></div></td>
+              <td><span class="badge badge-info">${members.filter(s=>s.status==='active').length}/${g.capacity}</span></td>
+              <td style="font-weight:600;color:var(--success)">${gPaid.toLocaleString()} EGP</td>
+              <td style="font-weight:600;color:var(--warning)">${gPending.toLocaleString()} EGP</td>
+              <td>${gAttRate!==null?`<span style="font-weight:600;color:${gAttRate>=80?'var(--success)':gAttRate>=60?'var(--warning)':'var(--danger)'}">${gAttRate}%</span>`:'—'}</td>
+              <td>${gAvg!==null?`<span style="font-weight:600;color:${gAvg>=80?'var(--success)':gAvg>=60?'var(--warning)':'var(--danger)'}">${gAvg}%</span>`:'—'}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table></div>
+    </div>
+    <!-- Attendance Heatmap-style table -->
+    <div class="card">
+      <div class="section-header mb-16"><div class="section-title">Top Attendance Issues</div></div>
+      ${(() => {
+        const absMap={};
+        attendance.filter(a=>a.status==='absent').forEach(a=>{ absMap[a.studentId]=(absMap[a.studentId]||0)+1; });
+        const sorted=Object.entries(absMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
+        if(sorted.length===0) return '<div class="empty-state"><div class="empty-text">No absence records</div></div>';
+        return `<div class="table-wrap"><table>
+          <thead><tr><th>Student</th><th>Total Absences</th><th>Group</th><th>Attendance Rate</th></tr></thead>
+          <tbody>${sorted.map(([sid,cnt])=>{
+            const s=getStudent(sid); if(!s) return '';
+            const g=getGroup(s.groupId);
+            const sAtt=attendance.filter(a=>a.studentId===sid);
+            const rate=sAtt.length?Math.round(sAtt.filter(a=>a.status==='present').length/sAtt.length*100):0;
+            return `<tr>
+              <td><div class="flex items-center gap-8"><div class="avatar avatar-sm">${avatarInitials(s.name)}</div><span class="td-name">${s.name}</span></div></td>
+              <td><span class="badge badge-danger">${cnt} absences</span></td>
+              <td>${g?g.name.split('—')[0].trim():'—'}</td>
+              <td><div class="flex items-center gap-8"><div class="progress-bar" style="width:80px"><div class="progress-fill" style="width:${rate}%;background:${rate>=80?'var(--success)':rate>=60?'var(--warning)':'var(--danger)'}"></div></div><span class="text-xs fw-600">${rate}%</span></div></td>
+            </tr>`;
+          }).join('')}</tbody>
+        </table></div>`;
+      })()}
+    </div>`;
+}
+
+// ============================================================
+// SETTINGS
+// ============================================================
+function renderSettings(){
+  const s=getSettings();
+  document.getElementById('screen-settings').innerHTML=`
+    <div style="max-width:600px">
+      <div class="card mb-20">
+        <div class="section-header mb-16"><div class="section-title">Teacher Profile</div></div>
+        <div class="form-group"><label class="form-label">Full Name</label><input class="form-control" id="set-name" value="${s.teacherName}"></div>
+        <div class="form-group"><label class="form-label">Phone Number</label><input class="form-control" id="set-phone" value="${s.teacherPhone}" type="tel"></div>
+        <div class="form-group"><label class="form-label">Center / School Name</label><input class="form-control" id="set-center" value="${s.centerName}"></div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Default Monthly Fee (EGP)</label><input class="form-control" id="set-fee" type="number" value="${s.monthlyFee||500}" min="0"></div>
+          <div class="form-group"><label class="form-label">Currency</label><input class="form-control" id="set-currency" value="${s.currency||'EGP'}"></div>
+        </div>
+        <button class="btn btn-primary" onclick="saveSettings()">Save Changes</button>
+      </div>
+      <!-- Data Summary -->
+      <div class="card mb-20">
+        <div class="section-header mb-16"><div class="section-title">Data Summary</div></div>
+        <div class="flex gap-16 flex-wrap">
+          ${[
+            ['Students',DB.getAll('students').length,'var(--silver)'],
+            ['Groups',DB.getAll('groups').length,'var(--info)'],
+            ['Payments',DB.getAll('payments').length,'var(--success)'],
+            ['Attendance',DB.getAll('attendance').length,'var(--warning)'],
+            ['Exams',DB.getAll('exams').length,'var(--purple)'],
+            ['Messages',DB.getAll('messages').length,'var(--danger)'],
+          ].map(([l,v,c])=>`<div class="card card-sm flex-1" style="min-width:90px;text-align:center;border:1px solid ${c}22">
+            <div style="font-size:22px;font-weight:800;color:${c}">${v}</div>
+            <div class="text-xs text-dim">${l}</div>
+          </div>`).join('')}
+        </div>
+      </div>
+      <!-- Export/Import -->
+      <div class="card mb-20">
+        <div class="section-header mb-16"><div class="section-title">Data Management</div></div>
+        <div class="flex gap-10 flex-wrap mb-12">
+          <button class="btn btn-ghost" onclick="exportData()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export Backup (JSON)</button>
+          <label class="btn btn-ghost" style="cursor:pointer"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Import Backup<input type="file" accept=".json" style="display:none" onchange="importData(event)"></label>
+        </div>
+        <button class="btn btn-danger" onclick="resetData()">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+          Reset to Demo Data
+        </button>
+      </div>
+      <!-- About -->
+      <div class="card" style="border:1px solid var(--border2);text-align:center;padding:24px">
+        <div style="font-size:20px;margin-bottom:8px">⚛️</div>
+        <div style="font-size:16px;font-weight:800;color:var(--silver)">Physics Master Pro</div>
+        <div style="font-size:13px;color:var(--text3);margin-top:4px">Professional Student Management System</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:4px">Built for Mohamed Sadek Physics Center</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:8px">Version 1.0.0 &bull; All data stored locally in browser</div>
+      </div>
+    </div>`;
+}
+function saveSettings(){
+  const name=document.getElementById('set-name').value.trim();
+  if(!name){ toast('Name required','danger'); return; }
+  const s={
+    teacherName:name,
+    teacherPhone:document.getElementById('set-phone').value.trim(),
+    centerName:document.getElementById('set-center').value.trim(),
+    monthlyFee:parseInt(document.getElementById('set-fee').value)||500,
+    currency:document.getElementById('set-currency').value.trim()||'EGP',
+  };
+  DB.set('settings',s);
+  updateSidebarProfile();
+  toast('Settings saved','success');
+}
+function exportData(){
+  const data={students:DB.getAll('students'),groups:DB.getAll('groups'),payments:DB.getAll('payments'),attendance:DB.getAll('attendance'),exams:DB.getAll('exams'),examResults:DB.getAll('examResults'),messages:DB.getAll('messages'),content:DB.getAll('content'),settings:DB.get('settings')};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`physics-master-backup-${today()}.json`;
+  a.click();
+  toast('Backup exported','success');
+}
+function importData(e){
+  const file=e.target.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const data=JSON.parse(ev.target.result);
+      if(data.students) DB.save('students',data.students);
+      if(data.groups) DB.save('groups',data.groups);
+      if(data.payments) DB.save('payments',data.payments);
+      if(data.attendance) DB.save('attendance',data.attendance);
+      if(data.exams) DB.save('exams',data.exams);
+      if(data.examResults) DB.save('examResults',data.examResults);
+      if(data.messages) DB.save('messages',data.messages);
+      if(data.content) DB.save('content',data.content);
+      if(data.settings) DB.set('settings',data.settings);
+      toast('Backup imported successfully','success');
+      renderSettings();
+      updateSidebarProfile();
+    }catch{
+      toast('Invalid backup file','danger');
+    }
+  };
+  reader.readAsText(file);
+}
+function resetData(){
+  confirm2('Reset all data to demo data? This cannot be undone.',()=>{
+    ['students','groups','payments','attendance','exams','examResults','messages','content','settings','initialized'].forEach(k=>localStorage.removeItem('pmp_'+k));
+    initDemoData();
+    toast('Data reset to demo','info');
+    renderSettings();
+    updateSidebarProfile();
+  },'Reset','btn-danger');
+}
+
+// ============================================================
+// EXPORT MODAL (from topbar)
+// ============================================================
+function showExportModal(){
+  openModal(`
+    <div class="modal-header"><div class="modal-title">Export Data</div><div class="modal-close" onclick="closeModal()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div></div>
+    <div class="flex flex-col gap-10">
+      <button class="btn btn-ghost" style="justify-content:flex-start" onclick="exportData();closeModal()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export Full Backup (JSON)
+      </button>
+      <button class="btn btn-ghost" style="justify-content:flex-start" onclick="exportStudentsCsv();closeModal()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Export Students (CSV)
+      </button>
+      <button class="btn btn-ghost" style="justify-content:flex-start" onclick="exportPaymentsCsv();closeModal()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Export Payments (CSV)
+      </button>
+    </div>
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal()">Close</button></div>
+  `,'modal-sm');
+}
+function exportStudentsCsv(){
+  const students=DB.getAll('students');
+  const headers=['Name','Arabic Name','Grade','Level','Status','Group','Phone','Parent Phone','Address','Join Date','Notes'];
+  const rows=students.map(s=>{
+    const g=getGroup(s.groupId);
+    return [s.name,s.nameAr,s.grade,s.level,s.status,g?g.name:'',s.phone,s.parentPhone,s.address,s.joinDate,s.notes].map(v=>`"${(v||'').replace(/"/g,'""')}"`).join(',');
+  });
+  const csv=[headers.join(','),...rows].join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`students-${today()}.csv`;
+  a.click();
+  toast('Students CSV exported','success');
+}
+function exportPaymentsCsv(){
+  const payments=DB.getAll('payments');
+  const headers=['Student','Month','Type','Amount','Discount','Net','Status','Date','Notes'];
+  const rows=payments.map(p=>{
+    const s=getStudent(p.studentId);
+    return [s?s.name:'Unknown',p.month,p.type,p.amount,p.discount,(p.amount-p.discount),p.status,p.date,p.notes].map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`).join(',');
+  });
+  const csv=[headers.join(','),...rows].join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`payments-${today()}.csv`;
+  a.click();
+  toast('Payments CSV exported','success');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+initDemoData();
+updateSidebarProfile();
+updateMsgBadge();
+navigate('dashboard');
+// Redraw charts on window resize
+window.addEventListener('resize',()=>{ if(currentRoute==='dashboard') renderDashboard(); });
+</script>
+
+
+</body></html>

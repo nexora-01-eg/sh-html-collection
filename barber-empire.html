@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إمبراطورية الحلاق الرقمية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9A84C;--gold2:#F0D070;--dark:#080808;--dark2:#0f0f0f;
+  --dark3:#171717;--dark4:#202020;--dark5:#2a2a2a;
+  --white:#F0EAD6;--muted:rgba(240,234,214,.45);
+  --green:#2ECC71;--blue:#3498DB;--red:#E74C3C;
+  --orange:#E67E22;--purple:#9B59B6;--teal:#1ABC9C;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);color:var(--white);font-family:'Cairo',sans-serif;overflow-x:hidden;}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 28px;
+  background:rgba(8,8,8,.93);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(201,168,76,.1);
+}
+.nav-brand{font-weight:900;font-size:14px;color:var(--gold);letter-spacing:1px;}
+.nav-links{display:flex;gap:4px;list-style:none;flex-wrap:wrap;}
+.nav-links a{
+  color:var(--muted);text-decoration:none;font-size:10.5px;font-weight:600;
+  padding:4px 9px;border-radius:20px;transition:.2s;
+}
+.nav-links a:hover{color:var(--gold);background:rgba(201,168,76,.1);}
+
+/* HERO */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:100px 20px 60px;text-align:center;position:relative;overflow:hidden;
+  background:radial-gradient(ellipse 70% 50% at 50% 40%,rgba(201,168,76,.06) 0%,transparent 70%);
+}
+.hero-bg{
+  position:absolute;font-size:360px;opacity:.02;
+  top:50%;left:50%;transform:translate(-50%,-50%) rotate(-15deg);
+  animation:spin 35s linear infinite;pointer-events:none;
+}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(345deg);}}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.04));
+  border:1px solid rgba(201,168,76,.3);
+  padding:6px 20px;border-radius:50px;font-size:10.5px;font-weight:700;
+  color:var(--gold2);letter-spacing:2px;margin-bottom:26px;
+  animation:fu .6s ease both;
+}
+@keyframes fu{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+.hero h1{
+  font-size:clamp(36px,7.5vw,84px);font-weight:900;line-height:1.05;
+  animation:fu .6s .12s ease both;
+}
+.hero h1 .g{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-sub{
+  font-size:clamp(13px,1.8vw,16px);color:var(--muted);
+  margin-top:16px;max-width:560px;line-height:1.9;
+  animation:fu .6s .24s ease both;
+}
+.hero-stats{
+  display:flex;gap:44px;margin-top:48px;flex-wrap:wrap;justify-content:center;
+  animation:fu .6s .36s ease both;
+}
+.hs-val{font-size:46px;font-weight:900;color:var(--gold);line-height:1;}
+.hs-lbl{font-size:10px;color:var(--muted);margin-top:3px;}
+.scroll-cue{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+  color:var(--muted);font-size:20px;animation:bob 2s ease-in-out infinite;
+}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(8px);}}
+
+/* SECTION WRAPPER */
+.sec{padding:80px 20px;max-width:1180px;margin:0 auto;}
+.sec-hdr{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
+.sec-num{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#000;font-weight:900;font-size:13px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.sec-tag{font-size:10px;letter-spacing:3px;color:var(--gold);font-weight:700;text-transform:uppercase;}
+h2{font-size:clamp(26px,4.5vw,50px);font-weight:900;line-height:1.1;margin-bottom:36px;}
+h2 .g{background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.divider{width:48px;height:3px;background:var(--gold);border-radius:2px;margin-bottom:36px;}
+
+/* ── PHASE 0 CHECKLIST ── */
+.checklist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;}
+.cl-card{
+  background:var(--dark3);border:1px solid rgba(255,255,255,.05);
+  border-radius:16px;padding:22px;
+  border-top:3px solid var(--c-color,var(--gold));
+  transition:.3s;
+}
+.cl-card:hover{background:var(--dark4);transform:translateY(-3px);}
+.cl-card .cl-icon{font-size:28px;margin-bottom:12px;}
+.cl-card h4{font-size:15px;font-weight:700;margin-bottom:10px;}
+.cl-card ul{list-style:none;}
+.cl-card ul li{
+  font-size:12px;color:var(--muted);padding:4px 0;
+  display:flex;align-items:flex-start;gap:8px;line-height:1.6;
+}
+.cl-card ul li::before{content:'✓';color:var(--gold);font-weight:700;flex-shrink:0;margin-top:1px;}
+
+/* ── CONTENT TYPES GRID ── */
+.ct-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+.ct-card{
+  background:var(--dark3);border:1px solid rgba(255,255,255,.04);
+  border-radius:14px;padding:18px;transition:.3s;cursor:default;
+}
+.ct-card:hover{border-color:var(--c-color,var(--gold));background:var(--dark4);}
+.ct-card .ct-icon{font-size:26px;margin-bottom:10px;}
+.ct-card h4{font-size:14px;font-weight:700;color:var(--c-color,var(--white));margin-bottom:8px;}
+.ct-card ul{list-style:none;}
+.ct-card ul li{font-size:11.5px;color:var(--muted);padding:2px 0;line-height:1.7;}
+.future-badge{
+  display:inline-block;background:rgba(155,89,182,.2);color:#C39BD3;
+  border:1px solid rgba(155,89,182,.3);border-radius:50px;
+  font-size:9px;font-weight:700;padding:2px 8px;margin-bottom:6px;letter-spacing:1px;
+}
+
+/* ── PRODUCTION FLOW ── */
+.prod-flow{
+  display:flex;align-items:center;gap:0;
+  overflow-x:auto;padding-bottom:16px;
+}
+.pf-box{
+  flex-shrink:0;background:var(--dark3);border-radius:14px;
+  padding:20px 16px;width:160px;text-align:center;
+  border:1px solid rgba(255,255,255,.05);
+}
+.pf-box .pf-n{
+  width:28px;height:28px;border-radius:50%;background:var(--gold);
+  color:#000;font-weight:900;font-size:12px;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 10px;
+}
+.pf-box h4{font-size:12px;font-weight:700;margin-bottom:4px;}
+.pf-box p{font-size:10.5px;color:var(--muted);line-height:1.5;}
+.pf-arrow{flex-shrink:0;color:var(--gold);font-size:22px;padding:0 10px;opacity:.5;}
+.pf-result{
+  flex-shrink:0;
+  background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.04));
+  border:2px solid var(--gold);border-radius:14px;
+  padding:20px 16px;width:160px;text-align:center;
+}
+.pf-result .big{font-size:38px;font-weight:900;color:var(--gold);line-height:1;}
+.pf-result p{font-size:11px;color:var(--muted);margin-top:5px;}
+
+/* ── PLATFORMS ── */
+.plat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;}
+.plat-card{
+  background:var(--dark3);border:1px solid rgba(255,255,255,.04);
+  border-radius:14px;padding:18px 14px;text-align:center;transition:.3s;
+}
+.plat-card:hover{border-color:var(--p-color,var(--gold));transform:scale(1.04);}
+.plat-card .p-icon{font-size:30px;margin-bottom:8px;}
+.plat-card h4{font-size:13px;font-weight:700;}
+.plat-card .p-num{font-size:22px;font-weight:900;color:var(--p-color,var(--gold));margin-top:6px;}
+.plat-card .p-sub{font-size:10px;color:var(--muted);margin-top:3px;}
+
+/* ── PRODUCTS GRID ── */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+.prod-card{
+  background:var(--dark3);border-radius:18px;padding:24px;
+  border:1px solid rgba(255,255,255,.05);
+  border-right:4px solid var(--c-color,var(--gold));
+  transition:.3s;
+}
+.prod-card:hover{background:var(--dark4);transform:translateY(-3px);}
+.prod-card .p-icon{font-size:30px;margin-bottom:12px;}
+.prod-card h3{font-size:16px;font-weight:700;margin-bottom:8px;}
+.prod-card p{font-size:12.5px;color:var(--muted);line-height:1.8;}
+.tag{
+  display:inline-block;margin-top:12px;padding:4px 12px;
+  border-radius:50px;font-size:10px;font-weight:700;
+  background:rgba(201,168,76,.15);color:var(--gold);
+}
+.tag.future{background:rgba(155,89,182,.18);color:#C39BD3;}
+
+/* ── SPREAD IDEAS ── */
+.spread-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;}
+.spread-card{
+  background:var(--dark3);border-radius:16px;padding:22px;
+  border:1px solid rgba(255,255,255,.05);
+  position:relative;overflow:hidden;transition:.3s;
+}
+.spread-card::after{
+  content:attr(data-em);
+  position:absolute;bottom:-8px;left:-8px;
+  font-size:70px;opacity:.05;pointer-events:none;
+  transform:rotate(-10deg);
+}
+.spread-card:hover{border-color:rgba(201,168,76,.3);transform:translateY(-3px);}
+.spread-card h3{font-size:16px;font-weight:700;margin-bottom:8px;}
+.spread-card p{font-size:12.5px;color:var(--muted);line-height:1.8;}
+.spread-badge{
+  display:inline-block;margin-bottom:10px;padding:3px 12px;
+  border-radius:50px;font-size:9.5px;font-weight:700;letter-spacing:.5px;
+  background:var(--sb-bg,rgba(201,168,76,.15));color:var(--sb-c,var(--gold));
+}
+
+/* ── GROWTH TIMELINE ── */
+.growth-row{
+  display:flex;align-items:stretch;gap:0;
+  overflow-x:auto;padding-bottom:16px;
+}
+.gr-step{
+  flex-shrink:0;width:180px;
+  background:var(--dark3);border-radius:14px;
+  padding:20px 16px;text-align:center;
+  border:1px solid rgba(255,255,255,.05);
+  position:relative;
+}
+.gr-step::after{
+  content:'←';position:absolute;left:-16px;top:50%;
+  transform:translateY(-50%);color:var(--gold);opacity:.4;font-size:18px;
+}
+.gr-step:last-child::after{display:none;}
+.gr-step .gr-time{font-size:10px;color:var(--gold);font-weight:700;letter-spacing:1px;margin-bottom:8px;}
+.gr-step .gr-num{font-size:32px;font-weight:900;color:var(--white);line-height:1;}
+.gr-step .gr-lbl{font-size:10px;color:var(--muted);margin-top:4px;}
+.gr-step.peak{
+  background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.04));
+  border-color:var(--gold);
+}
+.gr-step.peak .gr-num{color:var(--gold);}
+
+/* ── REVENUE TABLE ── */
+.rev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+.rev-card{
+  background:var(--dark3);border-radius:14px;padding:20px;
+  border:1px solid rgba(255,255,255,.05);
+  display:flex;align-items:flex-start;gap:14px;transition:.3s;
+}
+.rev-card:hover{background:var(--dark4);}
+.rev-icon{font-size:26px;flex-shrink:0;}
+.rev-info h4{font-size:14px;font-weight:700;margin-bottom:4px;}
+.rev-info .rev-range{font-size:18px;font-weight:900;color:var(--c-color,var(--gold));}
+.rev-info .rev-sub{font-size:10.5px;color:var(--muted);margin-top:2px;}
+.rev-total{
+  background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(201,168,76,.04));
+  border:2px solid var(--gold);border-radius:16px;
+  padding:28px;text-align:center;margin-top:20px;
+}
+.rev-total .t-label{font-size:12px;color:var(--muted);letter-spacing:2px;margin-bottom:8px;}
+.rev-total .t-num{font-size:clamp(28px,5vw,52px);font-weight:900;color:var(--gold);}
+.rev-total .t-year{font-size:14px;color:var(--muted);margin-top:6px;}
+
+/* ── GROOMING FUTURE ── */
+.grooming-banner{
+  background:linear-gradient(135deg,rgba(155,89,182,.15),rgba(155,89,182,.04));
+  border:1px solid rgba(155,89,182,.3);border-radius:20px;
+  padding:36px;margin-top:20px;position:relative;overflow:hidden;
+}
+.grooming-banner::before{
+  content:'💈';position:absolute;right:-20px;top:-20px;
+  font-size:120px;opacity:.06;transform:rotate(15deg);
+}
+.grooming-banner .gr-badge{
+  display:inline-block;background:rgba(155,89,182,.25);color:#C39BD3;
+  border:1px solid rgba(155,89,182,.4);border-radius:50px;
+  font-size:10px;font-weight:700;padding:4px 14px;letter-spacing:2px;margin-bottom:14px;
+}
+.grooming-banner h3{font-size:clamp(20px,3.5vw,32px);font-weight:900;margin-bottom:10px;}
+.grooming-banner p{font-size:13px;color:var(--muted);line-height:1.9;max-width:700px;}
+.grooming-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:20px;}
+.gr-item{
+  background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.2);
+  border-radius:12px;padding:14px;transition:.3s;
+}
+.gr-item:hover{background:rgba(155,89,182,.2);}
+.gr-item .gr-em{font-size:22px;margin-bottom:6px;}
+.gr-item h5{font-size:13px;font-weight:700;color:#C39BD3;}
+.gr-item p{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.6;}
+
+/* ── 90 DAY PLAN ── */
+.plan-track{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+.plan-phase{
+  background:var(--dark3);border-radius:14px;padding:20px;
+  border:1px solid rgba(255,255,255,.05);
+  border-top:3px solid var(--ph-color,var(--gold));
+  transition:.3s;
+}
+.plan-phase:hover{background:var(--dark4);}
+.plan-phase .ph-days{font-size:10px;color:var(--ph-color,var(--gold));font-weight:700;letter-spacing:1.5px;margin-bottom:8px;}
+.plan-phase h4{font-size:15px;font-weight:700;margin-bottom:10px;}
+.plan-phase ul{list-style:none;}
+.plan-phase ul li{
+  font-size:11.5px;color:var(--muted);padding:3px 0;
+  display:flex;gap:7px;align-items:flex-start;line-height:1.6;
+}
+.plan-phase ul li::before{content:'▸';color:var(--ph-color,var(--gold));flex-shrink:0;}
+
+/* ── SUMMARY ── */
+.summary-list{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;
+}
+.sum-item{
+  background:var(--dark3);border-radius:12px;padding:16px 18px;
+  display:flex;align-items:flex-start;gap:12px;
+  border:1px solid rgba(255,255,255,.04);transition:.3s;
+}
+.sum-item:hover{background:var(--dark4);}
+.sum-num{
+  width:28px;height:28px;flex-shrink:0;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#000;font-weight:900;font-size:12px;
+  display:flex;align-items:center;justify-content:center;
+}
+.sum-text{font-size:13px;color:var(--muted);line-height:1.7;padding-top:2px;}
+
+/* ── FOOTER ── */
+.footer{
+  background:var(--dark2);border-top:1px solid rgba(201,168,76,.1);
+  padding:60px 20px;text-align:center;
+}
+.footer h2{font-size:clamp(26px,4vw,44px);font-weight:900;margin-bottom:12px;}
+.footer p{color:var(--muted);font-size:14px;max-width:500px;margin:0 auto;}
+.footer .final-line{
+  margin-top:28px;color:var(--gold);font-weight:700;font-size:15px;
+}
+
+/* SCROLL ANIM */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease;}
+.revealed{opacity:1;transform:none;}
+
+@media(max-width:600px){
+  .nav-links{display:none;}
+  .prod-flow,.growth-row{flex-direction:column;align-items:stretch;}
+  .pf-arrow{transform:rotate(90deg);align-self:center;}
+  .gr-step::after{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">✂️ BARBER EMPIRE</div>
+  <ul class="nav-links">
+    <li><a href="#phase0">التحضير</a></li>
+    <li><a href="#phase1">المحتوى</a></li>
+    <li><a href="#phase2">أوتوميشن</a></li>
+    <li><a href="#phase3">منتجات</a></li>
+    <li><a href="#phase4">الانتشار</a></li>
+    <li><a href="#phase5">تسويق</a></li>
+    <li><a href="#phase6">نمو</a></li>
+    <li><a href="#phase7">إيرادات</a></li>
+    <li><a href="#grooming">مستقبل</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg">✂️</div>
+  <div class="chip">🚀 خطة براند الحلاق الرقمي الشاملة</div>
+  <h1>من <span class="g">حلاق</span> عادي<br>إلى <span class="g">إمبراطورية</span> رقمية</h1>
+  <p class="hero-sub">خطة متكاملة من الصفر حتى مليون متابع — محتوى، أوتوميشن، منتجات رقمية، دخل متعدد</p>
+  <div class="hero-stats">
+    <div><div class="hs-val" data-target="8">0</div><div class="hs-lbl">مراحل</div></div>
+    <div><div class="hs-val" data-target="300">0</div><div class="hs-lbl">فيديو/شهر</div></div>
+    <div><div class="hs-val" data-target="7">0</div><div class="hs-lbl">مصادر دخل</div></div>
+    <div><div class="hs-val" data-target="1">0</div><div class="hs-lbl">مليون متابع</div></div>
+  </div>
+  <div class="scroll-cue">▼</div>
+</div>
+
+<!-- PHASE 0 -->
+<section class="sec" id="phase0">
+  <div class="sec-hdr reveal">
+    <div class="sec-num">0</div>
+    <div class="sec-tag">قبل ما تبدأ</div>
+  </div>
+  <h2 class="reveal">المرحلة 0 — <span class="g">التحضير الكامل</span></h2>
+  <div class="divider reveal"></div>
+  <div class="checklist-grid">
+    <div class="cl-card reveal" style="--c-color:#C9A84C;">
+      <div class="cl-icon">🎨</div>
+      <h4>البراند الشخصي</h4>
+      <ul>
+        <li>تصميم شعار وهوية بصرية</li>
+        <li>اختيار ألوان ثابتة</li>
+        <li>خطوط وستايل موحّد</li>
+      </ul>
+    </div>
+    <div class="cl-card reveal" style="--c-color:#3498DB;">
+      <div class="cl-icon">📱</div>
+      <h4>حسابات السوشيال ميديا</h4>
+      <ul>
+        <li>TikTok — الأولوية الأولى</li>
+        <li>Instagram — Reels + Stories</li>
+        <li>YouTube Shorts — Adsense</li>
+        <li>Facebook — جمهور أكبر سناً</li>
+      </ul>
+    </div>
+    <div class="cl-card reveal" style="--c-color:#2ECC71;">
+      <div class="cl-icon">☁️</div>
+      <h4>إدارة المحتوى</h4>
+      <ul>
+        <li>Google Drive — مكتبة الفيديوهات</li>
+        <li>CapCut Templates لكل نوع</li>
+        <li>Notion / Sheets — تقويم نشر</li>
+      </ul>
+    </div>
+    <div class="cl-card reveal" style="--c-color:#E67E22;">
+      <div class="cl-icon">🛒</div>
+      <h4>صفحة الهبوط</h4>
+      <ul>
+        <li>صفحة لبيع الكورسات والـ PDF</li>
+        <li>نظام دفع بسيط وسريع</li>
+        <li>رابط واحد في Bio كل المنصات</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 1 -->
+<section class="sec" id="phase1">
+  <div class="sec-hdr reveal">
+    <div class="sec-num">1</div>
+    <div class="sec-tag">المحتوى</div>
+  </div>
+  <h2 class="reveal">المرحلة 1 — <span class="g">8 أنواع محتوى</span></h2>
+  <div class="divider reveal"></div>
+  <div class="ct-grid">
+    <div class="ct-card reveal" style="--c-color:#C9A84C;">
+      <div class="ct-icon">✂️</div>
+      <h4>صالون الحلاقة</h4>
+      <ul>
+        <li>قبل / بعد</li><li>قصات ترند</li><li>قصص الزبائن</li>
+      </ul>
+    </div>
+    <div class="ct-card reveal" style="--c-color:#E67E22;">
+      <div class="ct-icon">🎭</div>
+      <h4>الحلاق شخصياً</h4>
+      <ul>
+        <li>يوميات العمل</li><li>رحلة التعلم</li><li>الأخطاء والنصائح</li>
+      </ul>
+    </div>
+    <div class="ct-card reveal" style="--c-color:#3498DB;">
+      <div class="ct-icon">🎓</div>
+      <h4>تعليم الحلاقين</h4>
+      <ul>
+        <li>تعليم Fade والتحديد</li><li>أدوات الحلاقة</li><li>نصائح احترافية</li>
+      </ul>
+    </div>
+    <div class="ct-card reveal" style="--c-color:#2ECC71;">
+      <div class="ct-icon">⭐</div>
+      <h4>مراجعات أدوات</h4>
+      <ul>
+        <li>ماكينات وفرش</li><li>كريمات وجل</li><li>Affiliate links</li>
+      </ul>
+    </div>
+    <div class="ct-card reveal" style="--c-color:#E74C3C;">
+      <div class="ct-icon">🏗️</div>
+      <h4>صالون المستقبل</h4>
+      <ul>
+        <li>توثيق التطوير</li><li>معدات جديدة</li><li>خدمات جديدة</li>
+      </ul>
+    </div>
+    <div class="ct-card reveal" style="--c-color:#F0D070;">
+      <div class="ct-icon">🔥</div>
+      <h4>تحديات إبداعية</h4>
+      <ul>
+        <li>تحديات السرعة</li><li>قصات غريبة</li><li>كوميدي وترفيه</li>
+      </ul>
+    </div>
+    <div class="ct-card reveal" style="--c-color:#1ABC9C;">
+      <div class="ct-icon">🌍</div>
+      <h4>محتوى عالمي</h4>
+      <ul>
+        <li>عربي + إنجليزي</li><li>قصات المشاهير</li><li>الترند العالمي</li>
+      </ul>
+    </div>
+    <div class="ct-card reveal" style="--c-color:#9B59B6;">
+      <div class="ct-icon">💈</div>
+      <h4>تجميل الرجال <span class="future-badge">مستقبلي</span></h4>
+      <ul>
+        <li>روتين العناية باللحية</li><li>منتجات Grooming</li><li>نصائح ستايل رجالي</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PRODUCTION FLOW -->
+  <h3 class="reveal" style="margin:40px 0 20px;font-size:20px;opacity:.75;">نظام الإنتاج الشهري</h3>
+  <div class="prod-flow reveal">
+    <div class="pf-box">
+      <div class="pf-n">1</div>
+      <h4>تصوير</h4>
+      <p>50 فيديو أصلي/شهر</p>
+    </div>
+    <div class="pf-arrow">←</div>
+    <div class="pf-box">
+      <div class="pf-n">2</div>
+      <h4>قص بالذكاء</h4>
+      <p>15 / 30 / 60 ثانية</p>
+    </div>
+    <div class="pf-arrow">←</div>
+    <div class="pf-box">
+      <div class="pf-n">3</div>
+      <h4>لغتين</h4>
+      <p>عربي + إنجليزي</p>
+    </div>
+    <div class="pf-arrow">←</div>
+    <div class="pf-box">
+      <div class="pf-n">4</div>
+      <h4>تأثيرات</h4>
+      <p>Hook + Captions + Zoom</p>
+    </div>
+    <div class="pf-arrow">←</div>
+    <div class="pf-result">
+      <div class="big">300</div>
+      <p>فيديو جاهز/شهر</p>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 2 -->
+<section class="sec" id="phase2">
+  <div class="sec-hdr reveal">
+    <div class="sec-num">2</div>
+    <div class="sec-tag">أوتوميشن</div>
+  </div>
+  <h2 class="reveal">المرحلة 2 — <span class="g">جدولة تلقائية كاملة</span></h2>
+  <div class="divider reveal"></div>
+  <div class="plat-grid">
+    <div class="plat-card reveal" style="--p-color:#FF004F;">
+      <div class="p-icon">🎵</div>
+      <h4>TikTok</h4>
+      <div class="p-num">4</div>
+      <div class="p-sub">فيديو يومياً — أكبر انتشار</div>
+    </div>
+    <div class="plat-card reveal" style="--p-color:#E1306C;">
+      <div class="p-icon">📸</div>
+      <h4>Instagram</h4>
+      <div class="p-num">3</div>
+      <div class="p-sub">فيديو يومياً — Reels</div>
+    </div>
+    <div class="plat-card reveal" style="--p-color:#FF0000;">
+      <div class="p-icon">▶️</div>
+      <h4>YouTube Shorts</h4>
+      <div class="p-num">2</div>
+      <div class="p-sub">فيديو يومياً — Adsense</div>
+    </div>
+    <div class="plat-card reveal" style="--p-color:#1877F2;">
+      <div class="p-icon">👥</div>
+      <h4>Facebook</h4>
+      <div class="p-num">1</div>
+      <div class="p-sub">فيديو يومياً — 30-50 سنة</div>
+    </div>
+    <div class="plat-card reveal" style="--p-color:#C9A84C;">
+      <div class="p-icon">✂️</div>
+      <h4>CapCut</h4>
+      <div class="p-num">مجاني</div>
+      <div class="p-sub">مونتاج + Auto Captions</div>
+    </div>
+    <div class="plat-card reveal" style="--p-color:#2ECC71;">
+      <div class="p-icon">📊</div>
+      <h4>تحليل أسبوعي</h4>
+      <div class="p-num">×10</div>
+      <div class="p-sub">الفيديوهات الناجحة تُكرَّر</div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 3 -->
+<section class="sec" id="phase3">
+  <div class="sec-hdr reveal">
+    <div class="sec-num">3</div>
+    <div class="sec-tag">المنتجات</div>
+  </div>
+  <h2 class="reveal">المرحلة 3 — <span class="g">منتجات ودخل رقمي</span></h2>
+  <div class="divider reveal"></div>
+  <div class="prod-grid">
+    <div class="prod-card reveal" style="--c-color:#3498DB;">
+      <div class="p-icon">📚</div>
+      <h3>باكدجات تعليمية</h3>
+      <p>فيديوهات، PDF، سكريبتات، كورسات كاملة مخصوصة للحلاقين المبتدئين.</p>
+      <span class="tag">شهر 2</span>
+    </div>
+    <div class="prod-card reveal" style="--c-color:#E67E22;">
+      <div class="p-icon">📦</div>
+      <h3>منتجات عملية</h3>
+      <p>أدوات حلاقة، صناديق باكدج جاهزة، منتجات تجميلية للشعر (Affiliate أو مباشر).</p>
+      <span class="tag">شهر 2</span>
+    </div>
+    <div class="prod-card reveal" style="--c-color:#2ECC71;">
+      <div class="p-icon">🎓</div>
+      <h3>كورسات أونلاين</h3>
+      <p>تعلّم الحلاقة من الصفر + شهادات. الجمهور يثق فيك قبل ما تطلق الكورس.</p>
+      <span class="tag">شهر 3</span>
+    </div>
+    <div class="prod-card reveal" style="--c-color:#9B59B6;">
+      <div class="p-icon">💎</div>
+      <h3>مجتمع VIP</h3>
+      <p>Telegram / Discord حصري — محتوى بريميوم، بث مباشر، نصائح سرية، اشتراك شهري.</p>
+      <span class="tag">شهر 2</span>
+    </div>
+    <div class="prod-card reveal" style="--c-color:#9B59B6; border-style:dashed;">
+      <div class="p-icon">🧴</div>
+      <h3>منتجات Grooming للرجال</h3>
+      <p>كريمات، زيوت، سيرومات للعناية بالشعر واللحية. خط منتجات كامل باسم البراند.</p>
+      <span class="tag future">مستقبلي</span>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 4 -->
+<section class="sec" id="phase4">
+  <div class="sec-hdr reveal">
+    <div class="sec-num">4</div>
+    <div class="sec-tag">الانتشار</div>
+  </div>
+  <h2 class="reveal">المرحلة 4 — <span class="g">أفكار الانتشار الضخم</span></h2>
+  <div class="divider reveal"></div>
+  <div class="spread-grid">
+    <div class="spread-card reveal" data-em="✨" style="--sb-bg:rgba(201,168,76,.15);--sb-c:var(--gold2);">
+      <span class="spread-badge">🔥 قوي جداً</span>
+      <h3>تحدي Glow Up للزبائن</h3>
+      <p>ادعو زبائن بمظهر قديم وغيّر إطلالتهم أمام الكاميرا. الزبون نفسه بينشر وبيجيب متابعين جدد مجاناً.</p>
+    </div>
+    <div class="spread-card reveal" data-em="🏆" style="--sb-bg:rgba(230,126,34,.15);--sb-c:#E67E22;">
+      <span class="spread-badge" style="--sb-bg:rgba(230,126,34,.15);--sb-c:#E67E22;">🏆 انتشار محلي</span>
+      <h3>بطولة حلاقة محلية</h3>
+      <p>مسابقة بين الحلاقين في مدينتك. الجمهور يصوّت أونلاين. تعاون مع براندات الأدوات. محتوى + انتشار إعلامي.</p>
+    </div>
+    <div class="spread-card reveal" data-em="🤝" style="--sb-bg:rgba(52,152,219,.15);--sb-c:#3498DB;">
+      <span class="spread-badge" style="--sb-bg:rgba(52,152,219,.15);--sb-c:#3498DB;">🤝 ذكاء</span>
+      <h3>تحالف الحلاقين</h3>
+      <p>شبكة من 10 حلاقين يتبادلوا المحتوى والمتابعين. Cross-Promotion منظم وليس عشوائي — كل واحد يضخ للتاني.</p>
+    </div>
+    <div class="spread-card reveal" data-em="🌍" style="--sb-bg:rgba(26,188,156,.15);--sb-c:#1ABC9C;">
+      <span class="spread-badge" style="--sb-bg:rgba(26,188,156,.15);--sb-c:#1ABC9C;">🌍 عالمي</span>
+      <h3>حلاقة الفنادق والمنتجعات</h3>
+      <p>تعاقد مع فنادق كحلاق موسمي. السياح = محتوى دولي حقيقي وجمهور عالمي يتفاعل معاك.</p>
+    </div>
+    <div class="spread-card reveal" data-em="📲" style="--sb-bg:rgba(46,204,113,.15);--sb-c:#2ECC71;">
+      <span class="spread-badge" style="--sb-bg:rgba(46,204,113,.15);--sb-c:#2ECC71;">📲 تجربة زبون</span>
+      <h3>تطبيق حجز بسيط</h3>
+      <p>حجز مسبق مع توقيت الانتظار. يقلل الزحمة + يزيد رضا الزبائن + بينشر كمحتوى "تطوير الصالون".</p>
+    </div>
+    <div class="spread-card reveal" data-em="⚡" style="--sb-bg:rgba(201,168,76,.12);--sb-c:var(--gold);">
+      <span class="spread-badge">⚡ أوتوميشن</span>
+      <h3>فيديو واحد → 30 فيديو</h3>
+      <p>استخدام AI لتحويل كل فيديو أصلي لنسخ مختلفة تلقائياً. وصول جماهيري عالمي بدون تعب يومي.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 5 -->
+<section class="sec" id="phase5">
+  <div class="sec-hdr reveal">
+    <div class="sec-num">5</div>
+    <div class="sec-tag">التسويق</div>
+  </div>
+  <h2 class="reveal">المرحلة 5 — <span class="g">التسويق والصفحات</span></h2>
+  <div class="divider reveal"></div>
+  <div class="checklist-grid">
+    <div class="cl-card reveal" style="--c-color:#E67E22;">
+      <div class="cl-icon">🛒</div>
+      <h4>صفحة هبوط لكل منتج</h4>
+      <ul>
+        <li>صفحة منفصلة لكل كورس</li>
+        <li>صفحة لكل PDF وباكدج</li>
+        <li>صفحة لأدوات الحلاقة</li>
+      </ul>
+    </div>
+    <div class="cl-card reveal" style="--c-color:#3498DB;">
+      <div class="cl-icon">📢</div>
+      <h4>السوشيال ميديا</h4>
+      <ul>
+        <li>قصص يومية + عروض</li>
+        <li>تحديات تجذب تفاعل</li>
+        <li>CTA واضح في كل فيديو</li>
+      </ul>
+    </div>
+    <div class="cl-card reveal" style="--c-color:#E74C3C;">
+      <div class="cl-icon">💰</div>
+      <h4>إعلانات مدفوعة</h4>
+      <ul>
+        <li>بعد شهرين من المحتوى</li>
+        <li>بوست ناجح → بوسته بفلوس</li>
+        <li>استهداف حلاقين ومهتمين</li>
+      </ul>
+    </div>
+    <div class="cl-card reveal" style="--c-color:#2ECC71;">
+      <div class="cl-icon">🔗</div>
+      <h4>رابط Bio موحّد</h4>
+      <ul>
+        <li>Linktree أو صفحة واحدة</li>
+        <li>كل المنتجات في مكان واحد</li>
+        <li>يتحدث تلقائياً بالجديد</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 6 -->
+<section class="sec" id="phase6">
+  <div class="sec-hdr reveal">
+    <div class="sec-num">6</div>
+    <div class="sec-tag">نمو المتابعين</div>
+  </div>
+  <h2 class="reveal">المرحلة 6 — <span class="g">خطة الوصول لمليون</span></h2>
+  <div class="divider reveal"></div>
+  <div class="growth-row reveal">
+    <div class="gr-step">
+      <div class="gr-time">الآن</div>
+      <div class="gr-num">0</div>
+      <div class="gr-lbl">بداية الرحلة</div>
+    </div>
+    <div class="gr-step">
+      <div class="gr-time">شهر 3</div>
+      <div class="gr-num">50K</div>
+      <div class="gr-lbl">متابع</div>
+    </div>
+    <div class="gr-step">
+      <div class="gr-time">شهر 6</div>
+      <div class="gr-num">200K</div>
+      <div class="gr-lbl">متابع</div>
+    </div>
+    <div class="gr-step">
+      <div class="gr-time">شهر 9</div>
+      <div class="gr-num">500K</div>
+      <div class="gr-lbl">متابع</div>
+    </div>
+    <div class="gr-step peak">
+      <div class="gr-time">سنة كاملة</div>
+      <div class="gr-num">1M</div>
+      <div class="gr-lbl">متابع 🏆</div>
+    </div>
+  </div>
+  <div style="margin-top:24px;background:var(--dark3);border-radius:14px;padding:20px 24px;border:1px solid rgba(255,255,255,.05);" class="reveal">
+    <p style="font-size:13px;color:var(--muted);line-height:2.1;">
+      📌 <strong style="color:var(--white);">نشر يومي 10 فيديوهات</strong> = 300 فيديو شهرياً على 4 منصات<br>
+      📌 كل فيديو ناجح → <strong style="color:var(--white);">5–10 فيديوهات مشتقة</strong> جديدة<br>
+      📌 تحليل أسبوعي → الفيديوهات الناجحة تُكرَّر وتُعزَّز بإعلانات<br>
+      📌 المحتوى العالمي (عربي + إنجليزي) يضاعف الوصول ×2
+    </p>
+  </div>
+</section>
+
+<!-- PHASE 7 -->
+<section class="sec" id="phase7">
+  <div class="sec-hdr reveal">
+    <div class="sec-num">7</div>
+    <div class="sec-tag">الإيرادات</div>
+  </div>
+  <h2 class="reveal">المرحلة 7 — <span class="g">الأرقام المتوقعة</span></h2>
+  <div class="divider reveal"></div>
+  <div class="rev-grid">
+    <div class="rev-card reveal" style="--c-color:#C9A84C;">
+      <div class="rev-icon">✂️</div>
+      <div class="rev-info">
+        <h4>صالون الحلاقة</h4>
+        <div class="rev-range">3–5K$</div>
+        <div class="rev-sub">شهرياً — حسب التوسع</div>
+      </div>
+    </div>
+    <div class="rev-card reveal" style="--c-color:#3498DB;">
+      <div class="rev-icon">🎓</div>
+      <div class="rev-info">
+        <h4>كورسات رقمية</h4>
+        <div class="rev-range">5–10K$</div>
+        <div class="rev-sub">شهرياً — دخل سلبي</div>
+      </div>
+    </div>
+    <div class="rev-card reveal" style="--c-color:#2ECC71;">
+      <div class="rev-icon">📦</div>
+      <div class="rev-info">
+        <h4>أدوات — Affiliate</h4>
+        <div class="rev-range">2–5K$</div>
+        <div class="rev-sub">شهرياً — بيع مباشر</div>
+      </div>
+    </div>
+    <div class="rev-card reveal" style="--c-color:#E67E22;">
+      <div class="rev-icon">🏆</div>
+      <div class="rev-info">
+        <h4>تدريب ورش عمل</h4>
+        <div class="rev-range">2–5K$</div>
+        <div class="rev-sub">شهرياً — أونلاين + حضور</div>
+      </div>
+    </div>
+  </div>
+  <div class="rev-total reveal">
+    <div class="t-label">إجمالي الدخل المتوقع بعد سنة</div>
+    <div class="t-num">10,000 — 20,000$</div>
+    <div class="t-year">شهرياً → 100,000 — 200,000$ سنوياً 💰</div>
+  </div>
+</section>
+
+<!-- GROOMING FUTURE -->
+<section class="sec" id="grooming">
+  <div class="sec-hdr reveal">
+    <div class="sec-num">+</div>
+    <div class="sec-tag">التوسع المستقبلي</div>
+  </div>
+  <h2 class="reveal">مرحلة المستقبل — <span class="g">صالون الرجل الكامل</span></h2>
+  <div class="divider reveal"></div>
+  <div class="grooming-banner reveal">
+    <div class="gr-badge">🔮 مستقبلي — بعد ما يكبر البراند</div>
+    <h3>من حلاق إلى <span style="color:#C39BD3;">إمبراطورية تجميل رجالية</span></h3>
+    <p>لما البراند يكبر، الخطوة الجاية هي تحويل الصالون لوجهة متكاملة للرجل — مش بس حلاقة. محتوى تجميل الرجل + منتجات Grooming باسم البراند = مصدر دخل ضخم جديد كلياً ومنفصل عن الحلاقة الأساسية.</p>
+    <div class="grooming-items">
+      <div class="gr-item">
+        <div class="gr-em">🎬</div>
+        <h5>محتوى Grooming</h5>
+        <p>روتين العناية بالشعر واللحية، نصائح ستايل رجالي يومي</p>
+      </div>
+      <div class="gr-item">
+        <div class="gr-em">🧴</div>
+        <h5>منتجات خاصة بالبراند</h5>
+        <p>كريمات، زيوت، سيرومات للعناية تحت اسمك أنت</p>
+      </div>
+      <div class="gr-item">
+        <div class="gr-em">💈</div>
+        <h5>خدمات متكاملة</h5>
+        <p>بشرة + شعر + لحية + عناية كاملة للرجل في مكان واحد</p>
+      </div>
+      <div class="gr-item">
+        <div class="gr-em">🤝</div>
+        <h5>تعاون مع براندات</h5>
+        <p>سبونسر من شركات العناية الرجالية بمجرد وصول الجمهور</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 90 DAY QUICK PLAN -->
+<section class="sec" id="plan90">
+  <div class="sec-hdr reveal">
+    <div class="sec-num">⚡</div>
+    <div class="sec-tag">خطة التنفيذ</div>
+  </div>
+  <h2 class="reveal">خطة <span class="g">90 يوم</span> — من الصفر للانطلاق</h2>
+  <div class="divider reveal"></div>
+  <div class="plan-track">
+    <div class="plan-phase reveal" style="--ph-color:#C9A84C;">
+      <div class="ph-days">يوم 1 — 10</div>
+      <h4>🎨 التأسيس</h4>
+      <ul>
+        <li>تصميم البراند والهوية</li>
+        <li>إنشاء كل الحسابات</li>
+        <li>إعداد Google Drive</li>
+        <li>بناء CapCut Templates</li>
+      </ul>
+    </div>
+    <div class="plan-phase reveal" style="--ph-color:#E67E22;">
+      <div class="ph-days">يوم 11 — 20</div>
+      <h4>🎬 التصوير</h4>
+      <ul>
+        <li>50 فيديو أصلي</li>
+        <li>3-4 ساعات يومياً</li>
+        <li>كل أنواع المحتوى</li>
+        <li>تنظيم في Drive</li>
+      </ul>
+    </div>
+    <div class="plan-phase reveal" style="--ph-color:#3498DB;">
+      <div class="ph-days">يوم 21 — 25</div>
+      <h4>✂️ المونتاج</h4>
+      <ul>
+        <li>6 نسخ لكل فيديو</li>
+        <li>عربي + إنجليزي</li>
+        <li>Hook + Auto Captions</li>
+        <li>300 فيديو جاهز</li>
+      </ul>
+    </div>
+    <div class="plan-phase reveal" style="--ph-color:#2ECC71;">
+      <div class="ph-days">يوم 26 — 30</div>
+      <h4>🛒 المنتجات</h4>
+      <ul>
+        <li>أول PDF جاهز</li>
+        <li>صفحة الهبوط</li>
+        <li>Telegram VIP</li>
+        <li>Affiliate حسابات</li>
+      </ul>
+    </div>
+    <div class="plan-phase reveal" style="--ph-color:#E74C3C;">
+      <div class="ph-days">يوم 31 — 90</div>
+      <h4>🚀 النمو</h4>
+      <ul>
+        <li>نشر تلقائي 10/يوم</li>
+        <li>تحليل أسبوعي</li>
+        <li>فيديو ترند يومياً</li>
+        <li>تفعيل كل المصادر</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SUMMARY -->
+<section class="sec" id="summary">
+  <div class="sec-hdr reveal">
+    <div class="sec-num">✓</div>
+    <div class="sec-tag">الملخص</div>
+  </div>
+  <h2 class="reveal">الخطة من <span class="g">A إلى Z</span></h2>
+  <div class="divider reveal"></div>
+  <div class="summary-list">
+    <div class="sum-item reveal"><div class="sum-num">1</div><div class="sum-text">بناء البراند الرقمي الكامل — شعار، هوية، حسابات</div></div>
+    <div class="sum-item reveal"><div class="sum-num">2</div><div class="sum-text">إنتاج محتوى أصلي + تحويله تلقائياً لـ 300 فيديو/شهر</div></div>
+    <div class="sum-item reveal"><div class="sum-num">3</div><div class="sum-text">نشر يومي 10 فيديوهات على 4 منصات بالأوتوميشن</div></div>
+    <div class="sum-item reveal"><div class="sum-num">4</div><div class="sum-text">8 أنواع محتوى: صالون، شخصي، تعليمي، مراجعات، تحديات، عالمي، مستقبلي</div></div>
+    <div class="sum-item reveal"><div class="sum-num">5</div><div class="sum-text">منتجات رقمية وعملية وبيعها عبر صفحات هبوط</div></div>
+    <div class="sum-item reveal"><div class="sum-num">6</div><div class="sum-text">مجتمع VIP للحلاقين + اشتراكات شهرية</div></div>
+    <div class="sum-item reveal"><div class="sum-num">7</div><div class="sum-text">AI لإنتاج نسخ متعددة من كل فيديو تلقائياً</div></div>
+    <div class="sum-item reveal"><div class="sum-num">8</div><div class="sum-text">تدريب وورش عمل أونلاين + حضوري</div></div>
+    <div class="sum-item reveal"><div class="sum-num">9</div><div class="sum-text">تحليل الأداء أسبوعياً + تعزيز الفيديوهات الناجحة</div></div>
+    <div class="sum-item reveal"><div class="sum-num">10</div><div class="sum-text">التوسع لصالون رجالي متكامل + منتجات Grooming باسم البراند</div></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+  <h2>✂️ البداية <span class="g">دلوقتي</span></h2>
+  <p>مفيش سر في الموضوع — الفارق الوحيد بين حلاق عادي وبراند ضخم هو الاتساق والبدء.</p>
+  <div class="final-line">صوّر أول 10 فيديوهات النهارده — الباقي بيجي لوحده. 🚀</div>
+</div>
+
+<script>
+// Counter animation
+window.addEventListener('load', () => {
+  document.querySelectorAll('.hs-val[data-target]').forEach(el => {
+    const target = +el.dataset.target;
+    let cur = 0;
+    const step = Math.max(1, target / 40);
+    const t = setInterval(() => {
+      cur += step;
+      if (cur >= target) { el.textContent = target + (target === 1 ? 'M' : target === 300 ? '+' : ''); clearInterval(t); }
+      else el.textContent = Math.floor(cur);
+    }, 35);
+  });
+});
+
+// Scroll reveal
+const io = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('revealed'), i * 60);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

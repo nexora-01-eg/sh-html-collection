@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أفضل 20 أداة ذكاء اصطناعي مجانية من Google</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fafbfd;
+    --card:#ffffff;
+    --line:#e3e7ee;
+    --text:#1f1f1f;
+    --muted:#5f6368;
+    --blue:#4285F4;
+    --red:#EA4335;
+    --yellow:#FBBC05;
+    --green:#34A853;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Tajawal', sans-serif;
+  }
+  header{
+    padding:60px 24px 44px;
+    text-align:center;
+    background:linear-gradient(135deg, #fff, #f2f6ff);
+    border-bottom:1px solid var(--line);
+  }
+  .dots{
+    display:flex; justify-content:center; gap:8px; margin-bottom:20px;
+  }
+  .dots span{ width:12px; height:12px; border-radius:50%; display:inline-block; }
+  h1{
+    font-size:clamp(26px,4.5vw,44px);
+    font-weight:900;
+    margin:0 0 10px;
+  }
+  .sub{ color:var(--muted); font-size:16px; }
+  .wrap{ max-width:1000px; margin:0 auto; padding:50px 20px 100px; }
+  .section{ margin-bottom:48px; }
+  .section-head{
+    display:flex; align-items:center; gap:12px; margin-bottom:20px;
+  }
+  .section-icon{
+    width:42px; height:42px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:20px; color:#fff; flex-shrink:0;
+  }
+  .section-title{ font-size:20px; font-weight:700; }
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(230px,1fr));
+    gap:14px;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:18px 20px;
+    position:relative;
+    transition:.2s;
+    text-decoration:none;
+    color:var(--text);
+    display:block;
+    border-top:4px solid transparent;
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 12px 24px rgba(66,133,244,.12);
+  }
+  .card .name{ font-weight:700; font-size:16px; margin-bottom:5px; }
+  .card .link{
+    color:var(--muted); font-size:13px; direction:ltr; text-align:right; display:block;
+  }
+  .del{
+    position:absolute; left:10px; top:10px;
+    background:none; border:none; color:var(--muted);
+    font-size:11px; cursor:pointer; opacity:0; transition:.2s;
+  }
+  .card:hover .del{ opacity:.7; }
+  .del:hover{ color:var(--red); opacity:1 !important; }
+
+  .note{
+    max-width:1000px; margin:0 auto 40px; padding:0 20px;
+  }
+  .note-box{
+    background:#fff8e1; border:1px solid #ffe08a; border-radius:12px;
+    padding:16px 20px; font-size:14px; color:#7a5b00;
+  }
+
+  .toolbar{ display:flex; justify-content:center; margin-bottom:20px; }
+  .add-btn{
+    background:var(--blue); color:#fff; border:none;
+    padding:13px 26px; border-radius:24px; font-family:'Tajawal'; font-weight:700;
+    font-size:14px; cursor:pointer; box-shadow:0 4px 14px rgba(66,133,244,.35);
+  }
+  .add-btn:hover{ background:#3367d6; }
+
+  .modal-bg{
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,.4);
+    align-items:center; justify-content:center; z-index:50; padding:20px;
+  }
+  .modal-bg.open{ display:flex; }
+  .modal{ background:#fff; max-width:440px; width:100%; padding:30px; border-radius:16px; }
+  .modal h2{ margin-top:0; font-size:20px; }
+  .modal label{ display:block; font-size:13px; color:var(--muted); margin:14px 0 6px; }
+  .modal input, .modal select{
+    width:100%; border:1px solid var(--line); padding:10px 12px; border-radius:8px;
+    font-family:'Tajawal'; font-size:14px;
+  }
+  .modal-actions{ display:flex; gap:10px; margin-top:22px; justify-content:flex-end; }
+  .btn-secondary{ background:transparent; border:1px solid var(--line); color:var(--muted); padding:10px 20px; border-radius:8px; cursor:pointer; font-family:'Tajawal'; }
+  .btn-primary{ background:var(--blue); border:none; color:#fff; padding:10px 20px; border-radius:8px; cursor:pointer; font-family:'Tajawal'; font-weight:700; }
+  footer{ text-align:center; padding:30px; color:var(--muted); font-size:13px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="dots">
+    <span style="background:var(--blue)"></span>
+    <span style="background:var(--red)"></span>
+    <span style="background:var(--yellow)"></span>
+    <span style="background:var(--green)"></span>
+  </div>
+  <h1>أفضل 20 أداة ذكاء اصطناعي مجانية من Google</h1>
+  <div class="sub">كل الأدوات تعمل مجانًا بحساب Google عادي</div>
+</header>
+
+<div class="wrap">
+  <div class="toolbar">
+    <button class="add-btn" onclick="openModal()">+ أضف أداة جديدة</button>
+  </div>
+  <div id="sections"></div>
+
+  <div class="note">
+    <div class="note-box">⚠️ بعض الأدوات مثل Cloud Services قد تحتاج تسجيل بطاقة ائتمان للاستخدام المتقدم</div>
+  </div>
+</div>
+
+<footer>محفوظة محليًا في هذه الجلسة</footer>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h2>أداة جديدة</h2>
+    <label>الاسم</label>
+    <input id="inName" placeholder="مثال: Imagen">
+    <label>الرابط</label>
+    <input id="inUrl" placeholder="example.com">
+    <label>التصنيف</label>
+    <select id="inCat"></select>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+      <button class="btn-primary" onclick="addTool()">إضافة</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const categories = [
+  {key:"chat", title:"الذكاء الاصطناعي التحادثي", icon:"💬", color:"var(--blue)",
+    tools:[
+      {name:"Google Gemini", url:"gemini.google.com"},
+      {name:"Gemini Ask on YouTube", url:"youtube.com"},
+      {name:"Gems in Gemini", url:"gemini.google.com"},
+      {name:"Gemini Live", url:"gemini.google.com"},
+    ]},
+  {key:"apps", title:"إنشاء التطبيقات والمحتوى", icon:"📱", color:"var(--red)",
+    tools:[
+      {name:"Google AI Studio", url:"aistudio.google.com"},
+      {name:"Firebase Studio", url:"firebase.google.com"},
+      {name:"NotebookLM", url:"notebooklm.google.com"},
+      {name:"Gemini in Google Sheets", url:"sheets.google.com"},
+      {name:"Nano Banana", url:"nanobana.ai"},
+    ]},
+  {key:"media", title:"أدوات الميديا", icon:"🎨", color:"var(--yellow)",
+    tools:[
+      {name:"Media Generation", url:"aitestkitchen.withgoogle.com"},
+    ]},
+  {key:"cloud", title:"خدمات ML والسحابة", icon:"☁️", color:"var(--green)",
+    tools:[
+      {name:"TensorFlow", url:"tensorflow.org"},
+      {name:"AutoML", url:"cloud.google.com/automl"},
+      {name:"Gemma Models", url:"ai.google.dev/gemma"},
+      {name:"Tuner.ai", url:"tuner.ai"},
+      {name:"Vision AI", url:"cloud.google.com/vision"},
+      {name:"Translation AI", url:"cloud.google.com/translate"},
+    ]},
+];
+
+function normalizeUrl(u){
+  if(!u) return '#';
+  return /^https?:\/\//.test(u) ? u : 'https://' + u;
+}
+
+function render(){
+  const select = document.getElementById('inCat');
+  select.innerHTML = categories.map(c=>`<option value="${c.key}">${c.title}</option>`).join('');
+
+  const el = document.getElementById('sections');
+  el.innerHTML = categories.map(cat=>`
+    <div class="section">
+      <div class="section-head">
+        <div class="section-icon" style="background:${cat.color}">${cat.icon}</div>
+        <div class="section-title">${cat.title}</div>
+      </div>
+      <div class="cards">
+        ${cat.tools.map((t,i)=>`
+          <a class="card" href="${normalizeUrl(t.url)}" target="_blank" rel="noopener" style="border-top-color:${cat.color}">
+            <button class="del" onclick="event.preventDefault(); event.stopPropagation(); removeTool('${cat.key}', ${i})">حذف</button>
+            <div class="name">${t.name}</div>
+            <div class="link">${t.url}</div>
+          </a>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+function openModal(){ document.getElementById('modalBg').classList.add('open'); }
+function closeModal(){
+  document.getElementById('modalBg').classList.remove('open');
+  document.getElementById('inName').value='';
+  document.getElementById('inUrl').value='';
+}
+function addTool(){
+  const name = document.getElementById('inName').value.trim();
+  const url = document.getElementById('inUrl').value.trim();
+  const catKey = document.getElementById('inCat').value;
+  if(!name || !url){ alert('من فضلك أدخل الاسم والرابط'); return; }
+  const cat = categories.find(c=>c.key===catKey);
+  cat.tools.push({name, url});
+  render();
+  closeModal();
+}
+function removeTool(catKey, i){
+  const cat = categories.find(c=>c.key===catKey);
+  cat.tools.splice(i,1);
+  render();
+}
+render();
+</script>
+</body>
+</html>

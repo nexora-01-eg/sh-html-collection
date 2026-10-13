@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Rajdhani:wght@300;400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --gold:#E8BD70;--gold2:#EDD185;--gold3:#F5CB86;
+  --bg:#000;--bg2:#0D0D0D;--bg3:#111111;--bg4:#161616;
+  --glass:rgba(255,255,255,0.03);--glass2:rgba(232,189,112,0.06);--glass3:rgba(232,189,112,0.10);
+  --border:rgba(232,189,112,0.10);--border2:rgba(232,189,112,0.22);--border3:rgba(255,255,255,0.06);
+  --text:rgba(255,255,255,0.92);--text2:rgba(255,255,255,0.55);--text3:rgba(255,255,255,0.25);--text4:rgba(255,255,255,0.12);
+  --danger:rgba(220,60,60,0.8);--success:rgba(60,200,120,0.8);
+}
+html,body{width:100%;background:#000;font-family:'Rajdhani',sans-serif;color:var(--text);overflow-x:hidden;cursor:default;min-height:100vh}
+canvas#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ─── NAV ─── */
+#nav{
+  position:sticky;top:0;z-index:200;
+  display:flex;align-items:center;gap:0;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+  padding:0 1.5rem;height:56px;overflow-x:auto;
+}
+#nav::-webkit-scrollbar{display:none}
+.nav-logo{display:flex;align-items:center;gap:.5rem;margin-right:2rem;flex-shrink:0}
+.nav-logo-orb{width:22px;height:22px;border:1px solid var(--gold);border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center}
+.nav-logo-orb::after{content:'';width:7px;height:7px;border-radius:50%;background:var(--gold);animation:orb 3s ease-in-out infinite}
+@keyframes orb{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.5);opacity:.4}}
+.nav-logo-txt{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:300;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
+.nav-tabs{display:flex;gap:0;flex:1}
+.tab{
+  padding:.4rem 1.1rem;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--text3);cursor:pointer;transition:color .25s;
+  border-bottom:2px solid transparent;white-space:nowrap;
+  display:flex;align-items:center;gap:.4rem;
+}
+.tab:hover{color:var(--text2)}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab i{font-size:13px}
+
+/* ─── PAGES ─── */
+.page{display:none;min-height:calc(100vh - 56px);position:relative;z-index:1}
+.page.active{display:block}
+
+/* ─── SHARED ─── */
+.section-title{
+  font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;
+  color:var(--gold);letter-spacing:.05em;margin-bottom:.25rem;
+}
+.section-sub{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);margin-bottom:2rem}
+.gold-line{width:2rem;height:1px;background:var(--gold);opacity:.5;margin-bottom:2rem}
+.container{padding:2.5rem 2rem;max-width:1100px;margin:0 auto}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem}
+.card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:6px;
+  padding:1.25rem 1.5rem;transition:border-color .3s,transform .25s;
+}
+.card:hover{border-color:var(--border2);transform:translateY(-2px)}
+
+/* ─── HOME / IDENTITY ─── */
+#home{background:linear-gradient(180deg,#000 0%,#0a0800 100%)}
+.home-hero{
+  min-height:55vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  padding:4rem 2rem 2rem;position:relative;
+}
+.hh-eye{font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem}
+.hh-line{width:1.5rem;height:1px;background:var(--gold);opacity:.5}
+.hh-greet{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;font-weight:300;color:var(--text2);margin-bottom:.5rem}
+.hh-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,8vw,5.5rem);font-weight:300;line-height:1;color:var(--text);margin-bottom:.5rem}
+.hh-title span{background:linear-gradient(135deg,var(--gold),var(--gold3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hh-sub{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--text3);margin-bottom:2.5rem}
+.hh-quote{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--text2);margin-bottom:3rem;min-height:1.8rem;transition:opacity .5s}
+
+.identity-grid{display:grid;grid-template-columns:1fr 2fr;gap:1.5rem;padding:0 2rem 3rem;max-width:1000px;margin:0 auto}
+@media(max-width:640px){.identity-grid{grid-template-columns:1fr}}
+
+.avatar-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:6px;
+  padding:2rem;display:flex;flex-direction:column;align-items:center;gap:1rem;
+}
+.avatar-ring{
+  width:90px;height:90px;border-radius:50%;border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold);
+  background:var(--glass2);position:relative;cursor:pointer;
+  transition:box-shadow .3s;
+}
+.avatar-ring:hover{box-shadow:0 0 30px rgba(232,189,112,.2)}
+.avatar-upload{position:absolute;inset:0;border-radius:50%;opacity:0}
+.avatar-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--text)}
+.level-badge{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;padding:.3rem .8rem;border:1px solid var(--border2);border-radius:2px;color:var(--gold);background:var(--glass2)}
+.xp-bar{width:100%;height:3px;background:var(--text4);border-radius:2px;overflow:hidden}
+.xp-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold3));border-radius:2px;width:73%}
+.xp-label{font-size:.6rem;letter-spacing:.15em;color:var(--text3);text-align:center}
+
+.archetype-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.arch-btn{
+  padding:.75rem .5rem;border:1px solid var(--border);border-radius:4px;
+  text-align:center;cursor:pointer;transition:all .25s;background:var(--bg3);
+}
+.arch-btn:hover,.arch-btn.active{border-color:var(--gold);background:var(--glass2);color:var(--gold)}
+.arch-icon{font-size:1.1rem;margin-bottom:.25rem;display:block}
+.arch-name{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:inherit}
+
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:1rem}
+.stat-box{text-align:center;padding:.75rem;background:var(--bg3);border-radius:4px;border:1px solid var(--border)}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--gold);display:block}
+.stat-lbl{font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3)}
+
+/* ─── FOCUS WORLDS ─── */
+#focus{background:#000}
+.worlds-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:2rem}
+.world-card{
+  aspect-ratio:3/2;border-radius:6px;border:1px solid var(--border);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .3s;position:relative;overflow:hidden;
+  background:var(--bg2);
+}
+.world-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .4s}
+.world-card:hover::before{opacity:1}
+.world-card[data-w="rain"]::before{background:linear-gradient(135deg,rgba(30,60,100,.6),rgba(10,30,60,.8))}
+.world-card[data-w="monk"]::before{background:linear-gradient(135deg,rgba(80,50,10,.6),rgba(50,30,5,.8))}
+.world-card[data-w="void"]::before{background:linear-gradient(135deg,rgba(20,0,40,.8),rgba(0,0,0,.9))}
+.world-card[data-w="library"]::before{background:linear-gradient(135deg,rgba(60,40,20,.6),rgba(30,20,10,.8))}
+.world-card[data-w="space"]::before{background:linear-gradient(135deg,rgba(0,10,40,.8),rgba(0,5,20,.9))}
+.world-card[data-w="forest"]::before{background:linear-gradient(135deg,rgba(10,40,20,.7),rgba(5,25,10,.9))}
+.world-card:hover{border-color:var(--border2);transform:translateY(-3px)}
+.world-card.active{border-color:var(--gold)}
+.world-icon{font-size:1.6rem;margin-bottom:.5rem;position:relative;z-index:1}
+.world-name{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text2);position:relative;z-index:1}
+.world-card.active .world-name{color:var(--gold)}
+
+.focus-stage{
+  background:var(--bg2);border:1px solid var(--border);border-radius:6px;
+  padding:2.5rem;text-align:center;margin-bottom:1.5rem;position:relative;overflow:hidden;
+}
+.focus-stage canvas{position:absolute;inset:0;pointer-events:none}
+.focus-world-name{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--gold);margin-bottom:.25rem;position:relative;z-index:1}
+.focus-world-desc{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);margin-bottom:2rem;position:relative;z-index:1}
+.timer-display{font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:300;color:var(--text);letter-spacing:.05em;margin-bottom:1.5rem;position:relative;z-index:1}
+.timer-controls{display:flex;gap:1rem;justify-content:center;position:relative;z-index:1;flex-wrap:wrap}
+.btn-gold{
+  padding:.65rem 1.75rem;border:1px solid var(--gold);background:var(--glass2);
+  color:var(--gold);font-family:'Rajdhani',sans-serif;font-size:.7rem;letter-spacing:.2em;
+  text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all .3s;
+}
+.btn-gold:hover{background:rgba(232,189,112,.15)}
+.btn-ghost2{
+  padding:.65rem 1.75rem;border:1px solid var(--border2);background:transparent;
+  color:var(--text2);font-family:'Rajdhani',sans-serif;font-size:.7rem;letter-spacing:.2em;
+  text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all .3s;
+}
+.btn-ghost2:hover{border-color:var(--border3);color:var(--text)}
+
+/* ─── SECOND BRAIN ─── */
+#brain{background:var(--bg)}
+.brain-layout{display:grid;grid-template-columns:220px 1fr;gap:1.5rem;min-height:70vh}
+@media(max-width:640px){.brain-layout{grid-template-columns:1fr}}
+.brain-sidebar{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:1rem;display:flex;flex-direction:column;gap:.5rem}
+.brain-sidebar-section{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);padding:.5rem 0 .25rem;border-bottom:1px solid var(--border)}
+.brain-item{
+  padding:.5rem .75rem;border-radius:3px;font-size:.75rem;color:var(--text2);
+  cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.5rem;
+}
+.brain-item:hover{background:var(--glass);color:var(--text)}
+.brain-item.active{background:var(--glass2);color:var(--gold)}
+.brain-item i{font-size:12px;opacity:.7}
+.brain-main{display:flex;flex-direction:column;gap:1rem}
+.brain-toolbar{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap}
+.brain-search{
+  flex:1;min-width:160px;background:var(--bg3);border:1px solid var(--border);
+  border-radius:3px;padding:.5rem .75rem;font-size:.8rem;color:var(--text);
+  font-family:'Rajdhani',sans-serif;outline:none;
+}
+.brain-search:focus{border-color:var(--border2)}
+.brain-search::placeholder{color:var(--text3)}
+.tag{
+  padding:.25rem .65rem;border:1px solid var(--border);border-radius:2px;
+  font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);
+  cursor:pointer;transition:all .2s;
+}
+.tag:hover,.tag.active{border-color:var(--gold);color:var(--gold)}
+.note-editor{
+  background:var(--bg2);border:1px solid var(--border);border-radius:6px;
+  padding:1.5rem;flex:1;
+}
+.note-title{
+  background:transparent;border:none;outline:none;
+  font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;
+  color:var(--text);width:100%;margin-bottom:.75rem;
+}
+.note-title::placeholder{color:var(--text3)}
+.note-divider{height:1px;background:var(--border);margin-bottom:1rem}
+.note-body{
+  background:transparent;border:none;outline:none;
+  font-family:'Rajdhani',sans-serif;font-size:.85rem;color:var(--text2);
+  width:100%;resize:none;min-height:200px;line-height:1.8;
+}
+.note-body::placeholder{color:var(--text3)}
+.notes-list{display:flex;flex-direction:column;gap:.5rem}
+.note-item{
+  background:var(--bg2);border:1px solid var(--border);border-radius:4px;
+  padding:.75rem 1rem;cursor:pointer;transition:all .2s;
+}
+.note-item:hover{border-color:var(--border2)}
+.note-item-title{font-size:.85rem;color:var(--text);margin-bottom:.2rem}
+.note-item-preview{font-size:.7rem;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.note-item-meta{font-size:.6rem;color:var(--text3);margin-top:.3rem}
+
+/* ─── VAULT ─── */
+#vault{background:var(--bg)}
+.vault-lock{
+  min-height:60vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1.5rem;text-align:center;
+}
+.vault-icon-ring{
+  width:100px;height:100px;border-radius:50%;border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  background:var(--glass2);position:relative;
+}
+.vault-icon-ring i{font-size:2.5rem;color:var(--gold)}
+.vault-lock-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--text)}
+.vault-lock-sub{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3)}
+.pin-display{display:flex;gap:.75rem;justify-content:center;margin:.5rem 0}
+.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--border2);background:transparent;transition:background .2s}
+.pin-dot.filled{background:var(--gold);border-color:var(--gold)}
+.pin-pad{display:grid;grid-template-columns:repeat(3,64px);gap:.75rem;justify-content:center}
+.pin-btn{
+  width:64px;height:64px;border-radius:50%;border:1px solid var(--border2);
+  background:var(--bg2);font-family:'Cormorant Garamond',serif;font-size:1.4rem;
+  font-weight:300;color:var(--text);cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.pin-btn:hover{border-color:var(--gold);background:var(--glass2);color:var(--gold)}
+.pin-btn:active{transform:scale(.94)}
+.vault-open{display:none}
+.vault-open.show{display:block}
+.vault-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.vault-item{
+  background:var(--bg2);border:1px solid var(--border);border-radius:6px;
+  padding:1.25rem;display:flex;flex-direction:column;gap:.75rem;transition:border-color .3s;
+}
+.vault-item:hover{border-color:var(--border2)}
+.vault-item-type{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3)}
+.vault-item-name{font-size:.9rem;color:var(--text)}
+.vault-item-val{
+  font-family:'Rajdhani',sans-serif;font-size:.8rem;color:var(--text2);
+  background:var(--bg3);padding:.4rem .75rem;border-radius:3px;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.vault-item-val i{font-size:12px;opacity:.6}
+
+/* ─── AURA ROOM ─── */
+#room{background:var(--bg)}
+.room-stage{
+  width:100%;aspect-ratio:16/7;background:var(--bg2);border:1px solid var(--border);
+  border-radius:6px;overflow:hidden;position:relative;margin-bottom:1.5rem;
+}
+.room-stage canvas{position:absolute;inset:0;width:100%;height:100%}
+.room-overlay{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  justify-content:space-between;padding:1.5rem;pointer-events:none;
+}
+.room-hud{display:flex;justify-content:space-between;align-items:flex-start}
+.room-hud-left{display:flex;flex-direction:column;gap:.25rem}
+.room-hud-badge{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);background:rgba(0,0,0,.5);padding:.25rem .65rem;border-radius:2px;width:fit-content}
+.room-hud-val{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--text)}
+.room-weather-icon{font-size:2rem;color:var(--text2)}
+.room-bottom{display:flex;align-items:flex-end;justify-content:space-between}
+.room-level{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text2);background:rgba(0,0,0,.5);padding:.3rem .75rem;border-radius:2px}
+.room-streak{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:300;color:var(--gold)}
+.room-upgrades{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem}
+.upgrade-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:4px;
+  padding:1rem;text-align:center;cursor:pointer;transition:all .25s;
+}
+.upgrade-card:hover{border-color:var(--gold);background:var(--glass2)}
+.upgrade-card.locked{opacity:.4;cursor:default}
+.upgrade-icon{font-size:1.3rem;margin-bottom:.4rem;display:block}
+.upgrade-name{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text2)}
+.upgrade-cost{font-size:.6rem;color:var(--gold);margin-top:.25rem}
+
+/* ─── LIFE ─── */
+#life{background:var(--bg)}
+.life-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}
+.life-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:6px;
+  padding:1.25rem;transition:all .3s;cursor:pointer;
+}
+.life-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.life-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.life-icon{font-size:1.3rem}
+.life-trend{font-size:.6rem;letter-spacing:.1em;padding:.2rem .5rem;border-radius:2px;background:rgba(60,200,120,.1);color:rgba(60,200,120,.9)}
+.life-trend.down{background:rgba(220,60,60,.1);color:rgba(220,80,80,.9)}
+.life-name{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);margin-bottom:.25rem}
+.life-score{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:var(--text);line-height:1;margin-bottom:.75rem}
+.life-bar{height:2px;background:var(--text4);border-radius:1px;overflow:hidden;margin-bottom:.5rem}
+.life-fill{height:100%;border-radius:1px;transition:width 1s cubic-bezier(.16,1,.3,1)}
+.life-streak{font-size:.6rem;color:var(--text3)}
+.life-report{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:2rem}
+.report-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--gold);margin-bottom:.25rem}
+.report-date{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);margin-bottom:1.5rem}
+.report-row{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--border)}
+.report-row:last-child{border-bottom:none}
+.report-label{font-size:.75rem;color:var(--text2)}
+.report-val{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--text)}
+.report-val.gold{color:var(--gold)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeUp .5s ease forwards}
+
+@media(max-width:480px){
+  .container{padding:1.5rem 1rem}
+  .brain-layout{grid-template-columns:1fr}
+  .brain-sidebar{display:none}
+  .identity-grid{grid-template-columns:1fr}
+  .pin-pad{grid-template-columns:repeat(3,54px);gap:.5rem}
+  .pin-btn{width:54px;height:54px;font-size:1.2rem}
+}
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<nav id="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-orb"></div>
+    <span class="nav-logo-txt">Aura OS</span>
+  </div>
+  <div class="nav-tabs">
+    <div class="tab active" data-page="home"><i class="ti ti-home" aria-hidden="true"></i>Home</div>
+    <div class="tab" data-page="focus"><i class="ti ti-flame" aria-hidden="true"></i>Focus</div>
+    <div class="tab" data-page="brain"><i class="ti ti-brain" aria-hidden="true"></i>Brain</div>
+    <div class="tab" data-page="vault"><i class="ti ti-lock" aria-hidden="true"></i>Vault</div>
+    <div class="tab" data-page="room"><i class="ti ti-home-2" aria-hidden="true"></i>Room</div>
+    <div class="tab" data-page="life"><i class="ti ti-chart-bar" aria-hidden="true"></i>Life</div>
+  </div>
+</nav>
+
+<!-- ════ HOME ════ -->
+<div id="home" class="page active">
+  <div class="home-hero">
+    <div class="hh-eye"><span class="hh-line"></span>Human Evolution OS<span class="hh-line"></span></div>
+    <div class="hh-greet" id="hg">Good evening, Seeker</div>
+    <h1 class="hh-title">AURA<span>OS</span></h1>
+    <p class="hh-sub">Discipline Creates Freedom</p>
+    <div class="hh-quote" id="hq">Silence creates clarity.</div>
+  </div>
+  <div class="identity-grid container" style="padding-top:0">
+    <div class="avatar-card">
+      <div class="avatar-ring" title="Upload avatar">
+        <span id="avatar-initials">S</span>
+        <input type="file" class="avatar-upload" accept="image/*" id="avatar-file">
+      </div>
+      <div class="avatar-name" id="avatar-name-display">Seeker</div>
+      <div class="level-badge">Level 7 · Monk</div>
+      <div class="xp-bar"><div class="xp-fill" id="xp-fill"></div></div>
+      <div class="xp-label">8,420 / 11,500 XP</div>
+      <div class="stats-row">
+        <div class="stat-box"><span class="stat-val">47</span><span class="stat-lbl">Streak</span></div>
+        <div class="stat-box"><span class="stat-val">312h</span><span class="stat-lbl">Focus</span></div>
+        <div class="stat-box"><span class="stat-val">94%</span><span class="stat-lbl">Momentum</span></div>
+      </div>
+      <div style="font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-top:.5rem">Choose Archetype</div>
+      <div class="archetype-grid">
+        <div class="arch-btn active" data-a="Monk"><span class="arch-icon">🧘</span><span class="arch-name">Monk</span></div>
+        <div class="arch-btn" data-a="Warrior"><span class="arch-icon">⚔️</span><span class="arch-name">Warrior</span></div>
+        <div class="arch-btn" data-a="Scholar"><span class="arch-icon">📖</span><span class="arch-name">Scholar</span></div>
+        <div class="arch-btn" data-a="Creator"><span class="arch-icon">✨</span><span class="arch-name">Creator</span></div>
+        <div class="arch-btn" data-a="Strategist"><span class="arch-icon">♟️</span><span class="arch-name">Strategist</span></div>
+        <div class="arch-btn" data-a="Visionary"><span class="arch-icon">🔭</span><span class="arch-name">Visionary</span></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <div class="card">
+        <div style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);margin-bottom:1rem">Today's Momentum</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem">
+          <div style="text-align:center"><div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--gold)">4h 32m</div><div style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3)">Deep Focus</div></div>
+          <div style="text-align:center"><div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--text)">7/9</div><div style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3)">Habits Done</div></div>
+          <div style="text-align:center"><div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--text)">83%</div><div style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3)">Productivity</div></div>
+        </div>
+        <div style="height:2px;background:var(--text4);border-radius:1px;margin-top:1.25rem;overflow:hidden"><div style="height:100%;width:83%;background:linear-gradient(90deg,var(--gold),var(--gold3));border-radius:1px"></div></div>
+      </div>
+      <div class="card">
+        <div style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);margin-bottom:1rem">Habit Tracker</div>
+        <div style="display:flex;flex-direction:column;gap:.6rem">
+          <div style="display:flex;align-items:center;gap:.75rem"><span style="font-size:.75rem;color:var(--text2);flex:1">Morning ritual</span><div style="display:flex;gap:4px" id="h1"></div></div>
+          <div style="display:flex;align-items:center;gap:.75rem"><span style="font-size:.75rem;color:var(--text2);flex:1">Deep study block</span><div style="display:flex;gap:4px" id="h2"></div></div>
+          <div style="display:flex;align-items:center;gap:.75rem"><span style="font-size:.75rem;color:var(--text2);flex:1">Cold shower</span><div style="display:flex;gap:4px" id="h3"></div></div>
+          <div style="display:flex;align-items:center;gap:.75rem"><span style="font-size:.75rem;color:var(--text2);flex:1">No screen after 10pm</span><div style="display:flex;gap:4px" id="h4"></div></div>
+          <div style="display:flex;align-items:center;gap:.75rem"><span style="font-size:.75rem;color:var(--text2);flex:1">Meditation</span><div style="display:flex;gap:4px" id="h5"></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);margin-bottom:.75rem">Quick Actions</div>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+          <button class="btn-gold" onclick="switchPage('focus')">Start Focus</button>
+          <button class="btn-ghost2" onclick="switchPage('brain')">New Note</button>
+          <button class="btn-ghost2" onclick="switchPage('life')">Log Progress</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ FOCUS ════ -->
+<div id="focus" class="page">
+  <div class="container">
+    <div class="section-title">Focus Worlds</div>
+    <div class="section-sub">Enter your sanctuary</div>
+    <div class="worlds-row">
+      <div class="world-card active" data-w="rain"><div class="world-icon">🌧️</div><span class="world-name">Rain Room</span></div>
+      <div class="world-card" data-w="monk"><div class="world-icon">🏯</div><span class="world-name">Monk Temple</span></div>
+      <div class="world-card" data-w="void"><div class="world-icon">🌑</div><span class="world-name">Deep Void</span></div>
+      <div class="world-card" data-w="library"><div class="world-icon">📚</div><span class="world-name">Night Library</span></div>
+      <div class="world-card" data-w="space"><div class="world-icon">🌌</div><span class="world-name">Space Chamber</span></div>
+      <div class="world-card" data-w="forest"><div class="world-icon">🌲</div><span class="world-name">Forest Sanctuary</span></div>
+    </div>
+    <div class="focus-stage">
+      <canvas id="focus-canvas"></canvas>
+      <div style="position:relative;z-index:1;padding:1rem 0">
+        <div class="focus-world-name" id="fw-name">Rain Room</div>
+        <div class="focus-world-desc" id="fw-desc">Let the rain dissolve your thoughts</div>
+        <div class="timer-display" id="timer">25:00</div>
+        <div class="timer-controls">
+          <button class="btn-gold" id="btn-start" onclick="toggleTimer()">Begin Session</button>
+          <button class="btn-ghost2" onclick="resetTimer()">Reset</button>
+          <button class="btn-ghost2" onclick="setDuration(50)">50 min</button>
+          <button class="btn-ghost2" onclick="setDuration(25)">25 min</button>
+          <button class="btn-ghost2" onclick="setDuration(90)">90 min</button>
+        </div>
+      </div>
+    </div>
+    <div class="grid3" style="margin-top:0">
+      <div class="card" style="text-align:center">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--gold)" id="sess-today">3</div>
+        <div style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3)">Sessions Today</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--text)">4h 32m</div>
+        <div style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3)">Total Focus</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--text)">47</div>
+        <div style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3)">Day Streak</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ BRAIN ════ -->
+<div id="brain" class="page">
+  <div class="container">
+    <div class="section-title">Second Brain</div>
+    <div class="section-sub">Your digital sanctuary of thought</div>
+    <div class="brain-layout">
+      <div class="brain-sidebar">
+        <div class="brain-sidebar-section">Folders</div>
+        <div class="brain-item active" onclick="filterNotes('all')"><i class="ti ti-files" aria-hidden="true"></i>All Notes</div>
+        <div class="brain-item" onclick="filterNotes('ideas')"><i class="ti ti-bulb" aria-hidden="true"></i>Ideas</div>
+        <div class="brain-item" onclick="filterNotes('journal')"><i class="ti ti-notebook" aria-hidden="true"></i>Journal</div>
+        <div class="brain-item" onclick="filterNotes('goals')"><i class="ti ti-target" aria-hidden="true"></i>Goals</div>
+        <div class="brain-item" onclick="filterNotes('quotes')"><i class="ti ti-quote" aria-hidden="true"></i>Quotes</div>
+        <div class="brain-item" onclick="filterNotes('visions')"><i class="ti ti-eye" aria-hidden="true"></i>Visions</div>
+        <div class="brain-sidebar-section" style="margin-top:.5rem">Tags</div>
+        <div style="display:flex;flex-wrap:wrap;gap:.35rem;padding:.25rem 0">
+          <span class="tag active">#mindset</span>
+          <span class="tag">#focus</span>
+          <span class="tag">#system</span>
+          <span class="tag">#growth</span>
+        </div>
+      </div>
+      <div class="brain-main">
+        <div class="brain-toolbar">
+          <input class="brain-search" placeholder="Search your thoughts..." id="brain-search" oninput="filterNotes()">
+          <button class="btn-gold" onclick="newNote()" style="flex-shrink:0">+ New Note</button>
+        </div>
+        <div id="note-editor-wrap" style="display:none">
+          <div class="note-editor">
+            <input class="note-title" id="note-title" placeholder="Note title..." maxlength="80">
+            <div class="note-divider"></div>
+            <textarea class="note-body" id="note-body" placeholder="Start writing... your thoughts are sacred." rows="8"></textarea>
+            <div style="display:flex;gap:.75rem;margin-top:1rem;flex-wrap:wrap">
+              <button class="btn-gold" onclick="saveNote()">Save Note</button>
+              <button class="btn-ghost2" onclick="cancelNote()">Cancel</button>
+              <select id="note-category" style="background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:.4rem .75rem;border-radius:3px;font-family:'Rajdhani',sans-serif;font-size:.75rem">
+                <option value="ideas">Ideas</option>
+                <option value="journal">Journal</option>
+                <option value="goals">Goals</option>
+                <option value="quotes">Quotes</option>
+                <option value="visions">Visions</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="notes-list" id="notes-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ VAULT ════ -->
+<div id="vault" class="page">
+  <div class="container">
+    <div class="vault-lock" id="vault-lock">
+      <div class="vault-icon-ring"><i class="ti ti-lock" aria-hidden="true"></i></div>
+      <div class="vault-lock-title">Secure Vault</div>
+      <div class="vault-lock-sub">Enter your access code</div>
+      <div class="pin-display">
+        <div class="pin-dot" id="p0"></div>
+        <div class="pin-dot" id="p1"></div>
+        <div class="pin-dot" id="p2"></div>
+        <div class="pin-dot" id="p3"></div>
+      </div>
+      <div class="pin-pad" id="pin-pad"></div>
+      <div style="font-size:.6rem;letter-spacing:.15em;color:var(--text3);margin-top:.5rem">Demo PIN: 1234</div>
+    </div>
+    <div class="vault-open" id="vault-open">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
+        <div>
+          <div class="section-title">Secure Vault</div>
+          <div class="section-sub">All data encrypted locally</div>
+        </div>
+        <button class="btn-ghost2" onclick="lockVault()">Lock Vault</button>
+      </div>
+      <div class="vault-grid">
+        <div class="vault-item">
+          <div class="vault-item-type">Password</div>
+          <div class="vault-item-name">Gmail Account</div>
+          <div class="vault-item-val" onclick="toggleShow(this,'seeker@gmail.com')"><span>••••••••••••</span><i class="ti ti-eye" aria-hidden="true"></i></div>
+        </div>
+        <div class="vault-item">
+          <div class="vault-item-type">Secure Note</div>
+          <div class="vault-item-name">Private Journal Entry</div>
+          <div class="vault-item-val" onclick="toggleShow(this,'The path unfolds in silence...')"><span>••••••••••••</span><i class="ti ti-eye" aria-hidden="true"></i></div>
+        </div>
+        <div class="vault-item">
+          <div class="vault-item-type">API Key</div>
+          <div class="vault-item-name">Project Alpha</div>
+          <div class="vault-item-val" onclick="toggleShow(this,'sk-proj-••••••••••••••••••••')"><span>••••••••••••</span><i class="ti ti-eye" aria-hidden="true"></i></div>
+        </div>
+        <div class="vault-item" style="border-style:dashed;cursor:pointer;align-items:center;justify-content:center;min-height:120px;color:var(--text3)">
+          <i class="ti ti-plus" aria-hidden="true" style="font-size:1.5rem;margin-bottom:.5rem"></i>
+          <div style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase">Add Entry</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ ROOM ════ -->
+<div id="room" class="page">
+  <div class="container">
+    <div class="section-title">Aura Room</div>
+    <div class="section-sub">Your evolution manifested in space</div>
+    <div class="room-stage">
+      <canvas id="room-canvas"></canvas>
+      <div class="room-overlay">
+        <div class="room-hud">
+          <div class="room-hud-left">
+            <div class="room-hud-badge">Level 7 · Monk</div>
+            <div class="room-hud-val">Day 47</div>
+          </div>
+          <div class="room-weather-icon">🌙</div>
+        </div>
+        <div class="room-bottom">
+          <div class="room-level">8,420 XP · Rising Scholar</div>
+          <div class="room-streak">47 Day Streak 🔥</div>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);margin-bottom:1rem">Unlockable Upgrades</div>
+    <div class="room-upgrades">
+      <div class="upgrade-card"><span class="upgrade-icon">🕯️</span><div class="upgrade-name">Candlelight</div><div class="upgrade-cost">Unlocked</div></div>
+      <div class="upgrade-card"><span class="upgrade-icon">📚</span><div class="upgrade-name">Library Wall</div><div class="upgrade-cost">Unlocked</div></div>
+      <div class="upgrade-card"><span class="upgrade-icon">🌿</span><div class="upgrade-name">Living Plants</div><div class="upgrade-cost">Unlocked</div></div>
+      <div class="upgrade-card"><span class="upgrade-icon">🎴</span><div class="upgrade-name">Zen Garden</div><div class="upgrade-cost">2,000 XP</div></div>
+      <div class="upgrade-card locked"><span class="upgrade-icon">🏺</span><div class="upgrade-name">Ancient Artifacts</div><div class="upgrade-cost">5,000 XP</div></div>
+      <div class="upgrade-card locked"><span class="upgrade-icon">🌌</span><div class="upgrade-name">Sky Window</div><div class="upgrade-cost">8,000 XP</div></div>
+      <div class="upgrade-card locked"><span class="upgrade-icon">⚡</span><div class="upgrade-name">Energy Pillars</div><div class="upgrade-cost">12,000 XP</div></div>
+      <div class="upgrade-card locked"><span class="upgrade-icon">👁️</span><div class="upgrade-name">Oracle Portal</div><div class="upgrade-cost">20,000 XP</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ LIFE ════ -->
+<div id="life" class="page">
+  <div class="container">
+    <div class="section-title">Life Control Center</div>
+    <div class="section-sub">Every dimension of your existence</div>
+    <div class="life-grid" id="life-grid"></div>
+    <div class="life-report">
+      <div class="report-title">Daily Emotional Report</div>
+      <div class="report-date" id="report-date"></div>
+      <div class="report-row"><span class="report-label">Overall Momentum</span><span class="report-val gold">Ascending 🔥</span></div>
+      <div class="report-row"><span class="report-label">Focus Score</span><span class="report-val">94 / 100</span></div>
+      <div class="report-row"><span class="report-label">Habit Consistency</span><span class="report-val">7 / 9 habits complete</span></div>
+      <div class="report-row"><span class="report-label">XP Earned Today</span><span class="report-val gold">+340 XP</span></div>
+      <div class="report-row"><span class="report-label">Emotional State</span><span class="report-val">Disciplined · Calm · Focused</span></div>
+      <div class="report-row"><span class="report-label">Aura Assessment</span><span class="report-val gold">You are evolving. Keep going.</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const quotes=['Silence creates clarity.','Discipline creates freedom.','Consistency beats motivation.','Protect your momentum.','Greatness is built quietly.','Focus is a superpower.','Your habits are your biography.','Progress compounds in silence.','The warrior and the monk are one.','Become what you practice daily.'];
+let qi=Math.floor(Math.random()*quotes.length);
+function rotateQ(){
+  const el=document.getElementById('hq');
+  el.style.opacity='0';
+  setTimeout(()=>{qi=(qi+1)%quotes.length;el.textContent=quotes[qi];el.style.opacity='1';},600);
+}
+setInterval(rotateQ,6000);
+const h=new Date().getHours();
+const gm=h<4?'Deep Night Sanctuary':h<6?'Early Riser':h<12?'Good Morning':h<17?'Good Afternoon':h<21?'Good Evening':'Late Night Focus';
+document.getElementById('hg').textContent=gm+', Seeker';
+
+document.getElementById('report-date').textContent=new Date().toLocaleDateString('en',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+function switchPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelector(`.tab[data-page="${id}"]`).classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='room')initRoom();
+  if(id==='focus')initFocusCanvas();
+}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchPage(t.dataset.page)));
+
+document.querySelectorAll('.arch-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.arch-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelector('.level-badge').textContent='Level 7 · '+b.dataset.a;
+  });
+});
+
+function buildHabits(){
+  const pats=[[1,1,1,1,1,1,1],[1,1,0,1,1,1,1],[1,1,1,0,1,1,0],[1,1,1,1,1,1,0],[1,0,1,1,1,0,1]];
+  for(let i=1;i<=5;i++){
+    const c=document.getElementById('h'+i);
+    if(!c)continue;
+    c.innerHTML='';
+    pats[i-1].forEach((d,j)=>{
+      const div=document.createElement('div');
+      div.style.cssText=`width:10px;height:10px;border-radius:2px;background:${d&&j<6?'rgba(232,189,112,0.8)':j===6&&d?'#E8BD70':'rgba(255,255,255,0.08)'}`;
+      if(j===6&&d)div.style.boxShadow='0 0 8px rgba(232,189,112,0.6)';
+      c.appendChild(div);
+    });
+  }
+}
+buildHabits();
+
+const LIFE_AREAS=[
+  {n:'Health',icon:'💪',score:82,trend:'+3%',color:'#4cd88a',streak:'12 days'},
+  {n:'Fitness',icon:'🏃',score:75,trend:'+5%',color:'#4cd88a',streak:'8 days'},
+  {n:'Study',icon:'📖',score:91,trend:'+8%',color:'#4cd88a',streak:'47 days'},
+  {n:'Career',icon:'💼',score:68,trend:'-2%',color:'#E8BD70',streak:'3 days',down:true},
+  {n:'Religion',icon:'🌙',score:88,trend:'+2%',color:'#4cd88a',streak:'30 days'},
+  {n:'Money',icon:'💰',score:64,trend:'-1%',color:'#E8BD70',streak:'5 days',down:true},
+  {n:'Creativity',icon:'🎨',score:79,trend:'+6%',color:'#4cd88a',streak:'15 days'},
+  {n:'Mindset',icon:'🧠',score:95,trend:'+4%',color:'#4cd88a',streak:'47 days'},
+];
+const grid=document.getElementById('life-grid');
+LIFE_AREAS.forEach(a=>{
+  grid.innerHTML+=`<div class="life-card"><div class="life-card-header"><span class="life-icon">${a.icon}</span><span class="life-trend${a.down?' down':''}">${a.trend}</span></div><div class="life-name">${a.n}</div><div class="life-score">${a.score}</div><div class="life-bar"><div class="life-fill" style="width:${a.score}%;background:${a.color}"></div></div><div class="life-streak">${a.streak} streak</div></div>`;
+});
+
+let notes=JSON.parse(localStorage.getItem('aura-notes')||'[]');
+if(!notes.length)notes=[
+  {id:1,title:'The Monk Mindset',body:'Detachment is not the absence of feeling — it is the freedom from being controlled by feeling.',cat:'ideas',date:'2026-05-20'},
+  {id:2,title:'Vision 2027',body:'By the end of next year I will have built systems that sustain themselves. The architect steps back and the structure holds.',cat:'visions',date:'2026-05-18'},
+  {id:3,title:'Morning Reflection',body:'The silence before sunrise holds a power most people sleep through. I choose to be awake in every sense.',cat:'journal',date:'2026-05-24'},
+];
+saveNotes();
+
+function saveNotes(){localStorage.setItem('aura-notes',JSON.stringify(notes));renderNotes()}
+function renderNotes(filter='all'){
+  const q=document.getElementById('brain-search')?.value?.toLowerCase()||'';
+  const list=document.getElementById('notes-list');
+  let filtered=notes.filter(n=>(filter==='all'||n.cat===filter)&&(n.title.toLowerCase().includes(q)||n.body.toLowerCase().includes(q)));
+  list.innerHTML=filtered.length?filtered.map(n=>`
+    <div class="note-item fade-in" onclick="editNote(${n.id})">
+      <div class="note-item-title">${n.title}</div>
+      <div class="note-item-preview">${n.body.substring(0,80)}${n.body.length>80?'...':''}</div>
+      <div class="note-item-meta">${n.cat} · ${n.date}</div>
+    </div>`).join(''):
+    `<div style="text-align:center;padding:3rem;color:var(--text3);font-size:.8rem">No notes found. Create one.</div>`;
+}
+renderNotes();
+
+let currentFilter='all';
+function filterNotes(f){
+  if(f)currentFilter=f;
+  document.querySelectorAll('.brain-item').forEach(b=>b.classList.remove('active'));
+  const target=document.querySelector(`.brain-item[onclick*="${currentFilter}"]`);
+  if(target)target.classList.add('active');
+  renderNotes(currentFilter);
+}
+function newNote(){document.getElementById('note-editor-wrap').style.display='block';document.getElementById('note-title').value='';document.getElementById('note-body').value='';document.getElementById('note-title').focus()}
+function cancelNote(){document.getElementById('note-editor-wrap').style.display='none'}
+function saveNote(){
+  const t=document.getElementById('note-title').value.trim();
+  const b=document.getElementById('note-body').value.trim();
+  if(!t)return;
+  notes.unshift({id:Date.now(),title:t,body:b,cat:document.getElementById('note-category').value,date:new Date().toISOString().split('T')[0]});
+  saveNotes();cancelNote();
+}
+function editNote(id){const n=notes.find(x=>x.id===id);if(!n)return;document.getElementById('note-editor-wrap').style.display='block';document.getElementById('note-title').value=n.title;document.getElementById('note-body').value=n.body;document.getElementById('note-title').focus()}
+
+let pin='',correct='1234',vaultOpen=false;
+const pad=document.getElementById('pin-pad');
+[1,2,3,4,5,6,7,8,9,'',0,'⌫'].forEach(k=>{
+  const b=document.createElement('div');
+  b.className='pin-btn';b.textContent=k;
+  if(k===''){b.style.visibility='hidden';}
+  b.addEventListener('click',()=>{
+    if(k==='⌫'){pin=pin.slice(0,-1);}
+    else if(typeof k==='number'&&pin.length<4){pin+=k;}
+    for(let i=0;i<4;i++){
+      const d=document.getElementById('p'+i);
+      if(d)d.classList.toggle('filled',i<pin.length);
+    }
+    if(pin.length===4){
+      if(pin===correct){openVault();}
+      else{
+        pad.style.animation='shake .3s';
+        setTimeout(()=>{pad.style.animation='';pin='';for(let i=0;i<4;i++){const d=document.getElementById('p'+i);if(d)d.classList.remove('filled');}},400);
+      }
+    }
+  });
+  pad.appendChild(b);
+});
+function openVault(){document.getElementById('vault-lock').style.display='none';document.getElementById('vault-open').classList.add('show');pin='';for(let i=0;i<4;i++){const d=document.getElementById('p'+i);if(d)d.classList.remove('filled');}}
+function lockVault(){document.getElementById('vault-lock').style.display='flex';document.getElementById('vault-open').classList.remove('show')}
+function toggleShow(el,val){const s=el.querySelector('span');s.textContent=s.textContent==='••••••••••••'?val:'••••••••••••';}
+
+let timerSec=25*60,timerRunning=false,timerInterval=null,totalSec=25*60;
+function fmt(s){return`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`}
+function updateTimer(){document.getElementById('timer').textContent=fmt(timerSec);}
+function toggleTimer(){
+  timerRunning=!timerRunning;
+  document.getElementById('btn-start').textContent=timerRunning?'Pause':'Resume';
+  if(timerRunning){
+    timerInterval=setInterval(()=>{
+      if(timerSec>0){timerSec--;}
+      else{timerRunning=false;clearInterval(timerInterval);document.getElementById('btn-start').textContent='Begin Session';document.getElementById('sess-today').textContent=parseInt(document.getElementById('sess-today').textContent)+1;}
+      updateTimer();
+    },1000);
+  }else{clearInterval(timerInterval);}
+}
+function resetTimer(){clearInterval(timerInterval);timerRunning=false;timerSec=totalSec;updateTimer();document.getElementById('btn-start').textContent='Begin Session';}
+function setDuration(m){totalSec=m*60;timerSec=totalSec;resetTimer();}
+
+const worldData={
+  rain:{name:'Rain Room',desc:'Let the rain dissolve your thoughts'},
+  monk:{name:'Monk Temple',desc:'Silence is the highest discipline'},
+  void:{name:'Deep Void',desc:'Exist in the infinite darkness'},
+  library:{name:'Night Library',desc:'Knowledge by candlelight'},
+  space:{name:'Space Chamber',desc:'Drift beyond the known'},
+  forest:{name:'Forest Sanctuary',desc:'Root deep, grow tall'},
+};
+document.querySelectorAll('.world-card').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.querySelectorAll('.world-card').forEach(x=>x.classList.remove('active'));
+    c.classList.add('active');
+    const w=worldData[c.dataset.w];
+    document.getElementById('fw-name').textContent=w.name;
+    document.getElementById('fw-desc').textContent=w.desc;
+    initFocusCanvas(c.dataset.w);
+  });
+});
+
+const worldColors={rain:['#1a3a5c','#0a1e3c','#2a5070'],monk:['#3d2010','#1a0e08','#5a3020'],void:['#1a0a2e','#0a0015','#2d1050'],library:['#2a1a08','#150d04','#3d2810'],space:['#001028','#000812','#001840'],forest:['#0a2010','#050f08','#152a18']};
+function initFocusCanvas(world='rain'){
+  const canvas=document.getElementById('focus-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const rect=canvas.parentElement.getBoundingClientRect();
+  canvas.width=rect.width;canvas.height=rect.height;
+  const colors=worldColors[world]||worldColors.rain;
+  const pts=[];
+  for(let i=0;i<60;i++)pts.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5+(world==='rain'?1.5:0),size:Math.random()*1.5+.3,op:Math.random()*.5+.1});
+  let af;
+  function draw(){
+    af=requestAnimationFrame(draw);
+    ctx.fillStyle=colors[1];ctx.globalAlpha=.15;ctx.fillRect(0,0,canvas.width,canvas.height);
+    const g=ctx.createRadialGradient(canvas.width/2,canvas.height/2,0,canvas.width/2,canvas.height/2,canvas.width*.5);
+    g.addColorStop(0,colors[0]+'44');g.addColorStop(1,'transparent');
+    ctx.globalAlpha=.4;ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.globalAlpha=1;
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;
+      if(p.y>canvas.height)p.y=0;if(p.y<0)p.y=canvas.height;
+      ctx.globalAlpha=p.op;
+      ctx.fillStyle='#E8BD70';
+      ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();
+    });
+    ctx.globalAlpha=1;
+  }
+  if(canvas._af)cancelAnimationFrame(canvas._af);
+  canvas._af=requestAnimationFrame(draw);
+}
+setTimeout(initFocusCanvas,100);
+
+function initRoom(){
+  const canvas=document.getElementById('room-canvas');
+  if(!canvas||canvas._init)return;
+  canvas._init=true;
+  const ctx=canvas.getContext('2d');
+  function resize(){canvas.width=canvas.parentElement.clientWidth;canvas.height=canvas.parentElement.clientHeight;}
+  resize();
+  const stars=[];
+  for(let i=0;i<120;i++)stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.2+.2,op:Math.random(),spd:Math.random()*.005+.002});
+  let t=0;
+  function draw(){
+    requestAnimationFrame(draw);t+=.005;
+    ctx.fillStyle='#050510';ctx.globalAlpha=1;ctx.fillRect(0,0,canvas.width,canvas.height);
+    const G=ctx.createLinearGradient(0,0,0,canvas.height);
+    G.addColorStop(0,'#050510');G.addColorStop(.5,'#0a0820');G.addColorStop(1,'#0d0a1a');
+    ctx.fillStyle=G;ctx.fillRect(0,0,canvas.width,canvas.height);
+    stars.forEach(s=>{
+      s.op=.3+Math.sin(t*s.spd*100+s.x)*.25;
+      ctx.globalAlpha=s.op;ctx.fillStyle='#fff';
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
+    });
+    const moon={x:canvas.width*.75,y:canvas.height*.2};
+    ctx.globalAlpha=.25;ctx.fillStyle='#E8BD70';
+    ctx.beginPath();ctx.arc(moon.x,moon.y,40,0,Math.PI*2);ctx.fill();
+    ctx.globalAlpha=.15;ctx.fillStyle='#E8BD70';
+    ctx.beginPath();ctx.arc(moon.x,moon.y,55,0,Math.PI*2);ctx.fill();
+    ctx.globalAlpha=1;
+    const roomY=canvas.height*.55;
+    ctx.fillStyle='#0f0b1a';
+    ctx.beginPath();ctx.moveTo(0,roomY);ctx.lineTo(canvas.width,roomY);ctx.lineTo(canvas.width,canvas.height);ctx.lineTo(0,canvas.height);ctx.fill();
+    ctx.strokeStyle='rgba(232,189,112,0.08)';ctx.lineWidth=1;
+    for(let x=0;x<canvas.width;x+=60){ctx.beginPath();ctx.moveTo(x,roomY);ctx.lineTo(canvas.width/2,roomY-30);ctx.stroke();}
+    ctx.fillStyle='rgba(232,189,112,0.06)';
+    ctx.fillRect(canvas.width*.1,roomY,canvas.width*.04,canvas.height-roomY);
+    ctx.fillRect(canvas.width*.85,roomY,canvas.width*.04,canvas.height-roomY);
+    const cg=ctx.createRadialGradient(canvas.width*.5,roomY,0,canvas.width*.5,roomY+20,80);
+    cg.addColorStop(0,'rgba(232,189,112,0.15)');cg.addColorStop(1,'transparent');
+    ctx.fillStyle=cg;ctx.fillRect(0,roomY-40,canvas.width,100);
+    ctx.globalAlpha=1;
+  }
+  draw();
+}
+
+const BG=document.getElementById('bg');const bctx=BG.getContext('2d');
+let bw,bh,bpts=[],bt=0;
+function bresize(){bw=BG.width=window.innerWidth;bh=BG.height=window.innerHeight;}
+bresize();window.addEventListener('resize',bresize);
+for(let i=0;i<80;i++)bpts.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,r:Math.random()*1.2+.3,g:Math.random()>.6});
+function bgDraw(){
+  requestAnimationFrame(bgDraw);bt++;
+  bctx.fillStyle='rgba(0,0,0,0.85)';bctx.fillRect(0,0,bw,bh);
+  const ng=bctx.createRadialGradient(bw*.5,bh*.4,0,bw*.5,bh*.4,bw*.4);
+  ng.addColorStop(0,'rgba(232,189,112,0.03)');ng.addColorStop(1,'transparent');
+  bctx.fillStyle=ng;bctx.globalAlpha=1;bctx.fillRect(0,0,bw,bh);
+  bpts.forEach(p=>{
+    p.x+=p.vx+Math.sin(bt*.003+p.y*.01)*.1;p.y+=p.vy;
+    if(p.x<0)p.x=bw;if(p.x>bw)p.x=0;if(p.y<0)p.y=bh;if(p.y>bh)p.y=0;
+    bctx.globalAlpha=.15;bctx.fillStyle=p.g?'#E8BD70':'#fff';
+    bctx.beginPath();bctx.arc(p.x,p.y,p.r,0,Math.PI*2);bctx.fill();
+  });
+  bctx.globalAlpha=1;
+}
+bgDraw();
+
+document.getElementById('avatar-file').addEventListener('change',function(){
+  if(!this.files[0])return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const ring=document.querySelector('.avatar-ring');
+    ring.style.backgroundImage=`url(${e.target.result})`;
+    ring.style.backgroundSize='cover';
+    ring.style.backgroundPosition='center';
+    document.getElementById('avatar-initials').style.display='none';
+  };
+  r.readAsDataURL(this.files[0]);
+});
+</script>
+</body>
+</html>

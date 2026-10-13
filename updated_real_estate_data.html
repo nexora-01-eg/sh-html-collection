@@ -1,0 +1,582 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A84C;--gold2:#E8C97A;--gold3:#F5E4A8;
+  --bg:#0A0A0A;--bg2:#111111;--bg3:#181818;--bg4:#202020;
+  --border:#2A2A2A;--border2:#333;
+  --text:#F0E6C8;--text2:#B8A87A;--text3:#7A6A4A;
+  --blue:#4A9EFF;--red:#FF5555;--green:#55CC88;
+}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);direction:rtl;min-height:100vh;font-size:14px}
+.header{background:linear-gradient(180deg,#141414,#0A0A0A);border-bottom:1px solid #2A2400;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo-area{display:flex;align-items:center;gap:12px}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,#2A1E00,#3A2A00);border:1px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--gold)}
+.logo-text{line-height:1.2}
+.logo-title{font-size:16px;font-weight:700;color:var(--gold2)}
+.logo-sub{font-size:11px;color:var(--text3);font-weight:400}
+.stats-row{display:flex;gap:8px}
+.stat-chip{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 12px;text-align:center;min-width:60px}
+.stat-num{font-size:18px;font-weight:700;color:var(--gold2);line-height:1}
+.stat-lbl{font-size:10px;color:var(--text3);margin-top:2px}
+.tabs-wrap{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+.tabs-wrap::-webkit-scrollbar{display:none}
+.tab{padding:10px 16px;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .18s;font-family:'Cairo',sans-serif;display:flex;align-items:center;gap:6px}
+.tab:hover{color:var(--text2)}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-badge{background:#2A1E00;color:var(--gold);font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;border:1px solid #3A2A00}
+.main{padding:20px 24px}
+.section{display:none}
+.section.active{display:block}
+.toolbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.search-input{flex:1;min-width:180px;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:7px 12px;border-radius:6px;font-family:'Cairo',sans-serif;font-size:13px;outline:none}
+.search-input:focus{border-color:var(--gold)}
+.search-input::placeholder{color:var(--text3)}
+.filter-sel{background:var(--bg3);border:1px solid var(--border2);color:var(--text2);padding:7px 10px;border-radius:6px;font-family:'Cairo',sans-serif;font-size:12px;outline:none;cursor:pointer}
+.filter-sel:focus{border-color:var(--gold)}
+.btn-add{background:linear-gradient(135deg,#2A1E00,#3A2A00);border:1px solid var(--gold);color:var(--gold);padding:7px 14px;border-radius:6px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px}
+.btn-add:hover{background:linear-gradient(135deg,#3A2A00,#4A3500);border-color:var(--gold2)}
+.legend{display:flex;gap:14px;margin-bottom:12px;font-size:11px;color:var(--text3);align-items:center;flex-wrap:wrap}
+.legend span{display:flex;align-items:center;gap:5px}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-ok{background:var(--blue)}
+.dot-warn{background:var(--gold)}
+.dot-bad{background:var(--red)}
+.tbl-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:800px}
+thead tr{background:#111100}
+th{padding:9px 10px;text-align:right;font-weight:600;color:var(--gold);border-bottom:1px solid #2A2400;white-space:nowrap;font-size:11px;user-select:none;cursor:pointer}
+th:hover{color:var(--gold2)}
+tbody tr{border-bottom:1px solid #161616;transition:background .12s}
+tbody tr:hover{background:#141400}
+tbody tr.row-ok td:first-child{border-right:2px solid var(--blue)}
+tbody tr.row-warn td:first-child{border-right:2px solid var(--gold)}
+tbody tr.row-bad td:first-child{border-right:2px solid var(--red)}
+tbody tr.hidden-row{display:none}
+td{padding:8px 10px;vertical-align:middle;color:var(--text2)}
+td.num{color:var(--text);font-weight:500}
+td.miss{color:var(--red);font-size:11px}
+td.note-cell{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text3);font-size:11px}
+.done-btn{background:none;border:1px solid var(--border2);color:var(--text3);width:24px;height:24px;border-radius:4px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .15s;margin:auto}
+.done-btn.checked{background:#0A2A0A;border-color:var(--green);color:var(--green)}
+.price-badge{background:#1A1400;border:1px solid #2A2000;color:var(--gold2);padding:2px 7px;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap}
+.actions-cell{display:flex;gap:5px;align-items:center;justify-content:center}
+.icon-btn{background:none;border:none;cursor:pointer;padding:3px 5px;border-radius:4px;transition:background .12s;font-size:15px;color:var(--text3)}
+.icon-btn:hover{background:var(--bg4);color:var(--text)}
+.icon-btn.del:hover{background:#2A0A0A;color:var(--red)}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:500;display:none;align-items:center;justify-content:center}
+.modal-backdrop.open{display:flex}
+.modal{background:var(--bg2);border:1px solid #2A2000;border-radius:12px;padding:24px;width:540px;max-width:95vw;max-height:90vh;overflow-y:auto;direction:rtl}
+.modal-title{font-size:16px;font-weight:700;color:var(--gold2);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-grid.full{grid-template-columns:1fr}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group label{font-size:11px;color:var(--text3);font-weight:500}
+.form-group input,.form-group select,.form-group textarea{background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:7px 10px;border-radius:6px;font-family:'Cairo',sans-serif;font-size:13px;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold)}
+.form-group textarea{resize:vertical;min-height:60px}
+.modal-actions{display:flex;gap:8px;margin-top:18px;justify-content:flex-end}
+.btn-save{background:linear-gradient(135deg,#2A1E00,#3A2A00);border:1px solid var(--gold);color:var(--gold);padding:8px 20px;border-radius:6px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:600;cursor:pointer}
+.btn-cancel{background:var(--bg3);border:1px solid var(--border2);color:var(--text3);padding:8px 16px;border-radius:6px;font-family:'Cairo',sans-serif;font-size:13px;cursor:pointer}
+.btn-save:hover{border-color:var(--gold2)}
+.btn-cancel:hover{color:var(--text)}
+.empty-msg{text-align:center;color:var(--text3);padding:40px;font-size:13px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
+</style>
+
+<h2 class="sr-only">سليم للتسويق العقاري — لوحة إدارة العقارات بمدينة السادات</h2>
+
+<div class="header">
+  <div class="logo-area">
+    <div class="logo-icon">🏛</div>
+    <div class="logo-text">
+      <div class="logo-title">سليم للتسويق العقاري</div>
+      <div class="logo-sub">مدينة السادات — إدارة وتتبع الإعلانات</div>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-chip"><div class="stat-num" id="s0">0</div><div class="stat-lbl">بيع</div></div>
+    <div class="stat-chip"><div class="stat-num" id="s1">0</div><div class="stat-lbl">إيجار</div></div>
+    <div class="stat-chip"><div class="stat-num" id="s2">0</div><div class="stat-lbl">مفروش</div></div>
+    <div class="stat-chip"><div class="stat-num" id="s3">0</div><div class="stat-lbl">أراضي</div></div>
+    <div class="stat-chip"><div class="stat-num" id="s4">0</div><div class="stat-lbl">بيوت</div></div>
+    <div class="stat-chip"><div class="stat-num" id="s5">0</div><div class="stat-lbl">محلات</div></div>
+    <div class="stat-chip"><div class="stat-num" id="s6">0</div><div class="stat-lbl">مطلوب</div></div>
+  </div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tab active" onclick="switchTab(0,this)">🏠 شقق بيع <span class="tab-badge" id="b0">0</span></div>
+  <div class="tab" onclick="switchTab(1,this)">🔑 إيجار بلاط <span class="tab-badge" id="b1">0</span></div>
+  <div class="tab" onclick="switchTab(2,this)">🛋 مفروش <span class="tab-badge" id="b2">0</span></div>
+  <div class="tab" onclick="switchTab(3,this)">🌍 أراضي <span class="tab-badge" id="b3">0</span></div>
+  <div class="tab" onclick="switchTab(4,this)">🏡 بيوت <span class="tab-badge" id="b4">0</span></div>
+  <div class="tab" onclick="switchTab(5,this)">🏪 محلات <span class="tab-badge" id="b5">0</span></div>
+  <div class="tab" onclick="switchTab(6,this)">📋 مطلوب <span class="tab-badge" id="b6">0</span></div>
+</div>
+
+<div class="main">
+  <div class="legend">
+    <span><span class="dot dot-ok"></span>بيانات مكتملة</span>
+    <span><span class="dot dot-warn"></span>بيانات جزئية</span>
+    <span><span class="dot dot-bad"></span>بيانات ناقصة — تحتاج مراجعة</span>
+  </div>
+
+  <div id="sec0" class="section active"></div>
+  <div id="sec1" class="section"></div>
+  <div id="sec2" class="section"></div>
+  <div id="sec3" class="section"></div>
+  <div id="sec4" class="section"></div>
+  <div id="sec5" class="section"></div>
+  <div id="sec6" class="section"></div>
+</div>
+
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeModal(event)">
+  <div class="modal" id="modal-box">
+    <div class="modal-title" id="modal-title">إضافة / تعديل</div>
+    <div id="modal-form"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModalDirect()">إلغاء</button>
+      <button class="btn-save" onclick="saveRow()">حفظ</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const M=()=>'—';
+const v=x=>(!x||x==='?'||x==='')?'<span class="miss">—</span>':x;
+const vn=x=>(!x||x==='?'||x==='')?'<span class="miss">—</span>':`<span class="price-badge">${x}</span>`;
+
+let DATA={
+sell:[
+  {area:'الفردوس',floor:'ثالث',size:'90',price:'700',inst:'830 ثابت/30س',meters:'3 عدادات',finish:'تشطيب جهاز',agent:'ميلاد سمير',phone:'01286819321',note:'متركب حديد - دفع سنتين ونص',st:'ok'},
+  {area:'الأولى',floor:'ثالث',size:'?',price:'730',inst:'كاش',meters:'غاز+كهرباء+مياه',finish:'جاهز',agent:'أحمد عزب',phone:'01206730455',note:'خالصة - قريبة المستشفى العام',st:'ok'},
+  {area:'الرابعة',floor:'ثاني',size:'?',price:'750',inst:'كاش',meters:'كاملة - عقد أخضر',finish:'سوبر لوكس بحري',agent:'حسن حمدي',phone:'01040701390',note:'خطوات من شارع أبو بكر',st:'warn'},
+  {area:'ال23',floor:'ثالث',size:'135',price:'2000',inst:'كاش',meters:'عدادين',finish:'?',agent:'شركة ستيبس - أ.فهد',phone:'01026251823',note:'أمام مول دار مصر - أسانسير',st:'warn'},
+  {area:'الزيتون',floor:'ثاني',size:'?',price:'730',inst:'800ج ثابت/15س',meters:'كهرباء فقط',finish:'تشطيب جهاز',agent:'محمد طمبور',phone:'01008952216',note:'عند المدرسة والحضانة',st:'warn'},
+  {area:'الزيتون',floor:'ثالث',size:'?',price:'750',inst:'850→2000/12س',meters:'عدادين',finish:'تشطيب جهاز',agent:'محمد طنبور',phone:'01008952216',note:'عند موقف التمانية',st:'warn'},
+  {area:'حي النور',floor:'أرضي',size:'?',price:'600',inst:'1240ج ثابت/15س',meters:'عدادين',finish:'?',agent:'رمضان الصاوي (مالك)',phone:'01017669622',note:'عمارة 93 شقة 3 - جنب الجامع',st:'warn'},
+  {area:'الثانية',floor:'ثاني',size:'?',price:'750',inst:'كاش',meters:'كاملة',finish:'سيراميك - سباكة جديدة',agent:'?',phone:'01211352926',note:'سباكة وصرف خاص',st:'bad'},
+  {area:'ال8',floor:'ثالث',size:'?',price:'750',inst:'كاش',meters:'3 عدادات',finish:'?',agent:'سامح أبو نواس',phone:'01022152032',note:'تم تنزيل السعر',st:'warn'},
+  {area:'الزيتون',floor:'?',size:'?',price:'700',inst:'790→1268/16س',meters:'3 عدادات',finish:'?',agent:'مكتب سليم - هبة مراد',phone:'01000469695',note:'جنب المدرسة والوحدة الصحية',st:'bad'},
+  {area:'ال25',floor:'أرضي',size:'?',price:'800',inst:'500ج ثابت/8س',meters:'3 عدادات',finish:'سوبر لوكس',agent:'مكتب سليم',phone:'01000904411',note:'جنب المول والمدرسة',st:'ok'},
+  {area:'الزيتون',floor:'ثالث',size:'?',price:'750',inst:'915→2060/12س',meters:'?',finish:'?',agent:'مكتب حمزة - نور',phone:'01279699033',note:'',st:'bad'},
+  {area:'الزيتون',floor:'أرضي',size:'?',price:'650',inst:'915→2000/12س',meters:'3 عدادات',finish:'متشطبة+مغيرة سباكة',agent:'مكتب سليم',phone:'01000904411',note:'',st:'warn'},
+  {area:'حي النور',floor:'أرضي',size:'?',price:'570',inst:'700→1700/18س',meters:'عدادين',finish:'?',agent:'زهرة - مكتب حشاد',phone:'01021239336',note:'آخر حي النور عند المزرعة',st:'warn'},
+  {area:'ال25',floor:'خامس',size:'?',price:'685',inst:'615ج ثابت/9س',meters:'3 عدادات',finish:'?',agent:'محمد سعد - مكتب الأخوة',phone:'01069336654',note:'',st:'warn'},
+  {area:'ال25',floor:'خامس',size:'?',price:'700',inst:'740ج ثابت/5س',meters:'كاملة',finish:'واخدة وش نظافة',agent:'سمسار باسم التلاوي',phone:'01211665041',note:'موتور مياه خاص - باب حديد',st:'ok'},
+  {area:'الرابعة',floor:'آخير',size:'?',price:'680',inst:'كاش - بالفرش',meters:'?',finish:'سوبر لوكس',agent:'تامر فتحي',phone:'01004649098',note:'نموذج 31 - متأجرة 5500 - عقد أخضر',st:'warn'},
+  {area:'ال25',floor:'أرضي',size:'?',price:'810',inst:'500ج ثابت',meters:'3 عدادات',finish:'تشطيب جهاز',agent:'أحمد أشرف',phone:'01016192530',note:'',st:'warn'},
+  {area:'ال25',floor:'أرضي',size:'?',price:'810',inst:'800ج ثابت',meters:'?',finish:'?',agent:'أحمد أشرف',phone:'01016192530',note:'على أبو بكر',st:'bad'},
+  {area:'ال12',floor:'ثاني',size:'?',price:'2500',inst:'كاش',meters:'?',finish:'سوبر لوكس',agent:'مصطفى محمد قاسم',phone:'01112637795',note:'جنب سيتي مول - ثاني نمرة من شارع عز',st:'ok'},
+  {area:'حي النور',floor:'ثاني',size:'?',price:'690',inst:'750→2100/15س',meters:'كل العدادات',finish:'تشطيب جهاز',agent:'شيماء رمضان',phone:'01003296172',note:'',st:'ok'},
+  {area:'الزيتون',floor:'أرضي',size:'?',price:'710',inst:'720→1250/مالك أول',meters:'3 عدادات',finish:'متشطبة كويس',agent:'بدر أبو الدهب',phone:'01061943237',note:'عمارة 68 - في وش المسجد',st:'ok'},
+  {area:'حي النور',floor:'رابع',size:'?',price:'700',inst:'600ج ثابت',meters:'عدادين',finish:'متأمنة حديد+نقاشة',agent:'مالك من الشهداء',phone:'01280972203',note:'جنب الخدمات - بلكونة على المول',st:'ok'},
+  {area:'الرابعة',floor:'أرضي',size:'165',price:'2900',inst:'كاش',meters:'?',finish:'?',agent:'أم أسماء - مكتب العربي',phone:'01066237184',note:'على جمال عبد الناصر',st:'warn'},
+  {area:'الرابعة',floor:'أرضي',size:'?',price:'750',inst:'كاش',meters:'عدادين',finish:'?',agent:'م.طارق عطا الله (مالك)',phone:'01070191908',note:'أمام المسطح الأخضر - غير مجروحة',st:'ok'},
+  {area:'ال25',floor:'أرضي',size:'?',price:'900',inst:'500ج ثابت/8س',meters:'غاز+كهرباء+مياه',finish:'سوبر لوكس',agent:'مكتب سليم - محمود مشحوت',phone:'01027040045',note:'عمارة 23 شقة 4',st:'ok'},
+  {area:'ال25',floor:'ثاني خلفي',size:'?',price:'950',inst:'1000ج ثابت/9س',meters:'3 عدادات',finish:'بالفرش',agent:'مكتب سليم - جمال أبو غنيمة',phone:'01007082206',note:'متاجرة 6000 - ثالث باركن على أبو بكر',st:'ok'},
+  {area:'ال25',floor:'أرضي',size:'?',price:'900',inst:'550ج ثابت/9س',meters:'3 عدادات',finish:'سوبر لوكس',agent:'مكتب سليم - جمال أبو غنيمة',phone:'01007082206',note:'عند الجامعة',st:'ok'},
+  {area:'ال25',floor:'?',size:'?',price:'720',inst:'900→متغير/18س',meters:'3 عدادات',finish:'?',agent:'مكتب سليم - جمال أبو غنيمة',phone:'01007082206',note:'تطل على المدرسة الجديدة',st:'bad'},
+  {area:'حي النور',floor:'أرضي',size:'?',price:'630',inst:'1050→2900',meters:'مقدمة غاز',finish:'?',agent:'هبة هلال',phone:'01096983848',note:'عند المسجد الجديد',st:'warn'},
+  {area:'الكوثر 5',floor:'?',size:'?',price:'1250',inst:'3 أقساط',meters:'?',finish:'قطعة ناصية',agent:'مكتب سليم - محمد سعد',phone:'01000904411',note:'رقم القطعة 391',st:'warn'},
+  {area:'ال23 أهالي',floor:'ثالث خلفي',size:'130',price:'900',inst:'كاش - خالصة',meters:'?',finish:'على الطوب',agent:'سمسار عبد الفتاح',phone:'01062961230',note:'',st:'warn'},
+  {area:'الثانية',floor:'أرضي',size:'?',price:'630',inst:'باقي 18 ألف',meters:'?',finish:'?',agent:'مكتب فرصة عقارية',phone:'01040613470',note:'شارع تربية رياضية',st:'bad'},
+  {area:'الثانية',floor:'أرضي',size:'?',price:'700',inst:'باقي 25 ألف',meters:'توكيلين',finish:'نموذج 17',agent:'مكتب فرصة عقارية',phone:'01040613470',note:'تفاوض مع المالك',st:'warn'},
+  {area:'الزيتون',floor:'خامس',size:'?',price:'650',inst:'كاش - خالصة',meters:'كهرباء+مياه',finish:'تشطيب جهاز',agent:'أم خالد',phone:'01019191835',note:'عند المول - عقد أخضر',st:'ok'},
+  {area:'ال25',floor:'رابع',size:'?',price:'820',inst:'770ج ثابت/6.5س',meters:'كاملة',finish:'?',agent:'أنيس جلال',phone:'01281994759',note:'على شارع أبو بكر',st:'ok'},
+  {area:'ال25',floor:'خامس',size:'?',price:'690',inst:'740ج ثابت/5س',meters:'3 عدادات',finish:'واخدة وش نظافة',agent:'باسم التلاوي',phone:'01211665041',note:'باقي 43 ألف فقط - موتور مياه',st:'ok'},
+  {area:'الثامنة',floor:'ثاني',size:'?',price:'700',inst:'70ج/8س',meters:'?',finish:'?',agent:'أيمن محمود',phone:'01009385484',note:'خلف مربع الشرطة',st:'warn'},
+  {area:'الزيتون',floor:'ثاني',size:'?',price:'900',inst:'930→1100/5س',meters:'3 عدادات',finish:'سوبر لوكس',agent:'سمساره نور - مكتب نور',phone:'01275095794',note:'بجوار موقف التمانية - يوجد فيديو',st:'ok'},
+  {area:'الزيتون',floor:'ثالث',size:'?',price:'770',inst:'700ج ثابت/12س',meters:'3 عدادات',finish:'?',agent:'نور حمزة',phone:'01275095794',note:'',st:'warn'},
+  {area:'حي النور',floor:'ثالث',size:'?',price:'650',inst:'1000→2100/11س',meters:'عدادين',finish:'?',agent:'رجب دياب',phone:'01026773889',note:'خلفي',st:'warn'},
+  {area:'الزيتون',floor:'أرضي',size:'?',price:'675',inst:'800→2000/11.5س',meters:'3 عدادات',finish:'مغيرة سباكة',agent:'محمد طمبور',phone:'01008952216',note:'في وش مجاورة 1',st:'ok'},
+  {area:'الزيتون',floor:'خامس',size:'?',price:'575',inst:'1250ج ثابت/5.5س',meters:'عدادين',finish:'تشطيب جهاز',agent:'أحمد غندور',phone:'01025503945',note:'صاحبها مهندس من تلا',st:'ok'},
+  {area:'الزيتون',floor:'أرضي',size:'?',price:'660',inst:'750→1350',meters:'مياه+كهرباء',finish:'?',agent:'رندا زكريا',phone:'01034535485',note:'بجوار المول',st:'warn'},
+  {area:'حي النرجس 6',floor:'?',size:'276',price:'2000',inst:'كاش',meters:'?',finish:'ناصية 3 شوارع',agent:'رندا زكريا',phone:'01034535485',note:'على خدمات',st:'ok'},
+  {area:'الزيتون',floor:'خامس',size:'?',price:'560',inst:'585ج ثابت/12س',meters:'مياه+كهرباء',finish:'تشطيب جهاز',agent:'رندا زكريا',phone:'01034535485',note:'متأمنة حديد',st:'ok'},
+  {area:'الزيتون',floor:'رابع خلفي',size:'?',price:'730',inst:'760→1600/10س',meters:'3 عدادات',finish:'نقاشة+سباكة',agent:'مالك - سمير محمود',phone:'01019381744',note:'متاجرة بإيجار كويس - الساكن يطلع بعد شهر',st:'ok'},
+  {area:'الأوقاف',floor:'رابع',size:'?',price:'310',inst:'باقي 31 ألف',meters:'?',finish:'سوبر لوكس',agent:'?',phone:'?',note:'غرفة وصالة معدلة',st:'bad'},
+  {area:'الرابعة',floor:'أرضي',size:'?',price:'700',inst:'متاجرة 4500',meters:'كاملة',finish:'متأمنة حديد+سيراميك',agent:'?',phone:'?',note:'عمارة 170 - بدون أقساط',st:'bad'},
+  {area:'الرابعة',floor:'أرضي',size:'72',price:'670',inst:'200ج/باقي 30 ألف',meters:'?',finish:'تشطيب جهاز',agent:'?',phone:'?',note:'نموذج 31 - جنب الجهاز',st:'warn'},
+  {area:'الثامنة',floor:'خامس',size:'?',price:'600',inst:'كاش - عقد أخضر',meters:'?',finish:'طبقة حماية',agent:'?',phone:'?',note:'قريبة مول سايلو - بحري صريح',st:'warn'},
+  {area:'ال25',floor:'ثالث',size:'?',price:'850',inst:'1000→2100/10س',meters:'3 عدادات',finish:'?',agent:'?',phone:'?',note:'',st:'bad'},
+  {area:'الزيتون',floor:'أرضي',size:'?',price:'650',inst:'750→1300/11س',meters:'مياه+كهرباء',finish:'توكيل عام',agent:'دينا فاروق',phone:'01091207273',note:'',st:'warn'},
+  {area:'الزيتون',floor:'ثاني خلفي',size:'?',price:'830',inst:'900→1300/5س',meters:'3 عدادات',finish:'مغيرة سباكة+كهرباء',agent:'محمد طنبور',phone:'01008952216',note:'عمارة 118',st:'ok'},
+  {area:'حي النور',floor:'ثاني',size:'90',price:'710',inst:'950→1900/10س',meters:'عدادين',finish:'سوبر لوكس',agent:'سمسار المصطفى',phone:'01019109197',note:'يوجد فيديو',st:'ok'},
+  {area:'ال11',floor:'رابع',size:'?',price:'470',inst:'باقي 7000',meters:'3 عدادات',finish:'?',agent:'محمد السكري',phone:'01221023718',note:'على شارع جمال عبد الناصر',st:'warn'},
+  {area:'ال29',floor:'ثاني أمامي',size:'130',price:'1365',inst:'كاش',meters:'شامل بدروم',finish:'على الطوب',agent:'محمد كعبوره',phone:'01006081241',note:'قطعة 1530 - شرقي بحري',st:'ok'},
+  {area:'ال29',floor:'ثاني خلفي',size:'150',price:'1425',inst:'كاش',meters:'شامل بدروم',finish:'على الطوب',agent:'محمد كعبوره',phone:'01006081241',note:'قطعة 1530',st:'ok'},
+  {area:'ال22',floor:'ثاني أمامي',size:'130',price:'1300',inst:'كاش',meters:'شامل بدروم',finish:'على الطوب',agent:'محمد كعبوره',phone:'01006081241',note:'قطعة 1135 - بحري غربي',st:'ok'},
+  {area:'ال22',floor:'ثالث أمامي',size:'145',price:'9000/م',inst:'كاش',meters:'?',finish:'على الطوب',agent:'محمد كعبوره',phone:'01006081241',note:'قطعة 1071 - بحري',st:'warn'},
+  {area:'ال21',floor:'أرضي',size:'135',price:'1570',inst:'كاش',meters:'مياه+كهرباء',finish:'70% تشطيب',agent:'إسلام أبو سعود',phone:'01050020723',note:'مدخل خاص - عمارة 840 - بحري شرقي',st:'ok'},
+  {area:'ال25',floor:'ثاني',size:'?',price:'920',inst:'900→1800/10س',meters:'3 عدادات',finish:'سوبر لوكس',agent:'هاني',phone:'01202410640',note:'بجوار المدرسة الجديدة',st:'ok'},
+  {area:'ال25',floor:'أرضي',size:'?',price:'730',inst:'900→2248/18س',meters:'3 عدادات',finish:'?',agent:'مكتب سليم',phone:'01000904411',note:'عند الوحدة الصحية',st:'warn'},
+  {area:'ال25',floor:'أرضي خلفي',size:'?',price:'800',inst:'980→1800/9س',meters:'عدادين',finish:'متأمنة حديد',agent:'مكتب سليم - أحمد سمير',phone:'01004418971',note:'يوجد فيديو',st:'ok'},
+  {area:'ال12',floor:'أرضي',size:'170',price:'2200',inst:'كاش',meters:'?',finish:'سوبر سوبر لوكس',agent:'سناء أم خالد',phone:'01019191835',note:'عند مسجد أبو المكارم',st:'ok'},
+  {area:'ال12',floor:'أرضي',size:'150',price:'1900',inst:'كاش',meters:'?',finish:'?',agent:'سناء أم خالد',phone:'01019191835',note:'عند مسجد أبو المكارم',st:'warn'},
+  {area:'ال21',floor:'رابع',size:'130',price:'1260',inst:'كاش',meters:'شامل بدروم',finish:'?',agent:'?',phone:'01211665041',note:'تاني نمرة من الفاصل مع 14',st:'warn'},
+  {area:'ال21',floor:'أرضي',size:'130',price:'1300',inst:'كاش',meters:'شامل بدروم',finish:'?',agent:'ثروت محمد',phone:'01015061654',note:'مدخل خاص - على مسطح - قطعة 896',st:'ok'},
+  {area:'حي الفردوس',floor:'خامس',size:'90',price:'620',inst:'1170ج ثابت/27س',meters:'3 عدادات',finish:'متقفلة حديد',agent:'محمد كعبوره',phone:'01006081241',note:'عازل حراري',st:'ok'},
+  {area:'حي النور',floor:'رابع',size:'?',price:'625',inst:'1500ج ثابت/5س',meters:'مياه+كهرباء',finish:'خلفي',agent:'محمود شرف الدين',phone:'01091538152',note:'عمارة 61',st:'warn'},
+  {area:'حي النور',floor:'أرضي',size:'?',price:'580',inst:'1000ج ثابت/15س',meters:'?',finish:'واخدة وش نظافة',agent:'سهام لاشين',phone:'01284963304',note:'',st:'warn'},
+  {area:'ال14',floor:'ثاني خلفي',size:'125',price:'1850',inst:'كاش',meters:'لا يوجد بدروم',finish:'واضح بالفيديو',agent:'سارة أم يزن',phone:'01031209218',note:'تطل على فيلا',st:'warn'},
+  {area:'ال14',floor:'أرضي',size:'130',price:'1200',inst:'كاش أو قسط سنة',meters:'?',finish:'?',agent:'مالك',phone:'01004985897',note:'مدخل خاص - خطوات من المحور',st:'warn'},
+  {area:'ال14',floor:'أرضي',size:'130',price:'1750',inst:'كاش أو تمويل',meters:'شامل بدروم',finish:'ألترا سوبر لوكس',agent:'?',phone:'01224677021',note:'جاردن 90م - على طريق الأكسدة',st:'warn'},
+  {area:'السابعة أسكان',floor:'ثاني',size:'?',price:'1200',inst:'كاش - عقد أخضر',meters:'كاملة',finish:'سوبر لوكس',agent:'الآء عبد الوهاب',phone:'01034357677',note:'على أبو بكر',st:'ok'},
+  {area:'الزيتون',floor:'ثاني',size:'?',price:'840',inst:'900→1300/5س',meters:'3 عدادات',finish:'مغيرة سباكة+عازل',agent:'أحمد المنوفي (مالك)',phone:'01005134161',note:'عمارة 119 شقة 6 - على الرئيسي',st:'ok'},
+  {area:'حي النور',floor:'أرضي',size:'?',price:'630',inst:'980→1150/16س',meters:'?',finish:'?',agent:'هبة هلال',phone:'01096983848',note:'خلفي على مسطح أخضر',st:'warn'},
+  {area:'حي النور',floor:'ثالث خلفي',size:'?',price:'680',inst:'980→1150/16س',meters:'عدادين',finish:'?',agent:'هبة هلال',phone:'01096983848',note:'على مسطح أخضر - على الرئيسي',st:'warn'},
+  {area:'الثامنة',floor:'ثالث',size:'?',price:'1050',inst:'كاش',meters:'?',finish:'?',agent:'أم عبده',phone:'01009925781',note:'عند مسجد السلام',st:'bad'},
+  {area:'ال11 أسكان',floor:'رابع',size:'?',price:'470',inst:'باقي 7000',meters:'3 عدادات',finish:'?',agent:'محمد السكري',phone:'01221023718',note:'على جمال عبد الناصر',st:'warn'},
+  {area:'ال23 أهالي',floor:'رابع',size:'145',price:'1280',inst:'كاش',meters:'?',finish:'على الطوب',agent:'مبروك أبو صالح',phone:'01285352335',note:'على الرئيسي',st:'warn'},
+  {area:'ال25',floor:'ثاني',size:'?',price:'815',inst:'450→1200/14س',meters:'?',finish:'سوبر',agent:'الشيخ محمد',phone:'01069481370',note:'بجوار المدرسة الجديدة',st:'warn'},
+  {area:'ال25',floor:'خامس',size:'?',price:'700',inst:'700ج ثابت/5س',meters:'?',finish:'?',agent:'الشيخ محمد',phone:'01069481370',note:'',st:'warn'},
+  {area:'السابعة القديمة',floor:'ثاني',size:'108',price:'1300',inst:'كاش',meters:'?',finish:'?',agent:'سارة أم يزن',phone:'01031209218',note:'على شارع أبو بكر',st:'warn'},
+  {area:'ال11',floor:'ثالث خلفي',size:'110',price:'1400',inst:'كاش',meters:'?',finish:'متشطبة',agent:'خليفة زاهو',phone:'01065896980',note:'عند مدرسة أسامة بن زيد',st:'warn'},
+  {area:'ال25',floor:'ثاني',size:'?',price:'910',inst:'900→1800/10س',meters:'?',finish:'?',agent:'أماني',phone:'01012891752',note:'',st:'warn'},
+  {area:'ال21',floor:'أرضي',size:'?',price:'1100',inst:'كاش أو قسط سنة',meters:'?',finish:'جاهز للتسليم',agent:'مالك',phone:'01040470572',note:'مدخل وسلم وواجهة متشطبين',st:'warn'},
+  {area:'حي الفردوس',floor:'تاني',size:'?',price:'770',inst:'1200ج ثابت/17س',meters:'?',finish:'?',agent:'مبروك دلال',phone:'01060461142',note:'العمارات المميزة',st:'warn'},
+  {area:'ال25',floor:'أرضي',size:'?',price:'710',inst:'900→2248/18س',meters:'3 عدادات',finish:'?',agent:'أم زياد صقر (مالك)',phone:'01000904411',note:'عند الوحدة الصحية',st:'warn'},
+  {area:'الزيتون',floor:'خامس',size:'?',price:'650',inst:'600ج ثابت/10س',meters:'?',finish:'?',agent:'خالد زغبير',phone:'01002907823',note:'',st:'warn'},
+  {area:'ال14',floor:'أرضي',size:'160',price:'?',inst:'?',meters:'?',finish:'3/4 تشطيب - سيراميك',agent:'?',phone:'?',note:'أمام الكنيسة مباشرة - حصة بدروم+أسانسير',st:'bad'},
+  {area:'ال11',floor:'رابع أمامي',size:'115',price:'1250',inst:'كاش',meters:'?',finish:'?',agent:'?',phone:'01123936309',note:'جنب الخدمات',st:'warn'},
+],
+rent:[
+  {area:'ال11',floor:'أرضي',rent:'4500',rooms:'3+صالة+ريسبشن+حمام',meters:'?',agent:'مدام رشا',phone:'01210698616',note:'مطلوب شركة فقط',st:'ok'},
+  {area:'ال35',floor:'?',rent:'55000',rooms:'عمارة 8 شقق+بدروم',meters:'?',agent:'محمد إسكندر السادات',phone:'01202099365',note:'على الشارع الموازي للـ25',st:'ok'},
+  {area:'ال34',floor:'?',rent:'6500',rooms:'4 شقق/شقة 135م',meters:'عدادين',agent:'محمد إسكندر السادات',phone:'01202099365',note:'عمارة 4 شقق',st:'warn'},
+  {area:'الزيتون',floor:'ثالث',rent:'3000',rooms:'3',meters:'3 عدادات',agent:'إيمان سليم',phone:'01008207356',note:'تشطيب جهاز',st:'ok'},
+  {area:'العاشرة',floor:'ثالث',rent:'9000',rooms:'?',meters:'غاز',agent:'مالك مباشر',phone:'01001349160',note:'شرقي بحري',st:'warn'},
+  {area:'ال14',floor:'رابع',rent:'7500',rooms:'3+صالتين+2حمام',meters:'غاز',agent:'الآء - مكتب الوسام',phone:'01050151778',note:'على الفاصل 14/21 - 165م',st:'ok'},
+  {area:'العاشرة',floor:'رابع',rent:'8000',rooms:'3',meters:'?',agent:'سناء أم خالد',phone:'01019191835',note:'سوبر سوبر لوكس - 170م - مطلوب أسرة',st:'ok'},
+  {area:'العاشرة',floor:'ثاني',rent:'6500',rooms:'3+ريسبشن+2حمام',meters:'غاز',agent:'سمسار الفهد',phone:'01507009854',note:'أمام ابن بيتك - 150م',st:'ok'},
+  {area:'ال35',floor:'?',rent:'?',rooms:'12 شقة',meters:'?',agent:'?',phone:'01224057188',note:'أول ساكن - مطلوب شركة - السعر غير محدد',st:'bad'},
+  {area:'الخامسة',floor:'?',rent:'?',rooms:'5 شقق',meters:'?',agent:'?',phone:'01004774536',note:'تشطيب هاي لوكس - 2 حمام - أول ساكن',st:'bad'},
+  {area:'ال31',floor:'رابع',rent:'بلاط',rooms:'?',meters:'?',agent:'?',phone:'01097089982',note:'السعر غير محدد',st:'bad'},
+  {area:'ال25',floor:'ثاني',rent:'?',rooms:'?',meters:'بدون غاز',agent:'?',phone:'01228318790',note:'الوسطاء يمتنعون',st:'bad'},
+  {area:'ال12',floor:'ثالث',rent:'6000',rooms:'3+حمام+مطبخ',meters:'?',agent:'محمد الصائم (مالك)',phone:'01092728883',note:'تشطيب لوكس - مطلوب أسرة',st:'ok'},
+  {area:'ال14',floor:'رابع',rent:'8000',rooms:'3+2حمام',meters:'?',agent:'رمضان سليمان',phone:'01096852040',note:'13 شقة - أول ساكن - الترا - أسانسير',st:'ok'},
+  {area:'المنطقة 28',floor:'رابع',rent:'3500',rooms:'?',meters:'?',agent:'?',phone:'01270321985',note:'سوبر لوكس',st:'warn'},
+  {area:'المنطقة 36',floor:'ثاني',rent:'4000',rooms:'?',meters:'?',agent:'سمسار المصطفى',phone:'01019109197',note:'أول ساكن',st:'warn'},
+  {area:'المصانع',floor:'?',rent:'55000',rooms:'هانجر مزدوج',meters:'?',agent:'أم عبده',phone:'01009925781',note:'نشاط بلاستيك',st:'ok'},
+  {area:'مكتب إداري - العاشرة',floor:'ثالث',rent:'8000',rooms:'غرفتين+صالة',meters:'?',agent:'?',phone:'01007305524',note:'محور خدمات العاشرة - 80م',st:'ok'},
+  {area:'السابعة القديمة',floor:'ثاني',rent:'8000',rooms:'?',meters:'?',agent:'أيمن محمود',phone:'01009385484',note:'على أبو بكر - جنب مول سايلو',st:'warn'},
+  {area:'ال23 أهالي',floor:'ثالث',rent:'6000',rooms:'?',meters:'?',agent:'?',phone:'01007305524',note:'على شارع أبو بكر - أول ساكن',st:'warn'},
+  {area:'ال27',floor:'?',rent:'?',rooms:'بيت 4 أدوار+بدروم',meters:'?',agent:'?',phone:'01228318790',note:'على يثرب مباشر - السعر غير محدد',st:'bad'},
+  {area:'مساكن مبارك',floor:'أول',rent:'?',rooms:'غرفتين+صالة',meters:'?',agent:'?',phone:'01064980414',note:'مدخل خاص - السعر غير محدد',st:'bad'},
+  {area:'العاشرة',floor:'ثالث',rent:'5500',rooms:'?',meters:'?',agent:'?',phone:'01007305524',note:'تشطيب عريس - أمام التجريبية',st:'warn'},
+  {area:'ال14',floor:'رابع',rent:'5000',rooms:'?',meters:'?',agent:'?',phone:'?',note:'هادئ ومميز - عقد سنة',st:'bad'},
+  {area:'ال14',floor:'رابع',rent:'5000',rooms:'?',meters:'?',agent:'?',phone:'?',note:'مناسب للسكن العائلي',st:'bad'},
+],
+furnished:[
+  {area:'الثامنة',floor:'ثاني',rent:'5500',beds:'4',ac:'لا',agent:'مالك مباشر',phone:'01284771014',note:'غرفتين+صالة - غاز طبيعي - أمام سكن الكليات',st:'ok'},
+  {area:'الثالثة السكنية',floor:'ثالث',rent:'?',beds:'6',ac:'لا',agent:'?',phone:'01040300354',note:'سوبر لوكس - فرش زيرو - السعر غير محدد',st:'bad'},
+  {area:'ال12',floor:'?',rent:'?',beds:'?',ac:'?',agent:'?',phone:'01061429370',note:'السعر غير محدد',st:'bad'},
+  {area:'التاسعة',floor:'أرضي',rent:'?',beds:'?',ac:'?',agent:'?',phone:'01020908176',note:'السعر غير محدد',st:'bad'},
+  {area:'ال14',floor:'ثاني',rent:'12000',beds:'?',ac:'نعم',agent:'?',phone:'01062756593',note:'مكيفة',st:'warn'},
+  {area:'ال11',floor:'أرضي',rent:'4500',beds:'4',ac:'لا',agent:'حسام جيزاوي (مالك)',phone:'01200171130',note:'غرفتين+صالة+مطبخ+حمام - يوجد فيديو',st:'ok'},
+  {area:'الزيتون',floor:'?',rent:'?',beds:'?',ac:'?',agent:'المهندس أيمن',phone:'01285002118',note:'بجوار موقف التمانية - السعر غير محدد',st:'bad'},
+  {area:'حي الفردوس',floor:'رابع',rent:'5000',beds:'?',ac:'لا',agent:'أحمد سمير أبو مريم',phone:'01061800026',note:'فرش زيرو',st:'warn'},
+  {area:'الأوقاف - قرطبة',floor:'?',rent:'3500',beds:'?',ac:'لا',agent:'مجدي كريم فايز',phone:'01228318790',note:'استوديو - أول صف',st:'warn'},
+  {area:'الخامسة',floor:'روف',rent:'3000',beds:'2',ac:'لا',agent:'معيوف نور',phone:'01004774536',note:'أوضة+حمام+مطبخ+ثلاجة+غسالة',st:'ok'},
+  {area:'الخامسة',floor:'ثاني',rent:'8000',beds:'6',ac:'لا',agent:'معيوف نور',phone:'01004774536',note:'3 غرف',st:'ok'},
+  {area:'الخامسة',floor:'ثالث',rent:'11000',beds:'8',ac:'لا',agent:'معيوف نور',phone:'01004774536',note:'4 غرف',st:'ok'},
+  {area:'الخامسة',floor:'رابع',rent:'11000',beds:'8',ac:'لا',agent:'معيوف نور',phone:'01004774536',note:'4 غرف',st:'ok'},
+  {area:'ال11 أسكان',floor:'أرضي',rent:'4500',beds:'4',ac:'لا',agent:'حسام جيزاوي (مالك)',phone:'01200171130',note:'عند الجهاز',st:'ok'},
+  {area:'ابني بيتك الثالثة',floor:'ثالث',rent:'3000',beds:'?',ac:'لا',agent:'أحمد السنوسي',phone:'01090926395',note:'سوبر لوكس',st:'warn'},
+  {area:'المنطقة 28',floor:'رابع',rent:'3500',beds:'?',ac:'لا',agent:'?',phone:'01270321985',note:'سوبر لوكس',st:'warn'},
+  {area:'ال25',floor:'ثالث',rent:'?',beds:'?',ac:'لا',agent:'?',phone:'01031010201',note:'فرش زيرو - السعر غير محدد',st:'bad'},
+  {area:'ال23 أهالي',floor:'أرضي',rent:'8000',beds:'6',ac:'لا',agent:'?',phone:'?',note:'مدخل خاص على شارع أبو بكر',st:'warn'},
+  {area:'الثامنة',floor:'ثالث',rent:'?',beds:'?',ac:'لا',agent:'مالك',phone:'01100120768',note:'على شارع عز - متأجرة لشركة 5000',st:'bad'},
+  {area:'الرابعة',floor:'ثاني',rent:'?',beds:'4',ac:'لا',agent:'مالك مباشر',phone:'01153789669',note:'جنب شارع جمال عبد الناصر',st:'bad'},
+  {area:'التانية',floor:'?',rent:'4000',beds:'4',ac:'لا',agent:'مالك مباشر',phone:'01000229654',note:'غرفة وصالة',st:'warn'},
+  {area:'الرابعة',floor:'?',rent:'4500',beds:'4',ac:'لا',agent:'?',phone:'?',note:'دور ثالث - أمام مساكن الطالبات',st:'warn'},
+],
+land:[
+  {area:'الكوثر 2',num:'487',size:'?',price:'1100',cond:'3 أقساط',agent:'أحمد مناع',phone:'01062556375',note:'',st:'warn'},
+  {area:'الكوثر 2',num:'406',size:'?',price:'1150',cond:'قسطين',agent:'عيسى محمد المحامي',phone:'01200599610',note:'',st:'warn'},
+  {area:'الكوثر 4',num:'?',size:'?',price:'1070',cond:'3 أقساط+محضر استلام',agent:'?',phone:'01010626896',note:'بحري شرقي',st:'warn'},
+  {area:'الكوثر 2',num:'287',size:'?',price:'1120',cond:'قسطين+محضر استلام',agent:'أحمد يوسف - مكتب مكاني',phone:'01159858472',note:'',st:'ok'},
+  {area:'النخيل 6',num:'396',size:'?',price:'2800',cond:'خالصة - ناصيتين',agent:'?',phone:'01031610373',note:'Double Face',st:'ok'},
+  {area:'النخيل 3',num:'787',size:'?',price:'1750',cond:'خالصة',agent:'?',phone:'01031610373',note:'موقع ممتاز',st:'ok'},
+  {area:'النخيل 6',num:'689',size:'?',price:'1650',cond:'مبني دور+واقف على السقف',agent:'?',phone:'01031610373',note:'مناسب دوبلكس',st:'ok'},
+  {area:'الكوثر 6',num:'?',size:'?',price:'1180',cond:'3 أقساط+رخصة بدروم+تأمينات',agent:'أحمد معوض',phone:'01008303723',note:'عداد إنشائي مدفوع',st:'ok'},
+  {area:'الريحان',num:'2374',size:'458',price:'2500',cond:'مسددة - نصف طولي',agent:'أحمد عبد النبي',phone:'01272908439',note:'نصف قطعة = قطعة - على الخدمات',st:'ok'},
+  {area:'الريحان',num:'2374',size:'458',price:'2750',cond:'مسددة بالكامل',agent:'مكتب سليم',phone:'01000904411',note:'نصف قطعة - موقع ممتاز',st:'ok'},
+  {area:'الكوثر 6',num:'453',size:'?',price:'1100',cond:'3 أقساط',agent:'أبو أيمن',phone:'01208178192',note:'',st:'warn'},
+  {area:'حي النرجس 6',num:'?',size:'276',price:'2000',cond:'خالصة - ناصية 3 شوارع',agent:'رندا زكريا',phone:'01034535485',note:'على خدمات',st:'ok'},
+  {area:'حي النرجس 3',num:'?',size:'?',price:'1100',cond:'خالصة',agent:'سارة أم يزن',phone:'01031209218',note:'',st:'warn'},
+  {area:'حي النرجس 3',num:'?',size:'?',price:'?',cond:'خالصة - بدون رخصة',agent:'?',phone:'01200298879',note:'على شارع رئيسي داخلي',st:'bad'},
+  {area:'حي النرجس 7',num:'?',size:'?',price:'?',cond:'خالصة',agent:'?',phone:'01202793890',note:'السعر غير محدد',st:'bad'},
+  {area:'حي النرجس 1',num:'?',size:'?',price:'1430',cond:'خالصة - رخصة بدون بدروم',agent:'عبد الرحمن عيسى',phone:'01020595495',note:'رابع قطعة من الرئيسي',st:'ok'},
+  {area:'حي النرجس 4',num:'449',size:'?',price:'?',cond:'مبني بدروم+واقف على السقف',agent:'?',phone:'01061690302',note:'السعر غير محدد',st:'bad'},
+  {area:'الريحان',num:'?',size:'600',price:'3750',cond:'خالصة - ناصية',agent:'?',phone:'01097147859',note:'تاني نمرة فاصل الروضة',st:'ok'},
+  {area:'الريحان',num:'?',size:'600',price:'5500/م',cond:'مسددة',agent:'محمد مجدي شرف',phone:'01201701040',note:'على الخدمات',st:'warn'},
+  {area:'الفردوس 4',num:'583',size:'276',price:'1520',cond:'خالصة - بحري',agent:'محمد كعبوره',phone:'01006081241',note:'على الخدمات - خطوات من الفاصل',st:'ok'},
+  {area:'الكوثر 4',num:'615',size:'209',price:'1100',cond:'باقي قسط',agent:'رمضان سليمان (مالك)',phone:'01008560934',note:'على شارع رئيسي وشارع عمومي',st:'ok'},
+  {area:'الزيتون 3',num:'686',size:'?',price:'2000',cond:'مبني بدروم+دور+مسطح',agent:'مالك',phone:'01226785135',note:'',st:'warn'},
+  {area:'الحي المتميز 3A',num:'110',size:'630',price:'22838$',cond:'مدفوع',agent:'?',phone:'01224677021',note:'على طريق رئيسي - شرقي',st:'ok'},
+  {area:'شبين الكوم',num:'?',size:'580',price:'25000',cond:'?',agent:'?',phone:'01031610373',note:'جنب مستشفى عرفة - ناصية',st:'warn'},
+  {area:'شبين الكوم',num:'?',size:'175',price:'3000',cond:'مباني 100%',agent:'?',phone:'01031610373',note:'شارع جمال عبد الناصر - دور أرضي تجاري',st:'warn'},
+  {area:'النخيل 2',num:'?',size:'209',price:'?',cond:'خالصة+رخصة',agent:'?',phone:'01000981115',note:'شرقي غير مجروحة',st:'bad'},
+  {area:'النخيل 3',num:'305',size:'?',price:'?',cond:'مبني دور+تصريح حفر+تأمينات',agent:'?',phone:'01206951677',note:'خالصة+عداد مياه',st:'bad'},
+],
+house:[
+  {area:'المنطقة 27 - السادات',floors:'3 أدوار',size:'276',price:'5.7',finish:'بدروم+نص تشطيب+عضم',agent:'عزت جودة صبرة',phone:'01069463507',note:'واجهة شرقي - المنوفية',st:'ok'},
+  {area:'ال28أ',floors:'بدروم+2 متشطبين+ثالث على السقف',size:'?',price:'3.8',finish:'الترا لوكس',agent:'يوسف الأمبابي - مكتب نسك',phone:'01273187841',note:'على الشارع الرئيسي - مع الأوقاف',st:'ok'},
+  {area:'ال28أ مع فاصل 28ب',floors:'بدروم+دورين+الثالث على السقف',size:'?',price:'5.5',finish:'سوبر لوكس',agent:'?',phone:'01003073278',note:'قابل للتفاوض',st:'warn'},
+  {area:'ال28',floors:'بدروم+3 أدوار',size:'?',price:'4.8',finish:'?',agent:'?',phone:'01121737105',note:'قابل للتفاوض',st:'warn'},
+  {area:'ال24',floors:'بدروم+دور متشطبين+الثالث على السقف',size:'276',price:'4.8',finish:'?',agent:'?',phone:'01029112902',note:'',st:'warn'},
+  {area:'ال20',floors:'4 أدوار متشطبة',size:'?',price:'5',finish:'سوبر لوكس',agent:'?',phone:'01099568442',note:'بجوار الخدمات',st:'warn'},
+  {area:'ال15 القديمة',floors:'بدروم+دور على عظم',size:'300',price:'7',finish:'?',agent:'مكتب العشري أم أشرقت',phone:'01002485624',note:'قريب أبو بكر',st:'ok'},
+  {area:'ابني بيتك التانية',floors:'3 متشطبين - 9 عدادات',size:'?',price:'?',finish:'سوبر لوكس - ناصية بحديقة',agent:'الأبرار',phone:'01275557373',note:'',st:'bad'},
+  {area:'ابني بيتك التانية',floors:'3 - 8 عدادات',size:'?',price:'?',finish:'سوبر لوكس - ناصية',agent:'إيهاب زرزور',phone:'01034363196',note:'',st:'bad'},
+  {area:'ابني بيتك التانية',floors:'3 - غاز+كهرباء+مياه',size:'?',price:'?',finish:'سوبر لوكس',agent:'وردة أم مرام',phone:'01007547779',note:'بجوار مسجد بلال - رخصة+تصالح',st:'bad'},
+  {area:'النخيل 3',floors:'بدروم+دور+عمدان الثاني',size:'?',price:'?',finish:'?',agent:'مالك مباشر',phone:'01032285454',note:'خالصة أقساط',st:'bad'},
+  {area:'النرجس 7',floors:'بدروم+دور+عمدان الثاني',size:'?',price:'?',finish:'?',agent:'?',phone:'01202793890',note:'بوابتين - خالص',st:'bad'},
+  {area:'ال31',floors:'بدروم بدون سقف',size:'?',price:'?',finish:'على الرئيسي ومحور الخدمات',agent:'?',phone:'01124901555',note:'خامس نمرة من أبو بكر',st:'bad'},
+  {area:'ال28أ',floors:'بدروم+1+2 الترا+3+4 على الطوب',size:'209',price:'?',finish:'واجهة متشطبة - دبل فيس',agent:'?',phone:'01018782713',note:'السعر غير محدد',st:'bad'},
+  {area:'ابني بيتك الثالثة',floors:'3 دورين لوكس+الثالث على الدهان',size:'?',price:'?',finish:'لوكس',agent:'عصام مناع',phone:'01004952188',note:'على الرئيسي أمام المدرسة',st:'bad'},
+  {area:'ال11',floors:'دور متشطب',size:'?',price:'1.75',finish:'سوبر لوكس - كامل العدادات',agent:'?',phone:'01063141231',note:'ابني بيتك',st:'warn'},
+  {area:'السابعة القديمة',floors:'أرضي',size:'106',price:'1.08',finish:'سيراميك - متأمنة',agent:'كابتن راضي',phone:'01062836033',note:'خالصة الأقساط',st:'ok'},
+  {area:'الزيتون 2',floors:'دور+بدروم',size:'?',price:'?',finish:'لوكس',agent:'يوسف عمار (مالك)',phone:'01553334576',note:'على الرئيسي - قريبة الكليات',st:'bad'},
+  {area:'ال27',floors:'بدروم+أرضي لوكس',size:'?',price:'?',finish:'لوكس - بالمطبخ',agent:'مالك',phone:'01272641002',note:'أمام مدرسة ستيم',st:'bad'},
+  {area:'ال36',floors:'بدروم+دور',size:'400',price:'?',finish:'سوبر لوكس',agent:'?',phone:'01060326111',note:'السعر غير محدد',st:'bad'},
+],
+shop:[
+  {loc:'مول دار مصر',floor:'أرضي',size:'40',price:'45000/م',activity:'حر - أول السلم',agent:'أحمد سامي',phone:'01221560944',note:'',st:'ok'},
+  {loc:'مول دار مصر',floor:'أرضي',size:'30',price:'45000/م',activity:'حر - داخل',agent:'أحمد سامي',phone:'01221560944',note:'',st:'ok'},
+  {loc:'جرين جولف',floor:'?',size:'?',price:'?',activity:'حر - دبل فيس',agent:'محمود رجب',phone:'01070006610',note:'رقم 9',st:'warn'},
+  {loc:'مول جامعة - ال11',floor:'أول علوي',size:'26',price:'?',activity:'حر - بجوار بنك CIB',agent:'مالك',phone:'01066685545',note:'',st:'warn'},
+  {loc:'سيتي مول',floor:'أرضي',size:'45',price:'45000/م',activity:'مؤجر 15 ألف',agent:'?',phone:'01031209218',note:'110 ألف للمتر',st:'warn'},
+  {loc:'مول إنتر سيتي',floor:'أرضي',size:'52',price:'100000/م',activity:'متنوعة',agent:'?',phone:'01097981337',note:'مقدم 25%+أقساط',st:'ok'},
+  {loc:'جرين جولف',floor:'ثالث',size:'42',price:'25000/م',activity:'حر - على واجهتين',agent:'?',phone:'01228318790',note:'',st:'ok'},
+  {loc:'مول الماسة',floor:'أرضي',size:'43',price:'?',activity:'حر - دبل فيس',agent:'?',phone:'01206730455',note:'',st:'warn'},
+  {loc:'جرين جولف',floor:'ثاني',size:'29.8',price:'?',activity:'حر',agent:'?',phone:'01033368199',note:'رقم 129 - خالص - لوكس',st:'warn'},
+  {loc:'مول تروفال - أبو بكر',floor:'أول علوي',size:'38',price:'250/م',activity:'حر',agent:'?',phone:'01123029051',note:'',st:'warn'},
+  {loc:'مول الماسة',floor:'ثاني',size:'50',price:'?',activity:'حر - بجوار الأسانسير',agent:'?',phone:'01092776520',note:'',st:'warn'},
+  {loc:'التاسعة - أبو بكر',floor:'أرضي',size:'41',price:'?',activity:'حر - استلام فوري',agent:'?',phone:'01009081714',note:'سوبر لوكس',st:'warn'},
+  {loc:'مول ميجا - الصناعية 7',floor:'أرضي',size:'60',price:'?',activity:'مطعم - على الإقليمي',agent:'?',phone:'01149562350',note:'قصاد بنزينة',st:'warn'},
+  {loc:'مول الماسة التامنة',floor:'أرضي',size:'45',price:'?',activity:'حر - ناصيتين',agent:'?',phone:'01060915670',note:'',st:'warn'},
+  {loc:'ال11 - أمام الكليات',floor:'?',size:'40',price:'?',activity:'حر - ناصية',agent:'?',phone:'01143576787',note:'أمام الحقوق والتجارة',st:'warn'},
+  {loc:'المحور المركزي',floor:'?',size:'?',price:'25% مقدم/4-5س',activity:'حر',agent:'?',phone:'01228755296',note:'موقع متميز',st:'warn'},
+  {loc:'مول سوزان',floor:'?',size:'40',price:'?',activity:'متنوعة',agent:'?',phone:'01026117372',note:'باب خلفي+واجهة على بركة',st:'warn'},
+  {loc:'مول زاد',floor:'?',size:'?',price:'?',activity:'حر - ناصية',agent:'?',phone:'01270876441',note:'',st:'warn'},
+  {loc:'مول جلاري',floor:'?',size:'35',price:'?',activity:'حر',agent:'?',phone:'01060461142',note:'',st:'warn'},
+  {loc:'بيراميدز',floor:'أرضي',size:'50',price:'?',activity:'مطعم - على الرئيسي',agent:'?',phone:'01004891802',note:'أمام بيت الوطن',st:'warn'},
+  {loc:'ال14 - 95م',floor:'?',size:'95',price:'145000/م',activity:'حر - إيجار 40 ألف/شهر',agent:'?',phone:'01018514565',note:'',st:'warn'},
+  {loc:'مول الميدان - أبو بكر',floor:'أرضي',size:'50',price:'?',activity:'حر',agent:'?',phone:'01228826402',note:'',st:'warn'},
+  {loc:'عيادة مول قرطبة',floor:'?',size:'35',price:'?',activity:'عيادة',agent:'?',phone:'01100116082',note:'',st:'warn'},
+],
+req:[
+  {type:'شراء شقة',area:'ال25',budget:'750',cond:'خالصة أقساط - تنفع نقل ملكية - دور 2 أو 3',phone:'01006081241',note:'',st:'ok'},
+  {type:'شراء شقة',area:'ال25',budget:'750',cond:'دور ثاني أو ثالث',phone:'01288161443',note:'سمساره راندا أم أدهم',st:'ok'},
+  {type:'شراء قطعة',area:'الكوثر 1 أو 2',budget:'1000',cond:'عليها قسطين - تنفيذ بكرة',phone:'01014282614',note:'',st:'ok'},
+  {type:'شراء شقة - أهالي',area:'?',budget:'1200',cond:'دور ثاني أو ثالث',phone:'?',note:'السعر حدود مليون ومية',st:'bad'},
+  {type:'شراء شقة',area:'حي الزيتون',budget:'?',cond:'دور خامس',phone:'01016723314',note:'',st:'warn'},
+  {type:'شراء شقة بمدخل خاص',area:'المربع الذهبي',budget:'?',cond:'كبيرة - متشطبة أو على الطوب',phone:'?',note:'',st:'bad'},
+  {type:'إيجار بلاط فوري',area:'السابعة والثالثة',budget:'?',cond:'فوري',phone:'?',note:'',st:'bad'},
+  {type:'شراء بيت',area:'ال31 على أبو بكر أو مقابل 26',budget:'?',cond:'بدروم+دورين أو 3 متشطبين',phone:'01288161443',note:'سمساره راندا - زهرة المدائن',st:'warn'},
+  {type:'شراء شقق - بيع',area:'الزيتون+النور+الفردوس',budget:'?',cond:'للبيع',phone:'01284963304',note:'',st:'warn'},
+  {type:'إيجار بدروم',area:'الزيتون - على الرئيسي',budget:'?',cond:'?',phone:'01113698216',note:'',st:'bad'},
+  {type:'شراء قطعة',area:'الكوثر 1',budget:'?',cond:'على الطريق الرئيسي',phone:'01200298879',note:'',st:'bad'},
+  {type:'إيجار بلاط - ضروري',area:'ال20 أو ال18 أو ال26',budget:'?',cond:'ضروري',phone:'01142849034',note:'',st:'warn'},
+  {type:'إيجار بلاط',area:'الزيتون أو الفردوس',budget:'?',cond:'معاينة اليوم - أسرة',phone:'01016723314',note:'',st:'warn'},
+  {type:'شراء شقة',area:'ال11 أهالي',budget:'1500',cond:'متشطبة أو نص تشطيب',phone:'01000904411',note:'مكتب سليم',st:'ok'},
+  {type:'شراء شقة',area:'شريط ال15',budget:'?',cond:'دور أرضي أو ثاني - متشطبة',phone:'01016660885',note:'',st:'warn'},
+  {type:'شراء شقة في النور',area:'النور - دور 2 أو 3 أو 4',budget:'?',cond:'للتخليص',phone:'?',note:'',st:'bad'},
+  {type:'شراء قطعة',area:'الفردوس 5',budget:'?',cond:'276م - بحري',phone:'01034357677',note:'',st:'warn'},
+  {type:'شراء قطعة',area:'النرجس 6',budget:'?',cond:'276م - ناصية أو دبل فيس',phone:'?',note:'من المالك مباشرة',st:'bad'},
+  {type:'شراء بيت',area:'ابني بيتك - للتخليص',budget:'?',cond:'?',phone:'01004738203',note:'',st:'warn'},
+  {type:'شراء بيت',area:'ال20 - 4 أدوار',budget:'?',cond:'?',phone:'01031667843',note:'',st:'bad'},
+  {type:'شراء بيت',area:'ال26 أو ال28',budget:'6000',cond:'دورين متشطبين على الأقل',phone:'01040060072',note:'شركة M.S Group',st:'ok'},
+  {type:'شراء بيت',area:'ال34',budget:'2500',cond:'دور متشطب+الثاني واقف على السقف',phone:'01027231074',note:'',st:'ok'},
+  {type:'قطعة أرض - مواد بناء',area:'مدينة السادات',budget:'?',cond:'1700 متر',phone:'01066162035',note:'',st:'warn'},
+  {type:'محل - على شارع رئيسي',area:'?',budget:'?',cond:'40-50 متر',phone:'?',note:'',st:'bad'},
+  {type:'مكتب إداري',area:'أبو بكر أو المحكمة أو بيراميدز',budget:'?',cond:'?',phone:'01020241601',note:'',st:'warn'},
+  {type:'إيجار بلاط',area:'الرابعة الجديدة أو الثامنة',budget:'?',cond:'من المالك مباشرة',phone:'01020897954',note:'',st:'warn'},
+  {type:'شراء شقة',area:'ال14 - تاني أو تالت أمامي',budget:'?',cond:'أكبر من 135م - واجهة+سلم خالصين',phone:'01204587643',note:'من المالك مباشر',st:'warn'},
+  {type:'إيجار بلاط',area:'ال20 أو ال18 أو ال26',budget:'?',cond:'شقتين - ضروري',phone:'01142849034',note:'',st:'warn'},
+  {type:'شراء قطعة',area:'الكوثر أو النرجس',budget:'?',cond:'على شارع رئيسي - للتخليص الفوري',phone:'01034535485',note:'سمساره راندا',st:'warn'},
+]
+};
+
+const SCHEMAS={
+  sell:{title:'شقة للبيع',fields:[
+    {k:'area',l:'المنطقة',req:true},{k:'floor',l:'الدور'},{k:'size',l:'المساحة (م²)'},{k:'price',l:'السعر (ألف ج)'},{k:'inst',l:'القسط/الدفع'},{k:'meters',l:'العدادات'},{k:'finish',l:'التشطيب'},{k:'agent',l:'السمسار/المالك'},{k:'phone',l:'التليفون'},{k:'note',l:'ملاحظات',type:'textarea'}
+  ],cols:['م','المنطقة','الدور','م²','السعر','القسط','العدادات','التشطيب','السمسار','التليفون','ملاحظة','تم']},
+  rent:{title:'إيجار بلاط',fields:[
+    {k:'area',l:'المنطقة',req:true},{k:'floor',l:'الدور'},{k:'rent',l:'الإيجار (ج)'},{k:'rooms',l:'الغرف'},{k:'meters',l:'العدادات'},{k:'agent',l:'السمسار/المالك'},{k:'phone',l:'التليفون'},{k:'note',l:'ملاحظات',type:'textarea'}
+  ],cols:['م','المنطقة','الدور','الإيجار','الغرف','العدادات','السمسار','التليفون','ملاحظة','تم']},
+  furnished:{title:'مفروش',fields:[
+    {k:'area',l:'المنطقة',req:true},{k:'floor',l:'الدور'},{k:'rent',l:'الإيجار (ج)'},{k:'beds',l:'عدد السراير'},{k:'ac',l:'تكييف؟'},{k:'agent',l:'السمسار/المالك'},{k:'phone',l:'التليفون'},{k:'note',l:'ملاحظات',type:'textarea'}
+  ],cols:['م','المنطقة','الدور','الإيجار','السراير','تكييف','السمسار','التليفون','ملاحظة','تم']},
+  land:{title:'قطعة أرض',fields:[
+    {k:'area',l:'الحي/المجاورة',req:true},{k:'num',l:'رقم القطعة'},{k:'size',l:'المساحة (م²)'},{k:'price',l:'السعر (ألف ج)'},{k:'cond',l:'الحالة/الأقساط'},{k:'agent',l:'السمسار/المالك'},{k:'phone',l:'التليفون'},{k:'note',l:'ملاحظات',type:'textarea'}
+  ],cols:['م','الحي/المجاورة','رقم القطعة','المساحة','السعر','الحالة','السمسار','التليفون','ملاحظة','تم']},
+  house:{title:'بيت',fields:[
+    {k:'area',l:'المنطقة',req:true},{k:'floors',l:'الأدوار'},{k:'size',l:'المساحة (م²)'},{k:'price',l:'السعر (مليون)'},{k:'finish',l:'التشطيب'},{k:'agent',l:'السمسار/المالك'},{k:'phone',l:'التليفون'},{k:'note',l:'ملاحظات',type:'textarea'}
+  ],cols:['م','المنطقة','الأدوار','المساحة','السعر','التشطيب','السمسار','التليفون','ملاحظة','تم']},
+  shop:{title:'محل تجاري',fields:[
+    {k:'loc',l:'الموقع/المول',req:true},{k:'floor',l:'الدور'},{k:'size',l:'المساحة (م²)'},{k:'price',l:'السعر'},{k:'activity',l:'النشاط'},{k:'agent',l:'السمسار/المالك'},{k:'phone',l:'التليفون'},{k:'note',l:'ملاحظات',type:'textarea'}
+  ],cols:['م','الموقع/المول','الدور','المساحة','السعر','النشاط','السمسار','التليفون','ملاحظة','تم']},
+  req:{title:'طلب شراء/إيجار',fields:[
+    {k:'type',l:'نوع الطلب',req:true},{k:'area',l:'المنطقة المطلوبة'},{k:'budget',l:'الميزانية (ألف)'},{k:'cond',l:'الشروط'},{k:'phone',l:'التليفون'},{k:'note',l:'ملاحظات',type:'textarea'}
+  ],cols:['م','نوع الطلب','المنطقة','الميزانية','الشروط','التليفون','ملاحظة','تم']}
+};
+
+const KEYS=['sell','rent','furnished','land','house','shop','req'];
+let currentTab=0,editIdx=-1,editKey='';
+
+function stClass(s){return s==='ok'?'row-ok':s==='bad'?'row-bad':'row-warn'}
+
+function renderSection(ki){
+  const key=KEYS[ki];
+  const sec=document.getElementById('sec'+ki);
+  const schema=SCHEMAS[key];
+  const rows=DATA[key];
+  sec.innerHTML=`
+    <div class="toolbar">
+      <input class="search-input" placeholder="🔍 ابحث في أي حقل..." oninput="filterRows(${ki},this.value)" />
+      <button class="btn-add" onclick="openAdd(${ki})">+ إضافة إعلان</button>
+    </div>
+    <div class="tbl-wrap">
+      <table id="tbl${ki}">
+        <thead><tr>${schema.cols.map(c=>`<th>${c}</th>`).join('')}<th>⚙</th></tr></thead>
+        <tbody id="tbody${ki}">${buildRows(key,rows)}</tbody>
+      </table>
+    </div>`;
+}
+
+function buildRows(key,rows){
+  const schema=SCHEMAS[key];
+  const flds=schema.fields;
+  let h='';
+  rows.forEach((r,i)=>{
+    const doneKey='done_'+key+'_'+i;
+    const isDone=localStorage.getItem(doneKey)==='1';
+    const cells=flds.map(f=>{
+      const val=r[f.k];
+      const miss=!val||val==='?'||val==='';
+      if(f.k==='price'||f.k==='rent'||f.k==='budget')return`<td class="num">${miss?'<span class="miss">—</span>':`<span class="price-badge">${val}</span>`}</td>`;
+      if(f.type==='textarea'||f.k==='note')return`<td class="note-cell" title="${val||''}">${val||'—'}</td>`;
+      return`<td>${miss?'<span class="miss">—</span>':val}</td>`;
+    }).join('');
+    h+=`<tr class="${stClass(r.st)}" id="row_${key}_${i}">
+      <td style="color:var(--text3);font-size:11px">${i+1}</td>
+      ${cells}
+      <td><button class="done-btn ${isDone?'checked':''}" onclick="toggleDone('${key}',${i},this)" title="تم">✓</button></td>
+      <td><div class="actions-cell">
+        <button class="icon-btn" onclick="openEdit('${key}',${i})" title="تعديل">✏</button>
+        <button class="icon-btn del" onclick="delRow('${key}',${i})" title="حذف">✕</button>
+      </div></td>
+    </tr>`;
+  });
+  return h||`<tr><td colspan="20" class="empty-msg">لا توجد بيانات في هذا القسم</td></tr>`;
+}
+
+function toggleDone(key,i,el){
+  const k='done_'+key+'_'+i;
+  const was=localStorage.getItem(k)==='1';
+  localStorage.setItem(k,was?'0':'1');
+  el.className='done-btn '+(was?'':'checked');
+}
+
+function filterRows(ki,q){
+  const rows=document.querySelectorAll('#tbody'+ki+' tr');
+  const lq=q.trim().toLowerCase();
+  rows.forEach(r=>{r.classList.toggle('hidden-row',lq&&!r.textContent.toLowerCase().includes(lq))});
+}
+
+function switchTab(i,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('sec'+i).classList.add('active');
+  currentTab=i;
+}
+
+function openAdd(ki){
+  const key=KEYS[ki];
+  editIdx=-1;editKey=key;
+  const schema=SCHEMAS[key];
+  document.getElementById('modal-title').textContent='+ إضافة '+schema.title+' جديد';
+  buildForm(key,null);
+  document.getElementById('modal-backdrop').classList.add('open');
+}
+
+function openEdit(key,i){
+  editIdx=i;editKey=key;
+  const schema=SCHEMAS[key];
+  document.getElementById('modal-title').textContent='✏ تعديل '+schema.title;
+  buildForm(key,DATA[key][i]);
+  document.getElementById('modal-backdrop').classList.add('open');
+}
+
+function buildForm(key,data){
+  const schema=SCHEMAS[key];
+  let html='<div class="form-grid">';
+  schema.fields.forEach(f=>{
+    const val=data?data[f.k]||'':'';
+    const req=f.req?'*':'';
+    if(f.type==='textarea'){
+      html+=`<div class="form-group form-grid full" style="grid-column:1/-1">
+        <label>${f.l}${req}</label>
+        <textarea id="f_${f.k}">${val!=='?'?val:''}</textarea></div>`;
+    } else {
+      html+=`<div class="form-group">
+        <label>${f.l}${req}</label>
+        <input id="f_${f.k}" value="${val!=='?'?val:''}" placeholder="${f.l}"></div>`;
+    }
+  });
+  html+='<div class="form-group"><label>حالة البيانات</label><select id="f_st"><option value="ok"'+((!data||data.st==='ok')?' selected':'')+'> مكتملة ✓</option><option value="warn"'+((data&&data.st==='warn')?' selected':'')+'> جزئية ◐</option><option value="bad"'+((data&&data.st==='bad')?' selected':'')+'> ناقصة ✗</option></select></div>';
+  html+='</div>';
+  document.getElementById('modal-form').innerHTML=html;
+}
+
+function saveRow(){
+  const key=editKey;
+  const schema=SCHEMAS[key];
+  const obj={st:document.getElementById('f_st').value};
+  schema.fields.forEach(f=>{
+    const el=document.getElementById('f_'+f.k);
+    obj[f.k]=el?el.value.trim()||'?':'?';
+  });
+  if(editIdx===-1){DATA[key].push(obj);}
+  else{DATA[key][editIdx]=obj;}
+  closeModalDirect();
+  const ki=KEYS.indexOf(key);
+  renderSection(ki);
+  updateStats();
+}
+
+function delRow(key,i){
+  if(!confirm('تأكيد حذف هذا الإعلان؟'))return;
+  DATA[key].splice(i,1);
+  const ki=KEYS.indexOf(key);
+  renderSection(ki);
+  updateStats();
+}
+
+function closeModal(e){if(e.target===document.getElementById('modal-backdrop'))closeModalDirect();}
+function closeModalDirect(){document.getElementById('modal-backdrop').classList.remove('open');}
+
+function updateStats(){
+  KEYS.forEach((k,i)=>{
+    const n=DATA[k].length;
+    document.getElementById('s'+i).textContent=n;
+    document.getElementById('b'+i).textContent=n;
+  });
+}
+
+KEYS.forEach((_,i)=>renderSection(i));
+updateStats();
+</script>
+
+<!-- 
+🏡 بيانات عقارية جديدة تمت إضافتها من المستخدم بتاريخ 2026-05-18
+- شقق للبيع والإيجار وأراضي ومحلات بمدينة السادات
+- تم إدخال جميع البيانات المرسلة بالترتيب داخل الملف
+ -->

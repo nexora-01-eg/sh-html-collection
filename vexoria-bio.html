@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEXORIA — Bio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: #030302;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+}
+
+.card {
+  max-width: 680px;
+  width: 100%;
+  border: 1px solid #141008;
+  padding: 64px 56px;
+  position: relative;
+  background: #040403;
+}
+
+/* Corner ornaments */
+.card::before, .card::after,
+.card .c2::before, .card .c2::after {
+  content: '';
+  position: absolute;
+  width: 22px; height: 22px;
+}
+.card::before  { top:-1px; left:-1px;
+  border-top: 1px solid #C9A030; border-left: 1px solid #C9A030; }
+.card::after   { top:-1px; right:-1px;
+  border-top: 1px solid #C9A030; border-right: 1px solid #C9A030; }
+.card .c2::before { bottom:-1px; left:-1px;
+  border-bottom: 1px solid #C9A030; border-left: 1px solid #C9A030; }
+.card .c2::after  { bottom:-1px; right:-1px;
+  border-bottom: 1px solid #C9A030; border-right: 1px solid #C9A030; }
+
+/* Brand name */
+.brand {
+  font-family: 'Cinzel', serif;
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 14px;
+  background: linear-gradient(90deg, #5a3d0a, #C9A030, #FFF8E0, #C9A030, #5a3d0a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  margin-bottom: 36px;
+  display: block;
+}
+
+/* Divider */
+.rule {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent, #7B5010 20%, #C9A030 50%, #7B5010 80%, transparent);
+  margin: 28px 0;
+  opacity: .5;
+}
+.rule-thin {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #C9A030, transparent);
+  margin: 22px auto;
+  opacity: .4;
+}
+
+/* Main bio text */
+.bio {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17.5px;
+  font-weight: 300;
+  line-height: 1.95;
+  color: #b8a070;
+  text-align: center;
+  font-style: italic;
+  letter-spacing: .02em;
+}
+
+.bio strong {
+  font-style: normal;
+  font-weight: 400;
+  color: #D4B060;
+}
+
+/* Short tagline */
+.tagline {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 7px;
+  color: #4a3418;
+  text-align: center;
+  margin-top: 32px;
+  line-height: 1.8;
+}
+
+/* Pillars section */
+.pillars {
+  margin-top: 36px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 32px;
+}
+.pillar {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.pillar-dot {
+  width: 4px; height: 4px;
+  min-width: 4px;
+  border-radius: 50%;
+  background: #C9A030;
+  margin-top: 7px;
+  opacity: .7;
+}
+.pillar-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  color: #7a6040;
+  font-style: italic;
+  line-height: 1.5;
+  letter-spacing: .02em;
+}
+
+/* Bottom quote */
+.quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: #5a4020;
+  text-align: center;
+  margin-top: 36px;
+  line-height: 1.7;
+  letter-spacing: .03em;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="c2"></div>
+
+  <span class="brand">VEXORIA</span>
+
+  <div class="rule"></div>
+
+  <p class="bio">
+    A space where <strong>clarity meets depth</strong> —
+    built for those who refuse to move through life
+    on borrowed assumptions.<br><br>
+    VEXORIA is a <strong>digital identity</strong> rooted in
+    the art of unlearning. We decode the silent errors
+    in thinking, expose the patterns behind failure,
+    and reconstruct the mind that was never taught
+    how to think — only what to think.<br><br>
+    Here you will find <strong>philosophy without pretense,
+    psychology without jargon, motivation without noise</strong>
+    — and the kind of wisdom that does not comfort you,
+    it <em>reshapes</em> you.
+  </p>
+
+  <div class="rule-thin"></div>
+
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-dot"></div>
+      <span class="pillar-text">Cognitive clarity & mental models</span>
+    </div>
+    <div class="pillar">
+      <div class="pillar-dot"></div>
+      <span class="pillar-text">Stoic & classical philosophy</span>
+    </div>
+    <div class="pillar">
+      <div class="pillar-dot"></div>
+      <span class="pillar-text">Diagnosing the root of mistakes</span>
+    </div>
+    <div class="pillar">
+      <div class="pillar-dot"></div>
+      <span class="pillar-text">Human behaviour & perception</span>
+    </div>
+    <div class="pillar">
+      <div class="pillar-dot"></div>
+      <span class="pillar-text">Self-mastery & disciplined growth</span>
+    </div>
+    <div class="pillar">
+      <div class="pillar-dot"></div>
+      <span class="pillar-text">Timeless knowledge, modern lens</span>
+    </div>
+  </div>
+
+  <div class="rule"></div>
+
+  <p class="quote">
+    "Most people do not lack potential.<br>
+    They lack the map."
+  </p>
+
+  <div class="tagline" style="margin-top:28px;">
+    THINK DEEPER &nbsp;·&nbsp; UNLEARN FASTER &nbsp;·&nbsp; BECOME RARE
+  </div>
+
+</div>
+</body>
+</html>

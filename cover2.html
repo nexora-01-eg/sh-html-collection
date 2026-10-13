@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>20 Social Media Posts Cover</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@300;400;600;700;800&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #111;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .cover {
+    width: 1700px;
+    height: 970px;
+    background: #0a0806;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  /* Cinematic light beam from top */
+  .beam {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 320px solid transparent;
+    border-right: 320px solid transparent;
+    border-top: 970px solid rgba(212,175,55,0.07);
+    z-index: 1;
+  }
+  .beam2 {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 160px solid transparent;
+    border-right: 160px solid transparent;
+    border-top: 600px solid rgba(255,220,100,0.06);
+    z-index: 1;
+  }
+
+  /* Floor grid perspective */
+  .grid {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 380px;
+    z-index: 1;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        rgba(212,175,55,0.07) 0px, rgba(212,175,55,0.07) 1px,
+        transparent 1px, transparent 80px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgba(212,175,55,0.07) 0px, rgba(212,175,55,0.07) 1px,
+        transparent 1px, transparent 60px
+      );
+    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, black 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, black 100%);
+  }
+
+  /* Outer gold border frame */
+  .frame-outer {
+    position: absolute;
+    inset: 18px;
+    border: 1.5px solid rgba(212,175,55,0.35);
+    z-index: 3;
+    pointer-events: none;
+  }
+  .frame-inner {
+    position: absolute;
+    inset: 26px;
+    border: 0.5px solid rgba(212,175,55,0.18);
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  /* Corner ornaments */
+  .corner {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    z-index: 4;
+  }
+  .corner-tl { top: 10px; left: 10px; border-top: 2.5px solid #D4AF37; border-left: 2.5px solid #D4AF37; }
+  .corner-tr { top: 10px; right: 10px; border-top: 2.5px solid #D4AF37; border-right: 2.5px solid #D4AF37; }
+  .corner-bl { bottom: 10px; left: 10px; border-bottom: 2.5px solid #D4AF37; border-left: 2.5px solid #D4AF37; }
+  .corner-br { bottom: 10px; right: 10px; border-bottom: 2.5px solid #D4AF37; border-right: 2.5px solid #D4AF37; }
+
+  /* ── LAYOUT: 3 columns ── */
+  .layout {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 320px 1fr 280px;
+    grid-template-rows: 1fr auto;
+    padding: 60px 80px 50px 80px;
+  }
+
+  /* LEFT: big number */
+  .left-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .big-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 320px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 0.85;
+    text-shadow:
+      0 0 80px rgba(212,175,55,0.2),
+      0 0 200px rgba(212,175,55,0.1),
+      4px 6px 30px rgba(0,0,0,0.95);
+    letter-spacing: -12px;
+  }
+
+  /* CENTER: main text */
+  .center-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 40px;
+  }
+
+  .main-title {
+    font-family: 'Cinzel', serif;
+    font-size: 115px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.0;
+    text-align: center;
+    text-shadow:
+      0 0 60px rgba(255,255,255,0.12),
+      3px 5px 25px rgba(0,0,0,0.95);
+    letter-spacing: 6px;
+    margin-bottom: 18px;
+  }
+
+  .gold-line {
+    width: 100%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, #D4AF37, #FFD700, #D4AF37, transparent);
+    margin: 14px 0;
+  }
+
+  .sub-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #D4AF37;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    text-align: center;
+    text-shadow:
+      0 0 40px rgba(212,175,55,0.6),
+      0 0 80px rgba(212,175,55,0.3);
+  }
+
+  /* RIGHT: icons */
+  .right-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  .social-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .icon-box {
+    width: 90px;
+    height: 90px;
+    border-radius: 20px;
+    background: rgba(212,175,55,0.15);
+    border: 1.5px solid rgba(212,175,55,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 0 18px rgba(212,175,55,0.4));
+  }
+
+  .social-icon span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: #D4AF37;
+    text-transform: uppercase;
+  }
+
+  /* BOTTOM: full width */
+  .bottom-bar {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(212,175,55,0.25);
+  }
+
+  .bottom-text-1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 8px;
+    color: #fff;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(255,255,255,0.15);
+  }
+
+  .bottom-text-2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 6px;
+    color: rgba(212,175,55,0.8);
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="cover">
+  <!-- Background effects -->
+  <div class="beam"></div>
+  <div class="beam2"></div>
+  <div class="grid"></div>
+
+  <!-- Frame -->
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
+
+  <!-- Main layout -->
+  <div class="layout">
+
+    <!-- LEFT: Number -->
+    <div class="left-col">
+      <div class="big-number">20</div>
+    </div>
+
+    <!-- CENTER: Text -->
+    <div class="center-col">
+      <div class="gold-line"></div>
+      <div class="main-title">SOCIAL<br>MEDIA<br>POSTS</div>
+      <div class="gold-line"></div>
+      <div class="sub-title">Professional &amp; Engaging</div>
+    </div>
+
+    <!-- RIGHT: Icons -->
+    <div class="right-col">
+      <div class="social-icon">
+        <div class="icon-box">
+          <svg width="50" height="50" viewBox="0 0 24 24" fill="#D4AF37">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+          </svg>
+        </div>
+        <span>Facebook</span>
+      </div>
+      <div class="social-icon">
+        <div class="icon-box">
+          <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+        </div>
+        <span>Instagram</span>
+      </div>
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="bottom-bar">
+      <div class="bottom-text-1">Ready for Facebook &amp; Instagram</div>
+      <div class="bottom-text-2">Boost Your Engagement</div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

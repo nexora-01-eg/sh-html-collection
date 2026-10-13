@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXORA — Knowledge Base</title>
+<style>
+:root{
+  --b0:#020202; --b1:#050505; --b2:#080808;
+  --b3:#0B0B0B; --b4:#101010; --b5:#161616;
+  --gold:#D6C3A5; --gold-s:#CBB89D; --gold-d:#B89F73; --gold-bright:#E7D3B2;
+  --white:#F5F3EE; --silver:#ADADAD; --muted:#7A7A7A;
+  --line:rgba(255,255,255,0.05);
+  --line-g:rgba(214,195,165,0.2);
+  --line-m:rgba(214,195,165,0.1);
+  --text-primary:#F5F3EE; --text-secondary:#BDBDBD; --text-muted:#8A8A8A;
+  --glass:rgba(255,255,255,.03); --glass-border:rgba(255,255,255,.06);
+  --shadow-soft:0 10px 40px rgba(0,0,0,.35);
+  --shadow-gold:0 0 30px rgba(214,195,165,.08);
+  --border:rgba(255,255,255,.06); --border-gold:rgba(214,195,165,.18);
+  --ease:cubic-bezier(.16,1,.3,1);
+  --r:18px; --r-sm:10px; --r-lg:24px;
+  --sidebar-w:288px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--b1); color:var(--text-primary);
+  font-family:'Tahoma','Segoe UI',system-ui,sans-serif;
+  min-height:100vh; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--gold); color:var(--b1);}
+::-webkit-scrollbar{width:9px;height:9px;}
+::-webkit-scrollbar-track{background:var(--b1);}
+::-webkit-scrollbar-thumb{background:var(--b5); border-radius:8px;}
+::-webkit-scrollbar-thumb:hover{background:var(--gold-d);}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+button{font-family:inherit;cursor:pointer;}
+
+/* ============ LAYOUT ============ */
+.app{display:flex; min-height:100vh;}
+
+/* ---------- SIDEBAR ---------- */
+.sidebar{
+  width:var(--sidebar-w); flex:0 0 var(--sidebar-w);
+  background:var(--b0); border-inline-start:1px solid var(--line);
+  position:sticky; top:0; height:100vh; overflow-y:auto;
+  padding:22px 16px; transition:width .3s var(--ease), flex-basis .3s var(--ease);
+  z-index:40;
+}
+.sidebar.collapsed{width:76px; flex-basis:76px; padding:22px 10px;}
+.sidebar.collapsed .side-label,
+.sidebar.collapsed .brand-text,
+.sidebar.collapsed .cat-title{display:none;}
+.brand{display:flex; align-items:center; gap:10px; padding:0 6px 20px; border-bottom:1px solid var(--line); margin-bottom:16px;}
+.brand-mark{
+  width:34px;height:34px;border-radius:9px;flex:0 0 34px;
+  background:linear-gradient(145deg,var(--gold-bright),var(--gold-d));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;color:var(--b0);font-size:17px;
+}
+.brand-text .t1{font-weight:800;font-size:15px;letter-spacing:.06em;color:var(--white);}
+.brand-text .t2{font-size:10px;color:var(--gold);letter-spacing:.08em;}
+.collapse-btn{
+  margin-inline-start:auto;background:none;border:1px solid var(--line);color:var(--muted);
+  width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;
+}
+.collapse-btn:hover{color:var(--gold);border-color:var(--border-gold);}
+.nav-cat{margin-bottom:6px;}
+.cat-title{font-size:10px;letter-spacing:.12em;color:var(--text-muted);text-transform:uppercase;padding:14px 10px 6px;}
+.nav-item{
+  display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;
+  color:var(--text-secondary);font-size:13px;font-weight:500;cursor:pointer;
+  transition:background .18s var(--ease),color .18s var(--ease);white-space:nowrap;
+}
+.nav-item .ic{width:18px;flex:0 0 18px;text-align:center;font-size:14px;color:var(--gold-d);}
+.nav-item:hover{background:var(--glass);color:var(--white);}
+.nav-item.active{background:linear-gradient(90deg,var(--line-g),transparent);color:var(--gold);border-inline-start:2px solid var(--gold);padding-inline-start:8px;}
+.nav-count{margin-inline-start:auto;font-size:10px;background:var(--b4);color:var(--text-muted);padding:1px 7px;border-radius:20px;}
+
+/* ---------- MAIN ---------- */
+.main{flex:1; min-width:0; padding:26px 34px 80px;}
+.topbar{display:flex; align-items:center; gap:14px; margin-bottom:26px; flex-wrap:wrap;}
+.search-wrap{flex:1;min-width:240px;position:relative;}
+.search-wrap input{
+  width:100%; background:var(--b3); border:1px solid var(--line); border-radius:12px;
+  padding:12px 40px 12px 14px; color:var(--white); font-size:14px; outline:none;
+  transition:border-color .2s;
+}
+.search-wrap input:focus{border-color:var(--border-gold); box-shadow:0 0 0 3px var(--line-g);}
+.search-wrap .sic{position:absolute; inset-inline-end:14px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:14px;}
+.filters{display:flex; gap:8px; flex-wrap:wrap;}
+.chip{
+  padding:9px 14px;border-radius:20px;border:1px solid var(--line);background:var(--b3);
+  color:var(--text-secondary);font-size:12.5px;font-weight:600;transition:all .18s var(--ease);
+}
+.chip:hover{border-color:var(--border-gold);color:var(--gold);}
+.chip.active{background:var(--gold);color:var(--b0);border-color:var(--gold);}
+.lang-toggle{
+  padding:9px 14px;border-radius:20px;border:1px solid var(--border-gold);background:var(--glass);color:var(--gold);
+  font-size:12.5px;font-weight:700;
+}
+
+/* ---------- DASHBOARD STATS ---------- */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:30px;}
+.stat-card{
+  background:var(--b3);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;
+  box-shadow:var(--shadow-soft);position:relative;overflow:hidden;
+}
+.stat-card::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 100% 0%,var(--line-m),transparent 60%);}
+.stat-num{font-size:28px;font-weight:800;color:var(--gold-bright);position:relative;}
+.stat-label{font-size:12px;color:var(--text-muted);margin-top:4px;position:relative;}
+
+/* ---------- SECTIONS ---------- */
+.section{margin-bottom:56px;scroll-margin-top:20px;}
+.section-head{display:flex;align-items:baseline;gap:12px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--line);}
+.section-head .sn{font-size:12px;color:var(--gold-d);font-weight:700;letter-spacing:.08em;}
+.section-head h2{font-size:20px;font-weight:800;color:var(--white);}
+.section-head .desc{font-size:12.5px;color:var(--text-muted);margin-inline-start:auto;}
+
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.card{
+  background:var(--b3);border:1px solid var(--glass-border);border-radius:var(--r);padding:18px;
+  transition:border-color .2s var(--ease),transform .2s var(--ease);position:relative;
+}
+.card:hover{border-color:var(--border-gold);transform:translateY(-2px);}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;}
+.card h3{font-size:14.5px;font-weight:700;color:var(--white);}
+.badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;}
+.badge.done{background:rgba(120,200,140,.12);color:#8fd6a2;}
+.badge.pending{background:rgba(214,195,165,.12);color:var(--gold);}
+.badge.high{background:rgba(220,120,110,.14);color:#e39b92;}
+.card p{font-size:12.8px;line-height:1.75;color:var(--text-secondary);}
+.card .meta{display:flex;gap:12px;margin-top:12px;font-size:11px;color:var(--text-muted);flex-wrap:wrap;}
+.card .meta span{display:flex;align-items:center;gap:4px;}
+.progress-bar{height:5px;background:var(--b5);border-radius:10px;margin-top:12px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold-bright));border-radius:10px;}
+
+/* swatch */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;}
+.swatch{
+  background:var(--b3);border:1px solid var(--glass-border);border-radius:var(--r);overflow:hidden;cursor:pointer;
+  transition:transform .18s var(--ease),border-color .18s;
+}
+.swatch:hover{transform:translateY(-3px);border-color:var(--border-gold);}
+.swatch .fill{height:78px;}
+.swatch .info{padding:11px 13px;}
+.swatch .name{font-size:12.5px;font-weight:700;color:var(--white);}
+.swatch .hex{font-size:11px;color:var(--text-muted);font-family:monospace;margin-top:2px;}
+.copy-flag{font-size:10px;color:var(--gold);margin-top:4px;opacity:0;transition:opacity .2s;}
+.swatch.copied .copy-flag{opacity:1;}
+
+/* gallery */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;}
+.gimg{
+  border:1px solid var(--glass-border);border-radius:var(--r);overflow:hidden;background:var(--b3);cursor:zoom-in;
+  transition:transform .2s var(--ease),border-color .2s;
+}
+.gimg:hover{transform:translateY(-3px);border-color:var(--border-gold);box-shadow:var(--shadow-gold);}
+.gimg img{width:100%;height:150px;object-fit:cover;}
+.gimg .cap{padding:9px 12px;font-size:11.5px;color:var(--text-secondary);border-top:1px solid var(--line);}
+.gimg .cap b{color:var(--gold);font-size:10px;display:block;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;}
+
+/* lightbox */
+.lightbox{position:fixed;inset:0;background:rgba(2,2,2,.92);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:200;padding:30px;}
+.lightbox.open{display:flex;}
+.lightbox img{max-width:92vw;max-height:86vh;border-radius:10px;box-shadow:0 20px 80px rgba(0,0,0,.6);}
+.lightbox-close{position:absolute;top:24px;inset-inline-end:28px;color:var(--white);font-size:26px;background:var(--glass);border:1px solid var(--line);width:42px;height:42px;border-radius:50%;}
+.lightbox-cap{position:absolute;bottom:26px;color:var(--text-secondary);font-size:13px;background:var(--glass);padding:8px 16px;border-radius:20px;border:1px solid var(--line);}
+
+/* timeline */
+.timeline{position:relative;padding-inline-start:26px;}
+.timeline::before{content:"";position:absolute;inset-inline-start:6px;top:6px;bottom:6px;width:1px;background:var(--line-g);}
+.t-item{position:relative;padding-bottom:26px;}
+.t-item::before{content:"";position:absolute;inset-inline-start:-26px;top:3px;width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px var(--line-g);}
+.t-date{font-size:11px;color:var(--gold-d);font-weight:700;margin-bottom:3px;}
+.t-title{font-size:14px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.t-desc{font-size:12.5px;color:var(--text-secondary);line-height:1.7;}
+
+/* todo */
+.todo-item{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--b3);border:1px solid var(--glass-border);border-radius:12px;margin-bottom:10px;}
+.todo-check{
+  width:20px;height:20px;border-radius:6px;border:1.5px solid var(--gold-d);flex:0 0 20px;margin-top:2px;
+  display:flex;align-items:center;justify-content:center;font-size:12px;color:transparent;transition:.2s;
+}
+.todo-check.checked{background:var(--gold);border-color:var(--gold);color:var(--b0);}
+.todo-txt{flex:1;}
+.todo-txt .tt{font-size:13.5px;font-weight:600;color:var(--white);}
+.todo-item.checked .tt{text-decoration:line-through;color:var(--text-muted);}
+.todo-txt .ts{font-size:11.5px;color:var(--text-muted);margin-top:3px;}
+
+/* quote */
+.quote-block{
+  background:linear-gradient(135deg,var(--b3),var(--b2));border:1px solid var(--border-gold);border-radius:var(--r-lg);
+  padding:26px 28px;position:relative;margin-bottom:22px;
+}
+.quote-block::before{content:"“";position:absolute;top:6px;inset-inline-start:20px;font-size:60px;color:var(--line-g);font-family:Georgia,serif;}
+.quote-block p{font-size:15px;color:var(--white);line-height:1.8;position:relative;font-weight:600;}
+.quote-block .src{font-size:11.5px;color:var(--gold-d);margin-top:10px;}
+
+/* code / prompt block */
+.code-block{
+  background:var(--b0);border:1px solid var(--line);border-radius:12px;padding:16px;font-family:'Courier New',monospace;
+  font-size:12px;color:var(--gold-s);white-space:pre-wrap;line-height:1.65;position:relative;direction:ltr;text-align:left;
+}
+.copy-btn{
+  position:absolute;top:10px;inset-inline-end:10px;background:var(--b4);border:1px solid var(--line);color:var(--text-secondary);
+  padding:5px 10px;border-radius:8px;font-size:11px;
+}
+.copy-btn:hover{color:var(--gold);border-color:var(--border-gold);}
+
+/* two col */
+.two-col{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;}
+@media(max-width:900px){.two-col{grid-template-columns:1fr;}}
+
+/* checklist mini */
+.mini-list{list-style:none;}
+.mini-list li{padding:8px 0;border-bottom:1px dashed var(--line);font-size:12.8px;color:var(--text-secondary);display:flex;gap:8px;}
+.mini-list li::before{content:"—";color:var(--gold-d);}
+.mini-list li b{color:var(--white);}
+
+footer{text-align:center;padding:30px 0 10px;color:var(--text-muted);font-size:11.5px;border-top:1px solid var(--line);margin-top:40px;}
+
+.hidden{display:none !important;}
+
+/* mobile */
+.mobile-topbar{display:none;}
+@media(max-width:860px){
+  .sidebar{position:fixed;inset-inline-start:0;top:0;height:100vh;transform:translateX(-105%);}
+  [dir="rtl"] .sidebar{transform:translateX(105%);}
+  .sidebar.mobile-open{transform:translateX(0);}
+  .main{padding:20px 16px 60px;}
+  .mobile-topbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .mobile-topbar button{background:var(--b3);border:1px solid var(--line);color:var(--gold);width:38px;height:38px;border-radius:10px;font-size:16px;}
+}
+</style>
+</head>
+<body>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-cap" id="lightboxCap"></div>
+</div>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-mark">N</div>
+      <div class="brand-text">
+        <div class="t1">NEXORA</div>
+        <div class="t2">KNOWLEDGE BASE</div>
+      </div>
+      <button class="collapse-btn" onclick="toggleSidebar()">‹</button>
+    </div>
+
+    <nav id="navList">
+      <div class="nav-cat">
+        <div class="cat-title">نظرة عامة</div>
+        <div class="nav-item" data-goto="dashboard"><span class="ic">◆</span><span class="side-label">الداشبورد</span></div>
+        <div class="nav-item" data-goto="identity"><span class="ic">✦</span><span class="side-label">هوية الشركة</span></div>
+        <div class="nav-item" data-goto="voice"><span class="ic">✎</span><span class="side-label">صوت العلامة</span></div>
+      </div>
+      <div class="nav-cat">
+        <div class="cat-title">نظام التصميم</div>
+        <div class="nav-item" data-goto="logo"><span class="ic">◈</span><span class="side-label">نظام اللوجو</span><span class="nav-count" id="cnt-logo"></span></div>
+        <div class="nav-item" data-goto="icon"><span class="ic">▣</span><span class="side-label">الأيقونة والفافيكون</span></div>
+        <div class="nav-item" data-goto="colors"><span class="ic">●</span><span class="side-label">نظام الألوان</span></div>
+        <div class="nav-item" data-goto="type"><span class="ic">Aa</span><span class="side-label">الخطوط</span></div>
+        <div class="nav-item" data-goto="tokens"><span class="ic">{}</span><span class="side-label">Design Tokens كاملة</span></div>
+      </div>
+      <div class="nav-cat">
+        <div class="cat-title">التسويق والمحتوى</div>
+        <div class="nav-item" data-goto="webcopy"><span class="ic">✒</span><span class="side-label">استراتيجية محتوى الموقع</span></div>
+        <div class="nav-item" data-goto="social"><span class="ic">▦</span><span class="side-label">السوشيال ميديا</span><span class="nav-count" id="cnt-social"></span></div>
+        <div class="nav-item" data-goto="bizcard"><span class="ic">▭</span><span class="side-label">كارت الشركة</span></div>
+        <div class="nav-item" data-goto="prompts"><span class="ic">»</span><span class="side-label">مكتبة البرومبتات</span></div>
+      </div>
+      <div class="nav-cat">
+        <div class="cat-title">الإدارة</div>
+        <div class="nav-item" data-goto="tasks"><span class="ic">☑</span><span class="side-label">المهام</span></div>
+        <div class="nav-item" data-goto="decisions"><span class="ic">⌘</span><span class="side-label">سجل القرارات</span></div>
+        <div class="nav-item" data-goto="timeline"><span class="ic">⏱</span><span class="side-label">الخط الزمني</span></div>
+        <div class="nav-item" data-goto="gallery"><span class="ic">▤</span><span class="side-label">مكتبة الملفات</span><span class="nav-count" id="cnt-gallery"></span></div>
+        <div class="nav-item" data-goto="contact"><span class="ic">☎</span><span class="side-label">التواصل والحسابات</span></div>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="mobile-topbar">
+      <button onclick="toggleSidebarMobile()">☰</button>
+      <div style="font-weight:800;color:var(--gold);">NEXORA KB</div>
+    </div>
+
+    <div class="topbar">
+      <div class="search-wrap">
+        <input id="searchInput" type="text" placeholder="ابحث في كل حاجة… ألوان، مهام، صور، قرارات">
+        <span class="sic">⌕</span>
+      </div>
+      <div class="filters" id="filterChips">
+        <button class="chip active" data-filter="all">الكل</button>
+        <button class="chip" data-filter="done">مكتمل</button>
+        <button class="chip" data-filter="pending">قيد التنفيذ</button>
+        <button class="chip" data-filter="high">أولوية عالية</button>
+        <button class="chip" data-filter="branding">Branding</button>
+        <button class="chip" data-filter="website">Website</button>
+        <button class="chip" data-filter="marketing">Marketing</button>
+      </div>
+    </div>
+
+    <!-- ===================== DASHBOARD ===================== -->
+    <section class="section" id="dashboard">
+      <div class="section-head"><span class="sn">01</span><h2>الداشبورد الرئيسي</h2><span class="desc">آخر تحديث: v1.0 — 1 يوليو 2026</span></div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num">17</div><div class="stat-label">أصول بصرية / صور</div></div>
+        <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">مهام مكتملة</div></div>
+        <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">مهام قيد التنفيذ</div></div>
+        <div class="stat-card"><div class="stat-num">18</div><div class="stat-label">متغيّر لون (Token)</div></div>
+        <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">قرار موثّق</div></div>
+        <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">برومبت رئيسي محفوظ</div></div>
+      </div>
+
+      <div class="quote-block">
+        <p>إحنا مش بنبيع موقع أو لوجو وخلاص... إحنا بنبني نظام كامل يخلي مشروعك يجيب عملاء أكتر ويكبر بشكل منظم.</p>
+        <div class="src">— رسالة الموقع الأساسية (Egyptian Market Copy)</div>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <h3 style="font-size:14px;color:var(--gold);margin-bottom:10px;">آخر النشاطات</h3>
+          <ul class="mini-list">
+            <li><b>تم اعتماد</b> نظام الألوان النهائي (v2) بتحسينات على --gold-d و --white و --muted.</li>
+            <li><b>تم تحديد</b> عنصر الأيقونة (Favicon) — استخدام حرف N فقط كمحور تصميم.</li>
+            <li><b>تم تصميم</b> بروفايل فيسبوك مبني على اللوجو الأساسي.</li>
+            <li><b>قيد التنفيذ:</b> بناء برومبت أساسي ثابت لتوليد تصميمات السوشيال ميديا المترابطة.</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="font-size:14px;color:var(--gold);margin-bottom:10px;">التركيز الحالي</h3>
+          <ul class="mini-list">
+            <li>إعادة كتابة نصوص الموقع بالكامل للسوق المصري (مش ترجمة حرفية).</li>
+            <li>توحيد Design Tokens الكاملة (Spacing / Radius / Shadows / Motion / Grid).</li>
+            <li>استخدام أحدث نسخة nexora02.html كأساس لإعادة الكتابة.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== IDENTITY ===================== -->
+    <section class="section" id="identity">
+      <div class="section-head"><span class="sn">02</span><h2>هوية الشركة</h2></div>
+      <div class="cards-grid">
+        <div class="card" data-tags="branding done">
+          <div class="card-top"><h3>الاسم والتموضع</h3><span class="badge done">مؤكد</span></div>
+          <p><b style="color:var(--white)">NEXORA — Business Growth Platform.</b> منصّة نمو أعمال متكاملة، مش استوديو خدمات منفصلة. الرسالة الأساسية: "We don't sell services. We build growing businesses."</p>
+        </div>
+        <div class="card" data-tags="branding done">
+          <div class="card-top"><h3>الشعار (Tagline)</h3><span class="badge done">مؤكد</span></div>
+          <p>EN: Build. Grow. Scale. / Building Smarter Businesses. Scaling Sustainable Growth.<br>AR: نبني أنظمة. نوسّع الأعمال. نصنع المستقبل.</p>
+        </div>
+        <div class="card" data-tags="branding done">
+          <div class="card-top"><h3>الخدمات الأساسية</h3><span class="badge done">مؤكد</span></div>
+          <p>Strategy · Branding · Web Development · AI & Automation · Digital Marketing · Growth Systems · Business Strategy</p>
+        </div>
+        <div class="card" data-tags="branding pending">
+          <div class="card-top"><h3>السوق المستهدف</h3><span class="badge pending">قيد التوسّع</span></div>
+          <p>حاليًا التركيز على السوق المصري: عيادات، شركات، محلات، ومتاجر أونلاين — مع رسائل تسويقية مخصصة باللهجة المصرية.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== VOICE ===================== -->
+    <section class="section" id="voice">
+      <div class="section-head"><span class="sn">03</span><h2>صوت العلامة (Brand Voice)</h2></div>
+      <div class="two-col">
+        <div class="card">
+          <h3 style="margin-bottom:10px;">النسخة الإنجليزية (عالمية / راقية)</h3>
+          <p>رسمية، واثقة، وتستخدم لغة "الأنظمة" بدل "الخدمات". مبنية على مفردات زي Systems, Growth, Scale, Strategy, Infrastructure.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:10px;">النسخة المصرية (Local Copy)</h3>
+          <p>احترافية لكن قريبة من الناس، بتخاطب صاحب البيزنس مباشرة، وتوضح القيمة قبل الخدمة، وتستخدم أمثلة من مشاكل حقيقية للسوق المصري.</p>
+        </div>
+      </div>
+      <div style="margin-top:16px;" class="card">
+        <h3 style="margin-bottom:10px;">أمثلة تحويل (EN → Egyptian Copy)</h3>
+        <ul class="mini-list">
+          <li><b>"We don't sell digital services. We build systems that help businesses grow."</b> → "إحنا مش بنبيع موقع أو لوجو وخلاص... إحنا بنبني نظام كامل يخلي مشروعك يجيب عملاء أكتر ويكبر بشكل منظم."</li>
+          <li><b>"One connected system."</b> → "كل احتياجات مشروعك في مكان واحد... من الهوية، للموقع، للتسويق، للأتمتة، والمتابعة."</li>
+          <li><b>"Digital Growth Ecosystem"</b> → "شريكك في بناء وتنمية مشروعك رقميًا."</li>
+          <li><b>"Book Discovery Call"</b> → "احجز استشارة مجانية / ابعتلنا على واتساب / اطلب عرض سعر / خلينا نراجع مشروعك مجانًا / ابدأ دلوقتي."</li>
+          <li><b>"Trusted by Businesses Worldwide"</b> → "اشتغلنا مع عيادات وشركات ومتاجر داخل مصر وساعدناهم يحققوا نتائج فعلية."</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== LOGO SYSTEM ===================== -->
+    <section class="section" id="logo">
+      <div class="section-head"><span class="sn">04</span><h2>نظام اللوجو</h2><span class="desc">عدة اتجاهات تصميمية قيد المراجعة</span></div>
+      <div class="gallery-grid" data-gallery="logo">
+        <div class="gimg" onclick="openLightbox('assets/logo-banner-city-01.png','اللوجو الأساسي (سهم النمو) على خلفية أفق المدينة')">
+          <img src="assets/logo-banner-city-01.png" alt="Nexora logo city banner"><div class="cap"><b>Direction A</b>اللوجو الرئيسي — سهم النمو + دائرة الاتصال، مع بانر تواصل كامل</div>
+        </div>
+        <div class="gimg" onclick="openLightbox('assets/logo-wordmark-gold-waves.png','وردمارك ذهبي بخلفية موجات معدنية')">
+          <img src="assets/logo-wordmark-gold-waves.png" alt="Nexora wordmark"><div class="cap"><b>Wordmark</b>نسخة نصية فقط — للاستخدام في الشاشات الكبيرة والانترو</div>
+        </div>
+        <div class="gimg" onclick="openLightbox('assets/brand-banner-build-grow-scale-01.png','اتجاه Direction B — حرف N مائل بخط أنيق')">
+          <img src="assets/brand-banner-build-grow-scale-01.png" alt="Nexora N mark banner"><div class="cap"><b>Direction B</b>لوجو N هندسي مائل — "Build. Grow. Scale."</div>
+        </div>
+        <div class="gimg" onclick="openLightbox('assets/brand-identity-sheet.png','لوحة الهوية الكاملة: اللوجو، البنية، والتطبيقات')">
+          <img src="assets/brand-identity-sheet.png" alt="Nexora brand identity sheet"><div class="cap"><b>Identity Sheet</b>شرح بناء اللوجو من System + Growth + Connection + Intelligence + Scale</div>
+        </div>
+        <div class="gimg" onclick="openLightbox('assets/brand-banner-vision-tagline.png','بانر Vision مع الشعار والخدمات الخمس')">
+          <img src="assets/brand-banner-vision-tagline.png" alt="Nexora vision banner"><div class="cap"><b>Vision Banner</b>Building Smarter Businesses. Scaling Sustainable Growth.</div>
+        </div>
+        <div class="gimg" onclick="openLightbox('assets/logo-badge-circular.png','شعار دائري (Badge) بإطار ذهبي — مناسب للأختام والسوشيال')">
+          <img src="assets/logo-badge-circular.png" alt="Nexora circular badge"><div class="cap"><b>Circular Badge</b>نسخة دائرية — للأختام، الـ Watermark، وصور البروفايل</div>
+        </div>
+        <div class="gimg" onclick="openLightbox('assets/brand-banner-build-grow-scale-02.png','بانر Direction B بديل — أفق مدينة مع خطوط ذهبية')">
+          <img src="assets/brand-banner-build-grow-scale-02.png" alt="Nexora N mark alt banner"><div class="cap"><b>Direction B — Alt</b>نسخة بديلة بخلفية معمارية</div>
+        </div>
+      </div>
+      <div class="quote-block" style="margin-top:18px;">
+        <p>قرار: اعتماد الشعار الأساسي "سهم النمو" (Growth Arrow) كاتجاه رئيسي، مع الإبقاء على Direction B (حرف N المائل) كخيار بديل أخف للاستخدامات الصغيرة.</p>
+        <div class="src">قرار مفتوح — يحتاج اعتماد نهائي</div>
+      </div>
+    </section>
+
+    <!-- ===================== ICON SYSTEM ===================== -->
+    <section class="section" id="icon">
+      <div class="section-head"><span class="sn">05</span><h2>الأيقونة والفافيكون (App Icon / Favicon)</h2></div>
+      <div class="gallery-grid" data-gallery="icon">
+        <div class="gimg" onclick="openLightbox('assets/icon-system-sheet.png','منظومة الأيقونة الكاملة بكل المقاسات')">
+          <img src="assets/icon-system-sheet.png" alt="Nexora icon system sheet"><div class="cap"><b>Icon System</b>App Icon, Favicon, نسخ Monochrome، ومقاسات الفافيكون (512 → 16px)</div>
+        </div>
+        <div class="gimg" onclick="openLightbox('assets/app-icon-n-letter.png','الأيقونة النهائية المبسّطة — حرف N فقط')">
+          <img src="assets/app-icon-n-letter.png" alt="Nexora simplified N app icon"><div class="cap"><b>Simplified Mark ✅</b>النسخة المعتمدة: حرف N فقط كمحور الأيقونة — أوضح في الأحجام الصغيرة</div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <h3 style="margin-bottom:8px;">القرار النهائي</h3>
+        <p>بدل استخدام اللوجو الكامل (سهم + دائرة + خطوط)، تقرر تبسيط الأيقونة لعنصر <b style="color:var(--gold)">حرف N</b> فقط كمحور تصميم الفافيكون وأيقونة التطبيق، لأنه بيفضل واضح وقابل للقراءة حتى في مقاس 16×16px، بينما تفاصيل اللوجو الكامل بتضيع في الأحجام الصغيرة.</p>
+      </div>
+    </section>
+
+    <!-- ===================== COLORS ===================== -->
+    <section class="section" id="colors">
+      <div class="section-head"><span class="sn">06</span><h2>نظام الألوان (v2 — معتمد)</h2><span class="desc">اضغط لنسخ الكود</span></div>
+      <div class="swatch-grid" id="colorSwatches"></div>
+    </section>
+
+    <!-- ===================== TYPOGRAPHY ===================== -->
+    <section class="section" id="type">
+      <div class="section-head"><span class="sn">07</span><h2>الخطوط (Typography)</h2></div>
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-top"><h3>العنوان الرئيسي (Display)</h3><span class="badge done">EN</span></div>
+          <p style="font-size:22px;font-weight:800;color:var(--white);">NEXORA</p>
+          <p style="margin-top:6px;">Calendas Plus — للعناوين واللوجو فقط</p>
+        </div>
+        <div class="card">
+          <div class="card-top"><h3>النص العام (Body)</h3><span class="badge done">EN</span></div>
+          <p style="font-size:16px;color:var(--white);">Inter / SF Pro Display</p>
+          <p style="margin-top:6px;">للنصوص، الأزرار، وواجهات المستخدم</p>
+        </div>
+        <div class="card">
+          <div class="card-top"><h3>الخط العربي</h3><span class="badge pending">قيد التطبيق</span></div>
+          <p>خط عربي مخصص حسب الصورة المرجعية المعتمدة من المستخدم — يُستخدم تلقائيًا كلما كان التصميم المطلوب باللغة العربية.</p>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <h3 style="margin-bottom:8px;">قاعدة الاستخدام</h3>
+        <p>لو التصميم المطلوب بالعربي ← استخدم الخط العربي المرجعي. لو التصميم بالإنجليزي ← استخدم Inter / SF Pro Display للنصوص، و Calendas Plus للعناوين فقط. الهدف: كل التصميمات (سوشيال ميديا، هوية، موقع) تحس إنها "عائلة واحدة" متناسقة بصريًا.</p>
+      </div>
+    </section>
+
+    <!-- ===================== DESIGN TOKENS ===================== -->
+    <section class="section" id="tokens">
+      <div class="section-head"><span class="sn">08</span><h2>Design Tokens الكاملة</h2><span class="desc">المرجع الرسمي — موقع، تطبيق، سوشيال ميديا</span></div>
+      <div class="cards-grid">
+        <div class="card"><div class="card-top"><h3>🎨 Colors</h3><span class="badge done">جاهز</span></div><p>لوحة الأسود/الذهبي الكاملة — شاهد قسم نظام الألوان.</p></div>
+        <div class="card"><div class="card-top"><h3>✍️ Typography</h3><span class="badge done">جاهز</span></div><p>Calendas Plus + Inter/SF Pro + خط عربي مرجعي.</p></div>
+        <div class="card"><div class="card-top"><h3>📏 Spacing</h3><span class="badge pending">قيد الإعداد</span></div><p>نظام 4px / 8px — لم يُوثّق بالكامل بعد.</p></div>
+        <div class="card"><div class="card-top"><h3>📦 Border Radius</h3><span class="badge done">جاهز</span></div><p>--r: 18px · --r-sm: 10px · --r-lg: 24px</p></div>
+        <div class="card"><div class="card-top"><h3>🌑 Shadows</h3><span class="badge done">جاهز</span></div><p>--shadow-soft, --shadow-gold — للبطاقات والعناصر البارزة.</p></div>
+        <div class="card"><div class="card-top"><h3>✨ Glass Effects</h3><span class="badge done">جاهز</span></div><p>--glass, --glass-border — لتأثيرات الزجاج الخفيفة.</p></div>
+        <div class="card"><div class="card-top"><h3>⏱️ Motion</h3><span class="badge pending">قيد الإعداد</span></div><p>--ease: cubic-bezier(.16,1,.3,1) — باقي تحديد المدد الزمنية القياسية.</p></div>
+        <div class="card"><div class="card-top"><h3>📐 Grid System</h3><span class="badge pending">قيد الإعداد</span></div><p>لم يُحدَّد بعد — مقترح: Container 1280px بنفس نمط الموقع الحالي.</p></div>
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <h3 style="margin-bottom:10px;">تقييم الهوية البصرية الحالية</h3>
+        <div class="cards-grid">
+          <div class="card" style="background:var(--b4);"><p><b style="color:var(--gold);">🎨 الهوية البصرية</b><br>10 / 10</p></div>
+          <div class="card" style="background:var(--b4);"><p><b style="color:var(--gold);">💻 مناسبة للويب</b><br>10 / 10</p></div>
+          <div class="card" style="background:var(--b4);"><p><b style="color:var(--gold);">📱 مناسبة للتطبيق</b><br>10 / 10</p></div>
+          <div class="card" style="background:var(--b4);"><p><b style="color:var(--gold);">🖨️ مناسبة للطباعة</b><br>9.5 / 10 — يحتاج Gold Foil / Pantone Metallic لنفس إحساس الذهبي على الورق</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== WEBSITE COPY STRATEGY ===================== -->
+    <section class="section" id="webcopy">
+      <div class="section-head"><span class="sn">09</span><h2>استراتيجية محتوى الموقع (السوق المصري)</h2></div>
+      <div class="two-col">
+        <div>
+          <div class="card">
+            <h3 style="margin-bottom:10px;">المبدأ الأساسي</h3>
+            <p>مش ترجمة حرفية — إعادة كتابة الـ Copy بالكامل من الـ Hero لحد الـ Footer عشان يلائم العميل المصري، باستخدام أحدث نسخة (nexora02.html) كأساس.</p>
+          </div>
+          <div class="card" style="margin-top:14px;">
+            <h3 style="margin-bottom:10px;">❌ هيتشال</h3>
+            <ul class="mini-list">
+              <li>الكلام الأجنبي الرسمي جدًا</li>
+              <li>مصطلحات مناسبة لأمريكا وأوروبا فقط</li>
+              <li>الوعود التسويقية المبالغ فيها</li>
+              <li>عبارات مش مستخدمة في مصر</li>
+            </ul>
+          </div>
+          <div class="card" style="margin-top:14px;">
+            <h3 style="margin-bottom:10px;">✅ هيتضاف</h3>
+            <ul class="mini-list">
+              <li>لهجة مصرية احترافية</li>
+              <li>تركيز على مشاكل أصحاب البيزنس الحقيقية في مصر</li>
+              <li>مخاطبة العيادات، الشركات، المحلات، والمتاجر الأونلاين</li>
+              <li>القيمة قبل الخدمة</li>
+              <li>تحسين معدل التحويل (Conversion)</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <h3 style="margin-bottom:10px;">تفاصيل محلية (Localization)</h3>
+            <ul class="mini-list">
+              <li><b>الأسعار:</b> بصياغة مصرية</li>
+              <li><b>الدفع:</b> فودافون كاش – إنستا باي – تحويل بنكي</li>
+              <li><b>التواصل:</b> واتساب بدل الإيميل كقناة أساسية</li>
+              <li><b>الأمثلة:</b> من السوق المصري مباشرة</li>
+            </ul>
+          </div>
+          <div class="card" style="margin-top:14px;">
+            <h3 style="margin-bottom:10px;">مشاكل العميل الحقيقية (Pain Points)</h3>
+            <ul class="mini-list">
+              <li>الإعلانات بتصرف فلوس ومفيش عملاء</li>
+              <li>شكل الصفحة قديم</li>
+              <li>الموقع بطيء</li>
+              <li>مفيش نظام لإدارة العملاء</li>
+              <li>المنافسين ظاهرين على جوجل والعميل لأ</li>
+            </ul>
+          </div>
+          <div class="card" style="margin-top:14px;">
+            <h3 style="margin-bottom:10px;">Social Proof محلي</h3>
+            <p>بدل "Trusted by Businesses Worldwide" → "اشتغلنا مع عيادات وشركات ومتاجر داخل مصر وساعدناهم يحققوا نتائج فعلية."</p>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <h3 style="margin-bottom:8px;">ملف المرجع الحالي</h3>
+        <p>آخر نسخة موجودة من الموقع محفوظة داخل مكتبة الملفات (<a href="assets/source-website-snapshot.html" target="_blank" style="color:var(--gold);text-decoration:underline;">source-website-snapshot.html</a>) — ننصح باستخدام أحدث نسخة nexora02.html كأساس لإعادة الكتابة الكاملة بدل هذا الملف لو كانت أحدث.</p>
+      </div>
+    </section>
+
+    <!-- ===================== SOCIAL MEDIA ===================== -->
+    <section class="section" id="social">
+      <div class="section-head"><span class="sn">10</span><h2>أصول السوشيال ميديا والمحتوى التعليمي</h2></div>
+      <div class="gallery-grid" data-gallery="social">
+        <div class="gimg" onclick="openLightbox('assets/educational-post-ar-01.png','بوست تعليمي عربي: لماذا تحتاج لنظام عمل متكامل؟')">
+          <img src="assets/educational-post-ar-01.png" alt="Educational post AR system"><div class="cap"><b>Educational · AR</b>لماذا تحتاج لنظام عمل متكامل؟</div>
+        </div>
+        <div class="gimg" onclick="openLightbox('assets/educational-post-en-business-growth.png','بوست تعليمي إنجليزي: What is Business Growth؟')">
+          <img src="assets/educational-post-en-business-growth.png" alt="Educational post EN growth"><div class="cap"><b>Educational · EN</b>What is Business Growth?</div>
+        </div>
+        <div class="gimg" onclick="openLightbox('assets/educational-post-ar-website-system.png','بوست تعليمي: ليه موقعك مش بييع؟')">
+          <img src="assets/educational-post-ar-website-system.png" alt="Educational post AR website"><div class="cap"><b>Educational · AR (V3)</b>ليه موقعك مش بييع؟</div>
+        </div>
+        <div class="gimg" onclick="openLightbox('assets/flyer-ar-project-ready.png','فلاير عربي: هل مشروعك جاهز للنمو؟')">
+          <img src="assets/flyer-ar-project-ready.png" alt="Flyer AR project ready"><div class="cap"><b>Flyer · AR</b>هل مشروعك جاهز للنمو؟ + QR تقييم مجاني</div>
+        </div>
+        <div class="gimg" onclick="openLightbox('assets/flyer-en-ready-to-build.png','فلاير إنجليزي: Ready to build more than just a brand؟')">
+          <img src="assets/flyer-en-ready-to-build.png" alt="Flyer EN ready to build"><div class="cap"><b>Flyer · EN</b>Ready to Build More Than Just a Brand?</div>
+        </div>
+        <div class="gimg" onclick="openLightbox('assets/social-card-set-en.png','بطاقات سوشيال إنجليزي (Cover + Contact + CTA)')">
+          <img src="assets/social-card-set-en.png" alt="Social card set EN"><div class="cap"><b>Social Set · EN</b>Cover Card + Contact Card + Growth Audit CTA</div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <h3 style="margin-bottom:8px;">أرقام وإثباتات مستخدمة في التصميمات</h3>
+        <p>+30 مشروع تم إطلاقه بنجاح · 200% متوسط زيادة في المبيعات · 95% رضا العملاء · 100% التزام بالجودة والنتائج.</p>
+      </div>
+    </section>
+
+    <!-- ===================== BUSINESS CARD ===================== -->
+    <section class="section" id="bizcard">
+      <div class="section-head"><span class="sn">11</span><h2>كارت الشركة (Business Card)</h2></div>
+      <div class="gallery-grid" data-gallery="bizcard">
+        <div class="gimg" onclick="openLightbox('assets/business-card-set.png','مجموعة كاملة من نسخ الكارت الشخصي بـ 4 تنويعات')">
+          <img src="assets/business-card-set.png" alt="Nexora business card set"><div class="cap"><b>4 Variations</b>Gold Foil · Matte Black · White Editorial · Glass/Acrylic</div>
+        </div>
+      </div>
+      <div class="cards-grid" style="margin-top:16px;">
+        <div class="card"><div class="card-top"><h3>المقاس</h3></div><p>90 × 50 مم</p></div>
+        <div class="card"><div class="card-top"><h3>الخامة</h3></div><p>ورق أسود مطفي (Black Soft Touch) — Premium</p></div>
+        <div class="card"><div class="card-top"><h3>التشطيب</h3></div><p>Gold Foil — Emboss / Spot UV</p></div>
+        <div class="card"><div class="card-top"><h3>الحواف</h3></div><p>مستديرة 4 مم</p></div>
+        <div class="card"><div class="card-top"><h3>الأسلوب</h3></div><p>Luxury Minimalism — Swiss Design</p></div>
+      </div>
+    </section>
+
+    <!-- ===================== PROMPT LIBRARY ===================== -->
+    <section class="section" id="prompts">
+      <div class="section-head"><span class="sn">12</span><h2>مكتبة البرومبتات الرئيسية</h2></div>
+
+      <h3 style="font-size:14px;color:var(--gold);margin:6px 0 10px;">1) برومبت بناء قاعدة المعرفة (Master Knowledge Base)</h3>
+      <div class="code-block" id="promptA">You are a Senior Software Architect, UX Designer, Information Architect, and Premium Front-End Developer.
+Your task is to analyze the entire conversation and all uploaded assets — not to summarize, but to extract EVERYTHING of value into one standalone offline HTML Knowledge Base for NEXORA (Business Growth Platform). No frameworks, no CDN — pure HTML/CSS/JS. Style: Apple + Linear + Stripe + Notion + Framer + McKinsey internal docs — luxury, minimal, fast. Organize into 70 sections (Executive Overview → Master Checklist) with search, filters, sidebar, image gallery, file viewer, timeline, and a full task system inheriting one consistent design-token system.</div>
+      <button class="copy-btn" onclick="copyText('promptA')">نسخ</button>
+
+      <h3 style="font-size:14px;color:var(--gold);margin:22px 0 10px;">2) برومبت التحديث المستمر (Continuous Update Mode)</h3>
+      <div class="code-block" id="promptB">This Knowledge Base is the permanent operating system of NEXORA — never rebuilt from scratch. Every new conversation, image, or file must be intelligently merged: detect duplicates/contradictions/outdated info, update the matching section (never duplicate it), bump the version number (v1.0 → v1.1…), log the change in the Changelog, connect related items in a Knowledge Graph, and archive (never delete) anything superseded. Every new section inherits the same colors, typography, spacing, and components automatically.</div>
+      <button class="copy-btn" onclick="copyText('promptB')">نسخ</button>
+
+      <h3 style="font-size:14px;color:var(--gold);margin:22px 0 10px;">3) برومبت التصميم البصري (قيد الإعداد)</h3>
+      <div class="card">
+        <p>طلب مفتوح من المستخدم: برومبت ثابت للتصميمات الخاصة بالموقع والهوية الرقمية بالكامل (مش بس الأيقونة)، بحيث كل التصميمات تحس إنها "عائلة واحدة" متناسقة ومترابطة — نفس الألوان، نفس نوع العناصر، ونفس منطق اختيار الخط (عربي مرجعي أو Inter/SF Pro حسب لغة التصميم). لسه محتاج صياغة نهائية.</p>
+      </div>
+    </section>
+
+    <!-- ===================== TASKS ===================== -->
+    <section class="section" id="tasks">
+      <div class="section-head"><span class="sn">13</span><h2>إدارة المهام</h2><span class="desc" id="taskProgress"></span></div>
+      <div class="progress-bar" style="margin-bottom:20px;"><div class="progress-fill" id="taskProgressFill" style="width:0%;"></div></div>
+      <div id="todoList"></div>
+    </section>
+
+    <!-- ===================== DECISIONS LOG ===================== -->
+    <section class="section" id="decisions">
+      <div class="section-head"><span class="sn">14</span><h2>سجل القرارات (Decision Log)</h2></div>
+      <div class="cards-grid">
+        <div class="card" data-tags="branding done">
+          <div class="card-top"><h3>اعتماد نظام الألوان v2</h3><span class="badge done">مكتمل</span></div>
+          <p><b>البدائل:</b> إبقاء --gold-d و --white و --muted بقيمهم الأصلية.<br><b>القرار:</b> تعديلها لـ #B89F73 / #F5F3EE / #7A7A7A لزيادة نقاء الطباعة والراحة البصرية.<br><b>الأثر:</b> اتساق أعلى في الشاشات الفاتحة والمطبوعات.</p>
+        </div>
+        <div class="card" data-tags="branding done">
+          <div class="card-top"><h3>تبسيط الأيقونة إلى حرف N</h3><span class="badge done">مكتمل</span></div>
+          <p><b>البدائل:</b> استخدام اللوجو الكامل (سهم + دائرة).<br><b>القرار:</b> استخدام حرف N فقط كمحور الفافيكون/أيقونة التطبيق.<br><b>السبب:</b> وضوح أعلى في الأحجام الصغيرة (16–32px).</p>
+        </div>
+        <div class="card" data-tags="branding done">
+          <div class="card-top"><h3>بروفايل فيسبوك من اللوجو</h3><span class="badge done">مكتمل</span></div>
+          <p><b>القرار:</b> بناء صورة بروفايل فيسبوك مبنية على اللوجو الأساسي بدل تصميم منفصل، حفاظًا على الاتساق البصري.</p>
+        </div>
+        <div class="card" data-tags="website pending">
+          <div class="card-top"><h3>استخدام nexora02.html كأساس</h3><span class="badge pending">قيد التنفيذ</span></div>
+          <p><b>البدائل:</b> الملف a65aeb1d…html أو أي نسخة أقدم.<br><b>القرار:</b> اعتماد أحدث نسخة nexora02.html كأساس لإعادة كتابة كل نصوص الموقع.</p>
+        </div>
+        <div class="card" data-tags="website pending">
+          <div class="card-top"><h3>إعادة كتابة الـ Copy لا ترجمته</h3><span class="badge pending">قيد التنفيذ</span></div>
+          <p><b>القرار:</b> رفض الترجمة الحرفية للنصوص الإنجليزية، واعتماد إعادة كتابة كاملة تناسب السوق المصري ثقافيًا ولغويًا.</p>
+        </div>
+        <div class="card" data-tags="branding pending">
+          <div class="card-top"><h3>اتجاه اللوجو النهائي</h3><span class="badge pending">مفتوح</span></div>
+          <p><b>القرار المؤقت:</b> اعتماد لوجو "سهم النمو" كاتجاه رئيسي مبدئي، مع إبقاء "Direction B" (حرف N المائل) كخيار بديل — القرار النهائي لسه معلّق.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TIMELINE ===================== -->
+    <section class="section" id="timeline">
+      <div class="section-head"><span class="sn">15</span><h2>الخط الزمني</h2></div>
+      <div class="timeline">
+        <div class="t-item"><div class="t-date">28 يونيو 2026 — 11:29 م</div><div class="t-title">أول لوحات الهوية الكاملة</div><div class="t-desc">توليد Identity Sheet ولوحة Vision/Tagline الأولى.</div></div>
+        <div class="t-item"><div class="t-date">29 يونيو 2026 — 3:37 م</div><div class="t-title">منظومة الأيقونة</div><div class="t-desc">Icon System الكامل بمقاسات الفافيكون المختلفة.</div></div>
+        <div class="t-item"><div class="t-date">29 يونيو 2026 — 6:54 م</div><div class="t-title">الشارة الدائرية (Badge)</div><div class="t-desc">نسخة دائرية من اللوجو للاستخدامات الرسمية.</div></div>
+        <div class="t-item"><div class="t-date">29 يونيو 2026 — 9:46 م / 10:23 م</div><div class="t-title">بانرات اللوجو الرئيسية</div><div class="t-desc">بانر أفق المدينة + الوردمارك الذهبي على الموجات.</div></div>
+        <div class="t-item"><div class="t-date">30 يونيو 2026 — 2:27 ص</div><div class="t-title">✅ اعتماد الأيقونة المبسّطة</div><div class="t-desc">تقرر استخدام حرف N فقط كمحور الأيقونة/الفافيكون.</div></div>
+        <div class="t-item"><div class="t-date">30 يونيو 2026 — 11:27 م</div><div class="t-title">اتجاه Direction B</div><div class="t-desc">استكشاف لوجو N هندسي مائل كبديل للوجو سهم النمو.</div></div>
+        <div class="t-item"><div class="t-date">1 يوليو 2026 — طوال اليوم</div><div class="t-title">حزمة أصول التسويق الكاملة</div><div class="t-desc">بوستات تعليمية، فلايرز، كارت شركة بـ4 نسخ، وبطاقات سوشيال EN/AR.</div></div>
+        <div class="t-item"><div class="t-date">1 يوليو 2026</div><div class="t-title">📌 نقاش استراتيجية محتوى الموقع</div><div class="t-desc">الاتفاق على إعادة كتابة كاملة للنصوص للسوق المصري، ومراجعة وتحسين Design Tokens.</div></div>
+      </div>
+    </section>
+
+    <!-- ===================== FILE GALLERY ===================== -->
+    <section class="section" id="gallery">
+      <div class="section-head"><span class="sn">16</span><h2>مكتبة الملفات الكاملة</h2><span class="desc">17 ملف</span></div>
+      <div class="gallery-grid" id="fullGallery" data-gallery="all"></div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section class="section" id="contact">
+      <div class="section-head"><span class="sn">17</span><h2>التواصل والحسابات</h2></div>
+      <div class="cards-grid">
+        <div class="card"><div class="card-top"><h3>البريد الإلكتروني</h3></div><p>nexora01.eg@gmail.com<br>nexora01.eg@outlook.com</p></div>
+        <div class="card"><div class="card-top"><h3>الهاتف / واتساب</h3></div><p>+20 10 62264302<br>wa.me/201062264302</p></div>
+        <div class="card"><div class="card-top"><h3>الموقع</h3></div><p>Nexora01.netlify.app</p></div>
+        <div class="card"><div class="card-top"><h3>تليجرام</h3></div><p>t.me/Nexora_01_eg</p></div>
+        <div class="card"><div class="card-top"><h3>قناة واتساب</h3></div><p>whatsapp.com/channel/0029VbDVhPiATRStfzx4Iz39</p></div>
+        <div class="card"><div class="card-top"><h3>الموقع الجغرافي</h3></div><p>شبين الكوم، مصر</p></div>
+      </div>
+    </section>
+
+    <footer>NEXORA Knowledge Base — v1.0 · وضع التحديث المستمر مفعّل · لا يُحذف أي محتوى قديم، فقط يُؤرشف</footer>
+  </main>
+</div>
+
+<script>
+/* ================= DATA ================= */
+const galleryItems = [
+  {src:'assets/logo-banner-city-01.png',cat:'logo',tag:'Logo',title:'اللوجو الأساسي + بانر تواصل'},
+  {src:'assets/logo-wordmark-gold-waves.png',cat:'logo',tag:'Logo',title:'وردمارك ذهبي'},
+  {src:'assets/brand-banner-build-grow-scale-01.png',cat:'logo',tag:'Logo',title:'Direction B — N مائل'},
+  {src:'assets/brand-identity-sheet.png',cat:'logo',tag:'Identity',title:'لوحة الهوية الكاملة'},
+  {src:'assets/brand-banner-vision-tagline.png',cat:'logo',tag:'Identity',title:'بانر Vision'},
+  {src:'assets/logo-badge-circular.png',cat:'logo',tag:'Logo',title:'شارة دائرية'},
+  {src:'assets/brand-banner-build-grow-scale-02.png',cat:'logo',tag:'Logo',title:'Direction B — بديل'},
+  {src:'assets/icon-system-sheet.png',cat:'icon',tag:'Icon',title:'منظومة الأيقونة'},
+  {src:'assets/app-icon-n-letter.png',cat:'icon',tag:'Icon',title:'أيقونة N النهائية'},
+  {src:'assets/educational-post-ar-01.png',cat:'social',tag:'Post',title:'بوست تعليمي عربي 1'},
+  {src:'assets/educational-post-en-business-growth.png',cat:'social',tag:'Post',title:'بوست تعليمي إنجليزي'},
+  {src:'assets/educational-post-ar-website-system.png',cat:'social',tag:'Post',title:'بوست تعليمي عربي V3'},
+  {src:'assets/flyer-ar-project-ready.png',cat:'social',tag:'Flyer',title:'فلاير عربي'},
+  {src:'assets/flyer-en-ready-to-build.png',cat:'social',tag:'Flyer',title:'فلاير إنجليزي'},
+  {src:'assets/social-card-set-en.png',cat:'social',tag:'Social',title:'بطاقات سوشيال إنجليزي'},
+  {src:'assets/business-card-set.png',cat:'bizcard',tag:'Card',title:'مجموعة كارت الشركة'},
+];
+
+const colorTokens = [
+  {name:'Ultra Black',v:'--b0',hex:'#020202'},
+  {name:'Primary Background',v:'--b1',hex:'#050505'},
+  {name:'Hero',v:'--b2',hex:'#080808'},
+  {name:'Cards',v:'--b3',hex:'#0B0B0B'},
+  {name:'Elevated',v:'--b4',hex:'#101010'},
+  {name:'Hover',v:'--b5',hex:'#161616'},
+  {name:'Gold',v:'--gold',hex:'#D6C3A5'},
+  {name:'Gold Soft',v:'--gold-s',hex:'#CBB89D'},
+  {name:'Gold Deep',v:'--gold-d',hex:'#B89F73'},
+  {name:'Gold Bright',v:'--gold-bright',hex:'#E7D3B2'},
+  {name:'White',v:'--white',hex:'#F5F3EE'},
+  {name:'Silver',v:'--silver',hex:'#ADADAD'},
+  {name:'Muted',v:'--muted',hex:'#7A7A7A'},
+];
+
+const tasks = [
+  {t:'تصميم اللوجو بكل الاتجاهات (A, B, Wordmark, Badge)',s:'AR',done:true,tag:'Branding'},
+  {t:'بناء منظومة الأيقونة والفافيكون الكاملة',s:'AR',done:true,tag:'Branding'},
+  {t:'اعتماد تبسيط أيقونة N',s:'AR',done:true,tag:'Branding'},
+  {t:'تصميم كارت الشركة بـ4 تنويعات',s:'AR',done:true,tag:'Marketing'},
+  {t:'إنتاج حزمة البوستات التعليمية والفلايرز (EN/AR)',s:'AR',done:true,tag:'Marketing'},
+  {t:'تصميم بروفايل فيسبوك من اللوجو',s:'AR',done:true,tag:'Marketing'},
+  {t:'اعتماد نظام الألوان v2 النهائي',s:'AR',done:true,tag:'Branding'},
+  {t:'إعادة كتابة نصوص الموقع بالكامل للسوق المصري (Hero → Footer)',s:'AR',done:false,tag:'Website'},
+  {t:'توثيق Design Tokens الكاملة (Spacing, Motion, Grid)',s:'AR',done:false,tag:'Branding'},
+  {t:'صياغة برومبت تصميم بصري ثابت لكل أصول الهوية',s:'AR',done:false,tag:'Marketing'},
+  {t:'تحديد اتجاه اللوجو النهائي (سهم النمو vs Direction B)',s:'AR',done:false,tag:'Branding'},
+];
+
+/* ================= RENDER COLORS ================= */
+const swatchGrid = document.getElementById('colorSwatches');
+colorTokens.forEach(c=>{
+  const el = document.createElement('div');
+  el.className='swatch';
+  el.innerHTML = `<div class="fill" style="background:${c.hex}"></div>
+    <div class="info"><div class="name">${c.name}</div><div class="hex">${c.v} · ${c.hex}</div><div class="copy-flag">تم النسخ ✓</div></div>`;
+  el.onclick = ()=>{
+    navigator.clipboard.writeText(c.hex).catch(()=>{});
+    el.classList.add('copied');
+    setTimeout(()=>el.classList.remove('copied'),1200);
+  };
+  swatchGrid.appendChild(el);
+});
+
+/* ================= RENDER GALLERY ================= */
+const fullGallery = document.getElementById('fullGallery');
+galleryItems.forEach(g=>{
+  const el = document.createElement('div');
+  el.className='gimg';
+  el.setAttribute('data-cat',g.cat);
+  el.onclick = ()=>openLightbox(g.src,g.title);
+  el.innerHTML = `<img src="${g.src}" loading="lazy" alt="${g.title}"><div class="cap"><b>${g.tag}</b>${g.title}</div>`;
+  fullGallery.appendChild(el);
+});
+document.getElementById('cnt-logo').textContent = galleryItems.filter(g=>g.cat==='logo').length;
+document.getElementById('cnt-social').textContent = galleryItems.filter(g=>g.cat==='social').length;
+document.getElementById('cnt-gallery').textContent = galleryItems.length;
+
+/* ================= RENDER TASKS ================= */
+const todoList = document.getElementById('todoList');
+const savedTasks = JSON.parse(localStorage.getItem('nexora_tasks')||'{}');
+function renderTasks(){
+  todoList.innerHTML='';
+  tasks.forEach((task,i)=>{
+    const checked = savedTasks[i] !== undefined ? savedTasks[i] : task.done;
+    const item = document.createElement('div');
+    item.className = 'todo-item'+(checked?' checked':'');
+    item.setAttribute('data-tags', task.tag.toLowerCase()+' '+(checked?'done':'pending'));
+    item.innerHTML = `<div class="todo-check ${checked?'checked':''}">✓</div>
+      <div class="todo-txt"><div class="tt">${task.t}</div><div class="ts">${task.tag} · ${task.s}</div></div>`;
+    item.querySelector('.todo-check').onclick = (e)=>{
+      e.stopPropagation();
+      savedTasks[i] = !checked;
+      localStorage.setItem('nexora_tasks',JSON.stringify(savedTasks));
+      renderTasks();
+    };
+    todoList.appendChild(item);
+  });
+  const doneCount = tasks.filter((t,i)=> (savedTasks[i]!==undefined?savedTasks[i]:t.done)).length;
+  document.getElementById('taskProgress').textContent = `${doneCount} / ${tasks.length} مكتملة`;
+  document.getElementById('taskProgressFill').style.width = (doneCount/tasks.length*100)+'%';
+}
+renderTasks();
+
+/* ================= LIGHTBOX ================= */
+function openLightbox(src,cap){
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightboxCap').textContent = cap||'';
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
+document.getElementById('lightbox').addEventListener('click',(e)=>{if(e.target.id==='lightbox')closeLightbox();});
+document.addEventListener('keydown',(e)=>{if(e.key==='Escape')closeLightbox();});
+
+/* ================= COPY TEXT ================= */
+function copyText(id){
+  const txt = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(txt).catch(()=>{});
+}
+
+/* ================= SIDEBAR NAV ================= */
+document.querySelectorAll('.nav-item').forEach(item=>{
+  item.addEventListener('click',()=>{
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    item.classList.add('active');
+    const target = document.getElementById(item.getAttribute('data-goto'));
+    if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+    if(window.innerWidth<=860) document.getElementById('sidebar').classList.remove('mobile-open');
+  });
+});
+
+function toggleSidebar(){
+  const sb = document.getElementById('sidebar');
+  sb.classList.toggle('collapsed');
+  document.querySelector('.collapse-btn').textContent = sb.classList.contains('collapsed') ? '›' : '‹';
+}
+function toggleSidebarMobile(){
+  document.getElementById('sidebar').classList.toggle('mobile-open');
+}
+
+/* scroll spy */
+const sections = document.querySelectorAll('.section');
+window.addEventListener('scroll',()=>{
+  let current='';
+  sections.forEach(sec=>{
+    const rect = sec.getBoundingClientRect();
+    if(rect.top<=140 && rect.bottom>=140) current = sec.id;
+  });
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    n.classList.toggle('active', n.getAttribute('data-goto')===current);
+  });
+});
+
+/* ================= SEARCH ================= */
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input',()=>{
+  const q = searchInput.value.trim().toLowerCase();
+  document.querySelectorAll('.card, .gimg, .todo-item, .swatch').forEach(el=>{
+    const text = el.innerText.toLowerCase();
+    el.classList.toggle('hidden', q.length>0 && !text.includes(q));
+  });
+});
+
+/* ================= FILTERS ================= */
+document.querySelectorAll('.chip').forEach(chip=>{
+  chip.addEventListener('click',()=>{
+    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    const f = chip.getAttribute('data-filter');
+    document.querySelectorAll('.card, .todo-item').forEach(el=>{
+      if(f==='all'){el.classList.remove('hidden');return;}
+      const tags = (el.getAttribute('data-tags')||'').toLowerCase();
+      el.classList.toggle('hidden', !tags.includes(f));
+    });
+  });
+});
+</script>
+</body>
+</html>

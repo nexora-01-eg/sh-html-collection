@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEXORIA — Animated Cover Sample</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=EB+Garamond:ital,wght@0,400;1,400&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #020100;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  padding: 60px 20px;
+}
+
+/* ══════════════════════════════
+   COVER CARD — 9:16 ratio
+   337 × 600px display
+══════════════════════════════ */
+.cover {
+  width: 337px;
+  height: 600px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ── Deep background ── */
+.bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #0f0c05 0%, #080604 50%, #050302 100%);
+}
+
+/* ── Ambient radial glow — breathes ── */
+.ambient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 65% 45% at 50% 38%, rgba(196,154,60,.07) 0%, transparent 70%);
+  animation: breathe 4s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%,100% { opacity: .6; transform: scale(1); }
+  50%      { opacity: 1;  transform: scale(1.08); }
+}
+
+/* ── Subtle grid ── */
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(196,154,60,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196,154,60,.018) 1px, transparent 1px);
+  background-size: 22px 22px;
+  animation: gridFade 6s ease-in-out infinite alternate;
+}
+@keyframes gridFade { from{opacity:.5} to{opacity:1} }
+
+/* ── Outer frame ── */
+.frame-outer {
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgba(196,154,60,.22);
+  animation: framePulse 3s ease-in-out infinite;
+}
+@keyframes framePulse {
+  0%,100% { border-color: rgba(196,154,60,.22); }
+  50%      { border-color: rgba(196,154,60,.38); }
+}
+.frame-inner {
+  position: absolute;
+  inset: 16px;
+  border: 1px solid rgba(196,154,60,.07);
+}
+
+/* ── Corner ornaments ── */
+.corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+}
+.corner.tl { top: 7px;    left: 7px; }
+.corner.tr { top: 7px;    right: 7px;  transform: scaleX(-1); }
+.corner.bl { bottom: 7px; left: 7px;   transform: scaleY(-1); }
+.corner.br { bottom: 7px; right: 7px;  transform: scale(-1,-1); }
+
+/* ── Horizontal rules ── */
+.rule {
+  position: absolute;
+  left: 18px; right: 18px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196,154,60,.25), transparent);
+  animation: ruleSweep 4s ease-in-out infinite;
+}
+@keyframes ruleSweep {
+  0%,100% { opacity:.5 }
+  50%      { opacity:1  }
+}
+
+/* ── Brand name ── */
+.brand {
+  position: absolute;
+  top: 24px;
+  left: 0; right: 0;
+  text-align: center;
+}
+.brand-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 15px;
+  letter-spacing: .55em;
+  color: rgba(196,154,60,.65);
+  text-indent: .55em;
+  animation: brandGlow 3s ease-in-out infinite;
+}
+@keyframes brandGlow {
+  0%,100% { color: rgba(196,154,60,.55); text-shadow: none; }
+  50%      { color: rgba(196,154,60,.85); text-shadow: 0 0 20px rgba(196,154,60,.3); }
+}
+.brand-line {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196,154,60,.35), transparent);
+  margin: 5px auto 0;
+}
+
+/* ══════════════════════════════
+   ARTWORK AREA — center
+══════════════════════════════ */
+.artwork {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -52%);
+  width: 220px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Rotating rings */
+.ring {
+  position: absolute;
+  border-radius: 50%;
+}
+.ring-1 {
+  width: 210px; height: 210px;
+  border: 1px solid rgba(196,154,60,.16);
+  animation: rotateCW 28s linear infinite;
+}
+.ring-2 {
+  width: 170px; height: 170px;
+  border: 1px solid rgba(196,154,60,.1);
+  animation: rotateCCW 20s linear infinite;
+}
+.ring-3 {
+  width: 132px; height: 132px;
+  border: 1px solid rgba(196,154,60,.07);
+  animation: rotateCW 14s linear infinite;
+}
+.ring-4 {
+  width: 96px; height: 96px;
+  border: 1px solid rgba(196,154,60,.12);
+  animation: rotateCCW 9s linear infinite;
+}
+@keyframes rotateCW  { from{transform:rotate(0)}   to{transform:rotate(360deg)}  }
+@keyframes rotateCCW { from{transform:rotate(0)}   to{transform:rotate(-360deg)} }
+
+/* Ring orbital dots */
+.ring-1::before, .ring-1::after,
+.ring-2::before, .ring-3::before, .ring-4::before {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: #c49a3c;
+}
+.ring-1::before {
+  width: 5px; height: 5px;
+  top: -2.5px; left: 50%; transform: translateX(-50%);
+  box-shadow: 0 0 10px rgba(196,154,60,1), 0 0 20px rgba(196,154,60,.5);
+  animation: dotPulse 2s ease-in-out infinite;
+}
+.ring-1::after {
+  width: 3px; height: 3px;
+  bottom: -1.5px; left: 50%; transform: translateX(-50%);
+  background: rgba(196,154,60,.45);
+}
+.ring-2::before {
+  width: 4px; height: 4px;
+  top: -2px; left: 50%; transform: translateX(-50%);
+  background: rgba(232,192,96,.7);
+  box-shadow: 0 0 7px rgba(232,192,96,.8);
+}
+.ring-3::before {
+  width: 3px; height: 3px;
+  top: -1.5px; left: 50%; transform: translateX(-50%);
+  background: rgba(196,154,60,.5);
+  box-shadow: 0 0 5px rgba(196,154,60,.7);
+}
+.ring-4::before {
+  width: 2.5px; height: 2.5px;
+  bottom: -1.25px; left: 50%; transform: translateX(-50%);
+  background: rgba(245,216,120,.6);
+  box-shadow: 0 0 5px rgba(245,216,120,.7);
+}
+@keyframes dotPulse {
+  0%,100% { box-shadow: 0 0 8px rgba(196,154,60,.9), 0 0 16px rgba(196,154,60,.4); }
+  50%      { box-shadow: 0 0 14px rgba(196,154,60,1), 0 0 28px rgba(196,154,60,.6); }
+}
+
+/* Central glow */
+.glow {
+  position: absolute;
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,154,60,.12) 0%, transparent 70%);
+  animation: glowPulse 3.5s ease-in-out infinite;
+}
+@keyframes glowPulse {
+  0%,100% { transform: scale(1);   opacity: .7; }
+  50%      { transform: scale(1.3); opacity: 1;  }
+}
+
+/* SVG icon */
+.icon {
+  position: relative;
+  z-index: 3;
+  filter:
+    drop-shadow(0 0 16px rgba(196,154,60,.45))
+    drop-shadow(0 0 5px rgba(196,154,60,.2));
+  animation: iconFloat 4s ease-in-out infinite;
+}
+@keyframes iconFloat {
+  0%,100% { transform: translateY(0);   }
+  50%      { transform: translateY(-5px); }
+}
+
+/* Rotating cross lines behind icon */
+.cross-lines {
+  position: absolute;
+  width: 80px; height: 80px;
+  animation: rotateCW 20s linear infinite;
+  opacity: .15;
+}
+.cross-lines line { stroke: rgba(196,154,60,1); stroke-width: .8; }
+
+/* Particles floating around */
+.particle {
+  position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: #c49a3c;
+  animation: particleFloat linear infinite;
+}
+@keyframes particleFloat {
+  0%   { transform: translateY(0) scale(1); opacity: 0; }
+  20%  { opacity: .8; }
+  80%  { opacity: .4; }
+  100% { transform: translateY(-80px) scale(.3); opacity: 0; }
+}
+
+/* ── Text area ── */
+.text-area {
+  position: absolute;
+  bottom: 22px;
+  left: 0; right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.domain {
+  font-family: 'EB Garamond', serif;
+  font-size: 7.5px;
+  letter-spacing: 5px;
+  color: rgba(196,154,60,.32);
+  text-transform: uppercase;
+}
+
+.divider {
+  width: 30px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196,154,60,.32), transparent);
+}
+
+.product-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 22px;
+  color: #e8c060;
+  letter-spacing: .04em;
+  line-height: 1.22;
+  text-shadow: 0 0 24px rgba(196,154,60,.25);
+  animation: nameGlow 4s ease-in-out infinite;
+}
+@keyframes nameGlow {
+  0%,100% { text-shadow: 0 0 20px rgba(196,154,60,.2); }
+  50%      { text-shadow: 0 0 30px rgba(196,154,60,.4), 0 0 60px rgba(196,154,60,.15); }
+}
+
+.desc {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: rgba(196,154,60,.35);
+  line-height: 1.55;
+}
+
+.sys-num {
+  font-family: 'EB Garamond', serif;
+  font-size: 7px;
+  letter-spacing: 5px;
+  color: rgba(196,154,60,.18);
+  text-transform: uppercase;
+}
+
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+.orn-l { width: 24px; height: 1px; background: rgba(196,154,60,.15); }
+.orn-d { width: 3px; height: 3px; border-radius: 50%; background: rgba(196,154,60,.3); }
+.orn-ds { width: 1.5px; height: 1.5px; border-radius: 50%; background: rgba(196,154,60,.15); }
+
+/* ── Scanning light sweep ── */
+.scan-line {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(196,154,60,.15), transparent);
+  animation: scanDown 6s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes scanDown {
+  0%   { top: 0;    opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: .5; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* ── Corner flicker ── */
+.corner-dot {
+  position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: rgba(196,154,60,.6);
+  animation: cornerFlicker 2.5s ease-in-out infinite;
+}
+.corner-dot.tl { top: 9px;  left: 9px; }
+.corner-dot.tr { top: 9px;  right: 9px; animation-delay: .6s; }
+.corner-dot.bl { bottom: 9px; left: 9px; animation-delay: 1.2s; }
+.corner-dot.br { bottom: 9px; right: 9px; animation-delay: 1.8s; }
+@keyframes cornerFlicker {
+  0%,100% { opacity: .4; box-shadow: none; }
+  50%      { opacity: 1; box-shadow: 0 0 6px rgba(196,154,60,.8); }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ════ COVER — Clear Thinking System ════ -->
+<div class="cover">
+  <div class="bg"></div>
+  <div class="ambient"></div>
+  <div class="grid"></div>
+  <div class="scan-line"></div>
+
+  <!-- Frames -->
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+
+  <!-- Corner dots -->
+  <div class="corner-dot tl"></div>
+  <div class="corner-dot tr"></div>
+  <div class="corner-dot bl"></div>
+  <div class="corner-dot br"></div>
+
+  <!-- Corner ornaments -->
+  <div class="corner tl">
+    <svg viewBox="0 0 22 22" fill="none" width="22" height="22">
+      <path d="M2 11L2 2L11 2" stroke="rgba(196,154,60,.5)" stroke-width="1.3"/>
+      <circle cx="2" cy="2" r="1.8" fill="rgba(196,154,60,.4)"/>
+    </svg>
+  </div>
+  <div class="corner tr">
+    <svg viewBox="0 0 22 22" fill="none" width="22" height="22">
+      <path d="M2 11L2 2L11 2" stroke="rgba(196,154,60,.5)" stroke-width="1.3"/>
+      <circle cx="2" cy="2" r="1.8" fill="rgba(196,154,60,.4)"/>
+    </svg>
+  </div>
+  <div class="corner bl">
+    <svg viewBox="0 0 22 22" fill="none" width="22" height="22">
+      <path d="M2 11L2 2L11 2" stroke="rgba(196,154,60,.5)" stroke-width="1.3"/>
+      <circle cx="2" cy="2" r="1.8" fill="rgba(196,154,60,.4)"/>
+    </svg>
+  </div>
+  <div class="corner br">
+    <svg viewBox="0 0 22 22" fill="none" width="22" height="22">
+      <path d="M2 11L2 2L11 2" stroke="rgba(196,154,60,.5)" stroke-width="1.3"/>
+      <circle cx="2" cy="2" r="1.8" fill="rgba(196,154,60,.4)"/>
+    </svg>
+  </div>
+
+  <!-- Brand -->
+  <div class="brand">
+    <div class="brand-text">VEXORIA</div>
+    <div class="brand-line"></div>
+  </div>
+
+  <!-- Rules -->
+  <div class="rule" style="top:58px"></div>
+  <div class="rule" style="bottom:140px; opacity:.4"></div>
+
+  <!-- Artwork -->
+  <div class="artwork">
+    <div class="ring ring-1"></div>
+    <div class="ring ring-2"></div>
+    <div class="ring ring-3"></div>
+    <div class="ring ring-4"></div>
+    <div class="glow"></div>
+
+    <!-- Floating particles -->
+    <div class="particle" style="left:30%;bottom:10%;animation-duration:3.2s;animation-delay:.0s;width:3px;height:3px;box-shadow:0 0 6px rgba(196,154,60,.8)"></div>
+    <div class="particle" style="left:60%;bottom:5%;animation-duration:4s;animation-delay:.8s;width:2px;height:2px"></div>
+    <div class="particle" style="left:20%;bottom:20%;animation-duration:5s;animation-delay:1.6s;width:2px;height:2px;box-shadow:0 0 4px rgba(196,154,60,.7)"></div>
+    <div class="particle" style="left:75%;bottom:15%;animation-duration:3.5s;animation-delay:2.4s;width:3px;height:3px"></div>
+    <div class="particle" style="left:50%;bottom:0%;animation-duration:4.5s;animation-delay:3.2s;width:2px;height:2px;box-shadow:0 0 5px rgba(196,154,60,.9)"></div>
+    <div class="particle" style="left:40%;bottom:25%;animation-duration:3.8s;animation-delay:.4s;width:1.5px;height:1.5px"></div>
+    <div class="particle" style="left:65%;bottom:30%;animation-duration:4.2s;animation-delay:1.2s;width:2px;height:2px;box-shadow:0 0 4px rgba(245,216,120,.7)"></div>
+
+    <!-- Brain SVG icon -->
+    <svg class="icon" width="90" height="90" viewBox="0 0 90 90" fill="none">
+      <!-- Left brain half -->
+      <path d="M45 14C36 14 28 19 25 26C22 29 21 33 21 37C21 41 22 44 24 47C21 49 19 53 19 57C19 63 23 68 29 70C31 73 34 74 37 74C39 76 42 77 45 77"
+        stroke="rgba(196,154,60,.55)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <!-- Right brain half -->
+      <path d="M45 14C54 14 62 19 65 26C68 29 69 33 69 37C69 41 68 44 66 47C69 49 71 53 71 57C71 63 67 68 61 70C59 73 56 74 53 74C51 76 48 77 45 77"
+        stroke="rgba(196,154,60,.55)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <!-- Center dividing line -->
+      <line x1="45" y1="14" x2="45" y2="77" stroke="rgba(196,154,60,.14)" stroke-width=".9" stroke-dasharray="3,4"/>
+      <!-- Neural left -->
+      <path d="M36 27C31 27 28 30 28 34" stroke="rgba(196,154,60,.48)" stroke-width=".9" fill="none" stroke-linecap="round"/>
+      <path d="M33 41C28 41 26 44 26 48" stroke="rgba(196,154,60,.38)" stroke-width=".9" fill="none" stroke-linecap="round"/>
+      <path d="M34 57C29 57 27 60 28 64" stroke="rgba(196,154,60,.32)" stroke-width=".9" fill="none" stroke-linecap="round"/>
+      <!-- Neural right -->
+      <path d="M54 27C59 27 62 30 62 34" stroke="rgba(196,154,60,.48)" stroke-width=".9" fill="none" stroke-linecap="round"/>
+      <path d="M57 41C62 41 64 44 64 48" stroke="rgba(196,154,60,.38)" stroke-width=".9" fill="none" stroke-linecap="round"/>
+      <path d="M56 57C61 57 63 60 62 64" stroke="rgba(196,154,60,.32)" stroke-width=".9" fill="none" stroke-linecap="round"/>
+      <!-- Node dots — pulse animation -->
+      <circle cx="36" cy="27" r="2" fill="rgba(196,154,60,.6)">
+        <animate attributeName="opacity" values=".4;1;.4" dur="2.1s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="54" cy="27" r="2" fill="rgba(196,154,60,.6)">
+        <animate attributeName="opacity" values=".4;1;.4" dur="2.5s" repeatCount="indefinite" begin=".3s"/>
+      </circle>
+      <circle cx="33" cy="41" r="1.6" fill="rgba(196,154,60,.5)">
+        <animate attributeName="opacity" values=".3;.9;.3" dur="1.8s" repeatCount="indefinite" begin=".6s"/>
+      </circle>
+      <circle cx="57" cy="41" r="1.6" fill="rgba(196,154,60,.5)">
+        <animate attributeName="opacity" values=".3;.9;.3" dur="2.2s" repeatCount="indefinite" begin=".9s"/>
+      </circle>
+      <circle cx="34" cy="57" r="1.5" fill="rgba(196,154,60,.42)">
+        <animate attributeName="opacity" values=".2;.8;.2" dur="2.8s" repeatCount="indefinite" begin="1.2s"/>
+      </circle>
+      <circle cx="56" cy="57" r="1.5" fill="rgba(196,154,60,.42)">
+        <animate attributeName="opacity" values=".2;.8;.2" dur="2s" repeatCount="indefinite" begin="1.5s"/>
+      </circle>
+      <!-- Clarity rays -->
+      <line x1="45" y1="45" x2="45" y2="8"  stroke="rgba(196,154,60,.1)" stroke-width=".7"/>
+      <line x1="45" y1="45" x2="8"  y2="45" stroke="rgba(196,154,60,.1)" stroke-width=".7"/>
+      <line x1="45" y1="45" x2="82" y2="45" stroke="rgba(196,154,60,.1)" stroke-width=".7"/>
+      <line x1="45" y1="45" x2="45" y2="82" stroke="rgba(196,154,60,.1)" stroke-width=".7"/>
+      <line x1="45" y1="45" x2="20" y2="20" stroke="rgba(196,154,60,.07)" stroke-width=".7"/>
+      <line x1="45" y1="45" x2="70" y2="20" stroke="rgba(196,154,60,.07)" stroke-width=".7"/>
+      <line x1="45" y1="45" x2="20" y2="70" stroke="rgba(196,154,60,.07)" stroke-width=".7"/>
+      <line x1="45" y1="45" x2="70" y2="70" stroke="rgba(196,154,60,.07)" stroke-width=".7"/>
+      <!-- Core -->
+      <circle cx="45" cy="45" r="8" stroke="rgba(196,154,60,.22)" stroke-width="1" fill="rgba(196,154,60,.04)">
+        <animate attributeName="r" values="7;9;7" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".7;1;.7" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="45" cy="45" r="4" fill="#c49a3c" opacity=".85">
+        <animate attributeName="opacity" values=".7;1;.7" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="45" cy="45" r="1.8" fill="#f5d878">
+        <animate attributeName="r" values="1.5;2.5;1.5" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+  </div>
+
+  <!-- Text -->
+  <div class="text-area">
+    <div class="domain">Mind &amp; Thinking</div>
+    <div class="divider"></div>
+    <div class="product-name">Clear Thinking<br>System</div>
+    <div class="desc">Purify your thinking.<br>Make better decisions.</div>
+    <div class="divider"></div>
+    <div class="sys-num">VEXORIA · SYSTEM 01</div>
+    <div class="ornament">
+      <div class="orn-l"></div>
+      <div class="orn-ds"></div>
+      <div class="orn-d"></div>
+      <div class="orn-ds"></div>
+      <div class="orn-l"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════ COVER — Fear Control System ════ -->
+<div class="cover">
+  <div class="bg" style="background:linear-gradient(160deg,#100502 0%,#080402 50%,#050202 100%)"></div>
+  <div class="ambient" style="background:radial-gradient(ellipse 65% 45% at 50% 38%,rgba(180,70,20,.09) 0%,transparent 70%)"></div>
+  <div class="grid"></div>
+  <div class="scan-line"></div>
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+  <div class="corner-dot tl"></div>
+  <div class="corner-dot tr"></div>
+  <div class="corner-dot bl"></div>
+  <div class="corner-dot br"></div>
+  <div class="corner tl"><svg viewBox="0 0 22 22" fill="none" width="22" height="22"><path d="M2 11L2 2L11 2" stroke="rgba(196,154,60,.5)" stroke-width="1.3"/><circle cx="2" cy="2" r="1.8" fill="rgba(196,154,60,.4)"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 22 22" fill="none" width="22" height="22"><path d="M2 11L2 2L11 2" stroke="rgba(196,154,60,.5)" stroke-width="1.3"/><circle cx="2" cy="2" r="1.8" fill="rgba(196,154,60,.4)"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 22 22" fill="none" width="22" height="22"><path d="M2 11L2 2L11 2" stroke="rgba(196,154,60,.5)" stroke-width="1.3"/><circle cx="2" cy="2" r="1.8" fill="rgba(196,154,60,.4)"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 22 22" fill="none" width="22" height="22"><path d="M2 11L2 2L11 2" stroke="rgba(196,154,60,.5)" stroke-width="1.3"/><circle cx="2" cy="2" r="1.8" fill="rgba(196,154,60,.4)"/></svg></div>
+  <div class="brand"><div class="brand-text">VEXORIA</div><div class="brand-line"></div></div>
+  <div class="rule" style="top:58px"></div>
+  <div class="rule" style="bottom:140px;opacity:.4"></div>
+
+  <div class="artwork">
+    <div class="ring ring-1" style="border-color:rgba(196,154,60,.12)"></div>
+    <div class="ring ring-2" style="border-color:rgba(196,154,60,.07)"></div>
+    <div class="glow" style="background:radial-gradient(circle,rgba(180,70,20,.13) 0%,transparent 70%)"></div>
+
+    <!-- Particles -->
+    <div class="particle" style="left:25%;bottom:5%;animation-duration:3.5s;animation-delay:.0s;box-shadow:0 0 5px rgba(196,154,60,.8)"></div>
+    <div class="particle" style="left:55%;bottom:10%;animation-duration:4.2s;animation-delay:1s;width:2px;height:2px"></div>
+    <div class="particle" style="left:70%;bottom:0%;animation-duration:3s;animation-delay:2s;box-shadow:0 0 4px rgba(245,120,60,.7)"></div>
+    <div class="particle" style="left:40%;bottom:20%;animation-duration:5s;animation-delay:.5s;width:2px;height:2px"></div>
+
+    <!-- Flame SVG -->
+    <svg class="icon" width="82" height="100" viewBox="0 0 82 100" fill="none">
+      <!-- Outer flame -->
+      <path d="M41 6C41 6,56 17,62 32C68 46,64 57,57 65C70 56,72 42,66 28C62 19,55 13,55 13C59 26,55 34,48 40C52 29,50 18,42 9C46 24,44 33,41 40Z"
+        stroke="rgba(196,154,60,.38)" stroke-width="1.2" fill="none" stroke-linejoin="round"/>
+      <!-- Mid flame -->
+      <path d="M41 20C41 20,52 29,55 41C57 51,55 59,49 65C57 58,59 47,55 36C51 29,47 25,47 25C49 34,45 40,41 44C43 36,41 27,41 20Z"
+        stroke="rgba(196,154,60,.54)" stroke-width="1.1" fill="none" stroke-linejoin="round"/>
+      <!-- Inner flame — animated flicker -->
+      <path d="M41 36C41 36,46 42,48 51C50 58,48 64,44 68C50 62,50 52,46 46C44 42,42 40,41 36Z"
+        fill="rgba(196,154,60,.12)" stroke="rgba(196,154,60,.7)" stroke-width="1" stroke-linejoin="round">
+        <animate attributeName="opacity" values=".7;1;.8;1;.7" dur="1.2s" repeatCount="indefinite"/>
+      </path>
+      <!-- Base -->
+      <ellipse cx="41" cy="82" rx="20" ry="7" stroke="rgba(196,154,60,.2)" stroke-width="1" fill="none"/>
+      <ellipse cx="41" cy="82" rx="11" ry="3.5" stroke="rgba(196,154,60,.12)" stroke-width=".8" fill="none"/>
+      <line x1="41" y1="68" x2="41" y2="75" stroke="rgba(196,154,60,.3)" stroke-width="1"/>
+      <!-- Tip rays -->
+      <line x1="41" y1="6" x2="41" y2="2" stroke="rgba(196,154,60,.35)" stroke-width="1" stroke-linecap="round"/>
+      <line x1="41" y1="6" x2="36" y2="2" stroke="rgba(196,154,60,.22)" stroke-width=".9" stroke-linecap="round"/>
+      <line x1="41" y1="6" x2="46" y2="2" stroke="rgba(196,154,60,.22)" stroke-width=".9" stroke-linecap="round"/>
+      <!-- Core -->
+      <circle cx="41" cy="54" r="5" fill="rgba(196,154,60,.1)">
+        <animate attributeName="r" values="4;6;4" dur="1.4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="41" cy="54" r="2.5" fill="rgba(196,154,60,.6)">
+        <animate attributeName="opacity" values=".5;1;.5" dur="1.2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="41" cy="54" r="1" fill="#f5d878"/>
+      <!-- Spark particles -->
+      <circle cx="28" cy="30" r="1.5" fill="rgba(196,154,60,.45)"><animate attributeName="opacity" values=".2;.8;.2" dur="2.1s" repeatCount="indefinite"/></circle>
+      <circle cx="58" cy="24" r="1.2" fill="rgba(196,154,60,.35)"><animate attributeName="opacity" values=".1;.7;.1" dur="1.8s" repeatCount="indefinite" begin=".4s"/></circle>
+      <circle cx="22" cy="50" r="1" fill="rgba(196,154,60,.3)"><animate attributeName="opacity" values=".1;.6;.1" dur="2.5s" repeatCount="indefinite" begin=".8s"/></circle>
+      <circle cx="62" cy="46" r="1.5" fill="rgba(196,154,60,.4)"><animate attributeName="opacity" values=".2;.8;.2" dur="1.9s" repeatCount="indefinite" begin="1.2s"/></circle>
+    </svg>
+  </div>
+
+  <div class="text-area">
+    <div class="domain">Mental Strength</div>
+    <div class="divider"></div>
+    <div class="product-name">Fear Control<br>System</div>
+    <div class="desc">Master fear — not suppress it.</div>
+    <div class="divider"></div>
+    <div class="sys-num">VEXORIA · SYSTEM 18</div>
+    <div class="ornament">
+      <div class="orn-l"></div><div class="orn-ds"></div><div class="orn-d"></div><div class="orn-ds"></div><div class="orn-l"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════ COVER — Wealth Building Map ════ -->
+<div class="cover">
+  <div class="bg" style="background:linear-gradient(160deg,#0d0a03 0%,#080604 50%,#050402 100%)"></div>
+  <div class="ambient"></div>
+  <div class="grid"></div>
+  <div class="scan-line"></div>
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+  <div class="corner-dot tl"></div>
+  <div class="corner-dot tr"></div>
+  <div class="corner-dot bl"></div>
+  <div class="corner-dot br"></div>
+  <div class="corner tl"><svg viewBox="0 0 22 22" fill="none" width="22" height="22"><path d="M2 11L2 2L11 2" stroke="rgba(196,154,60,.5)" stroke-width="1.3"/><circle cx="2" cy="2" r="1.8" fill="rgba(196,154,60,.4)"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 22 22" fill="none" width="22" height="22"><path d="M2 11L2 2L11 2" stroke="rgba(196,154,60,.5)" stroke-width="1.3"/><circle cx="2" cy="2" r="1.8" fill="rgba(196,154,60,.4)"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 22 22" fill="none" width="22" height="22"><path d="M2 11L2 2L11 2" stroke="rgba(196,154,60,.5)" stroke-width="1.3"/><circle cx="2" cy="2" r="1.8" fill="rgba(196,154,60,.4)"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 22 22" fill="none" width="22" height="22"><path d="M2 11L2 2L11 2" stroke="rgba(196,154,60,.5)" stroke-width="1.3"/><circle cx="2" cy="2" r="1.8" fill="rgba(196,154,60,.4)"/></svg></div>
+  <div class="brand"><div class="brand-text">VEXORIA</div><div class="brand-line"></div></div>
+  <div class="rule" style="top:58px"></div>
+  <div class="rule" style="bottom:140px;opacity:.4"></div>
+
+  <div class="artwork">
+    <div class="ring ring-1"></div>
+    <div class="ring ring-2"></div>
+    <div class="glow"></div>
+    <div class="particle" style="left:20%;bottom:5%;animation-duration:3.8s;animation-delay:.0s;box-shadow:0 0 6px rgba(196,154,60,.9)"></div>
+    <div class="particle" style="left:60%;bottom:0%;animation-duration:4.5s;animation-delay:1s;width:2px;height:2px"></div>
+    <div class="particle" style="left:40%;bottom:15%;animation-duration:3.2s;animation-delay:2s;box-shadow:0 0 4px rgba(245,216,120,.7)"></div>
+    <div class="particle" style="left:75%;bottom:10%;animation-duration:5s;animation-delay:.5s;width:2px;height:2px"></div>
+
+    <!-- Chart SVG -->
+    <svg class="icon" width="106" height="90" viewBox="0 0 106 90" fill="none">
+      <!-- Grid -->
+      <line x1="14" y1="12" x2="96" y2="12" stroke="rgba(196,154,60,.07)" stroke-width=".8"/>
+      <line x1="14" y1="26" x2="96" y2="26" stroke="rgba(196,154,60,.07)" stroke-width=".8"/>
+      <line x1="14" y1="40" x2="96" y2="40" stroke="rgba(196,154,60,.07)" stroke-width=".8"/>
+      <line x1="14" y1="54" x2="96" y2="54" stroke="rgba(196,154,60,.07)" stroke-width=".8"/>
+      <line x1="14" y1="68" x2="96" y2="68" stroke="rgba(196,154,60,.07)" stroke-width=".8"/>
+      <!-- Axes -->
+      <line x1="14" y1="8" x2="14" y2="78" stroke="rgba(196,154,60,.25)" stroke-width="1.1"/>
+      <line x1="14" y1="78" x2="98" y2="78" stroke="rgba(196,154,60,.25)" stroke-width="1.1"/>
+      <!-- Area fill -->
+      <polygon points="20,74 30,62 40,56 50,46 60,36 70,26 80,16 90,8 90,78 20,78"
+        fill="rgba(196,154,60,.045)"/>
+      <!-- Rising line — draw animation -->
+      <polyline points="20,74 30,62 40,56 50,46 60,36 70,26 80,16 90,8"
+        stroke="rgba(196,154,60,.72)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <animate attributeName="stroke-dasharray" from="0,300" to="300,0" dur="2.5s" fill="freeze"/>
+      </polyline>
+      <!-- Data points — appear in sequence -->
+      <circle cx="20" cy="74" r="2.8" fill="rgba(196,154,60,.4)"><animate attributeName="opacity" from="0" to="1" begin="0.3s" dur=".3s" fill="freeze"/></circle>
+      <circle cx="40" cy="56" r="2.8" fill="rgba(196,154,60,.55)"><animate attributeName="opacity" from="0" to="1" begin="0.8s" dur=".3s" fill="freeze"/></circle>
+      <circle cx="60" cy="36" r="2.8" fill="rgba(196,154,60,.68)"><animate attributeName="opacity" from="0" to="1" begin="1.3s" dur=".3s" fill="freeze"/></circle>
+      <circle cx="80" cy="16" r="2.8" fill="rgba(196,154,60,.8)"><animate attributeName="opacity" from="0" to="1" begin="1.8s" dur=".3s" fill="freeze"/></circle>
+      <!-- Top point — big gold dot -->
+      <circle cx="90" cy="8" r="5" fill="#c49a3c" stroke="rgba(196,154,60,.4)" stroke-width="1.2">
+        <animate attributeName="opacity" from="0" to="1" begin="2.2s" dur=".4s" fill="freeze"/>
+        <animate attributeName="r" values="4;6;4" dur="2.5s" begin="2.6s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="90" cy="8" r="2" fill="#f5d878"><animate attributeName="opacity" from="0" to="1" begin="2.4s" dur=".3s" fill="freeze"/></circle>
+      <!-- Arrow up -->
+      <path d="M87 4 L90 1 L93 4" stroke="rgba(196,154,60,.6)" stroke-width="1" fill="none" stroke-linecap="round">
+        <animate attributeName="opacity" from="0" to="1" begin="2.6s" dur=".3s" fill="freeze"/>
+      </path>
+      <!-- Y-axis ticks -->
+      <line x1="12" y1="12" x2="14" y2="12" stroke="rgba(196,154,60,.3)" stroke-width=".8"/>
+      <line x1="12" y1="26" x2="14" y2="26" stroke="rgba(196,154,60,.3)" stroke-width=".8"/>
+      <line x1="12" y1="40" x2="14" y2="40" stroke="rgba(196,154,60,.3)" stroke-width=".8"/>
+      <line x1="12" y1="54" x2="14" y2="54" stroke="rgba(196,154,60,.3)" stroke-width=".8"/>
+      <line x1="12" y1="68" x2="14" y2="68" stroke="rgba(196,154,60,.3)" stroke-width=".8"/>
+    </svg>
+  </div>
+
+  <div class="text-area">
+    <div class="domain">Wealth &amp; Money</div>
+    <div class="divider"></div>
+    <div class="product-name">Wealth Building<br>Map</div>
+    <div class="desc">A complete roadmap to real wealth.</div>
+    <div class="divider"></div>
+    <div class="sys-num">VEXORIA · SYSTEM 32</div>
+    <div class="ornament">
+      <div class="orn-l"></div><div class="orn-ds"></div><div class="orn-d"></div><div class="orn-ds"></div><div class="orn-l"></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

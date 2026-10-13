@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexora — وكالة إبداعية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --burgundy: #76220b;
+    --cream: #fff9f2;
+    --black: #000000;
+    --light-blue: #aed1ff;
+    --warm-gray-bg: #ebe4e1;
+    --mid-gray: #747474;
+    --ui-gray: #e1e1e1;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 24px 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.6) 80%, transparent 100%);
+    backdrop-filter: blur(6px);
+  }
+
+  .logo { display: flex; align-items: center; gap: 12px; }
+
+  .logo-mark {
+    width: 32px; height: 32px;
+    animation: spin-slow 14s linear infinite;
+  }
+
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 23px; font-weight: 500;
+    letter-spacing: 5px; color: var(--cream);
+  }
+
+  .nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
+
+  .nav-links a {
+    color: var(--mid-gray); text-decoration: none;
+    font-size: 12px; letter-spacing: 2px; transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--cream); }
+
+  .nav-cta {
+    border: 1px solid var(--burgundy) !important;
+    color: var(--white) !important;
+    padding: 9px 24px; border-radius: 2px;
+    background: var(--burgundy) !important;
+  }
+
+  .nav-cta:hover {
+    background: transparent !important;
+    color: var(--burgundy) !important;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 140px 40px 100px;
+    position: relative;
+    background:
+      radial-gradient(ellipse 80% 55% at 50% 100%, #1f0600 0%, transparent 65%),
+      radial-gradient(ellipse 50% 40% at 20% 10%, #00060f 0%, transparent 55%),
+      radial-gradient(ellipse 50% 40% at 80% 5%, #00080f 0%, transparent 55%),
+      #000000;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(118,34,11,0.08) 1px, transparent 1px);
+    background-size: 44px 44px;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%);
+  }
+
+  .hero-tag {
+    display: inline-block;
+    font-size: 11px; letter-spacing: 4px;
+    color: var(--light-blue);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    padding: 8px 22px;
+    border: 1px solid rgba(174,209,255,0.18);
+    border-radius: 100px;
+    background: rgba(174,209,255,0.04);
+    opacity: 0;
+    animation: fadeUp 0.9s 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(54px, 9vw, 110px);
+    font-weight: 300; line-height: 1.02;
+    letter-spacing: -1px; margin-bottom: 28px;
+    opacity: 0; animation: fadeUp 0.9s 0.4s forwards;
+  }
+
+  .hero-title em { font-style: italic; color: var(--burgundy); display: block; }
+
+  .hero-sub {
+    font-size: 15px; color: var(--mid-gray);
+    line-height: 2; max-width: 500px;
+    margin: 0 auto 52px;
+    opacity: 0; animation: fadeUp 0.9s 0.6s forwards;
+  }
+
+  .hero-sub strong { color: var(--cream); font-weight: 500; }
+
+  .hero-buttons {
+    display: flex; gap: 14px; justify-content: center;
+    opacity: 0; animation: fadeUp 0.9s 0.8s forwards;
+  }
+
+  .btn-primary {
+    background: var(--burgundy); color: var(--cream);
+    padding: 15px 40px; border: 1px solid var(--burgundy); border-radius: 2px;
+    font-family: 'Tajawal', sans-serif; font-size: 14px; letter-spacing: 2px;
+    cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: transparent; color: var(--burgundy); transform: translateY(-2px);
+  }
+
+  .btn-outline {
+    border: 1px solid rgba(235,228,225,0.2); color: var(--warm-gray-bg);
+    padding: 15px 40px; border-radius: 2px; font-size: 14px; letter-spacing: 2px;
+    cursor: pointer; background: transparent; transition: all 0.3s;
+    text-decoration: none; display: inline-block;
+  }
+
+  .btn-outline:hover { border-color: var(--white); color: var(--white); }
+
+  .hero-scroll {
+    position: absolute; bottom: 44px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    color: var(--mid-gray); font-size: 9px; letter-spacing: 4px;
+    opacity: 0; animation: fadeUp 0.9s 1.2s forwards;
+  }
+
+  .hero-scroll::after {
+    content: ''; width: 1px; height: 44px;
+    background: linear-gradient(to bottom, var(--burgundy), transparent);
+    animation: pulse-line 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-line { 0%,100%{opacity:.3} 50%{opacity:1} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+
+  /* MARQUEE */
+  .marquee-wrapper {
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 15px 0; overflow: hidden;
+    background: rgba(0,0,0,0.7);
+  }
+
+  .marquee-track {
+    display: flex; gap: 52px;
+    animation: marquee 35s linear infinite; white-space: nowrap;
+  }
+
+  .marquee-item {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; letter-spacing: 3px; color: var(--mid-gray);
+    display: flex; align-items: center; gap: 14px;
+  }
+
+  .marquee-dot { width:4px; height:4px; background:var(--burgundy); border-radius:50%; flex-shrink:0; }
+
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* SECTION BASE */
+  section { padding: 96px 64px; }
+
+  .section-label {
+    font-size: 10px; letter-spacing: 5px; color: var(--burgundy);
+    text-transform: uppercase; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 14px;
+  }
+
+  .section-label::before {
+    content: ''; width: 34px; height: 1px;
+    background: var(--burgundy); flex-shrink: 0;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(34px, 5vw, 58px); font-weight: 400;
+    line-height: 1.1; margin-bottom: 14px; color: var(--white);
+  }
+
+  /* SERVICES */
+  #services {
+    background:
+      radial-gradient(ellipse 50% 40% at 90% 0%, #0d0000 0%, transparent 55%),
+      radial-gradient(ellipse 40% 40% at 10% 100%, #000810 0%, transparent 55%),
+      #050505;
+  }
+
+  .services-header { max-width: 520px; margin-bottom: 60px; }
+
+  .services-header .price-note {
+    font-size: 14px; color: var(--mid-gray); line-height: 1.8; margin-top: 10px;
+  }
+
+  .services-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 1px; background: rgba(255,255,255,0.03);
+  }
+
+  .service-card {
+    background: #070707; padding: 38px 34px;
+    transition: all 0.4s; position: relative; overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.03);
+  }
+
+  .service-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: var(--burgundy);
+    transform: scaleX(0); transform-origin: right; transition: transform 0.4s;
+  }
+
+  .service-card:hover::after { transform: scaleX(1); transform-origin: left; }
+  .service-card:hover { background: #0e0707; transform: translateY(-3px); box-shadow: 0 20px 50px rgba(118,34,11,0.1); }
+
+  .service-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10px; color: var(--burgundy); letter-spacing: 3px;
+    margin-bottom: 16px; opacity: 0.6;
+  }
+
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 21px; font-weight: 500; margin-bottom: 10px;
+    color: var(--white); letter-spacing: 0.3px;
+  }
+
+  .service-price-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+
+  .service-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px; color: var(--light-blue); font-weight: 400;
+  }
+
+  .service-delivery {
+    font-size: 10px; color: var(--mid-gray); letter-spacing: 1px;
+    background: rgba(174,209,255,0.06); padding: 3px 10px; border-radius: 100px;
+  }
+
+  .service-list {
+    margin-top: 16px; list-style: none; display: flex; flex-direction: column; gap: 6px;
+    padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .service-list li {
+    font-size: 12px; color: var(--mid-gray);
+    padding-right: 16px; position: relative; line-height: 1.5;
+  }
+
+  .service-list li::before { content:'—'; position:absolute; right:0; color:var(--burgundy); opacity:0.5; }
+
+  /* PACKAGES */
+  #packages {
+    background: linear-gradient(160deg, #f5eeea 0%, var(--white) 40%, #ebe4e1 100%);
+    color: var(--black);
+  }
+
+  #packages .section-label { color: var(--burgundy); }
+  #packages .section-label::before { background: var(--burgundy); }
+  #packages .section-title { color: var(--black); }
+
+  .packages-sub { font-size: 14px; color: var(--mid-gray); margin-bottom: 56px; max-width: 440px; line-height: 1.8; }
+
+  .packages-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-bottom: 28px; }
+
+  .package-card {
+    border: 1px solid var(--ui-gray); padding: 42px 34px; border-radius: 3px;
+    background: var(--white); position: relative; transition: all 0.35s;
+  }
+
+  .package-card:hover { box-shadow: 0 20px 55px rgba(0,0,0,0.09); transform: translateY(-4px); border-color: var(--burgundy); }
+
+  .package-card.featured { background: var(--black); color: var(--cream); border-color: var(--black); }
+  .package-card.featured:hover { border-color: var(--burgundy); box-shadow: 0 20px 55px rgba(118,34,11,0.18); }
+
+  .pkg-badge {
+    position: absolute; top: -12px; right: 28px;
+    background: var(--burgundy); color: var(--white);
+    font-size: 10px; letter-spacing: 2px; padding: 4px 14px; border-radius: 100px;
+  }
+
+  .pkg-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; font-weight: 500; margin-bottom: 5px; color: inherit;
+  }
+
+  .package-card.featured .pkg-name { color: var(--cream); }
+
+  .pkg-desc { font-size: 12px; color: var(--mid-gray); margin-bottom: 24px; letter-spacing: 1px; }
+  .package-card.featured .pkg-desc { color: rgba(255,249,242,0.45); }
+
+  .pkg-price {
+    font-family: 'Cormorant Garamond', serif; font-size: 50px; font-weight: 300;
+    color: var(--burgundy); line-height: 1; margin-bottom: 4px;
+    display: flex; align-items: flex-start; gap: 4px;
+  }
+
+  .pkg-price sup { font-size: 19px; margin-top: 10px; }
+
+  .pkg-note { font-size: 11px; color: var(--mid-gray); margin-bottom: 24px; letter-spacing: 1px; }
+  .package-card.featured .pkg-note { color: rgba(255,249,242,0.35); }
+
+  .pkg-features {
+    list-style: none; display: flex; flex-direction: column; gap: 10px;
+    padding-top: 22px; border-top: 1px solid var(--ui-gray);
+  }
+
+  .package-card.featured .pkg-features { border-top-color: rgba(255,255,255,0.08); }
+
+  .pkg-features li { font-size: 13px; color: #444; display: flex; align-items: center; gap: 10px; }
+  .package-card.featured .pkg-features li { color: rgba(255,249,242,0.7); }
+
+  .pkg-features li::before {
+    content: ''; width: 5px; height: 5px; background: var(--burgundy); border-radius: 50%; flex-shrink: 0;
+  }
+
+  .pkg-cta {
+    display: block; text-align: center; margin-top: 28px; padding: 13px;
+    border: 1px solid var(--burgundy); color: var(--burgundy); text-decoration: none;
+    font-size: 12px; letter-spacing: 2px; border-radius: 2px; transition: all 0.3s;
+    font-family: 'Tajawal', sans-serif;
+  }
+
+  .package-card.featured .pkg-cta { background: var(--burgundy); color: var(--white); }
+  .pkg-cta:hover { background: var(--burgundy); color: var(--white); }
+
+  .custom-package {
+    background: linear-gradient(135deg, #080808 0%, #1a0400 100%);
+    border: 1px solid rgba(118,34,11,0.25);
+    border-radius: 3px; padding: 50px 56px;
+    display: flex; align-items: center; justify-content: space-between; gap: 40px;
+    margin-top: 16px;
+  }
+
+  .custom-left h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 34px; font-weight: 400; color: var(--cream); margin-bottom: 10px;
+  }
+
+  .custom-left h3 em { font-style: italic; color: var(--burgundy); }
+
+  .custom-left p { font-size: 13px; color: var(--mid-gray); line-height: 1.85; max-width: 420px; }
+
+  .custom-right { flex-shrink: 0; text-align: center; }
+
+  .custom-price { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--light-blue); margin-bottom: 4px; letter-spacing: 1px; }
+  .custom-note { font-size: 11px; color: var(--mid-gray); margin-bottom: 20px; letter-spacing: 1px; }
+
+  /* WHY */
+  #why {
+    background:
+      radial-gradient(ellipse 60% 60% at 0% 50%, #000810 0%, transparent 60%),
+      #000000;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+
+  .why-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.03); }
+
+  .why-stat {
+    background: #060606; padding: 38px 28px; text-align: center;
+    border: 1px solid rgba(255,255,255,0.03); transition: background 0.3s;
+  }
+
+  .why-stat:hover { background: #0e0606; }
+  .why-stat:nth-child(1) { background: #0a0000; }
+  .why-stat:nth-child(2) { background: rgba(174,209,255,0.04); }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif; font-size: 50px; font-weight: 300;
+    color: var(--burgundy); line-height: 1; margin-bottom: 8px;
+  }
+
+  .why-stat:nth-child(2) .stat-num { color: var(--light-blue); }
+
+  .stat-label { font-size: 11px; letter-spacing: 2px; color: var(--mid-gray); }
+
+  .why-points { display: flex; flex-direction: column; }
+
+  .why-point {
+    display: flex; gap: 18px; align-items: flex-start;
+    padding: 26px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .why-point:first-child { padding-top: 0; }
+  .why-point:last-child { border-bottom: none; }
+
+  .point-dot { width:6px; height:6px; background:var(--burgundy); border-radius:50%; flex-shrink:0; margin-top:7px; }
+
+  .point-text h4 { font-family:'Cormorant Garamond',serif; font-size:18px; margin-bottom:5px; color:var(--white); }
+  .point-text p { font-size:13px; color:var(--mid-gray); line-height:1.85; }
+
+  /* PROCESS */
+  #process {
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 100%, #0a0000 0%, transparent 65%),
+      #040404;
+    text-align: center;
+  }
+
+  .process-header { margin-bottom: 72px; }
+  .process-header .section-label { justify-content: center; }
+  .process-header .section-label::before { display: none; }
+
+  .process-steps { display: grid; grid-template-columns: repeat(4,1fr); position: relative; }
+
+  .process-steps::before {
+    content: ''; position: absolute;
+    top: 34px; left: 12.5%; right: 12.5%; height: 1px;
+    background: linear-gradient(to left, transparent, rgba(118,34,11,0.35) 30%, rgba(174,209,255,0.25) 70%, transparent);
+  }
+
+  .step { padding: 0 22px; }
+
+  .step-circle {
+    width: 68px; height: 68px; border: 1px solid rgba(118,34,11,0.35); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 26px;
+    font-family: 'Cormorant Garamond', serif; font-size: 19px; color: var(--mid-gray);
+    background: #040404; position: relative; z-index: 1; transition: all 0.35s;
+  }
+
+  .step:hover .step-circle {
+    background: var(--burgundy); color: var(--white); border-color: var(--burgundy);
+    box-shadow: 0 0 28px rgba(118,34,11,0.35);
+  }
+
+  .step-title { font-family:'Cormorant Garamond',serif; font-size:19px; margin-bottom:10px; color:var(--white); }
+  .step-desc { font-size:12px; color:var(--mid-gray); line-height:1.9; }
+
+  /* CTA */
+  #cta {
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 50%, #1f0600 0%, #000000 68%);
+    text-align: center; padding: 120px 40px; position: relative; overflow: hidden;
+  }
+
+  #cta::before {
+    content: 'NEXORA'; position: absolute;
+    font-family: 'Cormorant Garamond', serif; font-size: 170px; font-weight: 700;
+    color: rgba(118,34,11,0.05); top: 50%; left: 50%;
+    transform: translate(-50%,-50%); white-space: nowrap; pointer-events: none;
+    letter-spacing: 20px; user-select: none;
+  }
+
+  #cta .section-label { justify-content: center; }
+  #cta .section-label::before { display: none; }
+  #cta .section-title { color: var(--cream); position: relative; }
+
+  .cta-sub {
+    font-size: 15px; color: var(--mid-gray); margin-bottom: 50px;
+    position: relative; line-height: 2;
+  }
+
+  .cta-sub strong { color: var(--light-blue); font-weight: 400; }
+
+  .cta-buttons { display: flex; gap: 14px; justify-content: center; position: relative; }
+
+  /* FOOTER */
+  footer {
+    background: #000000; padding: 48px 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .footer-copy { font-size: 11px; color: var(--mid-gray); letter-spacing: 1px; }
+
+  .footer-links { display: flex; gap: 28px; list-style: none; }
+
+  .footer-links a {
+    font-size: 11px; color: var(--mid-gray); text-decoration: none;
+    letter-spacing: 2px; transition: color 0.3s;
+  }
+
+  .footer-links a:hover { color: var(--cream); }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    section { padding: 68px 24px; }
+    #why { grid-template-columns: 1fr; gap: 44px; }
+    .packages-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .process-steps::before { display: none; }
+    .custom-package { flex-direction: column; text-align: center; padding: 36px 24px; }
+    .custom-left p { max-width: 100%; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <svg class="logo-mark" viewBox="0 0 100 100" fill="none">
+      <path d="M50 4 C52 30,70 48,96 50 C70 52,52 70,50 96 C48 70,30 52,4 50 C30 48,48 30,50 4Z" fill="#fff9f2"/>
+      <ellipse cx="50" cy="50" rx="5" ry="9" fill="#000" transform="rotate(-40 50 50)"/>
+    </svg>
+    <span class="logo-text">NEXORA</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#services">الخدمات</a></li>
+    <li><a href="#packages">الباقات</a></li>
+    <li><a href="#why">لماذا نحن</a></li>
+    <li><a href="#process">آلية العمل</a></li>
+    <li><a href="#cta" class="nav-cta">تواصل معنا</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-tag">نصنع الإبداع، بسرعة واحترافية</p>
+  <h1 class="hero-title">
+    نصمّم<br><em>بصمتك الرقمية</em>
+  </h1>
+  <p class="hero-sub">
+    نبتكر، نطوّر، ونطلق علامتك<br>
+    <strong>لتقود.. لا لتنافس فقط</strong>
+  </p>
+  <div class="hero-buttons">
+    <a href="https://wa.me/201000025168" target="_blank" class="btn-primary">تواصل معنا الآن</a>
+    <a href="#services" class="btn-outline">اكتشف خدماتنا</a>
+  </div>
+  <div class="hero-scroll">SCROLL</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrapper">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="marquee-dot"></span> تصميم احترافي</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> كتابة إبداعية</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> هوية بصرية</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> مواقع إلكترونية</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> ذكاء اصطناعي</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> تجارة إلكترونية</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> تحليل واستراتيجية</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> خدمات سريعة</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> تصميم احترافي</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> كتابة إبداعية</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> هوية بصرية</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> مواقع إلكترونية</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> ذكاء اصطناعي</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> تجارة إلكترونية</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> تحليل واستراتيجية</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> خدمات سريعة</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header">
+    <p class="section-label">ما نقدمه</p>
+    <h2 class="section-title">خدماتنا<br><em style="font-style:italic;color:var(--burgundy)">المتكاملة</em></h2>
+    <p class="price-note">تبدأ الأسعار من <strong style="color:var(--light-blue)">3$</strong> — تسليم في أقل من <strong style="color:var(--light-blue)">24 ساعة</strong></p>
+  </div>
+  <div class="services-grid">
+
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <h3 class="service-name">التصميم الإبداعي</h3>
+      <div class="service-price-row">
+        <span class="service-price">$3 — $25</span>
+        <span class="service-delivery">أقل من 24 ساعة</span>
+      </div>
+      <ul class="service-list">
+        <li>تصميم بوستات سوشيال ميديا</li>
+        <li>لوجو وهوية بصرية كاملة</li>
+        <li>إعلانات ممولة احترافية</li>
+        <li>منيو وبروشور</li>
+        <li>تعديل وإزالة خلفية الصور</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <h3 class="service-name">المحتوى والكوبي</h3>
+      <div class="service-price-row">
+        <span class="service-price">$3 — $25</span>
+        <span class="service-delivery">أقل من 24 ساعة</span>
+      </div>
+      <ul class="service-list">
+        <li>بوستات سوشيال ميديا</li>
+        <li>إعلانات تسويقية وسكريبتات</li>
+        <li>وصف منتجات احترافي</li>
+        <li>Hooks جذابة وأفكار جاهزة</li>
+        <li>Bio وإعادة صياغة المحتوى</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <h3 class="service-name">موشن جرافيك</h3>
+      <div class="service-price-row">
+        <span class="service-price">$10 — $25</span>
+        <span class="service-delivery">أقل من 24 ساعة</span>
+      </div>
+      <ul class="service-list">
+        <li>موشن جرافيك للمنتجات</li>
+        <li>فيديوهات إعلانية متحركة</li>
+        <li>تأثيرات وانتقالات احترافية</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <h3 class="service-name">المواقع الإلكترونية</h3>
+      <div class="service-price-row">
+        <span class="service-price">$15 — $25</span>
+        <span class="service-delivery">أقل من 24 ساعة</span>
+      </div>
+      <ul class="service-list">
+        <li>Landing Page احترافية</li>
+        <li>صفحات بيع المنتجات</li>
+        <li>Link-in-bio وصفحات Notion</li>
+        <li>مواقع تعريفية وتعديل جاهز</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">05</div>
+      <h3 class="service-name">التجارة الإلكترونية</h3>
+      <div class="service-price-row">
+        <span class="service-price">$5 — $25</span>
+        <span class="service-delivery">أقل من 24 ساعة</span>
+      </div>
+      <ul class="service-list">
+        <li>وصف منتجات يبيع فعلاً</li>
+        <li>تصميم صور المنتجات</li>
+        <li>تحليل منتجات الترند</li>
+        <li>رفع المنتجات وتحسين الصفحة</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">06</div>
+      <h3 class="service-name">خدمات الذكاء الاصطناعي</h3>
+      <div class="service-price-row">
+        <span class="service-price">$3 — $20</span>
+        <span class="service-delivery">أقل من 24 ساعة</span>
+      </div>
+      <ul class="service-list">
+        <li>توليد أفكار المحتوى بالـ AI</li>
+        <li>توليد صور وبرومبتات جاهزة</li>
+        <li>تحويل أفكار لخطط محتوى</li>
+        <li>تحسين النصوص بالذكاء الاصطناعي</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">07</div>
+      <h3 class="service-name">التحليل والاستراتيجية</h3>
+      <div class="service-price-row">
+        <span class="service-price">$10 — $25</span>
+        <span class="service-delivery">أقل من 24 ساعة</span>
+      </div>
+      <ul class="service-list">
+        <li>تحليل حسابات السوشيال ميديا</li>
+        <li>مراجعة المحتوى وتحليل المنافسين</li>
+        <li>خطة محتوى 7 أيام</li>
+        <li>تقارير PDF مفصّلة</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">08</div>
+      <h3 class="service-name">المهام السريعة</h3>
+      <div class="service-price-row">
+        <span class="service-price">$3 — $15</span>
+        <span class="service-delivery">أقل من 24 ساعة</span>
+      </div>
+      <ul class="service-list">
+        <li>ترجمة نصوص وتفريغ فيديوهات</li>
+        <li>تحويل ملفات PDF / Word</li>
+        <li>كتابة من صور وإدخال بيانات</li>
+        <li>ترتيب وتنظيم الملفات</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages">
+  <p class="section-label">وفّر أكثر</p>
+  <h2 class="section-title">الباقات<br><em style="font-style:italic;color:var(--burgundy)">المميزة</em></h2>
+  <p class="packages-sub">اختر ما يناسبك — باقات جاهزة بسعر خاص، أو صمّم باقتك بنفسك</p>
+
+  <div class="packages-grid">
+    <div class="package-card">
+      <h3 class="pkg-name">Starter</h3>
+      <p class="pkg-desc">3 خدمات أساسية</p>
+      <div class="pkg-price"><sup>$</sup>5</div>
+      <p class="pkg-note">تسليم في أقل من 24 ساعة</p>
+      <ul class="pkg-features">
+        <li>تصميم بوست سوشيال</li>
+        <li>كتابة محتوى تسويقي</li>
+        <li>Bio احترافي</li>
+      </ul>
+      <a href="https://wa.me/201000025168" target="_blank" class="pkg-cta">اطلب الآن</a>
+    </div>
+
+    <div class="package-card featured">
+      <div class="pkg-badge">الأكثر طلبًا</div>
+      <h3 class="pkg-name">Growth</h3>
+      <p class="pkg-desc">3 خدمات متميزة</p>
+      <div class="pkg-price"><sup>$</sup>5</div>
+      <p class="pkg-note">تسليم في أقل من 24 ساعة</p>
+      <ul class="pkg-features">
+        <li>لوجو احترافي</li>
+        <li>تصميم 3 بوستات</li>
+        <li>كتابة إعلان ممول</li>
+      </ul>
+      <a href="https://wa.me/201000025168" target="_blank" class="pkg-cta">اطلب الآن</a>
+    </div>
+
+    <div class="package-card">
+      <h3 class="pkg-name">Pro</h3>
+      <p class="pkg-desc">3 خدمات متقدمة</p>
+      <div class="pkg-price"><sup>$</sup>5</div>
+      <p class="pkg-note">تسليم في أقل من 24 ساعة</p>
+      <ul class="pkg-features">
+        <li>Landing Page</li>
+        <li>موشن جرافيك منتج</li>
+        <li>خطة محتوى 7 أيام</li>
+      </ul>
+      <a href="https://wa.me/201000025168" target="_blank" class="pkg-cta">اطلب الآن</a>
+    </div>
+  </div>
+
+  <div class="custom-package">
+    <div class="custom-left">
+      <h3>باقة <em>مخصصة</em> لك</h3>
+      <p>اختر الخدمات اللي تحتاجها وهنبني ليك باقة بسعر خاص — بدون قيود، وبحد أقصى 50$ لأي تشكيلة خدمات تختارها</p>
+    </div>
+    <div class="custom-right">
+      <div class="custom-price">حتى $50 للباقة</div>
+      <div class="custom-note">أنت تختار، نحن ننفذ</div>
+      <a href="https://wa.me/201000025168" target="_blank" class="btn-primary">صمّم باقتك</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div>
+    <p class="section-label">لماذا Nexora</p>
+    <h2 class="section-title">نختلف في<br><em style="font-style:italic;color:var(--burgundy)">كل تفصيلة</em></h2>
+    <div class="why-points">
+      <div class="why-point">
+        <div class="point-dot"></div>
+        <div class="point-text">
+          <h4>جودة لا تُساوم</h4>
+          <p>كل مشروع نتعامل معه كأنه علامتنا التجارية — أعلى معايير وأدق تفاصيل</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="point-dot"></div>
+        <div class="point-text">
+          <h4>تسليم في أقل من 24 ساعة</h4>
+          <p>نحترم وقتك بقدر احترامنا لعملنا — سرعة بدون تنازل عن الجودة</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="point-dot"></div>
+        <div class="point-text">
+          <h4>أسعار في متناول الجميع</h4>
+          <p>من 3$ فقط تحصل على خدمة احترافية — لأن الإبداع حق للجميع</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="point-dot"></div>
+        <div class="point-text">
+          <h4>فريق متخصص ومتكامل</h4>
+          <p>مصممون، كتّاب، مبرمجون، ومحللون — تحت سقف واحد لخدمتك الكاملة</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="why-stat-grid">
+    <div class="why-stat">
+      <div class="stat-num">8+</div>
+      <div class="stat-label">خدمة متكاملة</div>
+    </div>
+    <div class="why-stat">
+      <div class="stat-num">24h</div>
+      <div class="stat-label">أقصى وقت تسليم</div>
+    </div>
+    <div class="why-stat">
+      <div class="stat-num">3$</div>
+      <div class="stat-label">تبدأ من</div>
+    </div>
+    <div class="why-stat" style="border:1px solid rgba(118,34,11,0.18)">
+      <div class="stat-num" style="color:var(--light-blue)">100%</div>
+      <div class="stat-label">رضا العملاء</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="process-header">
+    <p class="section-label">آلية العمل</p>
+    <h2 class="section-title">أربع خطوات<br><em style="font-style:italic;color:var(--burgundy)">لنتيجة مثالية</em></h2>
+  </div>
+  <div class="process-steps">
+    <div class="step">
+      <div class="step-circle">01</div>
+      <h3 class="step-title">التواصل</h3>
+      <p class="step-desc">راسلنا على واتساب وشاركنا فكرتك واحتياجاتك بشكل مفصّل</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">02</div>
+      <h3 class="step-title">التحليل</h3>
+      <p class="step-desc">ندرس مشروعك ونضع خطة عمل واضحة مع جدول زمني دقيق</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">03</div>
+      <h3 class="step-title">التنفيذ</h3>
+      <p class="step-desc">فريقنا يعمل بأعلى معايير الجودة لتسليم نتيجة تتجاوز توقعاتك</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">04</div>
+      <h3 class="step-title">التسليم</h3>
+      <p class="step-desc">نسلّم في الموعد مع مراجعة كاملة ودعم ما بعد التسليم</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <p class="section-label">ابدأ رحلتك معنا</p>
+  <h2 class="section-title" style="margin-bottom:14px">
+    جاهز تبني<br><em style="font-style:italic;color:var(--burgundy)">بصمتك الرقمية؟</em>
+  </h2>
+  <p class="cta-sub">
+    راسلنا الآن على واتساب — <strong>01000025168</strong><br>
+    ونبدأ مشروعك في أقل من 24 ساعة
+  </p>
+  <div class="cta-buttons">
+    <a href="https://wa.me/201000025168" target="_blank" class="btn-primary" style="font-size:15px;padding:17px 50px">تواصل على واتساب</a>
+    <a href="#services" class="btn-outline" style="font-size:15px;padding:17px 40px">تصفّح الخدمات</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">
+    <svg style="width:28px;height:28px;animation:spin-slow 14s linear infinite" viewBox="0 0 100 100" fill="none">
+      <path d="M50 4 C52 30,70 48,96 50 C70 52,52 70,50 96 C48 70,30 52,4 50 C30 48,48 30,50 4Z" fill="#fff9f2"/>
+    </svg>
+    <span class="logo-text">NEXORA</span>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#services">الخدمات</a></li>
+    <li><a href="#packages">الباقات</a></li>
+    <li><a href="#why">من نحن</a></li>
+    <li><a href="https://wa.me/201000025168" target="_blank">تواصل</a></li>
+  </ul>
+  <p class="footer-copy">2025 Nexora — جميع الحقوق محفوظة</p>
+</footer>
+
+</body>
+</html>

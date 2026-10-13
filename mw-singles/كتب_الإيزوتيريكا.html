@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قائمة كتب الإيزوتيريكا | علم الباطن</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0c14;
+    --bg2:#10131f;
+    --panel:#141827;
+    --line:#2a2f45;
+    --gold:#cda86a;
+    --gold-soft:#8f7a4f;
+    --text:#e6e2d6;
+    --muted:#8b8ba0;
+    --violet:#7c6bb0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:'Tajawal', sans-serif;
+    background-image:radial-gradient(circle at 50% 0%, rgba(124,107,176,.12), transparent 60%);
+  }
+  header{
+    padding:70px 24px 30px; text-align:center;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .sigil{ font-size:30px; margin-bottom:16px; letter-spacing:20px; color:var(--gold); opacity:.8;}
+  h1{
+    font-family:'Amiri', serif; font-weight:700;
+    font-size:clamp(28px,5vw,50px); margin:0 0 12px;
+    background:linear-gradient(180deg, #f1e5c8, var(--gold));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .sub{ font-family:'Amiri', serif; font-style:italic; color:var(--muted); font-size:17px; }
+
+  nav.tabs{
+    display:flex; justify-content:center; gap:10px; flex-wrap:wrap;
+    padding:26px 20px; max-width:900px; margin:0 auto;
+  }
+  .tab-btn{
+    background:var(--panel); border:1px solid var(--line); color:var(--muted);
+    padding:10px 20px; border-radius:24px; cursor:pointer; font-family:'Tajawal'; font-size:14px;
+    transition:.2s;
+  }
+  .tab-btn.active, .tab-btn:hover{ border-color:var(--gold); color:var(--gold); }
+
+  .wrap{ max-width:1000px; margin:0 auto; padding:10px 20px 100px; }
+
+  .section{ margin-bottom:44px; }
+  .section-title{
+    font-family:'Amiri', serif; font-size:22px; color:var(--gold); font-weight:700;
+    display:flex; align-items:center; gap:12px; margin-bottom:18px;
+  }
+  .section-title::after{ content:""; flex:1; height:1px; background:linear-gradient(90deg, var(--line), transparent); }
+
+  .cards{ display:grid; gap:14px; }
+  .book{
+    background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:20px 22px; position:relative; transition:.2s;
+    display:grid; grid-template-columns:44px 1fr; gap:16px;
+  }
+  .book:hover{ border-color:var(--gold-soft); background:var(--bg2); }
+  .book-num{
+    font-family:'Amiri', serif; color:var(--gold); font-size:22px; font-weight:700;
+    display:flex; align-items:flex-start; justify-content:center; padding-top:2px;
+  }
+  .book-title{ font-weight:700; font-size:16.5px; margin-bottom:6px; color:var(--text); }
+  .book-title .author{ color:var(--violet); font-weight:400; font-size:14px; }
+  .book-desc{ color:var(--muted); font-size:14px; line-height:1.7; }
+  .del{
+    position:absolute; left:14px; top:14px; background:none; border:none;
+    color:var(--muted); font-size:12px; cursor:pointer; opacity:0; transition:.2s;
+  }
+  .book:hover .del{ opacity:.6; }
+  .del:hover{ color:#e0665f; opacity:1 !important; }
+
+  .toolbar{ display:flex; justify-content:center; margin-bottom:34px; }
+  .add-btn{
+    background:var(--gold); color:#141110; border:none;
+    padding:13px 28px; border-radius:24px; font-family:'Tajawal'; font-weight:700;
+    font-size:14px; cursor:pointer;
+  }
+  .add-btn:hover{ opacity:.85; }
+
+  .modal-bg{
+    display:none; position:fixed; inset:0; background:rgba(6,7,12,.7);
+    align-items:center; justify-content:center; z-index:50; padding:20px;
+  }
+  .modal-bg.open{ display:flex; }
+  .modal{ background:var(--panel); border:1px solid var(--line); max-width:460px; width:100%; padding:30px; border-radius:16px; }
+  .modal h2{ margin-top:0; font-family:'Amiri', serif; color:var(--gold); font-size:22px; }
+  .modal label{ display:block; font-size:13px; color:var(--muted); margin:14px 0 6px; }
+  .modal input, .modal textarea, .modal select{
+    width:100%; background:var(--bg); border:1px solid var(--line); color:var(--text);
+    padding:10px 12px; border-radius:8px; font-family:'Tajawal'; font-size:14px;
+  }
+  .modal textarea{ min-height:80px; resize:vertical; }
+  .modal-actions{ display:flex; gap:10px; margin-top:22px; justify-content:flex-end; }
+  .btn-secondary{ background:transparent; border:1px solid var(--line); color:var(--muted); padding:10px 20px; border-radius:8px; cursor:pointer; font-family:'Tajawal'; }
+  .btn-primary{ background:var(--gold); border:none; color:#141110; padding:10px 20px; border-radius:8px; cursor:pointer; font-family:'Tajawal'; font-weight:700; }
+
+  .note-box{
+    background:linear-gradient(135deg, rgba(124,107,176,.12), rgba(205,168,106,.06));
+    border:1px solid var(--line); border-radius:14px; padding:22px 26px; margin-bottom:20px;
+    font-family:'Amiri', serif; font-size:16px; line-height:1.9; color:var(--text);
+  }
+
+  /* Journal / reading notes */
+  .journal{ display:none; }
+  .journal.active{ display:block; }
+  .catalog{ display:block; }
+  .catalog.hidden{ display:none; }
+
+  .entry{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px;
+    padding:26px 28px; margin-bottom:24px;
+  }
+  .entry h3{
+    font-family:'Amiri', serif; color:var(--gold); font-size:21px; margin-top:0;
+  }
+  .entry h4{ color:var(--violet); font-size:15px; margin-bottom:6px; }
+  .entry p{ color:var(--text); line-height:1.9; font-size:15px; }
+  .entry blockquote{
+    font-family:'Amiri', serif; font-style:italic; color:var(--gold);
+    border-right:3px solid var(--gold-soft); padding-right:16px; margin:14px 0;
+    font-size:16.5px;
+  }
+  .entry ul{ color:var(--muted); line-height:1.9; padding-right:20px; }
+  .step{
+    border-top:1px solid var(--line); padding-top:16px; margin-top:16px;
+  }
+
+  footer{ text-align:center; padding:30px; color:var(--muted); font-size:13px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="sigil">☉ ☽ ✦</div>
+  <h1>قائمة كتب الإيزوتيريكا</h1>
+  <div class="sub">علم الباطن — خارطة طريق للفكر الروحاني الشرقي والغربي</div>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" onclick="showTab('catalog', this)">📚 الفهرس</button>
+  <button class="tab-btn" onclick="showTab('journal', this)">📖 ملاحظات القراءة</button>
+</nav>
+
+<div class="wrap">
+
+  <div id="catalog" class="catalog">
+    <div class="toolbar">
+      <button class="add-btn" onclick="openModal()">+ أضف كتابًا</button>
+    </div>
+    <div id="sections"></div>
+    <div class="note-box">
+      💡 هذه الكتب تمثل خارطة طريق شاملة لفهم الفكر الباطني الغربي والشرقي، من الجذور الفلسفية القديمة وصولاً إلى التفسيرات الحديثة.
+    </div>
+  </div>
+
+  <div id="journal" class="journal">
+    <div class="entry">
+      <h3>🌱 من أين تبدأ؟</h3>
+      <p>بالنسبة لي، أنصحك تبدأ بـ <strong>Tao Te Ching</strong> للاو تزي، لأسباب بسيطة:</p>
+      <ul>
+        <li>قصير جداً — أقل من 100 صفحة، لن يرهقك في البداية</li>
+        <li>لغته شعرية وجميلة — ليس أكاديميًا ثقيلًا</li>
+        <li>أفكاره عالمية — تجد نفسك فيها بغض النظر عن خلفيتك</li>
+        <li>يفتح عقلك بهدوء على فكرة أن الحقيقة ليست دائمًا منطقية أو مباشرة</li>
+      </ul>
+      <p>بعده مباشرة، يُنصح بـ <strong>Selected Poems</strong> لرومي للشعور بالبُعد العاطفي والروحاني. بعد الاثنين ستفهم الإيزوتيريكا بقلب مفتوح لا بعقل مقاوم 🌿</p>
+    </div>
+
+    <div class="entry">
+      <h3>📖 Tao Te Ching — لاو تزي</h3>
+      <h4>كتاب الطريق والفضيلة</h4>
+      <p><strong>من هو لاو تزي؟</strong> شخصية أسطورية صينية عاشت حوالي القرن السادس قبل الميلاد، يُقال إنه كان حارس أرشيف مملكة تشو. في آخر حياته قرر ترك الحضارة والمشي في الصحراء، فطلب منه حارس البوابة أن يكتب حكمته قبل أن يغيب، فكتب 81 مقطعًا وسلّمها له ومشى... ولم يُرَ بعدها أبدًا.</p>
+
+      <div class="step">
+        <h4>الفكرة المحورية — ما هو التاو؟</h4>
+        <blockquote>التاو الذي يمكن تسميته ليس التاو الأبدي</blockquote>
+        <p>التاو هو الشيء الذي لا يمكن تعريفه بالكلام. تخيّله كالماء، لا شكل له لكنه يملأ كل شيء؛ لا تراه لكنك تحسّه في كل لحظة. ببساطة: التاو هو القانون الخفي الذي يحرك الكون كله، مثل الجاذبية تمامًا — غير مرئية لكنها موجودة ومؤثرة في كل شيء.</p>
+      </div>
+
+      <div class="step">
+        <h4>1️⃣ Wu Wei — الفعل بدون فعل (无为)</h4>
+        <p>الفكرة الأعمق في الكتاب: لا تحاول التحكم في كل شيء، بل اتدفق مع الطبيعة. ليست معناها الكسل، بل التصرف بشكل طبيعي بدون مجهود زائد. مثال: الشجرة في العاصفة، التي تنكسر هي الجامدة، والتي تبقى هي التي تتحرك مع الريح.</p>
+      </div>
+
+      <div class="step">
+        <h4>2️⃣ قوة الضعف</h4>
+        <blockquote>الماء أضعف شيء في الدنيا، لكنه يقدر يكسر الصخر</blockquote>
+        <p>الليونة أقوى من الصلابة، والتواضع أقوى من الغرور، والصمت أحيانًا أقوى من الكلام.</p>
+      </div>
+
+      <div class="step">
+        <h4>3️⃣ الثنائيات والتوازن</h4>
+        <p>الكون مبني على أضداد متكاملة لا متصارعة: الليونة والصلابة، الفراغ والامتلاء، الصمت والكلام، الظلام والنور. الاثنان محتاجان لبعضهما، فلا نهار بدون ليل — هذا هو مبدأ اليين واليانغ ☯️</p>
+      </div>
+
+      <div class="step">
+        <h4>4️⃣ الحاكم المثالي</h4>
+        <blockquote>الحاكم الأفضل هو الذي يقول الناس بعد حكمه: إحنا عملنا ده بنفسنا</blockquote>
+        <p>القائد الحقيقي لا يفرض نفسه، بل يوجّه بهدوء كالماء الذي يجري في اتجاهه الطبيعي.</p>
+      </div>
+
+      <div class="step">
+        <h4>5️⃣ الاكتفاء والبساطة</h4>
+        <blockquote>الذي يعرف أن عنده كفاية، هو الغني الحقيقي</blockquote>
+        <p>الكتاب يهاجم بشكل غير مباشر الطموح المفرط والتعقيد، ويمدح البساطة والرضا والعيش في اللحظة.</p>
+      </div>
+
+      <div class="step">
+        <h4>رسالة الكتاب في جملة واحدة</h4>
+        <blockquote>توقف عن مقاومة الحياة، وابدأ تتدفق معها</blockquote>
+      </div>
+    </div>
+
+    <div class="entry">
+      <h3>⚔️ سون تزو — 7 قواعد للتفكير الاستراتيجي</h3>
+      <p>سون تزو قائد عسكري صيني عاش نحو 500 ق.م، وكتب "فن الحرب"، أقصر وأخطر كتاب استراتيجي في التاريخ. قواعده ليست فقط للحرب، بل للحياة كلها.</p>
+
+      <div class="step">
+        <h4>1️⃣ اعرف عدوك</h4>
+        <p>ادرس نقاط قوة الطرف الآخر وضعفه، وافهم نمط تفكيره قبل أي مواجهة — سواء في مفاوضة أو مقابلة عمل أو خلاف.</p>
+      </div>
+      <div class="step">
+        <h4>2️⃣ اعرف نفسك</h4>
+        <p>كن صريحًا مع نفسك عن إمكانياتك الحقيقية، واعرف حدودك، واستخدم أقوى نقاطك أولًا.</p>
+      </div>
+      <div class="step">
+        <h4>3️⃣ الخداع</h4>
+        <p>لا تكشف أوراقك أبدًا. الغموض الذكي أداة قوية في التفاوض والمنافسة.</p>
+      </div>
+      <div class="step">
+        <h4>4️⃣ التكيّف</h4>
+        <p>الخطة الجامدة تنكسر، والخطة المرنة تنجح. المرونة ليست ضعفًا، بل ذكاء.</p>
+      </div>
+      <div class="step">
+        <h4>5️⃣ التوقيت</h4>
+        <p>ليس المهم فقط "ماذا" ستفعل، بل "متى". الصبر الاستراتيجي مختلف تمامًا عن الكسل.</p>
+      </div>
+      <div class="step">
+        <h4>6️⃣ استخدم قوتك ضد ضعفه</h4>
+        <p>لا تواجه قوة بقوة. ابحث عن الفجوة التي لا يراها أحد؛ الطريق الجانبي أسرع من الطريق المسدود.</p>
+      </div>
+      <div class="step">
+        <h4>7️⃣ انتصر بدون قتال</h4>
+        <blockquote>أعلى فن الحرب هو إخضاع العدو بدون قتال</blockquote>
+        <p>أذكى الناس يحلّون المشاكل قبل أن تكبر، ويكسبون القلوب قبل أن يحتاجوا لكسب المعارك.</p>
+      </div>
+      <div class="step">
+        <h4>الجوهر الحقيقي</h4>
+        <p>سون تزو لا يقول "كن عدوانيًا"، بل يقول "كن ذكيًا لدرجة أنك لست محتاجًا للحرب أصلًا". الانتصار الحقيقي هو الذي يحصل قبل المعركة، لا فيها.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>محفوظة محليًا في هذه الجلسة</footer>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h2>كتاب جديد</h2>
+    <label>العنوان</label>
+    <input id="inTitle" placeholder="مثال: The Kybalion">
+    <label>المؤلف</label>
+    <input id="inAuthor" placeholder="مثال: ثلاثة أوليين">
+    <label>الوصف</label>
+    <textarea id="inDesc" placeholder="نبذة مختصرة عن الكتاب..."></textarea>
+    <label>القسم</label>
+    <select id="inSection"></select>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+      <button class="btn-primary" onclick="addBook()">إضافة</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const sections = [
+  {key:"essential", title:"📚 الخلفية الأساسية", books:[
+    {title:"Corpus Hermeticum", author:"هرمس تريسميجيستوس", desc:"مجموعة نصوص فلسفية وروحانية منسوبة لهرمس المثلث الحكمة، تتناول طبيعة الإله والكون والإنسان وأسرار الوجود."},
+    {title:"Bible with Apocrypha", author:"—", desc:"الكتاب المقدس كاملاً مع الأسفار غير القانونية التي حُذفت من النسخ الرسمية وتحتوي على تعاليم روحية عميقة."},
+    {title:"Complete Works", author:"أفلاطون", desc:"الأعمال الكاملة لأفلاطون التي تضم نظريات المُثُل والروح وأصل الكون، وهي أساس الفلسفة الغربية والتصوف."},
+    {title:"The Enneads", author:"أفلوطين", desc:"النصوص الأساسية للأفلاطونية المحدثة، تبحث في الواحد المطلق وصدور الوجود منه وعودة الروح إليه."},
+    {title:"Nag Hammadi Scriptures", author:"—", desc:"مخطوطات اكتُشفت في مصر عام 1945، تحتوي على تعاليم غنوصية سرية عن الخلق والمعرفة الإلهية الخفية."},
+    {title:"Sepher Yetzirah", author:"—", desc:"أقدم نصوص القبّالاه اليهودية، يشرح كيف خلق الله الكون عبر الحروف العبرية والأرقام المقدسة العشرة."},
+  ]},
+  {key:"additional", title:"📚 الخلفية الإضافية", books:[
+    {title:"The Chaldean Oracles", author:"—", desc:"نصوص منسوبة للحكماء البابليين، تصف العوالم الإلهية المتعددة وطريقة صعود الروح نحو النور الأعلى."},
+    {title:"Holy Qur'an", author:"—", desc:"يُدرس في هذا السياق من منظور الأبعاد الصوفية والتأويلات الباطنية كما عند الصوفية."},
+    {title:"Tibetan Book of the Dead", author:"—", desc:"دليل بوذي تبتي يصف تجارب الروح بعد الموت ومراحل البرزخ وكيفية تحقيق التحرر الروحي."},
+    {title:"Upanishads", author:"—", desc:"النصوص الفلسفية الهندية الكبرى التي تبحث في طبيعة الآتمان (الروح الفردية) وبراهمان (الروح الكونية)."},
+    {title:"Tao Te Ching", author:"لاو تزي", desc:"الكتاب الأساسي للتاوية، يشرح مفهوم التاو أي الطريق الكوني والانسجام مع قوى الطبيعة والكون."},
+    {title:"Avesta", author:"—", desc:"الكتاب المقدس للزرادشتية، يحتوي على تعاليم زرادشت عن الصراع الكوني بين النور والظلام."},
+  ]},
+  {key:"literature", title:"📚 الأدب الإيزوتيري", books:[
+    {title:"Picatrix", author:"—", desc:"موسوعة سحرية وفلكية من العصور الوسطى مترجمة من العربية، تجمع بين الفلك والسحر الطلسمي وتأثير الكواكب."},
+    {title:"The Key of Solomon the King", author:"—", desc:"كتاب سحري منسوب لسليمان النبي، يتضمن طقوسًا وتعاويذ واستحضارات وتعليمات السحر الطقسي."},
+    {title:"The Zohar", author:"—", desc:"الكتاب الأساسي في القبّالاه اليهودية، تفسير صوفي لأسفار موسى يكشف الأسرار الخفية في التوراة."},
+    {title:"Oration on the Dignity of Man", author:"بيكو ديلا ميراندولا", desc:"نص فلسفي نهضوي يؤكد مكانة الإنسان الفريدة في الكون وحريته في اختيار مستوى وجوده الروحي."},
+    {title:"The Chymical Wedding of Christian Rosenkreutz", author:"—", desc:"رواية رمزية روزيكروشية تصف رحلة روحانية عبر مراحل التحول والتطهير، أحد أسس حركة الوردة والصليب."},
+    {title:"Three Books of Occult Philosophy", author:"أغريبا", desc:"الموسوعة الأشمل في السحر الغربي، تجمع السحر الطبيعي والفلكي والطقسي في منظومة فلسفية متكاملة."},
+    {title:"Selected Poems", author:"رومي", desc:"قصائد الشاعر الصوفي الكبير جلال الدين الرومي التي تعبّر عن عشق الروح للمطلق والتوحد مع الإله."},
+    {title:"The Conference of the Birds", author:"فريد الدين العطار", desc:"ملحمة شعرية صوفية فارسية تصف رحلة الطيور بحثًا عن ملكها السيمرغ، رمزًا للسالك نحو الحق."},
+    {title:"Psychology and Alchemy", author:"كارل يونغ", desc:"دراسة يونغ للرموز الخيميائية من منظور علم النفس، تربط عملية التحول الخيميائي بتحقيق الذات."},
+    {title:"The Secret Teachings of All Ages", author:"مانلي بالمر هول", desc:"موسوعة ضخمة تجمع أسرار جميع الحضارات والديانات والمدارس الباطنية في كتاب واحد شامل."},
+    {title:"Lectures on Ancient Philosophy", author:"مانلي بالمر هول", desc:"محاضرات تشرح الفلسفات القديمة وعلاقتها بالحكمة الأزلية والمعرفة الباطنية عبر الحضارات."},
+    {title:"Alchemy and Mysticism", author:"ألكسندر روب", desc:"كتاب مصوّر يستعرض تاريخ الخيمياء والتصوف الغربي عبر آلاف الصور والرموز الفنية."},
+    {title:"Giordano Bruno and the Hermetic Tradition", author:"فرانسيس ييتس", desc:"دراسة أكاديمية رائدة تكشف تأثير الهرمسية والسحر الهرمسي على جيوردانو برونو وفكر النهضة."},
+    {title:"The Rosicrucian Enlightenment", author:"فرانسيس ييتس", desc:"بحث تاريخي عن حركة الوردة والصليب السرية وتأثيرها على العلم والتنوير في أوروبا القرن السابع عشر."},
+    {title:"John Dee: The World of an Elizabethan Magus", author:"بيتر فرنش", desc:"سيرة يوحنا دي، العالم والساحر الملكي الذي طوّر لغة الملائكة وكان مستشارًا للملكة إليزابيث الأولى."},
+    {title:"Food of the Gods", author:"تيرنس ماكينا", desc:"نظرية جريئة تقول إن المواد النفسية المحرِّكة للوعي من نباتات كانت المحرك الأساسي لتطور العقل البشري."},
+    {title:"True Hallucinations", author:"تيرنس ماكينا", desc:"رواية شخصية لتجارب ماكينا في الأمازون، يستكشف فيها حدود الوعي والأبعاد الخفية للواقع."},
+    {title:"Theatrum Chemicum Britannicum", author:"إلياس أشمول", desc:"مجموعة نادرة من القصائد الخيميائية الإنجليزية تحفظ الحكمة الخيميائية الغربية في شكلها الشعري."},
+  ]},
+];
+
+function render(){
+  const select = document.getElementById('inSection');
+  select.innerHTML = sections.map(s=>`<option value="${s.key}">${s.title}</option>`).join('');
+
+  const el = document.getElementById('sections');
+  el.innerHTML = sections.map(sec=>`
+    <div class="section">
+      <div class="section-title">${sec.title}</div>
+      <div class="cards">
+        ${sec.books.map((b,i)=>`
+          <div class="book">
+            <button class="del" onclick="removeBook('${sec.key}', ${i})">حذف</button>
+            <div class="book-num">${i+1}</div>
+            <div>
+              <div class="book-title">${b.title}${b.author && b.author !== '—' ? ` <span class="author">— ${b.author}</span>` : ''}</div>
+              <div class="book-desc">${b.desc}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+function showTab(id, btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('catalog').classList.toggle('hidden', id !== 'catalog');
+  document.getElementById('journal').classList.toggle('active', id === 'journal');
+}
+function openModal(){ document.getElementById('modalBg').classList.add('open'); }
+function closeModal(){
+  document.getElementById('modalBg').classList.remove('open');
+  ['inTitle','inAuthor','inDesc'].forEach(id=>document.getElementById(id).value='');
+}
+function addBook(){
+  const title = document.getElementById('inTitle').value.trim();
+  const author = document.getElementById('inAuthor').value.trim() || '—';
+  const desc = document.getElementById('inDesc').value.trim() || '—';
+  const secKey = document.getElementById('inSection').value;
+  if(!title){ alert('من فضلك أدخل عنوان الكتاب'); return; }
+  const sec = sections.find(s=>s.key===secKey);
+  sec.books.push({title, author, desc});
+  render();
+  closeModal();
+}
+function removeBook(secKey, i){
+  const sec = sections.find(s=>s.key===secKey);
+  sec.books.splice(i,1);
+  render();
+}
+render();
+</script>
+</body>
+</html>

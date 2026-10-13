@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeliveryOS — نظام إدارة الدليفري</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --gold-dim: #8A6E2F;
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark2: #181818;
+    --dark3: #222222;
+    --white: #F5F0E8;
+    --white-dim: rgba(245,240,232,0.6);
+    --red: #C0392B;
+    --green: #27AE60;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Tajawal', sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 40px;
+    background: linear-gradient(to bottom, rgba(10,10,10,0.98), transparent);
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    color: var(--gold);
+    letter-spacing: 3px;
+  }
+
+  .lang-toggle {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .lang-btn {
+    background: transparent;
+    border: 1px solid var(--gold-dim);
+    color: var(--white-dim);
+    padding: 5px 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+  }
+
+  .lang-btn.active {
+    background: var(--gold);
+    color: var(--black);
+    border-color: var(--gold);
+    font-weight: 700;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 100px 40px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 50% 30%, rgba(201,168,76,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,0.05) 0%, transparent 60%),
+      linear-gradient(180deg, #0A0A0A 0%, #111111 100%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(201,168,76,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+
+  .hero-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    border: 1px solid var(--gold-dim);
+    padding: 6px 20px;
+    border-radius: 2px;
+    margin-bottom: 40px;
+    position: relative;
+    animation: fadeInDown 0.8s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.9;
+    color: var(--white);
+    letter-spacing: 2px;
+    position: relative;
+    animation: fadeInUp 0.9s ease 0.1s both;
+  }
+
+  .hero-title span {
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: var(--white-dim);
+    margin-top: 24px;
+    max-width: 600px;
+    line-height: 1.8;
+    font-weight: 300;
+    position: relative;
+    animation: fadeInUp 0.9s ease 0.2s both;
+  }
+
+  .hero-cta {
+    margin-top: 50px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+    animation: fadeInUp 0.9s ease 0.35s both;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    padding: 14px 36px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(201,168,76,0.3);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold-dim);
+    padding: 14px 36px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.08);
+  }
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.5;
+    animation: bounce 2s infinite;
+  }
+
+  .scroll-indicator span {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+
+  .scroll-arrow {
+    width: 20px;
+    height: 20px;
+    border-right: 1px solid var(--gold);
+    border-bottom: 1px solid var(--gold);
+    transform: rotate(45deg);
+  }
+
+  /* ── SECTION BASE ── */
+  section {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1;
+    margin-bottom: 20px;
+    color: var(--white);
+  }
+
+  .section-title .gold { color: var(--gold); }
+
+  .section-desc {
+    color: var(--white-dim);
+    font-size: 1.1rem;
+    line-height: 1.9;
+    font-weight: 300;
+    max-width: 700px;
+  }
+
+  /* ── PROBLEM SECTION ── */
+  .problem-section {
+    position: relative;
+  }
+
+  .problem-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -40px; right: -40px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 60px;
+  }
+
+  .problem-card {
+    background: var(--dark2);
+    border: 1px solid #2A2A2A;
+    border-radius: 4px;
+    padding: 36px 30px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+  }
+
+  .problem-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--red);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .problem-card:hover {
+    border-color: #3A3A3A;
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+
+  .problem-card:hover::before {
+    opacity: 1;
+  }
+
+  .problem-icon {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .problem-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--white);
+  }
+
+  .problem-card p {
+    font-size: 0.9rem;
+    color: var(--white-dim);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* ── COMPARISON ── */
+  .compare-section {
+    background: var(--dark);
+    margin: 0;
+    max-width: 100%;
+    padding: 100px 40px;
+  }
+
+  .compare-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .compare-table {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    margin-top: 60px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #2A2A2A;
+  }
+
+  .compare-header {
+    padding: 20px;
+    font-weight: 800;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .compare-header.feature-col {
+    background: #1A1A1A;
+    color: var(--white-dim);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+  }
+
+  .compare-header.old-col {
+    background: rgba(192,57,43,0.15);
+    color: #E74C3C;
+    border-right: 1px solid #2A2A2A;
+  }
+
+  .compare-header.new-col {
+    background: rgba(201,168,76,0.15);
+    color: var(--gold);
+  }
+
+  .compare-row {
+    display: contents;
+  }
+
+  .compare-cell {
+    padding: 18px 20px;
+    border-top: 1px solid #1E1E1E;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .compare-cell.feature { 
+    background: #141414;
+    color: var(--white-dim);
+    font-weight: 500;
+    font-size: 0.85rem;
+  }
+
+  .compare-cell.old-val {
+    background: rgba(192,57,43,0.05);
+    color: #C0392B;
+    border-right: 1px solid #1E1E1E;
+    border-left: 1px solid #1E1E1E;
+  }
+
+  .compare-cell.new-val {
+    background: rgba(201,168,76,0.05);
+    color: var(--gold-light);
+    font-weight: 600;
+  }
+
+  .check { color: var(--green); }
+  .cross { color: var(--red); }
+
+  /* ── FEATURES ── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 28px;
+    margin-top: 60px;
+  }
+
+  .feature-card {
+    background: linear-gradient(135deg, var(--dark2) 0%, var(--dark3) 100%);
+    border: 1px solid #252525;
+    border-radius: 6px;
+    padding: 36px 30px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+  }
+
+  .feature-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 50px rgba(0,0,0,0.5);
+    border-color: var(--gold-dim);
+  }
+
+  .feature-card:hover::after {
+    opacity: 1;
+  }
+
+  .feature-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: rgba(201,168,76,0.12);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .feature-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .feature-card p {
+    font-size: 0.88rem;
+    color: var(--white-dim);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* ── PRICING ── */
+  .pricing-section {
+    text-align: center;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 60px;
+    align-items: stretch;
+  }
+
+  .price-card {
+    background: var(--dark2);
+    border: 1px solid #2A2A2A;
+    border-radius: 6px;
+    padding: 40px 30px;
+    position: relative;
+    transition: all 0.4s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .price-card.featured {
+    background: linear-gradient(145deg, #1A1600, #1E1A04);
+    border-color: var(--gold-dim);
+    transform: scale(1.04);
+    box-shadow: 0 0 60px rgba(201,168,76,0.12);
+  }
+
+  .price-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  }
+
+  .price-card.featured:hover {
+    transform: scale(1.04) translateY(-6px);
+  }
+
+  .price-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gold);
+    color: var(--black);
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 4px 18px;
+    border-radius: 20px;
+    white-space: nowrap;
+    letter-spacing: 1px;
+  }
+
+  .price-tier {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .price-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .price-amount sup {
+    font-size: 1.2rem;
+    vertical-align: top;
+    margin-top: 10px;
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 300;
+    color: var(--white-dim);
+  }
+
+  .price-period {
+    font-size: 0.8rem;
+    color: var(--white-dim);
+    margin-bottom: 30px;
+    font-weight: 300;
+  }
+
+  .price-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #333, transparent);
+    margin: 20px 0;
+  }
+
+  .price-features {
+    list-style: none;
+    text-align: right;
+    flex: 1;
+  }
+
+  .price-features li {
+    padding: 8px 0;
+    font-size: 0.88rem;
+    color: var(--white-dim);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-end;
+    font-weight: 300;
+  }
+
+  .price-features li::before {
+    content: '✓';
+    color: var(--gold);
+    font-weight: 700;
+    order: 1;
+  }
+
+  .price-cta {
+    margin-top: 30px;
+    width: 100%;
+    padding: 13px;
+    border-radius: 3px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .price-cta.gold-btn {
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+  }
+
+  .price-cta.gold-btn:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(201,168,76,0.3);
+  }
+
+  .price-cta.outline-btn {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold-dim);
+  }
+
+  .price-cta.outline-btn:hover {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.06);
+  }
+
+  /* ── HOW IT WORKS ── */
+  .steps-section {
+    background: var(--dark);
+    max-width: 100%;
+    padding: 100px 40px;
+  }
+
+  .steps-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0;
+    margin-top: 60px;
+    position: relative;
+  }
+
+  .steps-grid::before {
+    content: '';
+    position: absolute;
+    top: 36px;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+
+  .step-item {
+    text-align: center;
+    padding: 30px 20px;
+    position: relative;
+  }
+
+  .step-num {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--dark3);
+    border: 1px solid var(--gold-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    position: relative;
+    z-index: 2;
+  }
+
+  .step-item h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--white);
+  }
+
+  .step-item p {
+    font-size: 0.83rem;
+    color: var(--white-dim);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 60px 40px;
+    border-top: 1px solid #1E1E1E;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--gold);
+    letter-spacing: 6px;
+    margin-bottom: 12px;
+  }
+
+  .footer-sub {
+    font-size: 0.85rem;
+    color: var(--white-dim);
+    font-weight: 300;
+    letter-spacing: 2px;
+  }
+
+  .footer-contact {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .footer-contact a {
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-family: 'Space Mono', monospace;
+    transition: color 0.3s;
+  }
+
+  .footer-contact a:hover { color: var(--gold-light); }
+
+  .footer-copy {
+    margin-top: 40px;
+    font-size: 0.75rem;
+    color: rgba(245,240,232,0.25);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* Reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    section { padding: 70px 20px; }
+    .compare-section, .steps-section { padding: 70px 20px; }
+    .compare-table { grid-template-columns: 1fr 1fr; }
+    .compare-header.feature-col, .compare-cell.feature { display: none; }
+    .steps-grid::before { display: none; }
+    .price-card.featured { transform: scale(1); }
+  }
+
+  /* ── LANG HIDDEN ── */
+  [data-lang="en"] { display: none; }
+  body.en [data-lang="ar"] { display: none; }
+  body.en [data-lang="en"] { display: block; }
+  body.en .price-features { text-align: left; }
+  body.en .price-features li { justify-content: flex-start; }
+  body.en .price-features li::before { order: 0; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">DeliveryOS</div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('ar')">عربي</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-tag" data-lang="ar">🚀 نظام إدارة الدليفري الذكي</div>
+  <div class="hero-tag" data-lang="en" style="display:none">🚀 Smart Delivery Management OS</div>
+
+  <h1 class="hero-title" data-lang="ar">
+    خلّي مكتبك
+    <span>يشتغل بنظام</span>
+  </h1>
+  <h1 class="hero-title" data-lang="en" style="display:none">
+    Run Your Office
+    <span>Like a System</span>
+  </h1>
+
+  <p class="hero-subtitle" data-lang="ar">
+    منصة متكاملة لإدارة طلبات الدليفري — من لحظة استلام الطلب لحد ما يتسلمه العميل.
+    بدّل الفوضى بنظام واحد بسيط.
+  </p>
+  <p class="hero-subtitle" data-lang="en" style="display:none">
+    A complete platform to manage delivery orders — from the moment an order is placed to the moment it's delivered.
+    Replace chaos with one simple system.
+  </p>
+
+  <div class="hero-cta">
+    <a href="#pricing" class="btn-primary" data-lang="ar">ابدأ دلوقتي</a>
+    <a href="#pricing" class="btn-primary" data-lang="en" style="display:none">Get Started</a>
+    <a href="#compare" class="btn-outline" data-lang="ar">شوف الفرق</a>
+    <a href="#compare" class="btn-outline" data-lang="en" style="display:none">See The Difference</a>
+  </div>
+
+  <div class="scroll-indicator">
+    <span data-lang="ar">اكتشف</span>
+    <span data-lang="en" style="display:none">EXPLORE</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem-section reveal">
+  <div class="section-tag" data-lang="ar">// المشكلة</div>
+  <div class="section-tag" data-lang="en" style="display:none">// THE PROBLEM</div>
+
+  <h2 class="section-title" data-lang="ar">إيه اللي بيحصل <span class="gold">دلوقتي؟</span></h2>
+  <h2 class="section-title" data-lang="en" style="display:none">What's happening <span class="gold">right now?</span></h2>
+
+  <p class="section-desc" data-lang="ar">
+    معظم مكاتب الدليفري لسه شغالة بالواتساب والورق — وده بيكلّف وقت وفلوس وعملاء.
+  </p>
+  <p class="section-desc" data-lang="en" style="display:none">
+    Most delivery offices still run on WhatsApp and paper — and it's costing them time, money, and customers.
+  </p>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <span class="problem-icon">😵</span>
+      <h3 data-lang="ar">فوضى في الطلبات</h3>
+      <h3 data-lang="en" style="display:none">Order Chaos</h3>
+      <p data-lang="ar">طلبات بتيجي من كل حتة — واتساب، تليفون، ورق — ومفيش مكان واحد تشوفهم كلهم.</p>
+      <p data-lang="en" style="display:none">Orders coming from everywhere — WhatsApp, phone, paper — with no single place to see them all.</p>
+    </div>
+    <div class="problem-card">
+      <span class="problem-icon">❓</span>
+      <h3 data-lang="ar">السواق فين؟</h3>
+      <h3 data-lang="en" style="display:none">Where's the Driver?</h3>
+      <p data-lang="ar">مش عارف السواق وصّل ولا لسه، والعميل بيكلمك كل شوية يسأل.</p>
+      <p data-lang="en" style="display:none">You don't know if the driver delivered or not, and customers keep calling to ask.</p>
+    </div>
+    <div class="problem-card">
+      <span class="problem-icon">💸</span>
+      <h3 data-lang="ar">خسارة في الحسابات</h3>
+      <h3 data-lang="en" style="display:none">Accounting Losses</h3>
+      <p data-lang="ar">حسابات السواقين والعملاء بتتعمل يدوي، وبتتغلط، وبتتخانق.</p>
+      <p data-lang="en" style="display:none">Driver and customer accounts are manual, error-prone, and lead to disputes.</p>
+    </div>
+    <div class="problem-card">
+      <span class="problem-icon">📉</span>
+      <h3 data-lang="ar">عملاء بتخسرهم</h3>
+      <h3 data-lang="en" style="display:none">Losing Customers</h3>
+      <p data-lang="ar">تأخير في التواصل وغلطات في التوصيل بتخلي العميل يمشي لمنافس تاني.</p>
+      <p data-lang="en" style="display:none">Slow communication and delivery mistakes push customers to competitors.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<div class="compare-section" id="compare">
+  <div class="compare-inner reveal">
+    <div class="section-tag" data-lang="ar">// المقارنة</div>
+    <div class="section-tag" data-lang="en" style="display:none">// COMPARISON</div>
+
+    <h2 class="section-title" data-lang="ar">الفرق بين <span class="gold">البيفور والأفتر</span></h2>
+    <h2 class="section-title" data-lang="en" style="display:none">Before <span class="gold">vs After</span></h2>
+
+    <div class="compare-table">
+      <div class="compare-header feature-col" data-lang="ar">الميزة</div>
+      <div class="compare-header feature-col" data-lang="en" style="display:none">Feature</div>
+      <div class="compare-header old-col" data-lang="ar">❌ الطريقة القديمة (واتساب)</div>
+      <div class="compare-header old-col" data-lang="en" style="display:none">❌ Old Way (WhatsApp)</div>
+      <div class="compare-header new-col" data-lang="ar">✅ DeliveryOS</div>
+      <div class="compare-header new-col" data-lang="en" style="display:none">✅ DeliveryOS</div>
+
+      <!-- Row 1 -->
+      <div class="compare-cell feature" data-lang="ar">استلام الطلبات</div>
+      <div class="compare-cell feature" data-lang="en" style="display:none">Order Management</div>
+      <div class="compare-cell old-val" data-lang="ar"><span class="cross">✗</span> رسايل متبعترة في شات</div>
+      <div class="compare-cell old-val" data-lang="en" style="display:none"><span class="cross">✗</span> Scattered chat messages</div>
+      <div class="compare-cell new-val" data-lang="ar"><span class="check">✓</span> لوحة تحكم مركزية</div>
+      <div class="compare-cell new-val" data-lang="en" style="display:none"><span class="check">✓</span> Centralized dashboard</div>
+
+      <!-- Row 2 -->
+      <div class="compare-cell feature" data-lang="ar">تتبع السواق</div>
+      <div class="compare-cell feature" data-lang="en" style="display:none">Driver Tracking</div>
+      <div class="compare-cell old-val" data-lang="ar"><span class="cross">✗</span> بتتصل وبتتكلم</div>
+      <div class="compare-cell old-val" data-lang="en" style="display:none"><span class="cross">✗</span> Phone calls only</div>
+      <div class="compare-cell new-val" data-lang="ar"><span class="check">✓</span> تتبع لايف بالموبايل</div>
+      <div class="compare-cell new-val" data-lang="en" style="display:none"><span class="check">✓</span> Live mobile tracking</div>
+
+      <!-- Row 3 -->
+      <div class="compare-cell feature" data-lang="ar">حسابات السواقين</div>
+      <div class="compare-cell feature" data-lang="en" style="display:none">Driver Accounts</div>
+      <div class="compare-cell old-val" data-lang="ar"><span class="cross">✗</span> ورق وأوريكس</div>
+      <div class="compare-cell old-val" data-lang="en" style="display:none"><span class="cross">✗</span> Paper and manual notes</div>
+      <div class="compare-cell new-val" data-lang="ar"><span class="check">✓</span> محفظة رقمية تلقائية</div>
+      <div class="compare-cell new-val" data-lang="en" style="display:none"><span class="check">✓</span> Automatic digital wallet</div>
+
+      <!-- Row 4 -->
+      <div class="compare-cell feature" data-lang="ar">تقارير الأداء</div>
+      <div class="compare-cell feature" data-lang="en" style="display:none">Performance Reports</div>
+      <div class="compare-cell old-val" data-lang="ar"><span class="cross">✗</span> مش موجودة</div>
+      <div class="compare-cell old-val" data-lang="en" style="display:none"><span class="cross">✗</span> Doesn't exist</div>
+      <div class="compare-cell new-val" data-lang="ar"><span class="check">✓</span> تقارير يومية وشهرية</div>
+      <div class="compare-cell new-val" data-lang="en" style="display:none"><span class="check">✓</span> Daily & monthly reports</div>
+
+      <!-- Row 5 -->
+      <div class="compare-cell feature" data-lang="ar">تواصل مع العميل</div>
+      <div class="compare-cell feature" data-lang="en" style="display:none">Customer Updates</div>
+      <div class="compare-cell old-val" data-lang="ar"><span class="cross">✗</span> يتصل هو عليك</div>
+      <div class="compare-cell old-val" data-lang="en" style="display:none"><span class="cross">✗</span> Customer calls you</div>
+      <div class="compare-cell new-val" data-lang="ar"><span class="check">✓</span> إشعارات تلقائية</div>
+      <div class="compare-cell new-val" data-lang="en" style="display:none"><span class="check">✓</span> Automatic notifications</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="reveal">
+  <div class="section-tag" data-lang="ar">// المميزات</div>
+  <div class="section-tag" data-lang="en" style="display:none">// FEATURES</div>
+
+  <h2 class="section-title" data-lang="ar">كل اللي <span class="gold">محتاجه</span> في مكان واحد</h2>
+  <h2 class="section-title" data-lang="en" style="display:none">Everything You <span class="gold">Need</span> in One Place</h2>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-num">01</div>
+      <h3 data-lang="ar">لوحة تحكم المكتب</h3>
+      <h3 data-lang="en" style="display:none">Office Dashboard</h3>
+      <p data-lang="ar">شاشة واحدة تشوف منها كل الطلبات الجديدة، السواقين المتاحين، والطلبات اللي في الطريق — في نفس اللحظة.</p>
+      <p data-lang="en" style="display:none">One screen showing all new orders, available drivers, and in-progress deliveries — all in real time.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">02</div>
+      <h3 data-lang="ar">تطبيق السواق</h3>
+      <h3 data-lang="en" style="display:none">Driver App</h3>
+      <p data-lang="ar">السواق بيستقبل الطلب على موبايله، يقبله، ويغير الحالة لما يوصّل — بدون أي تواصل يدوي.</p>
+      <p data-lang="en" style="display:none">Driver receives orders on their phone, accepts them, and updates status on delivery — no manual communication needed.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">03</div>
+      <h3 data-lang="ar">محفظة السواق</h3>
+      <h3 data-lang="en" style="display:none">Driver Wallet</h3>
+      <p data-lang="ar">كل سواق عنده رصيد. المكتب يشحنه، السواق يسحب. مفيش خناق على الحسابات تاني.</p>
+      <p data-lang="en" style="display:none">Each driver has a balance. The office loads it, the driver withdraws. No more accounting disputes.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">04</div>
+      <h3 data-lang="ar">تقارير ذكية</h3>
+      <h3 data-lang="en" style="display:none">Smart Reports</h3>
+      <p data-lang="ar">عارف مين أكتر سواق بيوصّل، وأنهي وقت فيه أكتر طلبات، وإيه أكتر منطقة بتخدمها.</p>
+      <p data-lang="en" style="display:none">Know which driver delivers most, what times peak orders hit, and which areas you serve most.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">05</div>
+      <h3 data-lang="ar">توزيع تلقائي (PRO)</h3>
+      <h3 data-lang="en" style="display:none">Auto Assignment (PRO)</h3>
+      <p data-lang="ar">النظام بيبعت الطلب للسواق الأقرب للعنوان تلقائياً — وفر وقتك وزوّد الطلبات.</p>
+      <p data-lang="en" style="display:none">The system automatically sends each order to the nearest available driver — save time, increase orders.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">06</div>
+      <h3 data-lang="ar">تتبع لايف (PRO)</h3>
+      <h3 data-lang="en" style="display:none">Live Tracking (PRO)</h3>
+      <p data-lang="ar">تقدر تشوف كل سواق على الخريطة لايف — وتوصل الحالة للعميل تلقائياً بالإشعارات.</p>
+      <p data-lang="en" style="display:none">See every driver live on the map — and automatically notify customers of their delivery status.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section reveal" id="pricing">
+  <div class="section-tag" data-lang="ar">// الباقات</div>
+  <div class="section-tag" data-lang="en" style="display:none">// PRICING</div>
+
+  <h2 class="section-title" data-lang="ar">اختار الباقة <span class="gold">المناسبة</span> لمكتبك</h2>
+  <h2 class="section-title" data-lang="en" style="display:none">Choose the Right <span class="gold">Plan</span> for Your Office</h2>
+
+  <p class="section-desc" style="margin: 0 auto;" data-lang="ar">ابدأ صغير وكبّر مع مكتبك — كل الباقات فيها تجربة مجانية 14 يوم.</p>
+  <p class="section-desc" style="margin: 0 auto;" data-lang="en" style="display:none">Start small and grow with your office — every plan includes a 14-day free trial.</p>
+
+  <div class="pricing-grid">
+    <!-- BASIC -->
+    <div class="price-card">
+      <div class="price-tier">Basic</div>
+      <div class="price-amount">
+        <sup data-lang="ar">ج.م</sup><sup data-lang="en" style="display:none">EGP</sup>500
+      </div>
+      <div class="price-period" data-lang="ar">/ شهرياً</div>
+      <div class="price-period" data-lang="en" style="display:none">/ month</div>
+      <div class="price-divider"></div>
+      <ul class="price-features">
+        <li data-lang="ar">لوحة تحكم المكتب</li>
+        <li data-lang="en" style="display:none">Office Dashboard</li>
+        <li data-lang="ar">تطبيق السواق</li>
+        <li data-lang="en" style="display:none">Driver App</li>
+        <li data-lang="ar">حتى 5 سواقين</li>
+        <li data-lang="en" style="display:none">Up to 5 drivers</li>
+        <li data-lang="ar">إدارة الطلبات</li>
+        <li data-lang="en" style="display:none">Order management</li>
+        <li data-lang="ar">تقارير أسبوعية</li>
+        <li data-lang="en" style="display:none">Weekly reports</li>
+      </ul>
+      <button class="price-cta outline-btn" data-lang="ar">جرّب مجاناً</button>
+      <button class="price-cta outline-btn" data-lang="en" style="display:none">Try Free</button>
+    </div>
+
+    <!-- PRO (featured) -->
+    <div class="price-card featured">
+      <div class="price-badge" data-lang="ar">⭐ الأكثر طلباً</div>
+      <div class="price-badge" data-lang="en" style="display:none">⭐ Most Popular</div>
+      <div class="price-tier">Pro</div>
+      <div class="price-amount">
+        <sup data-lang="ar">ج.م</sup><sup data-lang="en" style="display:none">EGP</sup>1000
+      </div>
+      <div class="price-period" data-lang="ar">/ شهرياً</div>
+      <div class="price-period" data-lang="en" style="display:none">/ month</div>
+      <div class="price-divider"></div>
+      <ul class="price-features">
+        <li data-lang="ar">كل مميزات Basic</li>
+        <li data-lang="en" style="display:none">Everything in Basic</li>
+        <li data-lang="ar">تتبع لايف</li>
+        <li data-lang="en" style="display:none">Live tracking</li>
+        <li data-lang="ar">حتى 15 سواق</li>
+        <li data-lang="en" style="display:none">Up to 15 drivers</li>
+        <li data-lang="ar">تقارير يومية متقدمة</li>
+        <li data-lang="en" style="display:none">Advanced daily reports</li>
+        <li data-lang="ar">إشعارات تلقائية للعملاء</li>
+        <li data-lang="en" style="display:none">Auto customer notifications</li>
+        <li data-lang="ar">دعم فني أولوية</li>
+        <li data-lang="en" style="display:none">Priority support</li>
+      </ul>
+      <button class="price-cta gold-btn" data-lang="ar">ابدأ دلوقتي</button>
+      <button class="price-cta gold-btn" data-lang="en" style="display:none">Start Now</button>
+    </div>
+
+    <!-- PREMIUM -->
+    <div class="price-card">
+      <div class="price-tier">Premium</div>
+      <div class="price-amount">
+        <sup data-lang="ar">ج.م</sup><sup data-lang="en" style="display:none">EGP</sup>2000
+      </div>
+      <div class="price-period" data-lang="ar">/ شهرياً</div>
+      <div class="price-period" data-lang="en" style="display:none">/ month</div>
+      <div class="price-divider"></div>
+      <ul class="price-features">
+        <li data-lang="ar">كل مميزات Pro</li>
+        <li data-lang="en" style="display:none">Everything in Pro</li>
+        <li data-lang="ar">توزيع تلقائي للطلبات</li>
+        <li data-lang="en" style="display:none">Auto order assignment</li>
+        <li data-lang="ar">سواقين غير محدودين</li>
+        <li data-lang="en" style="display:none">Unlimited drivers</li>
+        <li data-lang="ar">محفظة رقمية للسواقين</li>
+        <li data-lang="en" style="display:none">Driver digital wallet</li>
+        <li data-lang="ar">تقييم السواقين</li>
+        <li data-lang="en" style="display:none">Driver rating system</li>
+        <li data-lang="ar">دعم فني 24/7</li>
+        <li data-lang="en" style="display:none">24/7 support</li>
+      </ul>
+      <button class="price-cta outline-btn" data-lang="ar">تواصل معنا</button>
+      <button class="price-cta outline-btn" data-lang="en" style="display:none">Contact Us</button>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div class="steps-section">
+  <div class="steps-inner reveal">
+    <div class="section-tag" data-lang="ar">// خطوات الانضمام</div>
+    <div class="section-tag" data-lang="en" style="display:none">// HOW TO JOIN</div>
+
+    <h2 class="section-title" data-lang="ar">ابدأ في <span class="gold">4 خطوات</span> بس</h2>
+    <h2 class="section-title" data-lang="en" style="display:none">Get Started in <span class="gold">4 Steps</span></h2>
+
+    <div class="steps-grid">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <h3 data-lang="ar">تواصل معنا</h3>
+        <h3 data-lang="en" style="display:none">Contact Us</h3>
+        <p data-lang="ar">كلمنا على الواتساب أو الإيميل وحنا نرد عليك في أقل من ساعة.</p>
+        <p data-lang="en" style="display:none">Reach out on WhatsApp or email and we'll reply within an hour.</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <h3 data-lang="ar">Demo مجاني</h3>
+        <h3 data-lang="en" style="display:none">Free Demo</h3>
+        <p data-lang="ar">هنعمل معاك جلسة تشوف فيها النظام شغال على بياناتك الحقيقية.</p>
+        <p data-lang="en" style="display:none">We'll run a live session showing the system working with your real data.</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <h3 data-lang="ar">إعداد المكتب</h3>
+        <h3 data-lang="en" style="display:none">Office Setup</h3>
+        <p data-lang="ar">بنضيف السواقين وبيانات المكتب — في أقل من 24 ساعة تبقى جاهز.</p>
+        <p data-lang="en" style="display:none">We add your drivers and office data — you're live in under 24 hours.</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <h3 data-lang="ar">ابدأ الشغل 🚀</h3>
+        <h3 data-lang="en" style="display:none">Go Live 🚀</h3>
+        <p data-lang="ar">ابدأ تستقبل وتوزع الطلبات من أول يوم — ونحن هنا لو في أي سؤال.</p>
+        <p data-lang="en" style="display:none">Start receiving and assigning orders from day one — we're here for any question.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">DeliveryOS</div>
+  <div class="footer-sub" data-lang="ar">نظام إدارة الدليفري الذكي</div>
+  <div class="footer-sub" data-lang="en" style="display:none">Smart Delivery Management System</div>
+  <div class="footer-contact">
+    <a href="https://wa.me/201000000000" data-lang="ar">📱 واتساب</a>
+    <a href="https://wa.me/201000000000" data-lang="en" style="display:none">📱 WhatsApp</a>
+    <a href="mailto:hello@deliveryos.app">✉️ hello@deliveryos.app</a>
+  </div>
+  <div class="footer-copy">© 2025 DeliveryOS — All rights reserved</div>
+</footer>
+
+<script>
+  // Language toggle
+  function setLang(lang) {
+    document.body.classList.toggle('en', lang === 'en');
+    document.documentElement.lang = lang === 'en' ? 'en' : 'ar';
+    document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
+
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      if ((lang === 'ar' && btn.textContent === 'عربي') ||
+          (lang === 'en' && btn.textContent === 'EN')) {
+        btn.classList.add('active');
+      }
+    });
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

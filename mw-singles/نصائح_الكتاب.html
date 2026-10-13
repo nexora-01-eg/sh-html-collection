@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10 نصائح قاسية من أعظم الكتّاب</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f2ead9;
+    --paper-dark:#e7ddc5;
+    --ink:#2b2620;
+    --ink-soft:#5a5142;
+    --red:#a3372b;
+    --line:#c9bd9d;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.015) 0px, rgba(0,0,0,0.015) 1px, transparent 1px, transparent 3px);
+    color:var(--ink);
+    font-family:'Tajawal', sans-serif;
+    min-height:100vh;
+  }
+  header{
+    padding:64px 24px 40px;
+    text-align:center;
+    position:relative;
+    border-bottom:3px double var(--ink-soft);
+  }
+  .eyebrow{
+    font-family:'Tajawal';
+    letter-spacing:.15em;
+    font-size:13px;
+    color:var(--red);
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  h1{
+    font-family:'Amiri', serif;
+    font-size:clamp(32px,5vw,58px);
+    margin:0 0 10px;
+    font-weight:700;
+  }
+  .sub{
+    font-family:'Amiri', serif;
+    font-style:italic;
+    color:var(--ink-soft);
+    font-size:18px;
+  }
+  .wrap{
+    max-width:900px;
+    margin:0 auto;
+    padding:50px 20px 100px;
+  }
+  .card{
+    background:var(--paper-dark);
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:30px 34px;
+    margin-bottom:26px;
+    position:relative;
+    box-shadow:0 1px 0 rgba(0,0,0,.05);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 24px rgba(43,38,32,.12);
+  }
+  .card::before{
+    content:"“";
+    font-family:'Amiri', serif;
+    position:absolute;
+    top:-6px;
+    right:20px;
+    font-size:60px;
+    color:var(--red);
+    opacity:.35;
+  }
+  .num{
+    font-family:'Amiri', serif;
+    font-weight:700;
+    color:var(--red);
+    font-size:14px;
+    letter-spacing:.1em;
+  }
+  .author{
+    font-weight:700;
+    font-size:19px;
+    margin:6px 0 10px;
+    color:var(--ink);
+  }
+  .quote{
+    font-family:'Amiri', serif;
+    font-size:19px;
+    line-height:1.85;
+    color:var(--ink);
+  }
+  .toolbar{
+    max-width:900px;
+    margin:0 auto;
+    padding:0 20px;
+    display:flex;
+    justify-content:center;
+  }
+  .add-btn{
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    padding:14px 28px;
+    font-family:'Tajawal';
+    font-size:15px;
+    font-weight:500;
+    border-radius:2px;
+    cursor:pointer;
+    letter-spacing:.03em;
+    transition:background .2s;
+  }
+  .add-btn:hover{ background:var(--red); }
+
+  .modal-bg{
+    display:none;
+    position:fixed; inset:0;
+    background:rgba(20,17,12,.55);
+    align-items:center; justify-content:center;
+    z-index:50;
+    padding:20px;
+  }
+  .modal-bg.open{ display:flex; }
+  .modal{
+    background:var(--paper);
+    border:1px solid var(--line);
+    max-width:480px; width:100%;
+    padding:34px;
+    border-radius:3px;
+  }
+  .modal h2{
+    font-family:'Amiri', serif;
+    margin-top:0;
+    font-size:24px;
+  }
+  .modal label{
+    display:block;
+    font-size:13px;
+    color:var(--ink-soft);
+    margin:16px 0 6px;
+  }
+  .modal input, .modal textarea{
+    width:100%;
+    font-family:'Tajawal';
+    font-size:15px;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:2px;
+    resize:vertical;
+  }
+  .modal textarea{ min-height:90px; }
+  .modal-actions{
+    display:flex; gap:10px; margin-top:22px; justify-content:flex-end;
+  }
+  .btn-secondary{
+    background:transparent;
+    border:1px solid var(--ink-soft);
+    color:var(--ink-soft);
+    padding:10px 20px;
+    border-radius:2px;
+    cursor:pointer;
+    font-family:'Tajawal';
+  }
+  .btn-primary{
+    background:var(--red);
+    border:none;
+    color:#fff;
+    padding:10px 20px;
+    border-radius:2px;
+    cursor:pointer;
+    font-family:'Tajawal';
+  }
+  footer{
+    text-align:center;
+    padding:30px;
+    color:var(--ink-soft);
+    font-size:13px;
+  }
+  .del{
+    position:absolute;
+    left:14px; bottom:12px;
+    background:none;
+    border:none;
+    color:var(--ink-soft);
+    font-size:12px;
+    cursor:pointer;
+    opacity:.5;
+  }
+  .del:hover{ opacity:1; color:var(--red); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Writing Craft &mdash; مقتطفات</div>
+  <h1>10 نصائح قاسية من أعظم الكتّاب</h1>
+  <div class="sub">كلام صعب، لكنه ينفع</div>
+</header>
+
+<div class="toolbar" style="margin-top:36px; margin-bottom:10px;">
+  <button class="add-btn" onclick="openModal()">+ أضف نصيحة جديدة</button>
+</div>
+
+<div class="wrap" id="cards"></div>
+
+<footer>محفوظة محليًا في هذه الجلسة — أضف ما يحلو لك من نصائح</footer>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h2>نصيحة جديدة</h2>
+    <label>اسم الكاتب</label>
+    <input id="inAuthor" placeholder="مثال: فرجينيا وولف">
+    <label>النصيحة</label>
+    <textarea id="inQuote" placeholder="اكتب النصيحة هنا..."></textarea>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">إلغاء</button>
+      <button class="btn-primary" onclick="addQuote()">إضافة</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let quotes = [
+  {author:"إرنست همينغواي", quote:"أول مسودة من أي عمل تكون مُفزِعة."},
+  {author:"ديفيد أوجيلفي", quote:"لا تستخدم لغة اصطلاحية، فهي سمة المغفل الطموح."},
+  {author:"هاربر لي", quote:"سأنصح أي شخص يطمح لمهنة الكتابة بأن يكون حكيمًا، وأن يكون مستعدًا للانتقاد اللاذع قبل تطوير موهبته."},
+  {author:"جورج أورويل", quote:"تأليف كتاب أمر مُضنٍ ومُقلِق وكثوبة طويلة من المرض، ولا يمكن المرء حوش أمر كهذا إذا لم يكن هناك دافع لا يستطيع مقاومته وأهمه."},
+  {author:"سومرست موم", quote:"هناك ثلاثة قوانين لكتابة الرواية، للأسف لا أحد يعلم ما هي."},
+  {author:"ستيفن كينغ", quote:"إذا كنت لا تملك الوقت للقراءة فأنت لا تملك الوقت أو الأدوات للكتابة."},
+  {author:"وليام زينسر", quote:"إذا تبدو الكتابة صعبة فهذا لأن الكتابة صعبة، وهي أكثر الأمور صعوبة للبشر."},
+  {author:"نيل غيمان", quote:"ابدأ بسرد القصة التي لا يستطيع أحد أن يرويها باستثنائك أنت. فهناك دائمًا كتاب أفضل منك وكتّاب أكثر ذكاءً منك، وهناك دائمًا أشخاص أفضل منك فعلُ هذا أو ذاك، ولكن أنت النسخة الوحيدة من نفسك."},
+  {author:"ليف غروسمان", quote:"لا تتبع نصيحة أي شخص في الكتابة بشكل جدي."},
+  {author:"جاك لندن", quote:"لا يمكنك انتظار الإلهام، يجب أن تطلق له بعضًا."},
+];
+
+function render(){
+  const el = document.getElementById('cards');
+  el.innerHTML = quotes.map((q,i)=>`
+    <div class="card">
+      <div class="num">رقم ${String(i+1).padStart(2,'0')}</div>
+      <div class="author">${q.author}</div>
+      <div class="quote">${q.quote}</div>
+      <button class="del" onclick="removeQuote(${i})">حذف</button>
+    </div>
+  `).join('');
+}
+
+function openModal(){ document.getElementById('modalBg').classList.add('open'); }
+function closeModal(){
+  document.getElementById('modalBg').classList.remove('open');
+  document.getElementById('inAuthor').value='';
+  document.getElementById('inQuote').value='';
+}
+function addQuote(){
+  const author = document.getElementById('inAuthor').value.trim();
+  const quote = document.getElementById('inQuote').value.trim();
+  if(!author || !quote){ alert('من فضلك أدخل الاسم والنصيحة'); return; }
+  quotes.push({author, quote});
+  render();
+  closeModal();
+}
+function removeQuote(i){
+  quotes.splice(i,1);
+  render();
+}
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سليم للتسويق العقاري</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E8C97A;
+  --gold-dark: #8B6914;
+  --cream: #F5ECD7;
+  --cream-light: #FBF6ED;
+  --black: #0A0A0A;
+  --black2: #111111;
+  --black3: #1A1A1A;
+  --black4: #222222;
+  --black5: #2E2E2E;
+  --ok: #1E6B9E;
+  --ok-bg: #0D2A3D;
+  --bad: #9E2A1E;
+  --bad-bg: #3D0D0D;
+  --warn: #7A6A1A;
+  --warn-bg: #2E2800;
+  --border: #333;
+  --text-main: #E8DCC8;
+  --text-soft: #9A8A70;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Cairo', sans-serif;
+  background: var(--black);
+  color: var(--text-main);
+  min-height: 100vh;
+  direction: rtl;
+}
+
+/* ─── HEADER ─── */
+.header {
+  background: linear-gradient(135deg, #0A0A0A 0%, #1a1200 50%, #0A0A0A 100%);
+  border-bottom: 2px solid var(--gold-dark);
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.logo-icon {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+.logo-text h1 {
+  font-size: 22px; font-weight: 900;
+  background: linear-gradient(90deg, var(--gold-light), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  line-height: 1.1;
+}
+.logo-text p { font-size: 11px; color: var(--text-soft); letter-spacing: 1px; }
+
+.header-stats {
+  display: flex; gap: 24px;
+}
+.hstat {
+  text-align: center;
+  padding: 6px 16px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background: rgba(201,168,76,0.06);
+}
+.hstat-num { font-size: 20px; font-weight: 900; color: var(--gold-light); }
+.hstat-lbl { font-size: 10px; color: var(--text-soft); }
+
+/* ─── TABS ─── */
+.tabs-wrap {
+  background: var(--black2);
+  border-bottom: 1px solid #2a2a2a;
+  padding: 0 32px;
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+}
+.tab {
+  padding: 14px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-soft);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: all .2s;
+  font-family: 'Cairo', sans-serif;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+.tab:hover { color: var(--gold-light); }
+.tab.active {
+  color: var(--gold-light);
+  border-bottom-color: var(--gold);
+}
+.tab .badge {
+  display: inline-block;
+  background: var(--gold-dark);
+  color: var(--cream);
+  font-size: 10px;
+  padding: 1px 7px;
+  border-radius: 10px;
+  margin-right: 6px;
+}
+
+/* ─── SECTIONS ─── */
+.section { display: none; padding: 28px 32px; }
+.section.active { display: block; }
+
+.section-title {
+  font-size: 18px; font-weight: 900;
+  color: var(--gold-light);
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold-dark), transparent);
+}
+
+/* ─── LEGEND ─── */
+.legend {
+  display: flex; gap: 20px; margin-bottom: 18px;
+  font-size: 12px;
+}
+.leg { display: flex; align-items: center; gap: 6px; }
+.leg-dot { width: 10px; height: 10px; border-radius: 50%; }
+.leg-ok { background: var(--ok); }
+.leg-bad { background: var(--bad); }
+.leg-warn { background: var(--warn); }
+
+/* ─── TABLE ─── */
+.table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #2a2a2a;
+  background: var(--black2);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+thead tr {
+  background: linear-gradient(90deg, #1a1200, #110e00);
+  border-bottom: 2px solid var(--gold-dark);
+}
+thead th {
+  padding: 13px 12px;
+  font-weight: 700;
+  color: var(--gold);
+  text-align: right;
+  font-size: 12px;
+  letter-spacing: .3px;
+  white-space: nowrap;
+}
+tbody tr {
+  border-bottom: 1px solid #1e1e1e;
+  transition: background .15s;
+}
+tbody tr:hover { background: rgba(201,168,76,0.04); }
+tbody tr:last-child { border-bottom: none; }
+
+td {
+  padding: 11px 12px;
+  vertical-align: middle;
+  line-height: 1.4;
+}
+
+/* ROW STATUS */
+tr.ok td:first-child { border-right: 3px solid var(--ok); }
+tr.bad td:first-child { border-right: 3px solid var(--bad); }
+tr.warn td:first-child { border-right: 3px solid var(--warn); }
+
+/* CELL BADGES */
+.cell-ok { color: #5BA8D4; }
+.cell-bad { color: #D45B5B; font-style: italic; }
+.cell-warn { color: #C4A94E; font-style: italic; }
+
+/* CHIPS */
+.chip {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.chip-sell { background: rgba(30,107,158,0.2); color: #5BA8D4; border: 1px solid rgba(91,168,212,0.3); }
+.chip-rent { background: rgba(60,120,60,0.2); color: #6FBF6F; border: 1px solid rgba(111,191,111,0.3); }
+.chip-furnished { background: rgba(158,100,30,0.2); color: #D4A85B; border: 1px solid rgba(212,168,91,0.3); }
+.chip-land { background: rgba(158,30,100,0.2); color: #D45BA8; border: 1px solid rgba(212,91,168,0.3); }
+.chip-req { background: rgba(80,60,158,0.2); color: #9E8BD4; border: 1px solid rgba(158,139,212,0.3); }
+.chip-house { background: rgba(100,80,30,0.2); color: #C4A870; border: 1px solid rgba(196,168,112,0.3); }
+.chip-shop { background: rgba(30,80,100,0.2); color: #70B4C4; border: 1px solid rgba(112,180,196,0.3); }
+
+/* DONE COL */
+.done-cell { text-align: center; }
+.done-check {
+  width: 22px; height: 22px;
+  border: 2px solid var(--gold-dark);
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--gold-light);
+  font-size: 14px;
+  transition: all .15s;
+  background: none;
+  user-select: none;
+}
+.done-check.checked {
+  background: var(--gold-dark);
+  border-color: var(--gold);
+}
+
+/* NOTE COL */
+.note-text {
+  max-width: 200px;
+  font-size: 11.5px;
+  color: #B09870;
+  font-style: italic;
+}
+
+/* PRICE */
+.price { font-weight: 700; color: var(--cream); white-space: nowrap; }
+
+/* PHONE */
+.phone { font-family: monospace; font-size: 12px; color: var(--text-soft); white-space: nowrap; }
+
+/* DISTRICT */
+.district { font-weight: 600; color: var(--gold-light); }
+
+/* ─── FILTER BAR ─── */
+.filter-bar {
+  display: flex; gap: 12px; margin-bottom: 20px; align-items: center; flex-wrap: wrap;
+}
+.filter-bar input, .filter-bar select {
+  background: var(--black3);
+  border: 1px solid #333;
+  color: var(--text-main);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px;
+  outline: none;
+  direction: rtl;
+}
+.filter-bar input:focus, .filter-bar select:focus {
+  border-color: var(--gold-dark);
+}
+.filter-bar input { min-width: 180px; }
+.filter-bar input::placeholder { color: var(--text-soft); }
+.filter-count { font-size: 12px; color: var(--text-soft); margin-right: auto; }
+
+/* ─── RESPONSIVE ─── */
+@media(max-width: 768px) {
+  .header { padding: 16px; flex-direction: column; gap: 14px; }
+  .section { padding: 16px; }
+  .tabs-wrap { padding: 0 12px; }
+  .header-stats { gap: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <div class="logo-icon">🏢</div>
+    <div class="logo-text">
+      <h1>سليم للتسويق العقاري</h1>
+      <p>SADAT CITY — REAL ESTATE DASHBOARD</p>
+    </div>
+  </div>
+  <div class="header-stats">
+    <div class="hstat"><div class="hstat-num" id="cnt-sell">—</div><div class="hstat-lbl">شقق بيع</div></div>
+    <div class="hstat"><div class="hstat-num" id="cnt-rent">—</div><div class="hstat-lbl">إيجار بلاط</div></div>
+    <div class="hstat"><div class="hstat-num" id="cnt-furn">—</div><div class="hstat-lbl">مفروش</div></div>
+    <div class="hstat"><div class="hstat-num" id="cnt-land">—</div><div class="hstat-lbl">أراضي</div></div>
+    <div class="hstat"><div class="hstat-num" id="cnt-req">—</div><div class="hstat-lbl">طلبات</div></div>
+  </div>
+</div>
+
+<div class="tabs-wrap">
+  <button class="tab active" onclick="showTab('sell')">🏠 شقق بيع <span class="badge" id="b-sell">0</span></button>
+  <button class="tab" onclick="showTab('rent')">🔑 إيجار بلاط <span class="badge" id="b-rent">0</span></button>
+  <button class="tab" onclick="showTab('furn')">🛋️ مفروش <span class="badge" id="b-furn">0</span></button>
+  <button class="tab" onclick="showTab('land')">🌍 أراضي <span class="badge" id="b-land">0</span></button>
+  <button class="tab" onclick="showTab('house')">🏡 بيوت <span class="badge" id="b-house">0</span></button>
+  <button class="tab" onclick="showTab('shop')">🏪 محلات <span class="badge" id="b-shop">0</span></button>
+  <button class="tab" onclick="showTab('req')">📋 طلبات <span class="badge" id="b-req">0</span></button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION: SELL
+══════════════════════════════════════════════════════════ -->
+<div class="section active" id="sec-sell">
+  <div class="section-title">🏠 شقق للبيع</div>
+  <div class="legend">
+    <div class="leg"><div class="leg-dot leg-ok"></div> بيانات مكتملة</div>
+    <div class="leg"><div class="leg-dot leg-bad"></div> ناقص بيانات مهمة</div>
+    <div class="leg"><div class="leg-dot leg-warn"></div> بيانات جزئية</div>
+  </div>
+  <div class="filter-bar">
+    <input type="text" id="f-sell" placeholder="🔍 ابحث بالمنطقة أو السعر أو السمسار..." oninput="filterTable('sell')">
+    <select onchange="filterTable('sell')" id="fs-sell-floor">
+      <option value="">كل الأدوار</option>
+      <option>ارضي</option><option>تاني</option><option>تالت</option><option>رابع</option><option>خامس</option>
+    </select>
+    <span class="filter-count" id="fc-sell"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="tbl-sell">
+      <thead>
+        <tr>
+          <th>✓</th>
+          <th>#</th>
+          <th>المنطقة</th>
+          <th>الدور</th>
+          <th>المساحة</th>
+          <th>التشطيب</th>
+          <th>العدادات</th>
+          <th>القسط/الثمن</th>
+          <th>المطلوب</th>
+          <th>السمسار / المالك</th>
+          <th>التليفون</th>
+          <th>ملاحظات</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-sell"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- RENT -->
+<div class="section" id="sec-rent">
+  <div class="section-title">🔑 شقق إيجار بلاط</div>
+  <div class="legend">
+    <div class="leg"><div class="leg-dot leg-ok"></div> مكتملة</div>
+    <div class="leg"><div class="leg-dot leg-bad"></div> ناقصة</div>
+    <div class="leg"><div class="leg-dot leg-warn"></div> جزئية</div>
+  </div>
+  <div class="filter-bar">
+    <input type="text" id="f-rent" placeholder="🔍 ابحث..." oninput="filterTable('rent')">
+    <span class="filter-count" id="fc-rent"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="tbl-rent">
+      <thead>
+        <tr>
+          <th>✓</th><th>#</th><th>المنطقة</th><th>الدور</th><th>المساحة</th>
+          <th>التشطيب</th><th>الإيجار/شهر</th><th>السمسار / المالك</th><th>التليفون</th><th>ملاحظات</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-rent"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FURNISHED -->
+<div class="section" id="sec-furn">
+  <div class="section-title">🛋️ شقق مفروشة إيجار</div>
+  <div class="legend">
+    <div class="leg"><div class="leg-dot leg-ok"></div> مكتملة</div>
+    <div class="leg"><div class="leg-dot leg-bad"></div> ناقصة</div>
+    <div class="leg"><div class="leg-dot leg-warn"></div> جزئية</div>
+  </div>
+  <div class="filter-bar">
+    <input type="text" id="f-furn" placeholder="🔍 ابحث..." oninput="filterTable('furn')">
+    <span class="filter-count" id="fc-furn"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="tbl-furn">
+      <thead>
+        <tr>
+          <th>✓</th><th>#</th><th>المنطقة</th><th>الدور</th><th>الغرف / السراير</th>
+          <th>الإيجار/شهر</th><th>المالك / السمسار</th><th>التليفون</th><th>ملاحظات</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-furn"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- LAND -->
+<div class="section" id="sec-land">
+  <div class="section-title">🌍 أراضي وقطع</div>
+  <div class="legend">
+    <div class="leg"><div class="leg-dot leg-ok"></div> مكتملة</div>
+    <div class="leg"><div class="leg-dot leg-bad"></div> ناقصة</div>
+    <div class="leg"><div class="leg-dot leg-warn"></div> جزئية</div>
+  </div>
+  <div class="filter-bar">
+    <input type="text" id="f-land" placeholder="🔍 ابحث..." oninput="filterTable('land')">
+    <span class="filter-count" id="fc-land"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="tbl-land">
+      <thead>
+        <tr>
+          <th>✓</th><th>#</th><th>الحي / المجاورة</th><th>رقم القطعة</th><th>المساحة</th>
+          <th>الموقع</th><th>الوضع</th><th>المطلوب</th><th>السمسار / المالك</th><th>التليفون</th><th>ملاحظات</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-land"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- HOUSE -->
+<div class="section" id="sec-house">
+  <div class="section-title">🏡 بيوت ودوبلكس</div>
+  <div class="legend">
+    <div class="leg"><div class="leg-dot leg-ok"></div> مكتملة</div>
+    <div class="leg"><div class="leg-dot leg-bad"></div> ناقصة</div>
+    <div class="leg"><div class="leg-dot leg-warn"></div> جزئية</div>
+  </div>
+  <div class="filter-bar">
+    <input type="text" id="f-house" placeholder="🔍 ابحث..." oninput="filterTable('house')">
+    <span class="filter-count" id="fc-house"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="tbl-house">
+      <thead>
+        <tr>
+          <th>✓</th><th>#</th><th>المنطقة</th><th>المساحة</th><th>الأدوار</th>
+          <th>التشطيب</th><th>المطلوب</th><th>السمسار / المالك</th><th>التليفون</th><th>ملاحظات</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-house"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SHOP -->
+<div class="section" id="sec-shop">
+  <div class="section-title">🏪 محلات تجارية</div>
+  <div class="legend">
+    <div class="leg"><div class="leg-dot leg-ok"></div> مكتملة</div>
+    <div class="leg"><div class="leg-dot leg-bad"></div> ناقصة</div>
+  </div>
+  <div class="filter-bar">
+    <input type="text" id="f-shop" placeholder="🔍 ابحث..." oninput="filterTable('shop')">
+    <span class="filter-count" id="fc-shop"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="tbl-shop">
+      <thead>
+        <tr>
+          <th>✓</th><th>#</th><th>الموقع / المول</th><th>المساحة</th><th>الدور</th>
+          <th>المطلوب</th><th>نوع العرض</th><th>السمسار</th><th>التليفون</th><th>ملاحظات</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-shop"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- REQUESTS -->
+<div class="section" id="sec-req">
+  <div class="section-title">📋 طلبات شراء / إيجار</div>
+  <div class="legend">
+    <div class="leg"><div class="leg-dot leg-ok"></div> مكتملة</div>
+    <div class="leg"><div class="leg-dot leg-bad"></div> ناقصة</div>
+  </div>
+  <div class="filter-bar">
+    <input type="text" id="f-req" placeholder="🔍 ابحث..." oninput="filterTable('req')">
+    <span class="filter-count" id="fc-req"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="tbl-req">
+      <thead>
+        <tr>
+          <th>✓</th><th>#</th><th>نوع الطلب</th><th>المنطقة المطلوبة</th><th>المواصفات</th>
+          <th>الميزانية</th><th>التليفون</th><th>ملاحظات</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-req"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════════════════
+
+// STATUS: 'ok' | 'bad' | 'warn'
+// bad = missing critical fields | warn = partial
+
+const DATA = {
+
+sell: [
+  {district:'الفردوس', floor:'ارضي', area:'90م', finish:'جهاز', meters:'3 عدادات', payment:'قسط ثابت 830ج / 30 سنة (مدفوع 2.5)', price:'700,000', agent:'ميلاد سمير', phone:'01286819321', note:'عداد كهرباء ومياه وغاز مدفوع', status:'ok'},
+  {district:'الأولى', floor:'تالت', area:'?', finish:'جهاز', meters:'كاملة', payment:'خالصة', price:'730,000', agent:'أحمد عزب', phone:'01206730455', note:'قريبة من المستشفى العام غير مجروحة', status:'warn'},
+  {district:'الرابعة', floor:'?', area:'?', finish:'سوبر لوكس', meters:'كاملة، عقد اخضر', payment:'750,000', price:'750,000', agent:'حسن حمدي', phone:'01040701390', note:'بحري خطوات من شارع أبو بكر', status:'warn'},
+  {district:'المنطقة 23', floor:'تالت', area:'135م', finish:'?', meters:'2 عداد مياه وكهرباء', payment:'?', price:'2,000,000', agent:'شركة ستيبس مول مصر - أستاذ فهد', phone:'01026251823', note:'أمام مول دار مصر مباشر، يوجد أسانسير', status:'warn'},
+  {district:'المنطقة 35', floor:'ارضي', area:'?', finish:'?', meters:'?', payment:'55,000 (8 شقق+بدروم)', price:'55,000 إجمالي', agent:'محمد اسكندر السادات', phone:'01202099365', note:'عمارة 8 شقق على الشارع الرئيسي الموازي لل25', status:'bad'},
+  {district:'المنطقة 34', floor:'?', area:'135م', finish:'?', meters:'2 عداد', payment:'6,500/شهر', price:'6,500/شهر', agent:'محمد اسكندر السادات', phone:'01202099365', note:'إيجار لا بيع - 4 شقق في العمارة', status:'bad'},
+  {district:'حي النور', floor:'ارضي خلفي', area:'?', finish:'?', meters:'2 عداد', payment:'قسط ثابت 1240 / 15 سنة', price:'600,000', agent:'رمضان الصاوي (مالك)', phone:'01017669622', note:'عند الجامع الجديد، عمارة 93 شقة 3', status:'warn'},
+  {district:'الثانية السكنية', floor:'تاني', area:'?', finish:'سيراميك', meters:'كاملة', payment:'خالصة', price:'750,000', agent:'?', phone:'01211352926', note:'غرفتين وصالة وحمام ومطبخ، سباكة جديدة', status:'warn'},
+  {district:'المنطقة 8', floor:'تالت', area:'?', finish:'?', meters:'3 عداد', payment:'?', price:'750,000', agent:'سامح أبو نواس', phone:'01022152032', note:'2 وصالة، 3 عدادات', status:'warn'},
+  {district:'مول دار مصر', floor:'دور أرضي', area:'40م+30م', finish:'?', meters:'?', payment:'?', price:'45,000/متر', agent:'أحمد سامي', phone:'01221560944', note:'محلين في مول دار مصر للبيع', status:'warn'},
+  {district:'جرين جولف', floor:'?', area:'?', finish:'?', meters:'?', payment:'?', price:'?', agent:'محمود رجب', phone:'01070006610', note:'محل دبل فيس رقم 9', status:'bad'},
+  {district:'الزيتون', floor:'رابع', area:'?', finish:'?', meters:'3 عداد', payment:'قسط متغير 790→1268 / 16 سنة (4 مدفوعة)', price:'700,000', agent:'مكتب سليم للعقارات', phone:'01000904411', note:'جنب المدرسة والوحدة الصحية', status:'warn'},
+  {district:'الكوثر 6', floor:'?', area:'?', finish:'?', meters:'?', payment:'3 أقساط', price:'1,100,000', agent:'أحمد مناع', phone:'01062556375', note:'رقم 487، 3 أقساط', status:'bad'},
+  {district:'الكوثر 2', floor:'?', area:'?', finish:'?', meters:'?', payment:'?', price:'1,050,000', agent:'عيسى محمد المحامي', phone:'01200599610', note:'قطعة رقم 406', status:'bad'},
+  {district:'الكوثر', floor:'?', area:'?', finish:'?', meters:'?', payment:'3 أقساط ومحضر استلام', price:'1,070,000', agent:'?', phone:'01010626896', note:'قطعة بحري شرقي في الكوثر مجاورة 4', status:'bad'},
+  {district:'المنطقة 25', floor:'ارضي', area:'?', finish:'سوبر لوكس', meters:'3 عداد', payment:'قسط ثابت 500ج / 8 سنة متبقية (12 مدفوع)', price:'800,000', agent:'مكتب سليم للعقارات', phone:'01000904411', note:'جمب المول والمدرسة والحضانة', status:'ok'},
+  {district:'الزيتون', floor:'تالت', area:'?', finish:'?', meters:'?', payment:'قسط 915→2060 / 12 سنة متبقية', price:'750,000', agent:'مكتب حمزه للعقارات', phone:'01279699033', note:'امامي مدفوع 8 سنين', status:'warn'},
+  {district:'الزيتون', floor:'ارضي', area:'?', finish:'متشطب ومغيره سباكه', meters:'3 عداد', payment:'قسط 915→2000 / 12 سنة', price:'650,000', agent:'مكتب سليم للعقارات', phone:'01000904411', note:'', status:'warn'},
+  {district:'الثانية', floor:'?', area:'?', finish:'جهاز', meters:'?', payment:'?', price:'650,000', agent:'سمسارة حسناء', phone:'01032134113', note:'', status:'bad'},
+  {district:'الرابعة', floor:'?', area:'?', finish:'?', meters:'?', payment:'?', price:'720,000', agent:'سمسارة حسناء', phone:'01032134113', note:'قريبة من صيدلية سامي فراج', status:'bad'},
+  {district:'الثامنة', floor:'ارضي', area:'?', finish:'?', meters:'?', payment:'?', price:'750,000', agent:'سمسارة حسناء', phone:'01032134113', note:'على جمال عبد الناصر متاجرة ب3200', status:'bad'},
+  {district:'الزيتون', floor:'?', area:'?', finish:'جهاز', meters:'?', payment:'خالصة عقد اخضر', price:'650,000', agent:'أم خالد', phone:'01019191835', note:'عند المول ومنطقة الخدمات', status:'warn'},
+  {district:'المنطقة 25', floor:'ارضي', area:'?', finish:'سوبر لوكس', meters:'3 عداد', payment:'قسط ثابت 500ج / 8 سنة متبقية', price:'900,000', agent:'مكتب سليم - محمود مشحوت (مالك)', phone:'01027040045', note:'عمارة 23 شقة 4، أمنية تصل للعمارة اللي قبلها', status:'ok'},
+  {district:'المنطقة 25', floor:'تاني خلفي', area:'?', finish:'بالفرش', meters:'3 عداد', payment:'قسط ثابت 1000ج / 9 سنة متبقية', price:'950,000 (بالفرش)', agent:'مكتب سليم - جمال أبو غنيمة', phone:'01007082206', note:'متاجرة 6000/شهر', status:'ok'},
+  {district:'المنطقة 25', floor:'ارضي', area:'?', finish:'سوبر لوكس', meters:'3 عداد', payment:'قسط 550,000 / 9 سنة متبقية', price:'900,000', agent:'مكتب سليم - جمال أبو غنيمة', phone:'01007082206', note:'عند الجامعة', status:'ok'},
+  {district:'المنطقة 25', floor:'?', area:'?', finish:'?', meters:'3 عداد', payment:'قسط 900 متغير / 18 سنة متبقية', price:'720,000', agent:'مكتب سليم - جمال أبو غنيمة', phone:'01007082206', note:'عند المدرسة الجديدة', status:'warn'},
+  {district:'حي النور', floor:'ارضي', area:'?', finish:'?', meters:'2 عداد', payment:'قسط متغير 700→1700 / 18 سنة', price:'570,000', agent:'مكتب سليم - زهره (مكتب حشاد)', phone:'01021239336', note:'اخر حي النور عند المزرعة', status:'warn'},
+  {district:'المنطقة 25', floor:'خامس', area:'?', finish:'?', meters:'3 عداد', payment:'قسط ثابت 615 / 9 سنة متبقية', price:'685,000', agent:'مكتب سليم - محمد سعد (مكتب الاخوة)', phone:'01069336654', note:'', status:'warn'},
+  {district:'الكوثر 5', floor:'?', area:'?', finish:'?', meters:'?', payment:'3 أقساط', price:'1,250,000', agent:'مكتب سليم - محمد سعد', phone:'?', note:'قطعة ناصية رقم 391 غير ملتصقة', status:'bad'},
+  {district:'المنطقة 23', floor:'تالت خلفي', area:'130م', finish:'على الطوب', meters:'?', payment:'خالصة', price:'900,000', agent:'عبد الفتاح', phone:'01062961230', note:'أهالي', status:'warn'},
+  {district:'الثانية', floor:'ارضي', area:'?', finish:'?', meters:'?', payment:'باقي 18 ألف للعقد الأخضر', price:'630,000', agent:'مكتب فرصة عقارية', phone:'01040613470', note:'شارع تربية رياضية', status:'warn'},
+  {district:'الثانية', floor:'ارضي', area:'?', finish:'?', meters:'?', payment:'توكيلين باقي 25 ألف', price:'700,000', agent:'مكتب فرصة عقارية', phone:'01040613470', note:'نموذج 17', status:'warn'},
+  {district:'المنطقة 25', floor:'خامس', area:'?', finish:'?', meters:'كاملة', payment:'قسط ثابت 740 / 5 سنة متبقية', price:'700,000', agent:'باسم التلاوي', phone:'01211665041', note:'لها موتور مياه خاص، باب حديد', status:'ok'},
+  {district:'الرابعة', floor:'آخر', area:'?', finish:'سوبر سوبر لوكس', meters:'?', payment:'خالصة عقد اخضر', price:'680,000', agent:'تامر فتحي', phone:'01004649098', note:'بالفرش متاجرة 5500/شهر', status:'warn'},
+  {district:'المنطقة 25', floor:'ارضي', area:'?', finish:'جهاز', meters:'3 عداد', payment:'قسط ثابت 500ج', price:'810,000', agent:'أحمد أشرف', phone:'01016192530', note:'', status:'warn'},
+  {district:'المنطقة 25', floor:'ارضي', area:'?', finish:'?', meters:'?', payment:'قسط ثابت 800ج', price:'810,000', agent:'أحمد أشرف', phone:'01016192530', note:'على أبو بكر', status:'warn'},
+  {district:'الأولى', floor:'ارضي', area:'?', finish:'سوبر لوكس', meters:'?', payment:'خالصة عقد اخضر', price:'?', agent:'?', phone:'01004649098', note:'متاجرة مكتب بلاط ب5000، قريبة من المحكمة', status:'bad'},
+  {district:'المنطقة 14', floor:'تاني', area:'125م', finish:'?', meters:'?', payment:'?', price:'ممتاز جداً', agent:'مكتب جولد بيلد', phone:'01008815995', note:'على محور الأكسدة مباشر، استلام فوري', status:'bad'},
+  {district:'المنطقة 12', floor:'تاني', area:'?', finish:'سوبر لوكس', meters:'?', payment:'?', price:'2,500,000', agent:'مصطفى محمد قاسم', phone:'01112637795', note:'جنب سيتي مول ثاني نمرة من شارع عز', status:'warn'},
+  {district:'المنطقة 21', floor:'ارضي', area:'125م', finish:'?', meters:'?', payment:'?', price:'?', agent:'مالك مباشر', phone:'01007219807', note:'مدخل خاص سعر ممتاز 130م', status:'bad'},
+  {district:'المنطقة 29', floor:'ارضي', area:'135م', finish:'?', meters:'?', payment:'?', price:'?', agent:'مالك مباشر', phone:'01281899340', note:'ناصية، جنب سور الجامعة، حديقة L', status:'bad'},
+  {district:'الثامنة', floor:'خامس', area:'?', finish:'الترا سوبر لوكس', meters:'?', payment:'خالصة عقد اخضر', price:'?', agent:'?', phone:'01270321985', note:'', status:'bad'},
+  {district:'المنطقة 11', floor:'رابع', area:'?', finish:'?', meters:'?', payment:'?', price:'470,000', agent:'محمد السكري', phone:'01221023718', note:'2 وصالة على شارع جمال عبد الناصر', status:'warn'},
+  {district:'المنطقة 11', floor:'?', area:'?', finish:'?', meters:'?', payment:'?', price:'420,000', agent:'?', phone:'01221023718', note:'منطقة الأوقاف دور تاني خالصة', status:'bad'},
+  {district:'قرطبة', floor:'تالت', area:'?', finish:'?', meters:'?', payment:'?', price:'550,000', agent:'?', phone:'01221023718', note:'', status:'bad'},
+  {district:'التاسعة', floor:'?', area:'125م', finish:'سوبر لوكس', meters:'2 عداد', payment:'كاش فوري', price:'1,450,000', agent:'مكتب جولد بيلد', phone:'01208406007', note:'على الشارع الفاصل مع الشريط المميز، ثاني نمرة من المحور', status:'ok'},
+  {district:'الزيتون والنخيل 1', floor:'?', area:'104م/125م', finish:'لوكس', meters:'?', payment:'تمويل عقاري متاح', price:'1,250,000 / 950,000', agent:'مالك مباشر', phone:'01201774808', note:'أهالي، على الطوب الأحمر الأرخص', status:'warn'},
+  {district:'المنطقة 15 القديمة', floor:'بدروم+دور', area:'300م', finish:'?', meters:'?', payment:'?', price:'7,000,000', agent:'مكتب العشري أم أشرقت', phone:'01002485624', note:'قريب من أبو بكر، فيه تفاوض', status:'warn'},
+  {district:'الكوثر 2', floor:'?', area:'?', finish:'?', meters:'?', payment:'قسطين ومحضر استلام', price:'1,120,000', agent:'أحمد يوسف - مكتب مكاني', phone:'01159858472', note:'رقم 287', status:'warn'},
+  {district:'المنطقة 14', floor:'تاني', area:'140م', finish:'الترا لوكس', meters:'?', payment:'كاش', price:'2,500,000', agent:'مالك مباشر', phone:'01031610373', note:'يوجد فيديو', status:'ok'},
+  {district:'المنطقة 36', floor:'تاني+تالت', area:'200م', finish:'نص تشطيب', meters:'?', payment:'مقدم 60% + سنة', price:'9,000/متر', agent:'?', phone:'01031610373', note:'', status:'warn'},
+  {district:'المنطقة 14', floor:'تاني', area:'130م', finish:'تأسيس', meters:'عدادات', payment:'تقسيط 6 شهور', price:'1,500,000', agent:'?', phone:'01031610373', note:'باب مصفح، أسانسير', status:'ok'},
+  {district:'السابعة', floor:'?', area:'140م', finish:'هاي لوكس + مطبخ', meters:'?', payment:'?', price:'2,000,000', agent:'?', phone:'01031610373', note:'قابل للتفاوض', status:'warn'},
+  {district:'بيت الوطن', floor:'تاني', area:'200م', finish:'هاي لوكس', meters:'?', payment:'?', price:'3,500,000', agent:'?', phone:'01031610373', note:'قابل للتفاوض', status:'warn'},
+  {district:'شبين الكوم', floor:'?', area:'580م (أرض)', finish:'مباني', meters:'?', payment:'?', price:'25,000,000', agent:'?', phone:'01273187841', note:'جنب مستشفى عرفة، ناصية شارع 12م', status:'warn'},
+  {district:'شبين الكوم', floor:'دوبلكس', area:'435م', finish:'إداري', meters:'?', payment:'?', price:'18,000,000', agent:'?', phone:'01031610373', note:'حضانة لغات + مخبز + 2 دور تعليه', status:'warn'},
+  {district:'النخيل (شبين)', floor:'تالت+رابع', area:'220م', finish:'سوبر لوكس', meters:'?', payment:'?', price:'6,500,000', agent:'?', phone:'01031610373', note:'بانوراما النيل', status:'warn'},
+  {district:'حي النخيل مج6', floor:'?', area:'?', finish:'?', meters:'?', payment:'?', price:'2,800,000', agent:'?', phone:'01031610373', note:'قطعة 396 ناصيتين دبل فيس', status:'warn'},
+  {district:'حي النخيل مج3', floor:'?', area:'?', finish:'?', meters:'?', payment:'?', price:'1,750,000', agent:'?', phone:'01031610373', note:'قطعة 787', status:'warn'},
+  {district:'حي النخيل مج6', floor:'?', area:'?', finish:'?', meters:'دور+سقف', payment:'?', price:'1,650,000', agent:'?', phone:'01031610373', note:'قطعة 689، مناسبة دوبلكس', status:'warn'},
+  {district:'الكوثر 6', floor:'?', area:'?', finish:'?', meters:'3 أقساط+رخصة بدروم', payment:'?', price:'1,180,000', agent:'أحمد معوض', phone:'01008303723', note:'بحري، مدفوع التأمينات والعداد', status:'warn'},
+  {district:'الزيتون', floor:'تاني', area:'?', finish:'جهاز', meters:'كهرباء فقط', payment:'قسط ثابت 800 / 15 سنة', price:'730,000', agent:'محمد طمبور أبو يوسف', phone:'01008952216', note:'عند المدرسة والحضانة', status:'warn'},
+  {district:'الزيتون', floor:'تالت', area:'?', finish:'جهاز', meters:'?', payment:'قسط 850→2000 / 12 سنة متبقية', price:'750,000', agent:'محمد طنبور أبو يوسف', phone:'01008952216', note:'عند موقف التمانية', status:'warn'},
+  {district:'السابعة الجديدة', floor:'?', area:'150م', finish:'?', meters:'?', payment:'تمويل عقاري متاح', price:'?', agent:'المهندس أيمن', phone:'01285002118', note:'5 بلكونات، دبل فيس', status:'bad'},
+  {district:'الزيتون', floor:'تالت', area:'?', finish:'?', meters:'2 عداد', payment:'قسط 850→2000 / 12 سنة', price:'750,000', agent:'محمد طنبور أبو يوسف', phone:'01008952216', note:'بدون غاز، عند موقف التمانية', status:'warn'},
+  {district:'الزيتون عمارة 68', floor:'ارضي خلفي', area:'?', finish:'كويسة', meters:'3 عداد', payment:'قسط 720→1250', price:'710,000', agent:'بدر أبو الدهب', phone:'01061943237', note:'في وش المسجد، مالك أول', status:'ok'},
+  {district:'المنطقة 23 اسكان', floor:'ارضي', area:'?', finish:'جهاز', meters:'?', payment:'?', price:'550,000', agent:'محمد طمبور أبو يوسف', phone:'01008952216', note:'', status:'warn'},
+  {district:'المنطقة 23 اسكان', floor:'تاني', area:'?', finish:'جهاز', meters:'?', payment:'?', price:'600,000', agent:'محمد طمبور أبو يوسف', phone:'01008952216', note:'', status:'warn'},
+  {district:'حي النور', floor:'ارضي', area:'?', finish:'?', meters:'?', payment:'قسط 1050→2900', price:'630,000', agent:'سمسارة هبة هلال', phone:'01096983848', note:'أخذت وش نظافة، مقدمة على الغاز', status:'warn'},
+  {district:'مول الجامعة', floor:'أول علوي', area:'26م', finish:'سوبر لوكس', meters:'?', payment:'?', price:'?', agent:'مالك مباشر', phone:'01066685545', note:'المنطقة 11 بجوار بنك CIB', status:'bad'},
+  {district:'قرطبة مرحلة ثانية', floor:'تالت', area:'?', finish:'واقف على النقاشة', meters:'?', payment:'?', price:'?', agent:'مالك مباشر', phone:'01203887350', note:'ركن المسجد', status:'bad'},
+  {district:'المنطقة الذهبية', floor:'?', area:'130م', finish:'?', meters:'?', payment:'قسط على سنة', price:'?', agent:'مالك مباشر', phone:'01220776442', note:'على المحور مباشر، استلام فوري', status:'bad'},
+  {district:'الرابعة', floor:'ارضي', area:'?', finish:'?', meters:'كاملة', payment:'?', price:'750,000', agent:'م/طارق عطا الله (مالك)', phone:'01070191908', note:'أمام المسطح الأخضر غير مجروحة', status:'warn'},
+  {district:'حي النور', floor:'رابع خلفي', area:'?', finish:'نقاشة+حديد', meters:'2 عداد', payment:'قسط ثابت 600ج', price:'700,000', agent:'مالك من الشهداء', phone:'01280972203', note:'بلكونة على المول', status:'ok'},
+  {district:'الرابعة', floor:'ارضي', area:'165م', finish:'?', meters:'?', payment:'?', price:'2,900,000', agent:'أم أسماء - مكتب العربي', phone:'01066237184', note:'على جمال عبد الناصر مباشر', status:'warn'},
+  {district:'المنطقة 14 (الفاصل مع 21)', floor:'رابع', area:'165م', finish:'الترا لوكس', meters:'?', payment:'إيجار 7500', price:'2,200,000', agent:'سمسارة الاء - مكتب الوسام', phone:'01050151778', note:'3 وصالة، سخان غاز', status:'ok'},
+  {district:'الهنجرين (مصانع)', floor:'?', area:'هنجرين', finish:'?', meters:'?', payment:'?', price:'55,000/شهر', agent:'أم عبده', phone:'01009925781', note:'مفتوحين على بعض، نشاط بلاستيك - إيجار', status:'warn'},
+  {district:'الثامنة', floor:'تالت', area:'?', finish:'?', meters:'?', payment:'?', price:'1,050,000', agent:'أم عبده', phone:'01009925781', note:'3 غرف وحمام', status:'warn'},
+  {district:'المنطقة 25', floor:'خامس', area:'?', finish:'?', meters:'3 عداد+غاز', payment:'قسط ثابت 640 / 11 سنة مدفوع', price:'750,000', agent:'?', phone:'01031209218', note:'يوجد غاز طبيعي', status:'warn'},
+  {district:'المنطقة 11', floor:'?', area:'?', finish:'لوكس فخم', meters:'?', payment:'?', price:'1,300,000', agent:'أم يوسف - مكتب الحمد', phone:'01094383430', note:'مكان ممتاز', status:'warn'},
+  {district:'المنطقة 11', floor:'ارضي علوي', area:'125م', finish:'?', meters:'?', payment:'?', price:'1,600,000', agent:'?', phone:'01200498185', note:'', status:'bad'},
+  {district:'المنطقة 21', floor:'ارضي', area:'130م', finish:'الترا لوكس', meters:'?', payment:'?', price:'?', agent:'?', phone:'01273294938', note:'جاردن خاص، بحري شرقي، تالت نمرة', status:'bad'},
+  {district:'المنطقة 21', floor:'?', area:'?', finish:'الترا سوبر لوكس', meters:'2 عداد', payment:'?', price:'1,500,000', agent:'?', phone:'01064990021', note:'شاملة حصة البدروم', status:'warn'},
+  {district:'الزيتون', floor:'تالت', area:'?', finish:'?', meters:'3 عداد', payment:'قسط ثابت 700 / 12 سنة', price:'770,000', agent:'سمسارة نور حمزة', phone:'01275095794', note:'نهائي', status:'ok'},
+  {district:'الأولى', floor:'?', area:'?', finish:'?', meters:'?', payment:'?', price:'1,000,000', agent:'?', phone:'?', note:'شقتين غرفة وصالة مفتوحين، بالفرش أو بدون', status:'bad'},
+  {district:'الأوقاف', floor:'تالت', area:'?', finish:'سوبر لوكس', meters:'?', payment:'قسط 31,000 متبقي', price:'310,000', agent:'?', phone:'?', note:'غرفة وصالة معدلة اتنين، بوابة حديد', status:'bad'},
+  {district:'الرابعة عمارة 170', floor:'ارضي', area:'?', finish:'سيراميك', meters:'كاملة', payment:'خالصة متاجرة 4500', price:'700,000', agent:'?', phone:'?', note:'مدخلين بلكونة، 2 غرفة وصالة بالفرش', status:'bad'},
+  {district:'الرابعة', floor:'ارضي', area:'72م', finish:'جهاز', meters:'?', payment:'200/شهر، باقي 30,000', price:'670,000', agent:'?', phone:'?', note:'جنب السوق وكشك الكاشف على شارع الجهاز', status:'bad'},
+  {district:'الثامنة', floor:'خامس', area:'?', finish:'?', meters:'?', payment:'خالصة عقد اخضر', price:'600,000', agent:'?', phone:'?', note:'على طريقين، قريبة من مول سايلو', status:'bad'},
+  {district:'المنطقة 25', floor:'تالت', area:'?', finish:'?', meters:'3 عداد', payment:'قسط 1000→2100 / 10 سنة متبقية', price:'850,000', agent:'?', phone:'?', note:'مدفوع 10 سنين', status:'warn'},
+  {district:'المنطقة 25', floor:'تالت', area:'?', finish:'سوبر لوكس', meters:'3 عداد', payment:'قسط متغير 900→1800 / 10 سنة', price:'920,000', agent:'هاني', phone:'01202410640', note:'جنب المدرسة الجديدة والخدمات', status:'ok'},
+  {district:'المنطقة 25', floor:'ارضي', area:'?', finish:'?', meters:'3 عداد', payment:'قسط متغير 900→2248 / 18 سنة', price:'730,000', agent:'مكتب سليم - أم زياد صقر (مالكة)', phone:'01090238028', note:'عند الوحدة الصحية والمدرسة', status:'ok'},
+  {district:'المنطقة 25', floor:'ارضي خلفي', area:'?', finish:'?', meters:'2 عداد', payment:'قسط 980→1800 / 9 سنة', price:'800,000', agent:'مكتب سليم - أحمد سمير (مالك)', phone:'01004418971', note:'متاجرة 2700/شهر، يوجد فيديو', status:'ok'},
+  {district:'الزيتون ارضي', floor:'ارضي', area:'?', finish:'مغيرة سباكة', meters:'3 عداد', payment:'قسط 800→2000 / 11.5 سنة', price:'675,000', agent:'محمد طمبور أبو يوسف', phone:'01008952216', note:'في وش مجاورة 1 الأهالي', status:'warn'},
+  {district:'الزيتون', floor:'خامس', area:'?', finish:'جهاز', meters:'2 عداد', payment:'قسط ثابت 1250 / 5.5 سنة', price:'575,000', agent:'أحمد غندور', phone:'01025503945', note:'مغيرة السباكة، صاحبها من تلا مهندس', status:'ok'},
+  {district:'الزيتون', floor:'ارضي', area:'?', finish:'?', meters:'2 عداد', payment:'قسط 750→1350', price:'660,000', agent:'رندا زكريا', phone:'01034535485', note:'بجوار المول نهائي', status:'warn'},
+  {district:'حي النرجس 6', floor:'?', area:'276م', finish:'?', meters:'?', payment:'?', price:'2,000,000', agent:'رندا زكريا', phone:'01034535485', note:'ناصية 3 شوارع على خدمات', status:'warn'},
+  {district:'الزيتون', floor:'خامس', area:'?', finish:'جهاز', meters:'2 عداد', payment:'قسط ثابت 585 / 12 سنة', price:'560,000', agent:'رندا زكريا', phone:'01034535485', note:'مغيرة سباكة وكهرباء، متأمنة حديد، نهائي', status:'ok'},
+  {district:'الزيتون', floor:'رابع خلفي', area:'?', finish:'نقاشة وسباكة', meters:'3 عداد', payment:'قسط 760→1600 / 10 سنة', price:'730,000', agent:'سمير محمود طه (مالك)', phone:'01019381744', note:'متاجرة إيجار كويس، ساكن محترم هيطلع بعد شهر', status:'ok'},
+  {district:'حي النور', floor:'تالت', area:'90م', finish:'جهاز', meters:'2 عداد', payment:'قسط 600→1300 / 15 سنة', price:'680,000', agent:'محمد كعبوره - مكتب المستقبل', phone:'01006081241', note:'2 وصالة', status:'ok'},
+  {district:'الزيتون', floor:'تاني خلفي', area:'?', finish:'سيراميك', meters:'3 عداد', payment:'قسط 900→1300 / 5 سنة', price:'830,000', agent:'محمد طنبور أبو يوسف', phone:'01008952216', note:'مغيرة سباكة وكهرباء، عمارة 118', status:'ok'},
+  {district:'حي النور', floor:'تاني خلفي', area:'90م', finish:'سوبر لوكس', meters:'2 عداد', payment:'قسط 950→1900 / 10 سنة', price:'710,000', agent:'المصطفى للتسويق العقاري', phone:'01019109197', note:'مغيرة سباكة وكهرباء ونقاشة ورخام', status:'ok'},
+  {district:'الزيتون', floor:'ارضي', area:'?', finish:'?', meters:'2 عداد', payment:'قسط 750→1300 / 10 سنة', price:'650,000', agent:'دينا فاروق', phone:'01091207273', note:'توكيل عام', status:'warn'},
+  {district:'حي الفردوس', floor:'خامس', area:'90م', finish:'?', meters:'3 عداد', payment:'قسط ثابت 1170 / 27 سنة', price:'620,000', agent:'محمد كعبوره - مكتب المستقبل', phone:'01006081241', note:'متقفلة حديد من كل، سقف عازل حراري', status:'ok'},
+  {district:'حي النور', floor:'رابع خلفي', area:'?', finish:'?', meters:'2 عداد', payment:'قسط ثابت 1500 / خمس سنين مدفوع', price:'625,000', agent:'محمود شرف الدين', phone:'01091538152', note:'عمارة 61', status:'warn'},
+  {district:'المنطقة 11 اسكان', floor:'رابع', area:'?', finish:'?', meters:'3 عداد', payment:'?', price:'470,000', agent:'محمد السكري', phone:'01221023718', note:'على شارع جمال عبد الناصر، 2 وصالة، عليها 7000', status:'warn'},
+  {district:'المنطقة 25', floor:'رابع', area:'?', finish:'?', meters:'كاملة', payment:'قسط ثابت 770ج / 6.5 سنة', price:'820,000', agent:'أنيس جلال أبو عبده', phone:'01281994759', note:'على شارع أبو بكر، موقع ممتاز', status:'ok'},
+  {district:'المنطقة 25', floor:'خامس', area:'?', finish:'?', meters:'3 عداد', payment:'قسط ثابت 740 / 5 سنة، باقي 43,000', price:'690,000', agent:'باسم التلاوي', phone:'01211665041', note:'أخذت وش نظافة', status:'ok'},
+  {district:'الثامنة', floor:'تاني', area:'?', finish:'?', meters:'?', payment:'70ج/شهر / 8 سنة', price:'700,000', agent:'أيمن محمود', phone:'01009385484', note:'خلف مربع الشرطة، 2 وصالة', status:'warn'},
+  {district:'الزيتون ارضي', floor:'ارضي', area:'?', finish:'مغيرة سباكة', meters:'3 عداد', payment:'قسط 800→2000 / 11.5 سنة', price:'675,000', agent:'محمد طمبور أبو يوسف', phone:'01008952216', note:'في وش مجاورة 1 الأهالي', status:'warn'},
+  {district:'المنطقة 25', floor:'تاني', area:'?', finish:'سوبر لوكس', meters:'3 عداد', payment:'قسط متغير 900→1800 / 10 سنة', price:'920,000', agent:'هاني', phone:'01202410640', note:'يوجد فيديو، فيه تفاوض بسيط', status:'ok'},
+  {district:'الريحان', floor:'?', area:'458م (نصف قطعة)', finish:'?', meters:'مسددة', payment:'?', price:'2,750,000', agent:'أحمد عبد النبي', phone:'01272908439', note:'رقم 2374، موقع أمام خدمات ومسطح أخضر', status:'warn'},
+  {district:'المنطقة 14', floor:'رابع', area:'?', finish:'ممتاز', meters:'?', payment:'?', price:'5,000', agent:'?', phone:'?', note:'هادئ ومميز، مناسب للسكن العائلي، عقد سنة', status:'bad'},
+  {district:'الزيتون', floor:'تالت', area:'?', finish:'جهاز', meters:'3 عداد', payment:'3,000/شهر', price:'3,000/شهر إيجار', agent:'أيمن سليم', phone:'01008207356', note:'للإيجار لا للبيع', status:'warn'},
+  {district:'المنطقة 14', floor:'تاني خلفي', area:'125م', finish:'?', meters:'?', payment:'?', price:'1,850,000', agent:'سارة أم يزن', phone:'01031209218', note:'تطل على فيلا، لا يوجد حصة بدروم، تمويل عقاري', status:'warn'},
+  {district:'الفردوس', floor:'?', area:'?', finish:'?', meters:'?', payment:'?', price:'?', agent:'?', phone:'01279609957', note:'', status:'bad'},
+  {district:'المنطقة الذهبية', floor:'?', area:'145م', finish:'?', meters:'?', payment:'قسط على سنة', price:'?', agent:'مالك مباشر', phone:'01220776442', note:'العمارة خالصة، استلام فوري', status:'bad'},
+  {district:'الفردوس', floor:'خامس', area:'?', finish:'سوبر لوكس', meters:'?', payment:'?', price:'?', agent:'?', phone:'01010396387', note:'2 وصالة', status:'bad'},
+  {district:'المنطقة 23', floor:'رابع', area:'?', finish:'?', meters:'?', payment:'?', price:'?', agent:'?', phone:'01018313191', note:'', status:'bad'},
+  {district:'الزيتون', floor:'رابع', area:'?', finish:'?', meters:'?', payment:'?', price:'?', agent:'?', phone:'01018313191', note:'أمام المدرسة', status:'bad'},
+  {district:'السادسة', floor:'?', area:'190م', finish:'مودرن جديد', meters:'?', payment:'?', price:'?', agent:'مالك مباشر', phone:'01065321589', note:'أول ساكن', status:'bad'},
+  {district:'المنطقة 25', floor:'?', area:'?', finish:'?', meters:'كاملة', payment:'خالصة', price:'950,000', agent:'أبو صالح', phone:'01285352335', note:'نهائي', status:'warn'},
+  {district:'الفردوس', floor:'تاني', area:'?', finish:'?', meters:'?', payment:'قسط ثابت 1200 / 17 سنة', price:'770,000', agent:'مبروك دلال أبو يوسف', phone:'01060461142', note:'', status:'warn'},
+  {district:'الفردوس', floor:'تاني', area:'?', finish:'?', meters:'?', payment:'بالفرش متاجرة 5000', price:'730,000', agent:'?', phone:'01025861340', note:'', status:'bad'},
+  {district:'المنطقة 25', floor:'تاني', area:'?', finish:'سوبر لوكس', meters:'3 عداد', payment:'قسط متغير 900→1800 / 10 سنة', price:'920,000', agent:'هاني', phone:'01202410640', note:'يوجد فيديو فيه تفاوض', status:'ok'},
+  {district:'المنطقة 25', floor:'تالت', area:'?', finish:'?', meters:'3 عداد', payment:'باقي 50,000 فقط', price:'920,000', agent:'محمد رنان', phone:'01027889559', note:'قريبة من الهايبر عند المسجد والوحدة الصحية', status:'warn'},
+  {district:'الروضة', floor:'?', area:'165م×2+140م', finish:'خلصان مباني', meters:'?', payment:'?', price:'?', agent:'مالك - 3 شقق', phone:'01090664166', note:'عمارة 142، الدور الثاني', status:'bad'},
+  {district:'المنطقة 21', floor:'?', area:'130م', finish:'غير متشطبة', meters:'?', payment:'?', price:'?', agent:'مالك', phone:'01090664166', note:'في وش الاستاد مباشرة', status:'bad'},
+  {district:'العاشرة', floor:'تاني', area:'170م', finish:'?', meters:'?', payment:'?', price:'?', agent:'?', phone:'01066945362', note:'', status:'bad'},
+  {district:'العاشرة', floor:'رابع', area:'130م', finish:'?', meters:'?', payment:'?', price:'?', agent:'?', phone:'01066945362', note:'', status:'bad'},
+  {district:'المنطقة 11', floor:'?', area:'?', finish:'متشطبة', meters:'?', payment:'?', price:'1,500,000', agent:'?', phone:'01121737105', note:'قابل للتفاوض', status:'warn'},
+  {district:'الزيتون', floor:'تالت', area:'?', finish:'?', meters:'2 عداد', payment:'قسط 915→2060 / 12 سنة', price:'750,000', agent:'حمزة نور', phone:'01279699033', note:'مدفوع 8 سنين', status:'warn'},
+  {district:'المنطقة 28أ', floor:'بدروم+ارضي+تاني', area:'?', finish:'ارضي جاهز', meters:'?', payment:'?', price:'3,500,000-3,800,000', agent:'يوسف الأمبابي - مكتب نسك ومسكن', phone:'01031610373', note:'على الشارع الرئيسي مع الأوقاف، يوجد فيديو', status:'warn'},
+  {district:'الزيتون', floor:'تاني', area:'?', finish:'سوبر لوكس', meters:'3 عداد', payment:'قسط 930→1100 / 5 سنة', price:'900,000', agent:'نور - مكتب نور', phone:'01275095794', note:'بجوار موقف التمانية، يوجد فيديو', status:'ok'},
+],
+
+rent: [
+  {district:'المنطقة 11', floor:'ارضي', area:'?', finish:'?', rent:'4,500', agent:'مدام رشا', phone:'01210698616', note:'3 وصالة وريسبشن وحمام، مطلوب شركة فقط'},
+  {district:'المنطقة 35', floor:'?', area:'?', finish:'?', rent:'55,000 (عمارة)', agent:'محمد اسكندر', phone:'01202099365', note:'8 شقق وبدروم، على الشارع الرئيسي الموازي لل25'},
+  {district:'المنطقة 34', floor:'?', area:'135م', finish:'?', rent:'6,500/شقة', agent:'محمد اسكندر', phone:'01202099365', note:'4 شقق، كل شقة عدادين'},
+  {district:'العاشرة', floor:'تالت', area:'?', finish:'?', rent:'9,000', agent:'مالك مباشر', phone:'01001349160', note:'أمامي شرقي بحري، فيها غاز'},
+  {district:'المنطقة 31 الترا لوكس', floor:'رابع', area:'?', finish:'الترا لوكس', rent:'?', agent:'?', phone:'01097089982', note:''},
+  {district:'المنطقة 24', floor:'?', area:'?', finish:'?', rent:'?', agent:'?', phone:'01228318790', note:'بيت 4 أدوار وبدروم على يثرب'},
+  {district:'المنطقة 31', floor:'تاني', area:'?', finish:'?', rent:'?', agent:'?', phone:'01228318790', note:'أهالي'},
+  {district:'المنطقة 25', floor:'تاني', area:'?', finish:'?', rent:'?', agent:'?', phone:'01228318790', note:'بدون غاز، الوسطاء يمتنعون'},
+  {district:'المنطقة 35', floor:'?', area:'?', finish:'?', rent:'?', agent:'?', phone:'01224057188', note:'12 شقة، أول ساكن، مطلوب شركة'},
+  {district:'المنطقة 14', floor:'?', area:'?', finish:'الترا', rent:'8,000', agent:'رمضان سليمان', phone:'01096852040', note:'13 شقة أول ساكن، 2 حمام، 3 غرف، أسانسير'},
+  {district:'العاشرة', floor:'رابع آخر', area:'170م', finish:'سوبر سوبر لوكس', rent:'8,000', agent:'سناء أم خالد', phone:'01019191835', note:'مطلوب أسرة'},
+  {district:'المنطقة 14', floor:'رابع', area:'165م', finish:'ممتاز', rent:'5,000 عقد سنة', agent:'?', phone:'?', note:'هادئ ومميز، مناسب للسكن العائلي'},
+  {district:'المنطقة 10', floor:'تاني', area:'150م', finish:'?', rent:'6,500', agent:'سمسار الفهد', phone:'01507009854', note:'مقابل ابن بيتك، غاز، 3 غرف وريسبشن'},
+  {district:'حي النور', floor:'رابع', area:'?', finish:'?', rent:'?', agent:'محمد فوزي', phone:'01034377311', note:'أخذت وش نظافة'},
+  {district:'السابعة القديمة', floor:'تاني', area:'?', finish:'?', rent:'8,000', agent:'أيمن محمود', phone:'01009385484', note:'على أبو بكر مباشر، جنب مول سايلو'},
+  {district:'الزيتون', floor:'تالت', area:'?', finish:'جهاز', rent:'3,000', agent:'أيمن سليم', phone:'01008207356', note:'3 عدادات'},
+  {district:'المكتب الإداري - العاشرة', floor:'تالت', area:'80م', finish:'?', rent:'8,000', agent:'?', phone:'01007305524', note:'غرفتين وصالة'},
+  {district:'ابني بيتك الثالثة', floor:'تالت', area:'?', finish:'سوبر لوكس', rent:'3,000', agent:'أحمد السنوسي', phone:'01090926395', note:''},
+  {district:'مساكن مبارك', floor:'أول', area:'?', finish:'?', rent:'?', agent:'?', phone:'01064980414', note:'مدخل خاص بلاط، غرفتين وصالة'},
+  {district:'المنطقة 12', floor:'تالت', area:'?', finish:'لوكس', rent:'6,000', agent:'محمد الصائم (مالك)', phone:'01092728883', note:'أمام مسجد أبو المكارم، مطلوب أسرة'},
+  {district:'المنطقة 36', floor:'تاني', area:'?', finish:'?', rent:'4,000', agent:'المصطفى للتسويق', phone:'01019109197', note:'أول ساكن'},
+  {district:'المنطقة 14', floor:'?', area:'?', finish:'الترا', rent:'8,000', agent:'رمضان سليمان', phone:'01096852040', note:'عمارة 13 شقة، أسانسير، 2 حمام'},
+  {district:'المنطقة 11 اسكان', floor:'ارضي', area:'?', finish:'?', rent:'?', agent:'?', phone:'01270321985', note:'للشركات'},
+  {district:'المنطقة 28', floor:'رابع', area:'?', finish:'سوبر لوكس', rent:'3,500', agent:'?', phone:'01270321985', note:''},
+  {district:'المنطقة 12', floor:'تالت', area:'?', finish:'سوبر لوكس', rent:'?', agent:'يوسف أون لاين', phone:'01270321985', note:''},
+  {district:'المنطقة 23 أهالي', floor:'تالت', area:'?', finish:'عريس', rent:'6,000', agent:'?', phone:'01007305524', note:'على شارع أبو بكر ومول جرين جولف'},
+  {district:'المنطقة 27', floor:'?', area:'?', finish:'سوبر لوكس', rent:'?', agent:'مالك', phone:'01005187220', note:'أمام طب الأسرة، أمام الخدمات'},
+  {district:'المنطقة 31', floor:'تالت+رابع', area:'?', finish:'?', rent:'?', agent:'أحمد السنوسي', phone:'01090926395', note:'خطوات من أبو بكر ومول قرطبة، مطلوب عرسان'},
+  {district:'المنطقة 23 أهالي', floor:'تالت', area:'?', finish:'?', rent:'?', agent:'?', phone:'01007305524', note:'على شارع أبو بكر ومول جرين جولف'},
+  {district:'الثالثة', floor:'خامس', area:'160م', finish:'?', rent:'?', agent:'?', phone:'01270321985', note:'3 وصالة و2 حمام'},
+  {district:'العاشرة', floor:'تالت', area:'?', finish:'عريس', rent:'5,500', agent:'?', phone:'01007305524', note:'أمام مدرسة التجريبية'},
+  {district:'المنطقة 24', floor:'تالت', area:'?', finish:'?', rent:'?', agent:'?', phone:'01031010201', note:''},
+],
+
+furn: [
+  {district:'الثامنة', floor:'تاني', area:'?', rooms:'?', rent:'5,500', agent:'مالك مباشر', phone:'01284771014', note:'أمام سكن كلية الدراسات الإسلامية، مطلوب أسرة، ما بيدفعش عمولة'},
+  {district:'التاسعة', floor:'ارضي', area:'?', rooms:'?', rent:'?', agent:'?', phone:'01020908176', note:''},
+  {district:'المنطقة 14', floor:'تاني', area:'?', rooms:'?', rent:'12,000', agent:'?', phone:'01062756593', note:'مكيفة'},
+  {district:'?', floor:'تالت', area:'?', rooms:'?', rent:'11,000', agent:'?', phone:'?', note:'اتنين تكييف'},
+  {district:'الثالثة السكنية', floor:'تالت', area:'?', rooms:'6 سراير', rent:'?', agent:'?', phone:'01040300354', note:'سوبر لوكس فرش زيرو'},
+  {district:'المنطقة 12', floor:'?', area:'?', rooms:'?', rent:'?', agent:'?', phone:'01061429370', note:''},
+  {district:'المنطقة 9', floor:'?', area:'?', finish:'?', rooms:'?', rent:'?', agent:'?', phone:'?', note:''},
+  {district:'الفردوس', floor:'رابع', area:'?', rooms:'?', rent:'5,000', agent:'أحمد سمير أبو مريم', phone:'01061800026', note:'فرش زيرو'},
+  {district:'المنطقة 11 اسكان', floor:'ارضي', area:'?', rooms:'4 سراير', rent:'4,500', agent:'حسام جيزاوي (مالك)', phone:'01200171130', note:'غرفتين وصالة ومطبخ وحمام، يوجد فيديو'},
+  {district:'الفردوس', floor:'رابع', area:'?', rooms:'?', rent:'5,000', agent:'أحمد سمير أبو مريم', phone:'01061800026', note:'فرش زيرو'},
+  {district:'الخامسة', floor:'روف', area:'?', rooms:'2 سرير', rent:'3,000', agent:'معيوف نور', phone:'01004774536', note:'أوضة وحمام ومطبخ، بوتوجاز وثلاجة وغسالة'},
+  {district:'الخامسة', floor:'تاني', area:'?', rooms:'6 سراير', rent:'8,000', agent:'معيوف نور', phone:'01004774536', note:'3 وصالة'},
+  {district:'الخامسة', floor:'تالت', area:'?', rooms:'8 سراير', rent:'11,000', agent:'معيوف نور', phone:'01004774536', note:'4 غرف'},
+  {district:'الخامسة', floor:'رابع', area:'?', rooms:'8 سراير', rent:'11,000', agent:'معيوف نور', phone:'01004774536', note:'4 غرف'},
+  {district:'الأوقاف قرطبة', floor:'?', area:'?', rooms:'?', rent:'3,500', agent:'مجدي كريم فايز', phone:'01228318790', note:'استوديو أول صف وش قرطبة'},
+  {district:'التاسعة', floor:'?', area:'?', rooms:'?', rent:'?', agent:'عمر - سويك للتسويق', phone:'01224057188', note:'3 وصالة مكيفة'},
+  {district:'السادسة', floor:'?', area:'?', rooms:'6 سراير', rent:'?', agent:'عمر - سويك للتسويق', phone:'01224057188', note:'3 وصالة مكيفة'},
+  {district:'المنطقة 23', floor:'?', area:'?', rooms:'?', rent:'?', agent:'عمر - سويك للتسويق', phone:'01224057188', note:'3 وصالة سوبر لوكس'},
+  {district:'الفردوس', floor:'رابع', area:'?', rooms:'?', rent:'5,000', agent:'أحمد سمير أبو مريم', phone:'01061800026', note:'فرش زيرو'},
+  {district:'المنطقة 23 أهالي', floor:'ارضي', area:'?', rooms:'6 سراير', rent:'8,000', agent:'?', phone:'?', note:'مدخل خاص على شارع أبو بكر مباشر'},
+  {district:'الثانية', floor:'?', area:'?', rooms:'4 سراير', rent:'?', agent:'مالك مباشر', phone:'01012863925', note:'غرفتين وصالة فرش جديد وأجهزة جديدة'},
+  {district:'قرطبة', floor:'?', area:'?', rooms:'?', rent:'?', agent:'?', phone:'01096852040', note:'زيرو أول ساكن'},
+  {district:'الثانية', floor:'?', area:'?', rooms:'?', rent:'4,000', agent:'?', phone:'01000229654', note:'غرفة وصالة فرش جديد'},
+  {district:'الثامنة', floor:'تاني', area:'?', rooms:'?', rent:'?', agent:'?', phone:'01090777763', note:'أمام نادي الأندلس'},
+  {district:'الرابعة', floor:'تالت', area:'?', rooms:'4 سراير', rent:'4,500', agent:'?', phone:'01029947482', note:''},
+  {district:'الثامنة', floor:'تالت', area:'?', rooms:'?', rent:'?', agent:'?', phone:'01034363196', note:'على أبو بكر مباشر'},
+  {district:'الأولى', floor:'?', area:'?', rooms:'?', rent:'?', agent:'?', phone:'01028102872', note:'فرش كويس جدا، يوجد فيديو'},
+  {district:'الرابعة الجديدة', floor:'تاني', area:'?', rooms:'?', rent:'?', agent:'?', phone:'01099573848', note:'خلف جمال عبد الناصر'},
+  {district:'الرابعة', floor:'تاني', area:'?', rooms:'?', rent:'?', agent:'مالك مباشر', phone:'01092039720', note:'2 وصالة'},
+  {district:'الرابعة', floor:'?', area:'?', rooms:'?', rent:'?', agent:'?', phone:'01003119120', note:'متاح في الرابعة القديمة والجديدة وابني بيتك'},
+  {district:'الأولى', floor:'?', area:'?', rooms:'?', rent:'?', agent:'?', phone:'01100116082', note:'أوضة وصالة'},
+  {district:'دار مصر', floor:'?', area:'?', rooms:'3 غرف', rent:'?', agent:'مالك', phone:'?', note:'داخل كمباوند، أول ساكن، قريبة من البوابة الرئيسية'},
+  {district:'الأولى', floor:'?', area:'?', rooms:'?', rent:'?', agent:'?', phone:'01027403813', note:'شركة تاج الدين'},
+  {district:'الرابعة', floor:'تاني', area:'?', rooms:'4 سراير', rent:'?', agent:'مالك مباشر', phone:'01153789669', note:'فرش محترم، خطوات من جمال عبد الناصر'},
+  {district:'الزيتون', floor:'?', area:'?', rooms:'?', rent:'?', agent:'المهندس أيمن', phone:'01285002118', note:'3 عدادات'},
+  {district:'المنطقة 11', floor:'?', area:'?', rooms:'4 سراير', rent:'5,000', agent:'?', phone:'01061408913', note:'غرفة وصالة، غاز طبيعي، متأمنة حديد'},
+  {district:'الفردوس', floor:'رابع', area:'?', rooms:'?', rent:'5,000', agent:'أحمد سمير أبو مريم', phone:'01061800026', note:'فرش زيرو'},
+  {district:'الثامنة', floor:'تالت', area:'?', rooms:'?', rent:'?', agent:'?', phone:'01117171194', note:'شرقي بحري، غاز، تشطيب لكس، 3 غرف'},
+  {district:'الثامنة', floor:'?', area:'?', rooms:'3 وصالة', rent:'?', agent:'?', phone:'01023547041', note:''},
+  {district:'السابعة', floor:'تاني', area:'?', rooms:'6 سراير', rent:'9,000', agent:'?', phone:'01152948095', note:'3 غرف'},
+  {district:'الثالثة', floor:'?', area:'?', rooms:'?', rent:'?', agent:'?', phone:'01012008112', note:''},
+  {district:'الشريط المميز', floor:'تاني', area:'?', rooms:'6 سراير', rent:'?', agent:'?', phone:'01155958840', note:'جنب مول الديب، فرش نظيف'},
+  {district:'التاسعة', floor:'تاني', area:'?', rooms:'6 سراير', rent:'?', agent:'?', phone:'01063966309', note:'فرش ممتاز'},
+  {district:'المنطقة 11', floor:'?', area:'?', rooms:'?', rent:'10,000', agent:'?', phone:'01091146757', note:'عند البنك CIB، مكيفة'},
+  {district:'المنطقة 26', floor:'ارضي', area:'?', rooms:'6 سراير', rent:'?', agent:'?', phone:'01067676159', note:'على شارع أبو بكر، سور'},
+  {district:'الثالثة السكنية', floor:'تالت', area:'?', rooms:'?', rent:'16,000', agent:'?', phone:'01014871509', note:'مكيفة بالكامل فرش عالي'},
+  {district:'المنطقة 26', floor:'?', area:'?', rooms:'?', rent:'?', agent:'?', phone:'01273187841', note:'عمارة مفروشة'},
+],
+
+land: [
+  {area_name:'الكوثر 2', lot:'287', area:'?', location:'?', status:'قسطين ومحضر استلام', price:'1,120,000', agent:'أحمد يوسف - مكتب مكاني', phone:'01159858472', note:'', rowstatus:'warn'},
+  {area_name:'الكوثر 6', lot:'?', area:'بحري', location:'?', status:'3 أقساط+رخصة بدروم', price:'1,180,000', agent:'أحمد معوض', phone:'01008303723', note:'مدفوع التأمينات والعداد الإنشائي', rowstatus:'ok'},
+  {area_name:'الكوثر', lot:'406', area:'الكوثر 2', location:'?', status:'?', price:'1,050,000', agent:'عيسى محمد المحامي', phone:'01200599610', note:'', rowstatus:'warn'},
+  {area_name:'الكوثر', lot:'487', area:'الكوثر 6', location:'?', status:'3 أقساط', price:'1,100,000', agent:'أحمد مناع', phone:'01062556375', note:'', rowstatus:'warn'},
+  {area_name:'الكوثر 1', lot:'?', area:'?', location:'قريبة من الطريق الرئيسي', status:'قسطين ومحضر استلام', price:'?', agent:'?', phone:'01200298879', note:'موقع ممتاز', rowstatus:'bad'},
+  {area_name:'الكوثر 6', lot:'453', area:'?', location:'?', status:'3 أقساط', price:'1,100,000', agent:'?', phone:'01208178192', note:'', rowstatus:'warn'},
+  {area_name:'الكوثر 3', lot:'151', area:'?', location:'?', status:'?', price:'?', agent:'?', phone:'01061690302', note:'', rowstatus:'bad'},
+  {area_name:'النخيل مج2', lot:'?', area:'209م', location:'شرقي', status:'خالصة أقساط+رخصة+عداد انشاء', price:'?', agent:'مالك مباشر', phone:'01000981115', note:'تنازل ونقل ملكية فوري', rowstatus:'warn'},
+  {area_name:'النخيل مج3', lot:'305', area:'?', location:'?', status:'خالصة، تصريح حفر وجيش', price:'?', agent:'?', phone:'01206951677', note:'مبني بدروم ودور، عمدان الثاني', rowstatus:'warn'},
+  {area_name:'النرجس 1', lot:'?', area:'?', location:'رابع من الرئيسي', status:'خالصة ورخصة بدون بدروم', price:'1,430,000', agent:'عبد الرحمن عيسى', phone:'01020595495', note:'أمام الخدمات موقع مميز', rowstatus:'ok'},
+  {area_name:'النرجس 2', lot:'?', area:'209م', location:'ناصية بحري شرقي', status:'?', price:'?', agent:'?', phone:'01095456677', note:'مبني بدروم ودور عمدان الثاني', rowstatus:'bad'},
+  {area_name:'النرجس 2', lot:'?', area:'209م', location:'?', status:'خالصة أقساط', price:'?', agent:'?', phone:'01031147687', note:'', rowstatus:'bad'},
+  {area_name:'النرجس 3', lot:'?', area:'?', location:'على شارع رئيسي داخلي', status:'خالصة بدون رخصة', price:'?', agent:'?', phone:'01200298879', note:'قريبة من الخدمات', rowstatus:'bad'},
+  {area_name:'النرجس 3', lot:'?', area:'?', location:'?', status:'?', price:'1,100,000', agent:'?', phone:'01031209218', note:'', rowstatus:'bad'},
+  {area_name:'النرجس 3', lot:'791', area:'?', location:'?', status:'خالصة+رخصة بدون بدروم', price:'?', agent:'?', phone:'01030251541', note:'توكيل واحد', rowstatus:'bad'},
+  {area_name:'النرجس 4', lot:'449', area:'?', location:'?', status:'مبني بدروم واقف على السقف', price:'?', agent:'?', phone:'01061690302', note:'', rowstatus:'bad'},
+  {area_name:'النرجس 5', lot:'?', area:'?', location:'?', status:'خالصة+رخصة بدون بدروم', price:'1,050,000', agent:'?', phone:'01270876441', note:'', rowstatus:'warn'},
+  {area_name:'النرجس 6', lot:'?', area:'?', location:'على الرئيسي الخارجي', status:'?', price:'1,670,000 / 1,620,000', agent:'?', phone:'01017413635', note:'أمام عمارات النور', rowstatus:'warn'},
+  {area_name:'النرجس 6', lot:'1053', area:'276م', location:'?', status:'?', price:'1,670,000', agent:'?', phone:'01063223804', note:'', rowstatus:'warn'},
+  {area_name:'النرجس 7', lot:'?', area:'?', location:'?', status:'خالصة+رخصة', price:'1,180,000', agent:'?', phone:'01095481624', note:'', rowstatus:'warn'},
+  {area_name:'النرجس 7 (بيت)', lot:'?', area:'?', location:'على شارع رئيسي', status:'خالصة، بوابات', price:'?', agent:'?', phone:'01202793890', note:'بدروم ودور وعمدان الثاني', rowstatus:'bad'},
+  {area_name:'الفردوس 4', lot:'431/68', area:'276م', location:'?', status:'خالصة أقساط', price:'?', agent:'مالك', phone:'01015178074', note:'واتس', rowstatus:'bad'},
+  {area_name:'الفردوس 4', lot:'583', area:'276م', location:'بحري على الخدمات', status:'خالصة', price:'1,520,000', agent:'محمد كعبوره', phone:'01006081241', note:'غير مجروحة، خطوات من الفاصل', rowstatus:'ok'},
+  {area_name:'الفردوس 5', lot:'98/217/89/348', area:'276م', location:'?', status:'خالصة أقساط', price:'?', agent:'مالك', phone:'01015178074', note:'', rowstatus:'bad'},
+  {area_name:'الفردوس 5', lot:'?', area:'276م', location:'بحري صريح', status:'?', price:'?', agent:'?', phone:'01099125736', note:'', rowstatus:'bad'},
+  {area_name:'الفردوس 5', lot:'?', area:'276م', location:'?', status:'?', price:'1,430,000-1,520,000', agent:'?', phone:'01023101546', note:'', rowstatus:'warn'},
+  {area_name:'الفردوس 5', lot:'?', area:'276م', location:'?', status:'محضر استلام', price:'?', agent:'?', phone:'01060279735', note:'مطلوب بحري', rowstatus:'bad'},
+  {area_name:'الفردوس 5', lot:'851', area:'276م', location:'بحري على خدمات', status:'خالصة أقساط', price:'1,730,000', agent:'دينا فاروق', phone:'01091207273', note:'', rowstatus:'ok'},
+  {area_name:'الريحان', lot:'2374', area:'458م (نصف قطعة)', location:'أمام خدمات ومسطح أخضر', status:'مسددة بالكامل', price:'2,750,000', agent:'أحمد عبد النبي', phone:'01272908439', note:'رخصة منتهية بدون بدروم، مهلة بناء طويلة', rowstatus:'warn'},
+  {area_name:'الريحان', lot:'?', area:'600م', location:'تاني نمرة فاصل الروضة', status:'خالصة', price:'3,750,000', agent:'?', phone:'01097147859', note:'ناصية حرق أسعار', rowstatus:'warn'},
+  {area_name:'الريحان', lot:'?', area:'?', location:'أمام خدمات ومسطح', status:'خالصة غير مجروحة', price:'5,500/متر', agent:'مكتب سليم', phone:'01000904411', note:'مهلة بناء طويلة', rowstatus:'warn'},
+  {area_name:'الريحان', lot:'?', area:'?', location:'أمامي ناصية مسطح', status:'خالصة', price:'?', agent:'محمد مجدي شرف', phone:'01201701040', note:'على خدمات، موقع ممتاز', rowstatus:'warn'},
+  {area_name:'المنطقة المتميزة مج3A', lot:'110', area:'630م', location:'على طريق رئيسي', status:'?', price:'22,838 دولار', agent:'?', phone:'01224677021', note:'شرقي', rowstatus:'warn'},
+  {area_name:'الكوثر 4', lot:'615', area:'209م', location:'على شارع رئيسي', status:'باقي قسط', price:'1,100,000-1,200,000', agent:'رمضان سليمان (مالك)', phone:'01008560934', note:'غير مجروحة أمامها شارع عمومي', rowstatus:'ok'},
+  {area_name:'النخيل مج3', lot:'?', area:'?', location:'?', status:'خالصة', price:'1,750,000', agent:'?', phone:'01031610373', note:'قطعة 787', rowstatus:'warn'},
+  {area_name:'النخيل مج6', lot:'396', area:'?', location:'ناصيتين دبل فيس', status:'?', price:'2,800,000', agent:'?', phone:'01031610373', note:'', rowstatus:'warn'},
+  {area_name:'النخيل مج6', lot:'689', area:'?', location:'?', status:'مبني دور وسقف', price:'1,650,000', agent:'?', phone:'01031610373', note:'مناسبة دوبلكس', rowstatus:'warn'},
+],
+
+house: [
+  {district:'المنطقة 27 مدينة السادات', area:'276م', floors:'بدروم+دور+دور (نص تشطيب+عظم)', finish:'نص تشطيب', price:'5,700,000', agent:'عزت جودة صبرة', phone:'01069463507', note:'وجهة شرقي على الفصل مع 28', rowstatus:'warn'},
+  {district:'الزيتون', area:'?', floors:'بدروم+2دور+سطح', finish:'سوبر لوكس', price:'?', agent:'?', phone:'01003903398', note:'', rowstatus:'bad'},
+  {district:'الزيتون مج5', area:'?', floors:'دورين متشطبين', finish:'?', price:'?', agent:'?', phone:'01026579247', note:'ناصية صريحة غير ملتصقة بحري على الخدمات', rowstatus:'bad'},
+  {district:'الزيتون', area:'?', floors:'بدروم+دور+عمدان', finish:'?', price:'?', agent:'?', phone:'01005768606', note:'', rowstatus:'bad'},
+  {district:'الزيتون مج5', area:'?', floors:'?', finish:'?', price:'?', agent:'?', phone:'01005856528', note:'', rowstatus:'bad'},
+  {district:'الزيتون', area:'?', floors:'بدروم+دور بدون سقف', finish:'?', price:'?', agent:'?', phone:'01282226717', note:'', rowstatus:'bad'},
+  {district:'الزيتون 3', area:'?', floors:'بدروم+دور', finish:'?', price:'?', agent:'?', phone:'01012668244', note:'على خدمات', rowstatus:'bad'},
+  {district:'الزيتون مج4', area:'?', floors:'بدروم+2دور', finish:'?', price:'?', agent:'?', phone:'01094055710', note:'على الشارع الرئيسي، شرقي بحري، شارع الفردوس', rowstatus:'bad'},
+  {district:'ابني بيتك (الثاني)', area:'?', floors:'3 أدوار', finish:'سوبر لوكس 8 عدادات', price:'?', agent:'إيهاب زرزور', phone:'01034363196', note:'ناصية موقع ممتاز', rowstatus:'warn'},
+  {district:'ابني بيتك (الأولى والثالثة)', area:'?', floors:'2+3 أدوار', finish:'?', price:'?', agent:'إبراهيم شوقي الرقباوي', phone:'01004738203', note:'', rowstatus:'bad'},
+  {district:'ابني بيتك (الثانية)', area:'?', floors:'3 أدوار ناصية+حديقة', finish:'سوبر لوكس 9 عدادات', price:'?', agent:'مكتب الأبرار العقارية', phone:'01275557373', note:'', rowstatus:'warn'},
+  {district:'ابني بيتك (الثانية)', area:'?', floors:'3 أدوار واحد فقط متشطب', finish:'?', price:'?', agent:'?', phone:'01026579229', note:'', rowstatus:'bad'},
+  {district:'ابني بيتك (الثانية، بجوار مسجد بلال)', area:'?', floors:'3 أدوار', finish:'تشطيب عالي', price:'2,550,000', agent:'وردة أم مرام', phone:'01007547779', note:'3 عداد غاز، عدادين كهرباء، واحد ماء، رخصة', rowstatus:'ok'},
+  {district:'المنطقة 28أ', area:'?', floors:'بدروم+ارضي+تاني (واقف)', finish:'ارضي جاهز', price:'3,500,000-3,800,000', agent:'يوسف الأمبابي - مكتب نسك ومسكن', phone:'01031610373', note:'على الشارع الرئيسي مع الأوقاف', rowstatus:'ok'},
+  {district:'المنطقة 28أ', area:'209م', floors:'بدروم+دورين الترا+تالت+رابع طوب', finish:'الترا لوكس', price:'?', agent:'?', phone:'01018782713', note:'دبل فيس، السور متشطب', rowstatus:'warn'},
+  {district:'المنطقة 28', area:'?', floors:'4 أدوار+بدروم', finish:'?', price:'4,800,000', agent:'?', phone:'01121737105', note:'قابل للتفاوض', rowstatus:'warn'},
+  {district:'المنطقة 24', area:'276م', floors:'بدروم+دور+تالت على السقف', finish:'?', price:'4,800,000', agent:'?', phone:'01029112902', note:'', rowstatus:'warn'},
+  {district:'المنطقة 24', area:'276م', floors:'?', finish:'?', price:'?', agent:'مالك', phone:'01062285983', note:'واجهة شرقي/بحري جاهز للتكملة أو سكن', rowstatus:'bad'},
+  {district:'المنطقة 26', area:'?', floors:'دورين دوبلكس+تالت محاره', finish:'سوبر الترا', price:'?', agent:'?', phone:'01221141393', note:'واجهة حجر فرعوني موقع ممتاز', rowstatus:'bad'},
+  {district:'المنطقة 26', area:'?', floors:'2 دوبلكس+تالت محاره', finish:'هاي لوكس', price:'?', agent:'?', phone:'01032041891', note:'على مسطح أخضر ومسجد وخدمات', rowstatus:'bad'},
+  {district:'المنطقة 20', area:'?', floors:'4 أدوار', finish:'سوبر لوكس', price:'5,000,000', agent:'?', phone:'01099568442', note:'بجوار الخدمات', rowstatus:'warn'},
+  {district:'المنطقة 36', area:'400م', floors:'بدروم+دور', finish:'سوبر لوكس', price:'?', agent:'?', phone:'01060326111', note:'تحفة', rowstatus:'bad'},
+  {district:'المنطقة 26', area:'?', floors:'?', finish:'?', price:'?', agent:'?', phone:'01063966309', note:'قريب جدا من أبو بكر، شرقي بحري', rowstatus:'bad'},
+  {district:'النخيل مج5', area:'?', floors:'بدروم+دور+عمدان', finish:'?', price:'?', agent:'مالك مباشر', phone:'01032285454', note:'خالصة أقساط', rowstatus:'bad'},
+  {district:'النرجس مج7', area:'?', floors:'بدروم+دور+عمدان', finish:'?', price:'?', agent:'?', phone:'01202793890', note:'بوابات، خالصة', rowstatus:'bad'},
+  {district:'المنطقة 11 اسكان', area:'?', floors:'دور واحد', finish:'جاهز للسكن كامل عدادات', price:'1,750,000', agent:'?', phone:'01063141231', note:'ابني بيتك، مطبخ وغرفتين وصالة', rowstatus:'warn'},
+  {district:'ابني بيتك الثالثة', area:'?', floors:'3 أدوار 2 لوكس+تالت دهان', finish:'لوكس', price:'?', agent:'عصام مناع', phone:'01004952188', note:'على الشارع الرئيسي أمام المدرسة', rowstatus:'bad'},
+  {district:'المنطقة 28 (منزلين)', area:'?', floors:'?', finish:'?', price:'?', agent:'?', phone:'01003403667', note:'', rowstatus:'bad'},
+  {district:'المنطقة 28أ', area:'?', floors:'بدروم+دورين+تالت+رابع طوب', finish:'الترا لوكس', price:'?', agent:'?', phone:'01069181566', note:'', rowstatus:'bad'},
+  {district:'المنطقة 27', area:'276م', floors:'بدروم+دور سوبر+تاني عظم+سور', finish:'سوبر لوكس', price:'5,500,000', agent:'?', phone:'01007219807', note:'واجهة فرعوني، تحفة، يوجد صور', rowstatus:'ok'},
+  {district:'المنطقة 31', area:'?', floors:'بدروم+دور نص+تاني طوب', finish:'نص تشطيب', price:'3,700,000', agent:'?', phone:'01007219807', note:'على الطريق الرئيسي', rowstatus:'warn'},
+  {district:'الزيتون 2', area:'?', floors:'دور+بدروم على الطوب', finish:'?', price:'?', agent:'?', phone:'01094055710', note:'بجوار الكليات، على الشارع الرئيسي', rowstatus:'bad'},
+  {district:'الزيتون مج5', area:'?', floors:'?', finish:'?', price:'?', agent:'?', phone:'01553334576', note:'', rowstatus:'bad'},
+  {district:'المنطقة 28ب', area:'?', floors:'بدروم+دورين+تالت بدون سقف', finish:'?', price:'?', agent:'?', phone:'01270876441', note:'', rowstatus:'bad'},
+  {district:'المنطقة 28', area:'?', floors:'بدروم+3 أدوار', finish:'?', price:'5,500,000', agent:'?', phone:'01003073278', note:'مع الفاصل 28ب، على مسطح أخضر، قابل', rowstatus:'warn'},
+  {district:'المنطقة 28', area:'209م', floors:'بدروم+دور+تالت طوب', finish:'?', price:'?', agent:'مالك', phone:'01040114604', note:'', rowstatus:'bad'},
+  {district:'المنطقة 33', area:'209م', floors:'?', finish:'?', price:'2,350,000', agent:'?', phone:'01062520839', note:'', rowstatus:'warn'},
+  {district:'المنطقة 28أ', area:'209م', floors:'?', finish:'?', price:'3,650,000', agent:'?', phone:'01062520839', note:'', rowstatus:'warn'},
+  {district:'المنطقة 28', area:'209م', floors:'?', finish:'?', price:'5,200,000', agent:'?', phone:'01062520839', note:'', rowstatus:'warn'},
+  {district:'المنطقة 25', area:'276م', floors:'?', finish:'?', price:'5,150,000', agent:'?', phone:'01062520839', note:'', rowstatus:'warn'},
+  {district:'المنطقة 27', area:'276م', floors:'?', finish:'?', price:'6,500,000', agent:'?', phone:'01062520839', note:'', rowstatus:'warn'},
+  {district:'المنطقة 26', area:'209م', floors:'?', finish:'?', price:'3,900,000', agent:'?', phone:'01062520839', note:'', rowstatus:'warn'},
+  {district:'النخيل', area:'209م', floors:'?', finish:'?', price:'1,250,000', agent:'?', phone:'01062520839', note:'', rowstatus:'warn'},
+  {district:'النرجس 2', area:'209م', floors:'?', finish:'?', price:'2,500,000', agent:'?', phone:'01062520839', note:'', rowstatus:'warn'},
+  {district:'النرجس 7', area:'209م', floors:'?', finish:'?', price:'2,500,000', agent:'?', phone:'01062520839', note:'', rowstatus:'warn'},
+  {district:'الزيتون مج6', area:'?', floors:'بدروم+3 أدوار', finish:'?', price:'?', agent:'?', phone:'01062841652', note:'حاجة حلوة', rowstatus:'bad'},
+  {district:'المنطقة 31', area:'?', floors:'?', finish:'?', price:'?', agent:'?', phone:'01099698685', note:'على أبو بكر مباشر', rowstatus:'bad'},
+  {district:'المنطقة 34', area:'?', floors:'بدروم+دور+عمدان', finish:'?', price:'?', agent:'وليد العباسي', phone:'01018345757', note:'ناصية', rowstatus:'bad'},
+  {district:'المنطقة 27', area:'?', floors:'بدروم+ارضي لوكس', finish:'لوكس', price:'?', agent:'مالك', phone:'01272641002', note:'أمام مدرسة ستيم والسوق والحضانة', rowstatus:'bad'},
+  {district:'النرجس مج1', area:'?', floors:'?', finish:'?', price:'1,150,000', agent:'?', phone:'01031147687', note:'', rowstatus:'warn'},
+  {district:'الزيتون مج1', area:'?', floors:'?', finish:'?', price:'?', agent:'?', phone:'01203202808', note:'', rowstatus:'bad'},
+  {district:'المنطقة 15', area:'?', floors:'?', finish:'?', price:'?', agent:'نص قطعة', phone:'01055607612', note:'', rowstatus:'bad'},
+],
+
+shop: [
+  {location:'مول دار مصر', area:'40م+30م', floor:'ارضي', price:'45,000/متر', type:'بيع', agent:'أحمد سامي', phone:'01221560944', note:'محلين'},
+  {location:'جرين جولف', area:'?', floor:'?', price:'?', type:'بيع', agent:'محمود رجب', phone:'01070006610', note:'محل دبل فيس رقم 9'},
+  {location:'مول دار مصر', area:'40م', floor:'أول السلم', price:'45,000/متر', type:'بيع', agent:'أحمد سامي', phone:'01221560944', note:''},
+  {location:'جرين جولف', area:'42م', floor:'تالت', price:'25,000/متر', type:'بيع', agent:'?', phone:'01228318790', note:'على واجهتين، نشاط حر، جاهز'},
+  {location:'مول الجامعة', area:'26م', floor:'أول علوي', price:'?', type:'بيع', agent:'مالك مباشر', phone:'01066685545', note:'المنطقة 11، جنب بنك CIB'},
+  {location:'جرين جولف', area:'29.8م', floor:'تاني', price:'?', type:'بيع', agent:'?', phone:'01033368199', note:'ناصية على شارع أبو بكر، فوق صقر الحدايد، رقم 129'},
+  {location:'مول تروفال', area:'38م', floor:'أول علوي', price:'250/متر', type:'بيع', agent:'?', phone:'01123029051', note:'على شارع أبو بكر'},
+  {location:'مول الجلالة', area:'?', floor:'?', price:'?', type:'بيع', agent:'?', phone:'01276356264', note:'على شارع أبو بكر'},
+  {location:'مول الماسة', area:'50م', floor:'تاني', price:'?', type:'بيع', agent:'?', phone:'01092776520', note:'بجوار الأسانسير'},
+  {location:'مول إنتر سيتي', area:'52م+', floor:'ارضي', price:'100,000/متر', type:'بيع', agent:'?', phone:'01097981337', note:'على الشارع الرئيسي، مقدم 25% + أقساط'},
+  {location:'شارع أبو بكر (مول الفريدة)', area:'41م', floor:'ارضي', price:'?', type:'بيع', agent:'?', phone:'01206730455', note:''},
+  {location:'مول السلام', area:'25م', floor:'ارضي', price:'?', type:'بيع', agent:'?', phone:'01206730455', note:''},
+  {location:'مول ميجا', area:'60م', floor:'ارضي', price:'?', type:'بيع', agent:'?', phone:'01149562350', note:'الصناعية السابعة على الإقليمي، نشاط مطعم'},
+  {location:'مول الماسة', area:'43م', floor:'ارضي', price:'?', type:'بيع', agent:'?', phone:'?', note:'دبل فيس'},
+  {location:'شارع أبو بكر', area:'?', floor:'?', price:'?', type:'بيع', agent:'?', phone:'01000874397', note:''},
+  {location:'التامنة - مول الماسة', area:'45م', floor:'ارضي', price:'?', type:'بيع', agent:'?', phone:'01060915670', note:'أمامي على ناصيتين، سوبر لوكس'},
+  {location:'بين العاشرة والثامنة', area:'?', floor:'?', price:'?', type:'بيع', agent:'مالك مباشر', phone:'01014463142', note:''},
+  {location:'مول زاد', area:'?', floor:'?', price:'?', type:'بيع', agent:'?', phone:'01270876441', note:'ناصية'},
+  {location:'سيتي مول', area:'45م', floor:'ارضي', price:'110/متر', type:'بيع/إيجار', agent:'?', phone:'01031209218', note:'على شارع الرباعية، مؤجر 15,000'},
+  {location:'المحور المركزي', area:'?', floor:'?', price:'مقدم 25% + 4-5 سنة', type:'بيع', agent:'?', phone:'01228755296', note:'على شارع أبو بكر قسط على سنة'},
+  {location:'مول جلاري', area:'35م', floor:'?', price:'?', type:'بيع', agent:'?', phone:'01060461142', note:''},
+  {location:'سوق المنطقة 11', area:'40م', floor:'ارضي ناصية', price:'?', type:'بيع', agent:'?', phone:'01143576787', note:'أمام الكليات جامعة الحقوق والتجارة'},
+  {location:'الأولى', area:'40م', floor:'?', price:'?', type:'بيع', agent:'?', phone:'01001133843', note:'موقع مميز'},
+  {location:'سوزان', area:'40م', floor:'?', price:'?', type:'بيع', agent:'مالك', phone:'01026117372', note:'باب خلفي وجاب أمامي على بركة كبير'},
+  {location:'مول قرطبة', area:'35م', floor:'?', price:'?', type:'بيع/إيجار', agent:'?', phone:'01100116082', note:'عيادة'},
+  {location:'مول بيراميدز', area:'50م', floor:'?', price:'?', type:'إيجار', agent:'?', phone:'01004891802', note:'أمام بيت الوطن الثالث'},
+  {location:'مول إنتر سيتي', area:'100م', floor:'ارضي', price:'100,000/متر', type:'بيع', agent:'?', phone:'01097981337', note:'يمكن تقسيم، مقدم 25%'},
+  {location:'المحور', area:'95م', floor:'?', price:'145,000/متر', type:'بيع', agent:'?', phone:'01018514565', note:'ايجار 40,000/شهر'},
+  {location:'?', area:'40م', floor:'?', price:'?', type:'بيع', agent:'?', phone:'01050301163', note:'دبل فيس'},
+  {location:'شارع أبو بكر', area:'?', floor:'?', price:'?', type:'بيع', agent:'?', phone:'01033796290', note:''},
+  {location:'أمام جامعة السادات', area:'?', floor:'?', price:'?', type:'بيع', agent:'?', phone:'01003008417', note:'6 سنوات تحت الإنشاء'},
+  {location:'على أبو بكر', area:'41م', floor:'ارضي', price:'?', type:'بيع', agent:'مالك مباشر', phone:'01009081714', note:'سوبر لوكس استلام فوري'},
+  {location:'مول جرين جولف', area:'?', floor:'?', price:'?', type:'بيع', agent:'?', phone:'01006444963', note:''},
+],
+
+req: [
+  {type:'شراء - شقة', area:'المنطقة 25', specs:'دور تاني أو تالت، خالصة أقساط، تنقل ملكية فوري', budget:'?', phone:'مجموعة', note:''},
+  {type:'إيجار - شقة', area:'المنطقة 20/18/26', specs:'2 شقة بلاط ضروري', budget:'?', phone:'01142849034', note:''},
+  {type:'شراء - بيت', area:'المنطقة 31', specs:'بدروم ودورين متشطبين أو 3، أو 2 ودور عظم', budget:'?', phone:'01288161443', note:'على شارع أبو بكر أو الرئيسي'},
+  {type:'شراء - شقة', area:'المنطقة 25', specs:'دور تاني أو تالت، رينج 750,000', budget:'750,000', phone:'01288161443', note:''},
+  {type:'شراء - قطعة', area:'الكوثر 1 أو 2', specs:'قسطين، تنفيذ بكره', budget:'حتى 1,080,000', phone:'01014282614', note:''},
+  {type:'شراء - قطعة', area:'الكوثر', specs:'?', budget:'?', phone:'01040114604', note:''},
+  {type:'شراء - محل', area:'شارع رئيسي', specs:'40-50 متر', budget:'?', phone:'?', note:''},
+  {type:'شراء - بيت', area:'ابني بيتك', specs:'?', budget:'?', phone:'?', note:''},
+  {type:'شراء - شقة', area:'حي الزيتون والنور والفردوس', specs:'?', budget:'?', phone:'01284963304', note:'مطلوب شقق للبيع'},
+  {type:'شراء - شقة', area:'المنطقة 11 أهالي', specs:'متشطبة، نص تشطيب مقبول', budget:'1,500,000', phone:'01000904411', note:'مكتب سليم للتسويق العقاري'},
+  {type:'شراء - شقة', area:'الشريط المميز 15', specs:'دور ارضي أو تاني، متشطبة', budget:'?', phone:'01016660885', note:''},
+  {type:'إيجار - شقة', area:'السابعة والثالثة', specs:'سرعة', budget:'?', phone:'?', note:''},
+  {type:'شراء - شقة', area:'المربع الذهبي', specs:'دور ارضي مدخل خاص، مساحة كبيرة، متشطبة أو طوب', budget:'?', phone:'?', note:''},
+  {type:'إيجار - شقة', area:'الزيتون', specs:'دور خامس', budget:'?', phone:'01016723314', note:'أبو كريم مكتب أبو ظبي'},
+  {type:'شراء - قطعة', area:'الفردوس 5', specs:'بحري 276م', budget:'?', phone:'01034357677', note:''},
+  {type:'إيجار - شقة', area:'الزيتون أو الفردوس', specs:'بلاط', budget:'?', phone:'01016723314', note:'أسرة، معاينة اليوم'},
+  {type:'شراء - شقة', area:'المنطقة 14', specs:'تاني أو تالت أمامي، أكبر من 135م، واجهة وسلم خلصانين', budget:'?', phone:'01204587643', note:'من المالك مباشر'},
+  {type:'شراء - أرض', area:'مدينة السادات', specs:'نشاط مواد بناء، 1700م', budget:'?', phone:'01066162035', note:''},
+  {type:'إيجار - شقة', area:'الرابعة الجديدة أو الثامنة', specs:'بلاط، فوري', budget:'?', phone:'01020897954', note:'من المالك مباشر'},
+  {type:'شراء - بيت', area:'المنطقة 26 أو 28', specs:'دورين متشطبين على الأقل', budget:'6,000,000', phone:'01040060072', note:'شركة M.S Group'},
+  {type:'شراء - قطعة', area:'النرجس 6 وفردوس', specs:'276م، ناصية أو دبل فيس، شرقي بحري', budget:'?', phone:'?', note:'من المالك مباشر'},
+  {type:'شراء - بيت', area:'المنطقة 34', specs:'دور متشطب والثاني على السقف', budget:'2,500,000', phone:'01027231074', note:''},
+  {type:'إيجار - شقة', area:'حي النور', specs:'دور 2 أو 3 أو 4', budget:'?', phone:'?', note:'للتخليص'},
+  {type:'شراء - شقة', area:'الفاصل أو الأكسدة', specs:'في 14 أو 21', budget:'?', phone:'?', note:'فوري'},
+  {type:'إيجار - مكتب', area:'شارع أبو بكر أو أمام المحكمة أو مول بيراميدز', specs:'?', budget:'?', phone:'01020241601', note:''},
+  {type:'إيجار شقة', area:'الشريط 14 أو 7', specs:'دور ارضي، مكتب، 130م+، تشطيب كويس', budget:'مناسب', phone:'01014763030', note:''},
+  {type:'إيجار - شقة', area:'الزيتون أو الفردوس', specs:'بلاط', budget:'?', phone:'01016723314', note:''},
+  {type:'شراء - أرض', area:'المنيا', specs:'1360 فدان، تنفيذ فوري', budget:'?', phone:'01009993378', note:'من الملاك فقط'},
+  {type:'شراء - بيت 209م', area:'?', specs:'على الطوب', budget:'?', phone:'01277565530', note:''},
+  {type:'شراء - قطعة', area:'مدينة السادات', specs:'276م مجاورة مميزة', budget:'?', phone:'?', note:'31/34/24/27/36 للتنفيذ فوري'},
+],
+
+};
+
+// ══════════════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════════════
+
+let checked = JSON.parse(localStorage.getItem('salim-checked') || '{}');
+
+function saveChecked() {
+  try { localStorage.setItem('salim-checked', JSON.stringify(checked)); } catch(e) {}
+}
+
+function mkCheck(id) {
+  const isChecked = checked[id];
+  return `<span class="done-check ${isChecked ? 'checked' : ''}" onclick="toggleCheck('${id}',this)">${isChecked ? '✓' : ''}</span>`;
+}
+
+function toggleCheck(id, el) {
+  checked[id] = !checked[id];
+  el.classList.toggle('checked', checked[id]);
+  el.textContent = checked[id] ? '✓' : '';
+  saveChecked();
+}
+
+function cell(val, cls) {
+  if (!val || val === '?' || val === '' || val === 'غير متشطبة')
+    return `<td class="cell-bad">${val === '?' || !val ? '—' : val}</td>`;
+  return `<td class="${cls || 'cell-ok'}">${val}</td>`;
+}
+
+function renderSell() {
+  const tbody = document.getElementById('tbody-sell');
+  let html = '';
+  DATA.sell.forEach((r, i) => {
+    const id = 'sell-' + i;
+    html += `<tr class="${r.status}">
+      <td class="done-cell">${mkCheck(id)}</td>
+      <td class="cell-ok">${i+1}</td>
+      <td class="district">${r.district}</td>
+      ${cell(r.floor)}
+      ${cell(r.area)}
+      ${cell(r.finish)}
+      ${cell(r.meters)}
+      <td class="${r.payment && r.payment !== '?' ? 'cell-ok' : 'cell-bad'}">${r.payment || '—'}</td>
+      <td class="price">${r.price || '—'}</td>
+      <td>${r.agent || '—'}</td>
+      <td class="phone">${r.phone || '—'}</td>
+      <td class="note-text">${r.note || ''}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+  document.getElementById('cnt-sell').textContent = DATA.sell.length;
+  document.getElementById('b-sell').textContent = DATA.sell.length;
+  document.getElementById('fc-sell').textContent = DATA.sell.length + ' إعلان';
+}
+
+function renderRent() {
+  const tbody = document.getElementById('tbody-rent');
+  let html = '';
+  DATA.rent.forEach((r, i) => {
+    const id = 'rent-' + i;
+    const st = (!r.rent || r.rent === '?') ? 'bad' : (!r.area || r.area === '?') ? 'warn' : 'ok';
+    html += `<tr class="${st}">
+      <td class="done-cell">${mkCheck(id)}</td>
+      <td>${i+1}</td>
+      <td class="district">${r.district}</td>
+      ${cell(r.floor)}
+      ${cell(r.area)}
+      ${cell(r.finish)}
+      <td class="price">${r.rent || '—'}</td>
+      <td>${r.agent || '—'}</td>
+      <td class="phone">${r.phone || '—'}</td>
+      <td class="note-text">${r.note || ''}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+  document.getElementById('cnt-rent').textContent = DATA.rent.length;
+  document.getElementById('b-rent').textContent = DATA.rent.length;
+  document.getElementById('fc-rent').textContent = DATA.rent.length + ' إعلان';
+}
+
+function renderFurn() {
+  const tbody = document.getElementById('tbody-furn');
+  let html = '';
+  DATA.furn.forEach((r, i) => {
+    const id = 'furn-' + i;
+    const st = (!r.rent || r.rent === '?') ? 'bad' : (!r.rooms || r.rooms === '?') ? 'warn' : 'ok';
+    html += `<tr class="${st}">
+      <td class="done-cell">${mkCheck(id)}</td>
+      <td>${i+1}</td>
+      <td class="district">${r.district}</td>
+      ${cell(r.floor)}
+      <td>${r.rooms || '—'}</td>
+      <td class="price">${r.rent || '—'}</td>
+      <td>${r.agent || '—'}</td>
+      <td class="phone">${r.phone || '—'}</td>
+      <td class="note-text">${r.note || ''}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+  document.getElementById('cnt-furn').textContent = DATA.furn.length;
+  document.getElementById('b-furn').textContent = DATA.furn.length;
+  document.getElementById('fc-furn').textContent = DATA.furn.length + ' إعلان';
+}
+
+function renderLand() {
+  const tbody = document.getElementById('tbody-land');
+  let html = '';
+  DATA.land.forEach((r, i) => {
+    const id = 'land-' + i;
+    html += `<tr class="${r.rowstatus}">
+      <td class="done-cell">${mkCheck(id)}</td>
+      <td>${i+1}</td>
+      <td class="district">${r.area_name}</td>
+      ${cell(r.lot)}
+      ${cell(r.area)}
+      ${cell(r.location)}
+      <td>${r.status || '—'}</td>
+      <td class="price">${r.price || '—'}</td>
+      <td>${r.agent || '—'}</td>
+      <td class="phone">${r.phone || '—'}</td>
+      <td class="note-text">${r.note || ''}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+  document.getElementById('cnt-land').textContent = DATA.land.length;
+  document.getElementById('b-land').textContent = DATA.land.length;
+  document.getElementById('fc-land').textContent = DATA.land.length + ' قطعة';
+}
+
+function renderHouse() {
+  const tbody = document.getElementById('tbody-house');
+  let html = '';
+  DATA.house.forEach((r, i) => {
+    const id = 'house-' + i;
+    html += `<tr class="${r.rowstatus}">
+      <td class="done-cell">${mkCheck(id)}</td>
+      <td>${i+1}</td>
+      <td class="district">${r.district}</td>
+      ${cell(r.area)}
+      <td>${r.floors || '—'}</td>
+      ${cell(r.finish)}
+      <td class="price">${r.price || '—'}</td>
+      <td>${r.agent || '—'}</td>
+      <td class="phone">${r.phone || '—'}</td>
+      <td class="note-text">${r.note || ''}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+  document.getElementById('b-house').textContent = DATA.house.length;
+  document.getElementById('fc-house').textContent = DATA.house.length + ' بيت';
+}
+
+function renderShop() {
+  const tbody = document.getElementById('tbody-shop');
+  let html = '';
+  DATA.shop.forEach((r, i) => {
+    const id = 'shop-' + i;
+    const st = (!r.price || r.price === '?') ? 'bad' : (!r.area || r.area === '?') ? 'warn' : 'ok';
+    html += `<tr class="${st}">
+      <td class="done-cell">${mkCheck(id)}</td>
+      <td>${i+1}</td>
+      <td class="district">${r.location}</td>
+      ${cell(r.area)}
+      ${cell(r.floor)}
+      <td class="price">${r.price || '—'}</td>
+      <td><span class="chip chip-shop">${r.type}</span></td>
+      <td>${r.agent || '—'}</td>
+      <td class="phone">${r.phone || '—'}</td>
+      <td class="note-text">${r.note || ''}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+  document.getElementById('b-shop').textContent = DATA.shop.length;
+  document.getElementById('fc-shop').textContent = DATA.shop.length + ' محل';
+}
+
+function renderReq() {
+  const tbody = document.getElementById('tbody-req');
+  let html = '';
+  DATA.req.forEach((r, i) => {
+    const id = 'req-' + i;
+    const st = (!r.budget || r.budget === '?') ? 'warn' : 'ok';
+    html += `<tr class="${st}">
+      <td class="done-cell">${mkCheck(id)}</td>
+      <td>${i+1}</td>
+      <td><span class="chip chip-req">${r.type}</span></td>
+      <td class="district">${r.area}</td>
+      <td>${r.specs}</td>
+      <td class="price">${r.budget || '—'}</td>
+      <td class="phone">${r.phone || '—'}</td>
+      <td class="note-text">${r.note || ''}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+  document.getElementById('cnt-req').textContent = DATA.req.length;
+  document.getElementById('b-req').textContent = DATA.req.length;
+  document.getElementById('fc-req').textContent = DATA.req.length + ' طلب';
+}
+
+// ══════════════════════════════════════════════════════════
+// FILTER
+// ══════════════════════════════════════════════════════════
+
+function filterTable(type) {
+  const q = (document.getElementById('f-' + type).value || '').toLowerCase();
+  const table = document.getElementById('tbl-' + type);
+  const rows = table.querySelectorAll('tbody tr');
+  let count = 0;
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase();
+    const show = text.includes(q);
+    row.style.display = show ? '' : 'none';
+    if (show) count++;
+  });
+  const el = document.getElementById('fc-' + type);
+  if (el) el.textContent = count + ' نتيجة';
+}
+
+// ══════════════════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════════════════
+
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// INIT
+renderSell();
+renderRent();
+renderFurn();
+renderLand();
+renderHouse();
+renderShop();
+renderReq();
+</script>
+</body>
+</html>
