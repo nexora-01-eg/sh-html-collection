@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEXORIA — Cognitive Architecture for a Rare Human Identity</title>
+<meta name="description" content="VEXORIA is a method for rebuilding your inner world — to become rare and in control. 60 systems across 12 domains of human life.">
+<meta property="og:title" content="VEXORIA — Cognitive Architecture for a Rare Human Identity">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@VEXORIA_07">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   VEXORIA V6 — COGNITIVE ARCHITECTURE
+═══════════════════════════════════════ */
+:root{
+  --black:#080604;--black2:#0d0b07;--black3:#131009;--black4:#1a160d;
+  --gold:#c49a3c;--gold2:#e8c060;--gold3:#f5d878;--gold-dim:#7a5c1e;--gold-faint:#3a2a0e;
+  --cream:#f5f0e8;--cream2:#e8dfc8;--text:#d4c49a;--text2:#a88c5a;--text3:#7a6040;
+  --muted:#4a3820;--border:rgba(196,154,60,.12);--border2:rgba(196,154,60,.06);
+  --border3:rgba(196,154,60,.25);--card:rgba(13,11,7,.8);--nav-bg:rgba(8,6,4,.95);
+  --shadow:rgba(0,0,0,.6);
+}
+[data-theme="light"]{
+  --black:#f5f0e8;--black2:#ede6d6;--black3:#e4dbc8;--black4:#d8cdb5;
+  --gold:#8a5e1a;--gold2:#c49a3c;--gold3:#e8c060;--gold-dim:#c49a3c;--gold-faint:#f0e4c8;
+  --cream:#1a1208;--cream2:#2c1e0a;--text:#3a2810;--text2:#6b4a20;--text3:#8c6030;
+  --muted:#b88040;--border:rgba(138,94,26,.15);--border2:rgba(138,94,26,.08);
+  --border3:rgba(138,94,26,.3);--card:rgba(237,230,214,.85);--nav-bg:rgba(245,240,232,.97);
+  --shadow:rgba(44,30,8,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--text);font-family:'EB Garamond',serif;overflow-x:hidden;cursor:none;transition:background .5s,color .5s;-webkit-font-smoothing:antialiased;}
+.ar{font-family:'Amiri',serif !important;direction:rtl;text-align:right;}
+::selection{background:var(--gold2);color:var(--black);}
+::-webkit-scrollbar{width:2px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:var(--gold-dim);}
+
+/* ── CURSOR ── */
+#cur{position:fixed;width:5px;height:5px;background:var(--gold2);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;}
+#curR{position:fixed;width:20px;height:20px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.35;transition:all .25s;}
+body:has(a:hover) #curR,body:has(button:hover) #curR{width:36px;height:36px;opacity:.15;}
+
+/* ── LOADER ── */
+#loader{position:fixed;inset:0;z-index:9990;background:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity 1s,visibility 1s;}
+#loader.gone{opacity:0;visibility:hidden;pointer-events:none;}
+.ld-logo{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(36px,8vw,90px);letter-spacing:.4em;color:transparent;background:linear-gradient(135deg,var(--gold-dim) 0%,var(--gold2) 40%,var(--gold3) 60%,var(--gold) 100%);background-size:200%;-webkit-background-clip:text;background-clip:text;animation:shimmer 2.5s linear infinite;}
+.ld-line{width:80px;height:1px;background:var(--gold-faint);position:relative;overflow:hidden;}
+.ld-line::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,var(--gold2),transparent);animation:slide 1.4s ease infinite;}
+.ld-tag{font-family:'EB Garamond',serif;font-size:9px;letter-spacing:8px;color:var(--gold-dim);text-transform:uppercase;}
+@keyframes shimmer{0%{background-position:200% center;}100%{background-position:-200% center;}}
+@keyframes slide{0%{left:-100%;}100%{left:100%;}}
+
+/* ── CANVAS BG ── */
+#bgc{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 48px;display:flex;align-items:center;justify-content:space-between;background:var(--nav-bg);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);transition:all .4s;}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(22px,2.5vw,32px);letter-spacing:.25em;color:transparent;background:linear-gradient(135deg,var(--gold-dim) 0%,var(--gold2) 40%,var(--gold3) 60%,var(--gold) 100%);background-size:200%;-webkit-background-clip:text;background-clip:text;animation:shimmer 5s linear infinite;text-decoration:none;cursor:pointer;line-height:1;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-family:'EB Garamond',serif;font-size:10px;letter-spacing:4px;color:var(--text2);text-decoration:none;transition:color .3s;cursor:pointer;}
+.nav-links a:hover,.nav-links a.active{color:var(--gold2);}
+.nav-right{display:flex;align-items:center;gap:20px;}
+.lang-btn{font-family:'EB Garamond',serif;font-size:9px;letter-spacing:3px;color:var(--text3);border:1px solid var(--border);padding:6px 14px;background:none;cursor:pointer;transition:all .3s;}
+.lang-btn:hover{border-color:var(--gold);color:var(--gold);}
+.theme-btn{display:flex;align-items:center;gap:8px;cursor:pointer;background:none;border:none;}
+.theme-label{font-family:'EB Garamond',serif;font-size:9px;letter-spacing:3px;color:var(--text3);}
+.theme-track{width:32px;height:16px;border:1px solid var(--border3);border-radius:8px;position:relative;transition:border-color .3s;}
+.theme-thumb{position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--gold);transition:left .3s;}
+[data-theme="light"] .theme-thumb{left:18px;}
+
+/* ── PAGES ── */
+.page{display:none;position:relative;z-index:2;}
+.page.active{display:block;}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 40px 80px;position:relative;}
+#hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 40%,rgba(196,154,60,.04) 0%,transparent 70%);pointer-events:none;}
+.hero-eyebrow{font-family:'EB Garamond',serif;font-size:9px;letter-spacing:8px;color:var(--gold-dim);margin-bottom:48px;opacity:0;animation:fadeUp .8s ease .3s forwards;}
+.hero-line1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(32px,5vw,72px);color:var(--text2);line-height:1.2;opacity:0;animation:fadeUp .8s ease .5s forwards;}
+.hero-line1 em{font-style:italic;color:var(--gold2);}
+.hero-divider{width:1px;height:48px;background:linear-gradient(to bottom,transparent,var(--gold-dim),transparent);margin:40px auto;opacity:0;animation:fadeUp .8s ease .7s forwards;}
+.hero-q{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(16px,2.2vw,26px);color:var(--text3);opacity:0;animation:fadeUp .8s ease .9s forwards;max-width:600px;}
+.hero-alone{font-family:'EB Garamond',serif;font-size:13px;letter-spacing:4px;color:var(--gold-dim);margin-top:28px;opacity:0;animation:fadeUp .8s ease 1.1s forwards;}
+.hero-brand-wrap{margin-top:64px;opacity:0;animation:fadeUp .8s ease 1.3s forwards;}
+.hero-brand{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(52px,10vw,140px);letter-spacing:.25em;color:transparent;background:linear-gradient(135deg,var(--gold-dim) 0%,var(--gold2) 35%,var(--gold3) 55%,var(--gold) 100%);background-size:200%;-webkit-background-clip:text;background-clip:text;animation:shimmer 4s linear infinite;line-height:1;}
+.hero-method{font-family:'EB Garamond',serif;font-style:italic;font-size:clamp(13px,1.5vw,18px);color:var(--text3);letter-spacing:.05em;margin-top:16px;}
+.hero-scroll{margin-top:80px;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:fadeUp .8s ease 1.8s forwards;}
+.hero-scroll span{font-family:'EB Garamond',serif;font-size:8px;letter-spacing:5px;color:var(--text3);}
+.scroll-dot{width:1px;height:48px;background:linear-gradient(to bottom,var(--gold-dim),transparent);animation:scrollPulse 2s ease infinite;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scrollPulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+
+/* ── TICKER ── */
+.ticker-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--black2);padding:16px 0;position:relative;z-index:3;}
+.ticker-inner{display:flex;gap:0;white-space:nowrap;animation:ticker 80s linear infinite;}
+.ticker-inner:hover{animation-play-state:paused;}
+.tick-item{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--text3);padding:0 40px;}
+.tick-dot{color:var(--gold-dim);}
+
+/* ── SECTIONS ── */
+.sec{padding:100px 8vw;position:relative;}
+.sec-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-family:'EB Garamond',serif;font-size:9px;letter-spacing:7px;color:var(--gold-dim);display:block;margin-bottom:24px;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(32px,4vw,64px);color:var(--cream);line-height:1.15;margin-bottom:24px;}
+.sec-title em{font-style:italic;color:var(--gold2);}
+.sec-body{font-family:'EB Garamond',serif;font-size:18px;color:var(--text2);line-height:1.9;max-width:680px;}
+.sec-body.ar{font-family:'Amiri',serif;direction:rtl;text-align:right;font-size:18px;}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s ease,transform .8s ease;}
+.reveal.vis{opacity:1;transform:none;}
+
+/* ── DIVIDER ── */
+.div-line{border:none;height:1px;background:linear-gradient(90deg,transparent,var(--border3),transparent);margin:0;}
+
+/* ── PROBLEMS ── */
+.problems-sec{background:var(--black2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.problem-list{list-style:none;margin-top:52px;display:flex;flex-direction:column;gap:0;}
+.prob-item{padding:28px 0;border-bottom:1px solid var(--border2);display:flex;align-items:flex-start;gap:24px;cursor:default;transition:all .3s;}
+.prob-item:hover .prob-text{color:var(--cream);}
+.prob-item:hover .prob-num{color:var(--gold);}
+.prob-num{font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:3px;color:var(--gold-dim);min-width:32px;padding-top:4px;transition:color .3s;}
+.prob-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(18px,2.2vw,28px);color:var(--text2);line-height:1.4;transition:color .3s;}
+.prob-text.ar{font-family:'Amiri',serif;font-style:normal;direction:rtl;}
+.pain-box{margin-top:64px;padding:48px;border:1px solid var(--border3);background:var(--black3);text-align:center;position:relative;overflow:hidden;}
+.pain-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);}
+.pain-quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,2.5vw,34px);color:var(--gold2);line-height:1.4;}
+.pain-quote.ar{font-family:'Amiri',serif;font-style:normal;}
+
+/* ── SYSTEMS LIST ── */
+.systems-sec{background:var(--black);}
+.sys-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2);margin-top:52px;}
+.sys-card{background:var(--black2);padding:40px 32px;position:relative;overflow:hidden;transition:background .4s;cursor:default;}
+.sys-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);opacity:0;transition:opacity .4s;}
+.sys-card:hover{background:var(--black3);}
+.sys-card:hover::before{opacity:1;}
+.sys-icon-svg{margin-bottom:16px;display:block;}
+.sys-name{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:18px;color:var(--cream);margin-bottom:10px;line-height:1.3;}
+.sys-name.ar{font-family:'Amiri',serif;direction:rtl;}
+.sys-desc{font-family:'EB Garamond',serif;font-style:italic;font-size:13px;color:var(--text3);line-height:1.7;}
+.sys-desc.ar{font-family:'Amiri',serif;font-style:normal;direction:rtl;text-align:right;}
+.sys-count{position:absolute;top:24px;right:24px;font-family:'EB Garamond',serif;font-size:9px;letter-spacing:2px;color:var(--gold-dim);}
+
+/* ── PRIVATE ROOM ── */
+.room-sec{text-align:center;padding:100px 8vw;background:var(--black3);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.room-quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(24px,3vw,48px);color:var(--gold2);line-height:1.4;max-width:700px;margin:0 auto;}
+.room-quote.ar{font-family:'Amiri',serif;font-style:normal;}
+.room-sub{font-family:'EB Garamond',serif;font-size:13px;letter-spacing:4px;color:var(--text3);margin-top:24px;}
+
+/* ── PRODUCTS PAGE ── */
+.prod-hero{padding:140px 8vw 60px;text-align:center;position:relative;}
+.prod-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 40% at 50% 30%,rgba(196,154,60,.03) 0%,transparent 70%);}
+.domain-sec{padding:0 8vw 80px;}
+.domain-header{display:flex;align-items:center;gap:20px;padding:40px 0 28px;border-bottom:1px solid var(--border);}
+.domain-icon-svg{flex-shrink:0;}
+.domain-name{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(22px,2.5vw,36px);color:var(--cream);}
+.domain-name.ar{font-family:'Amiri',serif;}
+.domain-count{font-family:'EB Garamond',serif;font-size:9px;letter-spacing:4px;color:var(--gold-dim);margin-left:auto;}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border2);margin-top:1px;}
+
+/* ── PRODUCT CARD ── */
+.prod-card{background:var(--black2);display:flex;flex-direction:column;position:relative;overflow:hidden;transition:background .4s;}
+.prod-card:hover{background:var(--black3);}
+.prod-cover{height:200px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.prod-cover-svg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;}
+.prod-body{padding:20px 20px 16px;flex:1;display:flex;flex-direction:column;gap:10px;}
+.prod-name{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:15px;color:var(--cream);line-height:1.3;}
+.prod-name.ar{font-family:'Amiri',serif;direction:rtl;text-align:right;font-size:16px;}
+.prod-goal{font-family:'EB Garamond',serif;font-style:italic;font-size:12px;color:var(--text3);line-height:1.6;flex:1;}
+.prod-goal.ar{font-family:'Amiri',serif;font-style:normal;direction:rtl;text-align:right;}
+.prod-meta{display:flex;align-items:center;justify-content:space-between;}
+.prod-stars{display:flex;align-items:center;gap:6px;}
+.stars{color:var(--gold2);font-size:11px;letter-spacing:1px;}
+.stars-num{font-family:'EB Garamond',serif;font-size:11px;color:var(--text3);}
+.prod-price{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:18px;color:var(--gold2);}
+.prod-actions{display:flex;gap:1px;margin-top:12px;}
+.prod-btn{flex:1;padding:10px 8px;font-family:'EB Garamond',serif;font-size:9px;letter-spacing:3px;background:var(--black3);border:none;color:var(--text3);cursor:pointer;transition:all .3s;border-top:1px solid var(--border2);}
+.prod-btn:hover{background:var(--gold-faint);color:var(--gold2);}
+.prod-btn.primary{background:var(--gold-faint);color:var(--gold);}
+.prod-btn.primary:hover{background:var(--gold-dim);color:var(--black);}
+
+/* ── CONTACT MODAL ── */
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--black2);border:1px solid var(--border3);padding:52px;max-width:480px;width:90%;position:relative;text-align:center;}
+.modal::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);}
+.modal-close{position:absolute;top:20px;right:20px;background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;font-family:'EB Garamond',serif;transition:color .3s;}
+.modal-close:hover{color:var(--gold);}
+.modal-title{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:28px;color:var(--gold2);margin-bottom:10px;}
+.modal-sub{font-family:'EB Garamond',serif;font-style:italic;font-size:15px;color:var(--text3);margin-bottom:36px;}
+.modal-btns{display:flex;flex-direction:column;gap:12px;}
+.modal-link{display:flex;align-items:center;gap:16px;padding:16px 24px;border:1px solid var(--border);background:var(--black3);color:var(--text2);text-decoration:none;font-family:'EB Garamond',serif;font-size:13px;letter-spacing:2px;transition:all .3s;}
+.modal-link:hover{border-color:var(--gold);color:var(--gold2);background:var(--gold-faint);}
+.modal-link-svg{flex-shrink:0;}
+.modal-product-name{font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--gold-dim);margin-top:24px;letter-spacing:3px;}
+
+/* ── EMAIL SEC ── */
+.email-sec{background:var(--black2);border-top:1px solid var(--border);padding:80px 8vw;text-align:center;}
+.email-title{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(28px,3.5vw,52px);color:var(--cream);line-height:1.3;margin-bottom:12px;}
+.email-title em{font-style:italic;color:var(--gold2);}
+.email-sub{font-family:'EB Garamond',serif;font-style:italic;font-size:16px;color:var(--text3);margin-bottom:36px;}
+.email-form{display:flex;max-width:480px;margin:0 auto;border:1px solid var(--border3);}
+.email-input{flex:1;padding:16px 20px;background:var(--black3);border:none;color:var(--cream);font-family:'EB Garamond',serif;font-size:14px;outline:none;}
+.email-input::placeholder{color:var(--text3);}
+.email-submit{padding:16px 28px;background:var(--gold-dim);border:none;color:var(--black);font-family:'EB Garamond',serif;font-size:10px;letter-spacing:3px;cursor:pointer;transition:background .3s;white-space:nowrap;}
+.email-submit:hover{background:var(--gold2);}
+.email-note{font-family:'EB Garamond',serif;font-size:11px;color:var(--text3);margin-top:14px;}
+
+/* ── CLOSING ── */
+.closing-sec{text-align:center;padding:100px 8vw;background:var(--black);}
+.closing-quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(18px,2.5vw,36px);color:var(--text2);line-height:1.6;max-width:720px;margin:0 auto 32px;}
+.closing-quote em{color:var(--gold2);font-style:italic;}
+.closing-brand{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(36px,6vw,80px);letter-spacing:.3em;color:transparent;background:linear-gradient(135deg,var(--gold-dim),var(--gold2),var(--gold3));background-size:200%;-webkit-background-clip:text;background-clip:text;animation:shimmer 5s linear infinite;}
+
+/* ── SOCIALS ── */
+.socials-sec{background:var(--black2);border-top:1px solid var(--border);padding:80px 8vw;}
+.socials-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:40px;}
+.soc-card{display:flex;align-items:flex-start;gap:18px;padding:24px 24px;border:1px solid var(--border);background:var(--black3);color:var(--text2);text-decoration:none;transition:all .4s;position:relative;overflow:hidden;}
+.soc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);opacity:0;transition:opacity .4s;}
+.soc-card:hover{border-color:var(--gold);background:var(--gold-faint);}
+.soc-card:hover::before{opacity:1;}
+.soc-card:hover .soc-name{color:var(--gold2);}
+.soc-icon-wrap{width:44px;height:44px;border:1px solid var(--border3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .4s;}
+.soc-card:hover .soc-icon-wrap{border-color:var(--gold);}
+.soc-info{flex:1;}
+.soc-name{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:16px;color:var(--cream);margin-bottom:4px;transition:color .4s;}
+.soc-handle{font-family:'EB Garamond',serif;font-size:10px;letter-spacing:3px;color:var(--gold-dim);margin-bottom:8px;}
+.soc-desc{font-family:'EB Garamond',serif;font-style:italic;font-size:12px;color:var(--text3);line-height:1.5;}
+
+/* ── FOOTER ── */
+footer{padding:32px 8vw;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--black);}
+.foot-logo{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:11px;letter-spacing:.5em;color:var(--gold-dim);}
+.foot-copy{font-family:'EB Garamond',serif;font-style:italic;font-size:13px;color:var(--text3);text-align:center;flex:1;}
+.foot-copy.ar{font-family:'Amiri',serif;font-style:normal;}
+.foot-cr{font-family:'EB Garamond',serif;font-size:9px;letter-spacing:3px;color:var(--muted);}
+
+/* ── TICKER ── */
+@keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* ── ABOUT PAGE ── */
+.about-hero{padding:140px 8vw 60px;text-align:center;}
+.about-avatar{width:110px;height:110px;border-radius:50%;border:1px solid var(--border3);margin:0 auto 28px;display:flex;align-items:center;justify-content:center;background:var(--black3);transition:all .4s;}
+.about-name{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(28px,4vw,56px);color:var(--cream);letter-spacing:.06em;margin-bottom:10px;}
+.about-role{font-family:'EB Garamond',serif;font-style:italic;font-size:17px;color:var(--gold2);}
+.about-role.ar{font-family:'Amiri',serif;font-style:normal;}
+.about-blocks{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border2);margin:52px 8vw;}
+.about-block{background:var(--black2);padding:48px 40px;transition:background .4s;}
+.about-block:hover{background:var(--black3);}
+.about-block-label{font-family:'EB Garamond',serif;font-size:9px;letter-spacing:5px;color:var(--gold-dim);display:block;margin-bottom:18px;}
+.about-block-text{font-family:'EB Garamond',serif;font-size:16px;color:var(--text2);line-height:1.9;}
+.about-block-text.ar{font-family:'Amiri',serif;direction:rtl;text-align:right;}
+.about-block-text em{color:var(--cream);font-style:normal;}
+.about-manifesto{margin:0 8vw 80px;padding:64px;border:1px solid var(--border);background:var(--black2);text-align:center;position:relative;}
+.about-manifesto::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);}
+.manifesto-q{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,2.5vw,36px);color:var(--gold2);line-height:1.5;margin-bottom:20px;}
+.manifesto-q.ar{font-family:'Amiri',serif;font-style:normal;}
+.manifesto-a{font-family:'EB Garamond',serif;font-size:16px;color:var(--text3);line-height:1.9;max-width:640px;margin:0 auto;}
+
+/* ── ARTICLES PAGE ── */
+.articles-hero{padding:140px 8vw 60px;text-align:center;}
+.articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border2);margin:0 8vw 80px;}
+.article-card{background:var(--black2);padding:40px 32px;display:flex;flex-direction:column;gap:14px;transition:background .4s;position:relative;overflow:hidden;}
+.article-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);opacity:0;transition:opacity .4s;}
+.article-card:hover{background:var(--black3);}
+.article-card:hover::before{opacity:.5;}
+.art-cat{font-family:'EB Garamond',serif;font-size:8px;letter-spacing:4px;color:var(--gold-dim);}
+.art-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:19px;color:var(--cream);line-height:1.3;transition:color .3s;}
+.art-title.ar{font-family:'Amiri',serif;direction:rtl;text-align:right;}
+.article-card:hover .art-title{color:var(--gold2);}
+.art-excerpt{font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:var(--text3);line-height:1.7;flex:1;}
+.art-excerpt.ar{font-family:'Amiri',serif;font-style:normal;direction:rtl;text-align:right;}
+.art-meta{font-family:'EB Garamond',serif;font-size:8px;letter-spacing:3px;color:var(--muted);display:flex;justify-content:space-between;}
+.art-read{color:var(--gold-dim);transition:color .3s;}
+.article-card:hover .art-read{color:var(--gold);}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  nav{padding:14px 20px;}
+  .nav-links{display:none;}
+  .nav-logo{font-size:20px;}
+  .sec,.domain-sec{padding:60px 20px;}
+  .sec-inner{max-width:100%;}
+  #hero{padding:100px 20px 60px;}
+  .sys-grid{grid-template-columns:1fr 1fr;}
+  .about-blocks{grid-template-columns:1fr;margin:40px 20px;}
+  .about-manifesto{margin:0 20px 60px;padding:40px 24px;}
+  .articles-grid{grid-template-columns:1fr;margin:0 20px 60px;}
+  .prod-hero{padding:100px 20px 40px;}
+  .domain-sec{padding:0 20px 60px;}
+  .products-grid{grid-template-columns:1fr 1fr;}
+  .email-sec{padding:60px 20px;}
+  footer{padding:24px 20px;flex-direction:column;gap:8px;text-align:center;}
+  .about-hero{padding:100px 20px 40px;}
+  .articles-hero{padding:100px 20px 40px;}
+  .pain-box{padding:32px 24px;}
+  .room-sec{padding:60px 20px;}
+  .closing-sec{padding:60px 20px;}
+  .socials-sec{padding:40px 20px;}
+  .socials-grid{grid-template-columns:1fr;}
+}
+@media(max-width:520px){
+  .sys-grid{grid-template-columns:1fr;}
+  .products-grid{grid-template-columns:1fr;}
+  .hero-brand{font-size:52px;letter-spacing:.18em;}
+}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="ld-logo">VEXORIA</div>
+  <div class="ld-line"></div>
+  <div class="ld-tag">Cognitive Architecture for a Rare Human Identity</div>
+</div>
+
+<div class="grain"></div>
+<canvas id="bgc"></canvas>
+<div id="cur"></div>
+<div id="curR"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a class="nav-logo" onclick="showPage('home')">VEXORIA</a>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" id="nl-home" class="active" data-en="HOME" data-ar="الرئيسية">HOME</a></li>
+    <li><a onclick="showPage('products')" id="nl-products" data-en="SYSTEMS" data-ar="الأنظمة">SYSTEMS</a></li>
+    <li><a onclick="showPage('articles')" id="nl-articles" data-en="ARTICLES" data-ar="مقالات">ARTICLES</a></li>
+    <li><a onclick="showPage('about')" id="nl-about" data-en="ABOUT" data-ar="من نحن">ABOUT</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">عربي</button>
+    <button class="theme-btn" onclick="toggleTheme()">
+      <span class="theme-label" id="themeLabel">LIGHT</span>
+      <div class="theme-track"><div class="theme-thumb"></div></div>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ HOME ═══ -->
+<div class="page active" id="page-home">
+
+<section id="hero">
+  <span class="hero-eyebrow" data-en="VEXORIA — A METHOD FOR BECOMING" data-ar="VEXORIA — منهج للتحول">VEXORIA — A METHOD FOR BECOMING</span>
+  <h1 class="hero-line1" data-en="The world shaped you <em>before</em><br>you could shape yourself." data-ar="العالم شكّلك <em>قبل</em><br>أن تتمكن من تشكيل نفسك.">The world shaped you <em>before</em><br>you could shape yourself.</h1>
+  <div class="hero-divider"></div>
+  <p class="hero-q" data-en="When did you last feel free inside your own life?" data-ar="متى كانت آخر مرة شعرت فيها بالحرية داخل حياتك الخاصة؟">When did you last feel free inside your own life?</p>
+  <p class="hero-alone" data-en="YOU ARE NOT ALONE ON THIS JOURNEY" data-ar="أنت لست وحدك في هذه الرحلة">YOU ARE NOT ALONE ON THIS JOURNEY</p>
+  <div class="hero-brand-wrap">
+    <div class="hero-brand">VEXORIA</div>
+    <p class="hero-method" data-en="A method for rebuilding your inner world — to become rare and in control." data-ar="منهج لإعادة بناء عالمك الداخلي — لتصبح نادراً ومتحكماً.">A method for rebuilding your inner world — to become rare and in control.</p>
+  </div>
+  <div class="hero-scroll"><span data-en="SCROLL" data-ar="اسكرول">SCROLL</span><div class="scroll-dot"></div></div>
+</section>
+
+<div class="ticker-wrap"><div class="ticker-inner" id="tickerInner"></div></div>
+
+<section class="sec problems-sec">
+  <div class="sec-inner">
+    <span class="eyebrow reveal" data-en="DOES THIS SOUND FAMILIAR" data-ar="هل هذا مألوف لك">DOES THIS SOUND FAMILIAR</span>
+    <h2 class="sec-title reveal" data-en="You have been <em>feeling it</em> for a while now." data-ar="لقد كنت <em>تشعر بها</em> منذ فترة.">You have been <em>feeling it</em> for a while now.</h2>
+    <ul class="problem-list" id="problemList"></ul>
+    <div class="pain-box reveal">
+      <p class="pain-quote" data-en='"Nothing was wrong with you — the system was."' data-ar='"لم يكن فيك خطأ — كان النظام هو المشكلة."'>"Nothing was wrong with you — the system was."</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec systems-sec">
+  <div class="sec-inner">
+    <span class="eyebrow reveal" data-en="THE 12 DOMAINS" data-ar="المجالات الـ 12">THE 12 DOMAINS</span>
+    <h2 class="sec-title reveal" data-en="Every system that <em>shapes</em> a human life." data-ar="كل نظام <em>يشكّل</em> حياة إنسان.">Every system that <em>shapes</em> a human life.</h2>
+    <p class="sec-body reveal" data-en="60 practical systems across 12 domains. Each one built to decode a specific dimension of human experience — and give you the tools to master it." data-ar="60 نظاماً عملياً عبر 12 مجالاً. كل واحد مبني لفك شفرة بُعد محدد من التجربة الإنسانية — وإعطائك الأدوات للتحكم فيه.">60 practical systems across 12 domains.</p>
+    <div class="sys-grid reveal" id="sysGrid"></div>
+    <div style="text-align:center;margin-top:40px;">
+      <a onclick="showPage('products')" style="display:inline-flex;align-items:center;gap:12px;padding:16px 32px;border:1px solid var(--border3);color:var(--gold2);font-family:'EB Garamond',serif;font-size:10px;letter-spacing:4px;cursor:pointer;transition:all .3s;text-decoration:none;background:none;" onmouseover="this.style.background='var(--gold-faint)'" onmouseout="this.style.background='none'">
+        <span data-en="EXPLORE ALL SYSTEMS" data-ar="استكشف كل الأنظمة">EXPLORE ALL SYSTEMS</span> →
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="room-sec">
+  <p class="room-quote reveal" data-en='"Each system is a private room — built for one person — you."' data-ar='"كل نظام غرفة خاصة — بُنيت لشخص واحد — أنت."'>"Each system is a private room — built for one person — you."</p>
+  <p class="room-sub reveal" data-en="ARABIC · ENGLISH · MORE LANGUAGES ON REQUEST" data-ar="عربي · إنجليزي · لغات أخرى بالطلب">ARABIC · ENGLISH · MORE LANGUAGES ON REQUEST</p>
+</div>
+
+<div class="email-sec">
+  <h2 class="email-title reveal" data-en='Get exclusive insights <em>before everyone else.</em>' data-ar='احصل على رؤى حصرية <em>قبل الجميع.</em>'>Get exclusive insights <em>before everyone else.</em></h2>
+  <p class="email-sub reveal" data-en="No noise. No recycled advice. Depth only — delivered directly to you." data-ar="لا ضجيج. لا نصائح معادة. عمق فقط — يصلك مباشرة.">No noise. No recycled advice. Depth only.</p>
+  <div class="email-form reveal">
+    <input class="email-input" type="email" id="emailInput" data-placeholder-en="Your email address" data-placeholder-ar="بريدك الإلكتروني" placeholder="Your email address">
+    <button class="email-submit" onclick="submitEmail()" data-en="JOIN" data-ar="انضم">JOIN</button>
+  </div>
+  <p class="email-note reveal" data-en="No spam. Unsubscribe anytime." data-ar="لا رسائل مزعجة. إلغاء الاشتراك في أي وقت.">No spam. Unsubscribe anytime.</p>
+</div>
+
+<div class="closing-sec">
+  <p class="closing-quote reveal" data-en='"The rarest thing in the world is a person who chose to understand themselves — by learning the systems and <em>patterns that shape life.</em>"' data-ar='"أندر شيء في العالم — إنسان اختار أن يفهم نفسه — بتعلّم الأنظمة <em>والأنماط التي تشكّل الحياة.</em>"'>"The rarest thing in the world is a person who chose to understand themselves."</p>
+  <div class="closing-brand reveal">VEXORIA</div>
+</div>
+
+<div class="socials-sec">
+  <div style="text-align:center;margin-bottom:8px;">
+    <span class="eyebrow reveal" data-en="JOIN THE RARE ONES" data-ar="انضم إلى النادرين">JOIN THE RARE ONES</span>
+  </div>
+  <div class="socials-grid" id="socialsGrid"></div>
+</div>
+
+<hr class="div-line">
+<footer>
+  <span class="foot-logo">VEXORIA</span>
+  <span class="foot-copy" id="footCopy">Cognitive Architecture for a Rare Human Identity.</span>
+  <span class="foot-cr">© VEXORIA</span>
+</footer>
+</div>
+
+<!-- ═══ PRODUCTS ═══ -->
+<div class="page" id="page-products">
+<div class="prod-hero">
+  <span class="eyebrow reveal" data-en="60 SYSTEMS · 12 DOMAINS" data-ar="60 نظام · 12 مجال">60 SYSTEMS · 12 DOMAINS</span>
+  <h1 class="sec-title reveal" data-en="Choose the room <em>you need</em> to enter." data-ar="اختر الغرفة <em>التي تحتاج</em> أن تدخلها.">Choose the room <em>you need</em> to enter.</h1>
+  <p class="sec-body reveal" style="margin:0 auto;text-align:center;" data-en="Each system solves one dimension of human life completely. Arabic & English available. More languages on request." data-ar="كل نظام يحل بُعداً واحداً من حياة الإنسان بالكامل. متاح بالعربي والإنجليزي. لغات أخرى بالطلب.">Each system solves one dimension of human life completely.</p>
+</div>
+<div id="productsContainer"></div>
+<hr class="div-line">
+<footer>
+  <span class="foot-logo">VEXORIA</span>
+  <span class="foot-copy" id="footCopy2">Cognitive Architecture for a Rare Human Identity.</span>
+  <span class="foot-cr">© VEXORIA</span>
+</footer>
+</div>
+
+<!-- ═══ ABOUT ═══ -->
+<div class="page" id="page-about">
+<div class="about-hero">
+  <div class="about-avatar reveal" id="aboutAvatar"></div>
+  <h1 class="about-name reveal">VEXORIA</h1>
+  <p class="about-role reveal" id="aboutRole">Founder · Mind Architect</p>
+</div>
+<div class="about-blocks reveal" id="aboutBlocks"></div>
+<div class="about-manifesto reveal">
+  <p class="manifesto-q" id="manifestoQ">"Most content teaches you what to think.<br>VEXORIA shows you how you are already thinking."</p>
+  <p class="manifesto-a" id="manifestoA">That gap — between what you think you believe, and what actually drives your behavior — is where VEXORIA lives.</p>
+</div>
+<hr class="div-line">
+<footer>
+  <span class="foot-logo">VEXORIA</span>
+  <span class="foot-copy">Cognitive Architecture for a Rare Human Identity.</span>
+  <span class="foot-cr">© VEXORIA</span>
+</footer>
+</div>
+
+<!-- ═══ ARTICLES ═══ -->
+<div class="page" id="page-articles">
+<div class="articles-hero">
+  <span class="eyebrow reveal" data-en="ARTICLES & INSIGHTS" data-ar="مقالات ورؤى">ARTICLES & INSIGHTS</span>
+  <h1 class="sec-title reveal" data-en="Deep reads for <em>rare minds.</em>" data-ar="قراءات عميقة <em>لعقول نادرة.</em>">Deep reads for <em>rare minds.</em></h1>
+  <p class="sec-body reveal" style="margin:0 auto;text-align:center;" data-en="Long-form explorations of psychology, philosophy, and human behavior." data-ar="استكشافات مطوّلة في علم النفس والفلسفة والسلوك البشري.">Long-form explorations of psychology, philosophy, and human behavior.</p>
+</div>
+<div class="articles-grid reveal" id="articlesGrid"></div>
+<hr class="div-line">
+<footer>
+  <span class="foot-logo">VEXORIA</span>
+  <span class="foot-copy">Cognitive Architecture for a Rare Human Identity.</span>
+  <span class="foot-cr">© VEXORIA</span>
+</footer>
+</div>
+
+<!-- ═══ MODAL ═══ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <p class="modal-title" id="modalTitle">Get This System</p>
+    <p class="modal-sub" id="modalSub">Contact us directly to receive your system.</p>
+    <div class="modal-btns">
+      <a href="https://t.me/VEXORIA_07" target="_blank" class="modal-link">
+        <span class="modal-link-svg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M21.9 4.5L18.5 19.8c-.2 1-.9 1.2-1.8.8l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.2 9.6-8.7c.4-.4-.1-.6-.7-.2L5.2 14.3.4 12.8c-1-.3-1-.9.2-1.4L20.5 3.2c.9-.3 1.6.2 1.4 1.3z" fill="rgba(196,154,60,.7)"/>
+          </svg>
+        </span>
+        <span>Telegram — t.me/VEXORIA_07</span>
+      </a>
+      <a href="mailto:vexoria_027@outlook.com" target="_blank" class="modal-link">
+        <span class="modal-link-svg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="4" width="20" height="16" rx="2" stroke="rgba(196,154,60,.7)" stroke-width="1.5" fill="none"/>
+            <path d="M2 8l10 6 10-6" stroke="rgba(196,154,60,.7)" stroke-width="1.5" fill="none"/>
+          </svg>
+        </span>
+        <span>Email — vexoria_027@outlook.com</span>
+      </a>
+    </div>
+    <p class="modal-product-name" id="modalProductName"></p>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════
+let isAR = false;
+
+// ── SVG ICONS per domain ──
+const DOMAIN_SVGS = [
+  // 1 Mind
+  `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 4C10 4 7 7 7 11c0 2 .8 3.5 2 4.7C7.4 16.6 6 18 6 20c0 2.8 2.2 5 5 5h6c2.8 0 5-2.2 5-5 0-2-1.4-3.4-3-4.3C20.2 14.5 21 13 21 11c0-4-3-7-7-7z" stroke="var(--gold)" stroke-width="1.2" fill="none" stroke-linecap="round"/><line x1="14" y1="4" x2="14" y2="25" stroke="var(--gold-dim)" stroke-width=".8" stroke-dasharray="2,3"/><circle cx="10" cy="10" r="1.5" fill="var(--gold)" opacity=".7"/><circle cx="18" cy="10" r="1.5" fill="var(--gold)" opacity=".7"/><circle cx="9" cy="16" r="1" fill="var(--gold)" opacity=".5"/><circle cx="19" cy="16" r="1" fill="var(--gold)" opacity=".5"/></svg>`,
+  // 2 Psychology
+  `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="var(--gold)" stroke-width="1.2" fill="none"/><circle cx="14" cy="14" r="5" stroke="var(--gold-dim)" stroke-width=".8" fill="none"/><circle cx="14" cy="14" r="2" fill="var(--gold)" opacity=".8"/><line x1="14" y1="4" x2="14" y2="9" stroke="var(--gold)" stroke-width="1" opacity=".6"/><line x1="24" y1="14" x2="19" y2="14" stroke="var(--gold)" stroke-width="1" opacity=".6"/><line x1="14" y1="24" x2="14" y2="19" stroke="var(--gold)" stroke-width="1" opacity=".6"/><line x1="4" y1="14" x2="9" y2="14" stroke="var(--gold)" stroke-width="1" opacity=".6"/></svg>`,
+  // 3 Self Dev
+  `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 24V10M14 10l-4 5M14 10l4 5" stroke="var(--gold)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14" cy="7" r="3" stroke="var(--gold)" stroke-width="1.2" fill="none"/><path d="M6 22c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="var(--gold-dim)" stroke-width="1" fill="none" stroke-linecap="round"/></svg>`,
+  // 4 Mental Strength
+  `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 4l2 6h6l-5 3.5 2 6L14 16l-5 3.5 2-6L6 10h6z" stroke="var(--gold)" stroke-width="1.2" fill="none" stroke-linejoin="round"/><circle cx="14" cy="14" r="3" fill="var(--gold)" opacity=".4"/></svg>`,
+  // 5 Productivity
+  `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="4" y="4" width="20" height="20" rx="2" stroke="var(--gold)" stroke-width="1.2" fill="none"/><line x1="9" y1="12" x2="19" y2="12" stroke="var(--gold)" stroke-width="1.2" stroke-linecap="round"/><line x1="9" y1="16" x2="15" y2="16" stroke="var(--gold-dim)" stroke-width="1" stroke-linecap="round"/><line x1="9" y1="8" x2="19" y2="8" stroke="var(--gold-dim)" stroke-width=".8" stroke-linecap="round"/><path d="M17 19l2 2 3-3" stroke="var(--gold)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  // 6 Success
+  `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><polyline points="4,20 10,14 14,17 20,10 24,12" stroke="var(--gold)" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="8" r="3" stroke="var(--gold)" stroke-width="1.2" fill="none"/><circle cx="24" cy="8" r="1.2" fill="var(--gold)"/><line x1="4" y1="23" x2="24" y2="23" stroke="var(--gold-dim)" stroke-width=".8"/></svg>`,
+  // 7 Wealth
+  `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="var(--gold)" stroke-width="1.2" fill="none"/><path d="M14 8v2m0 8v2M10 12h4c1.1 0 2 .9 2 2s-.9 2-2 2h-4" stroke="var(--gold)" stroke-width="1.2" stroke-linecap="round"/><line x1="10" y1="10" x2="18" y2="10" stroke="var(--gold-dim)" stroke-width="1" stroke-linecap="round"/><line x1="10" y1="18" x2="18" y2="18" stroke="var(--gold-dim)" stroke-width="1" stroke-linecap="round"/></svg>`,
+  // 8 Relationships
+  `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="10" cy="10" r="4" stroke="var(--gold)" stroke-width="1.2" fill="none"/><circle cx="20" cy="10" r="4" stroke="var(--gold)" stroke-width="1.2" fill="none"/><path d="M4 24c0-3.3 2.7-6 6-6h8c3.3 0 6 2.7 6 6" stroke="var(--gold-dim)" stroke-width="1" fill="none" stroke-linecap="round"/><line x1="14" y1="6" x2="14" y2="14" stroke="var(--gold-dim)" stroke-width=".8" stroke-dasharray="2,2"/></svg>`,
+  // 9 Power
+  `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 4l2.5 5 5.5.8-4 3.9.9 5.5L14 16.8l-4.9 2.6.9-5.5-4-3.9 5.5-.8z" stroke="var(--gold)" stroke-width="1.2" fill="none" stroke-linejoin="round"/><circle cx="14" cy="14" r="2" fill="var(--gold)" opacity=".6"/></svg>`,
+  // 10 Balance
+  `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="var(--gold)" stroke-width="1.2" fill="none"/><path d="M14 4C14 4 8 9 8 14s6 10 6 10 6-5 6-10-6-10-6-10z" stroke="var(--gold-dim)" stroke-width=".8" fill="none"/><circle cx="14" cy="14" r="2.5" fill="var(--gold)" opacity=".5"/></svg>`,
+  // 11 Learning
+  `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M5 8l9-4 9 4-9 4z" stroke="var(--gold)" stroke-width="1.2" fill="none" stroke-linejoin="round"/><path d="M5 8v8l9 4 9-4V8" stroke="var(--gold-dim)" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="23" y1="8" x2="23" y2="18" stroke="var(--gold-dim)" stroke-width="1" stroke-linecap="round"/><circle cx="23" cy="20" r="1.5" fill="var(--gold)" opacity=".6"/></svg>`,
+  // 12 Energy & Philosophy
+  `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M16 4l-6 10h5l-3 10 8-12h-5z" stroke="var(--gold)" stroke-width="1.2" fill="none" stroke-linejoin="round"/><circle cx="14" cy="14" r="1.5" fill="var(--gold)" opacity=".6"/></svg>`,
+];
+
+// ── COVER SVGs per product (60 unique) ──
+function makeCoverSVG(di, pi, name, domainEn) {
+  const golds = ['rgba(196,154,60,', 'rgba(232,192,96,', 'rgba(245,216,120,'];
+  const themes = [
+    // gradient pairs per domain
+    ['#0d0b07','#1a1208'],['#080a0d','#0d1018'],['#0a0d08','#101808'],
+    ['#0d0808','#180d08'],['#0d0b07','#1a1508'],['#08080d','#0f0d18'],
+    ['#080d0d','#0a1818'],['#0d0a08','#1a1008'],['#0a080d','#120d18'],
+    ['#080d08','#0d180d'],['#0d0808','#180808'],['#080a0d','#0a1018'],
+  ];
+  const t = themes[di] || themes[0];
+
+  // 60 unique SVG artwork shapes, one per product
+  const artworks = [
+    // D1 — Mind (6)
+    `<circle cx="50" cy="50" r="28" stroke="${golds[0]}.3)" stroke-width="1" fill="none"/><path d="M50 22C38 22 30 30 30 42c0 5 2 9 5 12C32 57 30 61 30 66c0 7 5.5 12 13 12h14c7.5 0 13-5 13-12 0-5-2-9-5-12 3-3 5-7 5-12 0-12-8-20-20-20z" stroke="${golds[0]}.7)" stroke-width="1.3" fill="none"/><line x1="50" y1="22" x2="50" y2="78" stroke="${golds[0]}.12)" stroke-width=".8" stroke-dasharray="3,4"/><circle cx="42" cy="35" r="2.5" fill="${golds[0]}.8)"/><circle cx="58" cy="35" r="2.5" fill="${golds[0]}.8)"/><circle cx="40" cy="50" r="1.8" fill="${golds[0]}.5)"/><circle cx="60" cy="50" r="1.8" fill="${golds[0]}.5)"/><circle cx="50" cy="50" r="5" stroke="${golds[0]}.4)" stroke-width="1" fill="${golds[0]}.06)"/>`,
+    `<rect x="22" y="22" width="56" height="56" rx="3" stroke="${golds[0]}.25)" stroke-width="1" fill="none"/><rect x="30" y="30" width="40" height="40" rx="2" stroke="${golds[0]}.15)" stroke-width=".8" fill="none"/><line x1="22" y1="50" x2="78" y2="50" stroke="${golds[0]}.2)" stroke-width=".8"/><line x1="50" y1="22" x2="50" y2="78" stroke="${golds[0]}.2)" stroke-width=".8"/><circle cx="50" cy="50" r="8" stroke="${golds[0]}.5)" stroke-width="1.2" fill="${golds[0]}.07)"/><circle cx="50" cy="50" r="3" fill="${golds[0]}.9)"/><circle cx="34" cy="34" r="2" fill="${golds[0]}.4)"/><circle cx="66" cy="34" r="2" fill="${golds[0]}.4)"/><circle cx="34" cy="66" r="2" fill="${golds[0]}.4)"/><circle cx="66" cy="66" r="2" fill="${golds[0]}.4)"/>`,
+    `<polygon points="50,18 78,66 22,66" stroke="${golds[0]}.5)" stroke-width="1.3" fill="${golds[0]}.04)"/><polygon points="50,28 70,62 30,62" stroke="${golds[0]}.2)" stroke-width=".8" fill="none"/><circle cx="50" cy="52" r="6" stroke="${golds[0]}.6)" stroke-width="1.2" fill="${golds[0]}.1)"/><circle cx="50" cy="52" r="2.5" fill="${golds[0]}.9)"/><line x1="50" y1="18" x2="50" y2="28" stroke="${golds[0]}.4)" stroke-width="1"/>`,
+    `<path d="M50 20 L65 35 L65 50 L50 65 L35 50 L35 35 Z" stroke="${golds[0]}.45)" stroke-width="1.2" fill="${golds[0]}.04)"/><path d="M50 28 L59 39 L59 49 L50 59 L41 49 L41 39 Z" stroke="${golds[0]}.2)" stroke-width=".8" fill="none"/><circle cx="50" cy="43" r="5" fill="${golds[0]}.15)" stroke="${golds[0]}.5)" stroke-width="1"/><circle cx="50" cy="43" r="2" fill="${golds[0]}.85)"/><circle cx="50" cy="20" r="2" fill="${golds[0]}.5)"/><circle cx="65" cy="35" r="2" fill="${golds[0]}.5)"/><circle cx="65" cy="50" r="2" fill="${golds[0]}.5)"/><circle cx="50" cy="65" r="2" fill="${golds[0]}.5)"/><circle cx="35" cy="50" r="2" fill="${golds[0]}.5)"/><circle cx="35" cy="35" r="2" fill="${golds[0]}.5)"/>`,
+    `<circle cx="50" cy="50" r="30" stroke="${golds[0]}.2)" stroke-width="1" fill="none"/><circle cx="50" cy="50" r="20" stroke="${golds[0]}.15)" stroke-width=".8" fill="none"/><circle cx="50" cy="50" r="10" stroke="${golds[0]}.3)" stroke-width="1" fill="${golds[0]}.05)"/><line x1="20" y1="50" x2="80" y2="50" stroke="${golds[0]}.25)" stroke-width=".8"/><line x1="50" y1="20" x2="50" y2="80" stroke="${golds[0]}.25)" stroke-width=".8"/><circle cx="50" cy="50" r="3" fill="${golds[0]}.9)"/><circle cx="50" cy="30" r="1.5" fill="${golds[0]}.5)"/><circle cx="70" cy="50" r="1.5" fill="${golds[0]}.5)"/>`,
+    `<path d="M24 76 Q35 40 50 30 Q65 40 76 76" stroke="${golds[0]}.5)" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M30 76 Q38 50 50 42 Q62 50 70 76" stroke="${golds[0]}.25)" stroke-width=".8" fill="none" stroke-linecap="round"/><circle cx="50" cy="28" r="5" stroke="${golds[0]}.6)" stroke-width="1.2" fill="${golds[0]}.08)"/><circle cx="50" cy="28" r="2" fill="${golds[0]}.9)"/><line x1="20" y1="76" x2="80" y2="76" stroke="${golds[0]}.3)" stroke-width="1"/><circle cx="32" cy="62" r="1.5" fill="${golds[0]}.4)"/><circle cx="68" cy="62" r="1.5" fill="${golds[0]}.4)"/>`,
+    // D2 — Psychology (5)
+    `<circle cx="50" cy="45" r="22" stroke="${golds[0]}.45)" stroke-width="1.3" fill="none"/><ellipse cx="50" cy="45" rx="10" ry="22" stroke="${golds[0]}.2)" stroke-width=".8" fill="none"/><line x1="28" y1="45" x2="72" y2="45" stroke="${golds[0]}.2)" stroke-width=".8"/><path d="M28 37 Q50 30 72 37" stroke="${golds[0]}.2)" stroke-width=".8" fill="none"/><path d="M28 53 Q50 60 72 53" stroke="${golds[0]}.2)" stroke-width=".8" fill="none"/><circle cx="50" cy="45" r="4" fill="${golds[0]}.2)" stroke="${golds[0]}.6)" stroke-width="1"/><line x1="50" y1="72" x2="50" y2="78" stroke="${golds[0]}.4)" stroke-width="1.2" stroke-linecap="round"/>`,
+    `<path d="M35 40 Q50 20 65 40" stroke="${golds[0]}.5)" stroke-width="1.3" fill="none" stroke-linecap="round"/><line x1="35" y1="40" x2="35" y2="70" stroke="${golds[0]}.45)" stroke-width="1.2" stroke-linecap="round"/><line x1="65" y1="40" x2="65" y2="70" stroke="${golds[0]}.45)" stroke-width="1.2" stroke-linecap="round"/><line x1="35" y1="70" x2="65" y2="70" stroke="${golds[0]}.4)" stroke-width="1.2" stroke-linecap="round"/><line x1="35" y1="52" x2="65" y2="52" stroke="${golds[0]}.2)" stroke-width=".8"/><circle cx="50" cy="30" r="3" fill="${golds[0]}.7)"/><circle cx="50" cy="52" r="2" fill="${golds[0]}.4)"/>`,
+    `<circle cx="50" cy="46" r="24" stroke="${golds[0]}.4)" stroke-width="1.2" fill="none"/><ellipse cx="50" cy="46" rx="24" ry="10" stroke="${golds[0]}.15)" stroke-width=".8" fill="none" transform="rotate(-20 50 46)"/><circle cx="50" cy="46" r="5" fill="${golds[0]}.15)" stroke="${golds[0]}.6)" stroke-width="1.2"/><circle cx="50" cy="46" r="2" fill="${golds[0]}.9)"/><circle cx="50" cy="22" r="2" fill="${golds[0]}.5)"/><line x1="50" y1="22" x2="50" y2="24" stroke="${golds[0]}.3)" stroke-width="1"/>`,
+    `<path d="M50 78 C30 78 22 65 22 55 C22 42 30 35 40 35 C44 35 47 37 50 40 C53 37 56 35 60 35 C70 35 78 42 78 55 C78 65 70 78 50 78z" stroke="${golds[0]}.5)" stroke-width="1.3" fill="none"/><path d="M50 55 L44 47 L56 47z" fill="${golds[0]}.3)" stroke="${golds[0]}.6)" stroke-width="1"/><circle cx="50" cy="60" r="3" fill="${golds[0]}.5)"/>`,
+    `<polygon points="50,22 60,36 76,38 65,50 68,66 50,58 32,66 35,50 24,38 40,36" stroke="${golds[0]}.45)" stroke-width="1.2" fill="${golds[0]}.04)"/><circle cx="50" cy="44" r="8" stroke="${golds[0]}.4)" stroke-width="1" fill="${golds[0]}.06)"/><circle cx="50" cy="44" r="3" fill="${golds[0]}.8)"/>`,
+    // D3 — Self Dev (5)
+    `<path d="M50 80 C50 80 24 65 24 46 C24 32 36 22 50 22 C64 22 76 32 76 46 C76 65 50 80 50 80z" stroke="${golds[0]}.45)" stroke-width="1.3" fill="none"/><path d="M50 68 C50 68 32 57 32 46 C32 36 40 30 50 30 C60 30 68 36 68 46 C68 57 50 68 50 68z" stroke="${golds[0]}.2)" stroke-width=".8" fill="none"/><circle cx="50" cy="46" r="8" fill="${golds[0]}.15)" stroke="${golds[0]}.5)" stroke-width="1"/><circle cx="50" cy="46" r="3" fill="${golds[0]}.9)"/>`,
+    `<circle cx="50" cy="50" r="28" stroke="${golds[0]}.3)" stroke-width="1" fill="none"/><path d="M26 50 L50 26 L74 50 L50 74 Z" stroke="${golds[0]}.4)" stroke-width="1.2" fill="${golds[0]}.04)"/><circle cx="50" cy="50" r="8" stroke="${golds[0]}.4)" stroke-width="1" fill="${golds[0]}.06)"/><circle cx="50" cy="26" r="2.5" fill="${golds[0]}.6)"/><circle cx="74" cy="50" r="2.5" fill="${golds[0]}.6)"/><circle cx="50" cy="74" r="2.5" fill="${golds[0]}.6)"/><circle cx="26" cy="50" r="2.5" fill="${golds[0]}.6)"/><circle cx="50" cy="50" r="3" fill="${golds[0]}.9)"/>`,
+    `<line x1="50" y1="76" x2="50" y2="30" stroke="${golds[0]}.4)" stroke-width="1.2" stroke-linecap="round"/><path d="M50 30 Q38 42 30 50" stroke="${golds[0]}.5)" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M50 40 Q62 48 70 54" stroke="${golds[0]}.4)" stroke-width="1" fill="none" stroke-linecap="round"/><path d="M50 52 Q40 57 34 62" stroke="${golds[0]}.35)" stroke-width=".9" fill="none" stroke-linecap="round"/><circle cx="50" cy="26" r="4" stroke="${golds[0]}.6)" stroke-width="1.2" fill="${golds[0]}.08)"/><circle cx="50" cy="26" r="1.8" fill="${golds[0]}.9)"/>`,
+    `<rect x="24" y="34" width="52" height="38" rx="2" stroke="${golds[0]}.4)" stroke-width="1.2" fill="none"/><path d="M34 34 V26 Q50 20 66 26 V34" stroke="${golds[0]}.35)" stroke-width="1" fill="none" stroke-linecap="round"/><line x1="24" y1="46" x2="76" y2="46" stroke="${golds[0]}.2)" stroke-width=".8"/><circle cx="42" cy="56" r="5" stroke="${golds[0]}.5)" stroke-width="1" fill="${golds[0]}.06)"/><circle cx="58" cy="56" r="5" stroke="${golds[0]}.5)" stroke-width="1" fill="${golds[0]}.06)"/><circle cx="42" cy="56" r="2" fill="${golds[0]}.7)"/><circle cx="58" cy="56" r="2" fill="${golds[0]}.7)"/>`,
+    `<path d="M50 24 L56 38 L72 38 L60 48 L64 64 L50 55 L36 64 L40 48 L28 38 L44 38 Z" stroke="${golds[0]}.5)" stroke-width="1.2" fill="${golds[0]}.04)"/><circle cx="50" cy="46" r="6" fill="${golds[0]}.15)" stroke="${golds[0]}.4)" stroke-width="1"/><circle cx="50" cy="46" r="2.5" fill="${golds[0]}.9)"/>`,
+    // D4 — Mental Strength (5)
+    `<path d="M50 78 L28 65 L28 37 L50 24 L72 37 L72 65 Z" stroke="${golds[0]}.45)" stroke-width="1.3" fill="${golds[0]}.04)"/><path d="M50 68 L35 60 L35 42 L50 34 L65 42 L65 60 Z" stroke="${golds[0]}.2)" stroke-width=".8" fill="none"/><circle cx="50" cy="51" r="8" fill="${golds[0]}.1)" stroke="${golds[0]}.5)" stroke-width="1"/><path d="M46 51 L49 54 L55 47" stroke="${golds[0]}.9)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+    `<path d="M50 22 C50 22 35 30 30 42 C26 52 30 62 38 68 C44 72 50 72 50 72 C50 72 56 72 62 68 C70 62 74 52 70 42 C65 30 50 22 50 22Z" stroke="${golds[0]}.5)" stroke-width="1.3" fill="none"/><path d="M42 50 L48 56 L60 43" stroke="${golds[0]}.9)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="47" r="14" stroke="${golds[0]}.15)" stroke-width=".8" fill="none"/>`,
+    `<line x1="26" y1="50" x2="74" y2="50" stroke="${golds[0]}.5)" stroke-width="1.5" stroke-linecap="round"/><path d="M26 50 L38 36 L50 50 L62 36 L74 50" stroke="${golds[0]}.6)" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="26" cy="50" r="3" fill="${golds[0]}.6)"/><circle cx="50" cy="50" r="3" fill="${golds[0]}.6)"/><circle cx="74" cy="50" r="3" fill="${golds[0]}.6)"/><circle cx="38" cy="36" r="2" fill="${golds[0]}.4)"/><circle cx="62" cy="36" r="2" fill="${golds[0]}.4)"/>`,
+    `<path d="M50 24 L56 44 L78 44 L62 56 L68 76 L50 64 L32 76 L38 56 L22 44 L44 44 Z" stroke="${golds[0]}.45)" stroke-width="1.2" fill="${golds[0]}.04)"/><circle cx="50" cy="54" r="7" stroke="${golds[0]}.5)" stroke-width="1" fill="${golds[0]}.08)"/><circle cx="50" cy="54" r="2.5" fill="${golds[0]}.9)"/>`,
+    `<path d="M50 76 L50 38 M50 38 L38 50 M50 38 L62 50" stroke="${golds[0]}.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="30" r="8" stroke="${golds[0]}.5)" stroke-width="1.2" fill="${golds[0]}.06)"/><circle cx="50" cy="30" r="3.5" fill="${golds[0]}.8)"/><path d="M34 66 Q42 58 50 60 Q58 58 66 66" stroke="${golds[0]}.3)" stroke-width="1" fill="none" stroke-linecap="round"/>`,
+    // D5 — Productivity (5)
+    `<rect x="26" y="26" width="48" height="48" rx="4" stroke="${golds[0]}.4)" stroke-width="1.2" fill="none"/><line x1="26" y1="38" x2="74" y2="38" stroke="${golds[0]}.25)" stroke-width=".8"/><line x1="26" y1="50" x2="74" y2="50" stroke="${golds[0]}.25)" stroke-width=".8"/><line x1="26" y1="62" x2="74" y2="62" stroke="${golds[0]}.25)" stroke-width=".8"/><path d="M36 43 L44 43 M36 55 L52 55 M36 67 L48 67" stroke="${golds[0]}.5)" stroke-width="1.2" stroke-linecap="round"/><path d="M58 56 L62 60 L70 50" stroke="${golds[0]}.8)" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+    `<circle cx="50" cy="50" r="26" stroke="${golds[0]}.35)" stroke-width="1.2" fill="none"/><path d="M50 28 L50 50 L64 50" stroke="${golds[0]}.8)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="50" r="3" fill="${golds[0]}.9)"/><circle cx="50" cy="28" r="2" fill="${golds[0]}.5)"/><line x1="50" y1="24" x2="50" y2="28" stroke="${golds[0]}.3)" stroke-width=".8"/>`,
+    `<line x1="26" y1="74" x2="26" y2="26" stroke="${golds[0]}.4)" stroke-width="1.2" stroke-linecap="round"/><line x1="26" y1="74" x2="76" y2="74" stroke="${golds[0]}.4)" stroke-width="1.2" stroke-linecap="round"/><rect x="32" y="56" width="8" height="18" rx="1" fill="${golds[0]}.35)"/><rect x="46" y="44" width="8" height="30" rx="1" fill="${golds[0]}.5)"/><rect x="60" y="32" width="8" height="42" rx="1" fill="${golds[0]}.65)"/><path d="M32 52 L50 38 L64 28" stroke="${golds[0]}.6)" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+    `<path d="M50 26 L50 52 M42 34 L50 26 L58 34" stroke="${golds[0]}.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 52 C30 40 39 31 50 31 C61 31 70 40 70 52 C70 64 61 74 50 74 C39 74 30 64 30 52z" stroke="${golds[0]}.35)" stroke-width="1" fill="none"/><line x1="38" y1="74" x2="62" y2="74" stroke="${golds[0]}.3)" stroke-width="1" stroke-linecap="round"/><line x1="44" y1="78" x2="56" y2="78" stroke="${golds[0]}.2)" stroke-width="1" stroke-linecap="round"/><circle cx="50" cy="52" r="5" fill="${golds[0]}.15)" stroke="${golds[0]}.5)" stroke-width="1"/>`,
+    `<line x1="26" y1="26" x2="74" y2="26" stroke="${golds[0]}.3)" stroke-width="1" stroke-linecap="round"/><line x1="26" y1="38" x2="74" y2="38" stroke="${golds[0]}.25)" stroke-width=".8" stroke-linecap="round"/><line x1="26" y1="50" x2="74" y2="50" stroke="${golds[0]}.25)" stroke-width=".8" stroke-linecap="round"/><line x1="26" y1="62" x2="74" y2="62" stroke="${golds[0]}.2)" stroke-width=".7" stroke-linecap="round"/><path d="M50 38 L62 56 L38 56 Z" stroke="${golds[0]}.6)" stroke-width="1.2" fill="${golds[0]}.08)"/><circle cx="50" cy="50" r="2.5" fill="${golds[0]}.8)"/>`,
+    // D6 — Success (5)
+    `<polyline points="24,72 36,56 46,64 58,44 70,50 80,30" stroke="${golds[0]}.7)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="36" cy="56" r="2.5" fill="${golds[0]}.6)"/><circle cx="46" cy="64" r="2.5" fill="${golds[0]}.6)"/><circle cx="58" cy="44" r="2.5" fill="${golds[0]}.6)"/><circle cx="70" cy="50" r="2.5" fill="${golds[0]}.6)"/><circle cx="80" cy="30" r="4" fill="${golds[0]}.9)"/><line x1="20" y1="76" x2="84" y2="76" stroke="${golds[0]}.3)" stroke-width="1"/>`,
+    `<circle cx="50" cy="50" r="28" stroke="${golds[0]}.3)" stroke-width="1" fill="none"/><path d="M50 22 L56 42 L78 42 L62 54 L68 74 L50 62 L32 74 L38 54 L22 42 L44 42 Z" stroke="${golds[0]}.5)" stroke-width="1.2" fill="${golds[0]}.04)"/><circle cx="50" cy="52" r="5" fill="${golds[0]}.2)" stroke="${golds[0]}.5)" stroke-width="1"/>`,
+    `<path d="M50 24 L74 62 L26 62 Z" stroke="${golds[0]}.5)" stroke-width="1.3" fill="${golds[0]}.04)"/><line x1="36" y1="62" x2="36" y2="76" stroke="${golds[0]}.4)" stroke-width="1.2" stroke-linecap="round"/><line x1="50" y1="62" x2="50" y2="76" stroke="${golds[0]}.4)" stroke-width="1.2" stroke-linecap="round"/><line x1="64" y1="62" x2="64" y2="76" stroke="${golds[0]}.4)" stroke-width="1.2" stroke-linecap="round"/><line x1="26" y1="76" x2="74" y2="76" stroke="${golds[0]}.35)" stroke-width="1" stroke-linecap="round"/><circle cx="50" cy="24" r="3" fill="${golds[0]}.7)"/>`,
+    `<circle cx="50" cy="50" r="26" stroke="${golds[0]}.35)" stroke-width="1.2" fill="none"/><circle cx="50" cy="50" r="18" stroke="${golds[0]}.2)" stroke-width=".8" fill="none"/><circle cx="50" cy="50" r="10" stroke="${golds[0]}.25)" stroke-width=".8" fill="${golds[0]}.04)"/><path d="M50 24 L50 30 M76 50 L70 50 M50 76 L50 70 M24 50 L30 50" stroke="${golds[0]}.3)" stroke-width="1" stroke-linecap="round"/><circle cx="50" cy="50" r="3.5" fill="${golds[0]}.85)"/>`,
+    `<path d="M30 68 L30 42 C30 42 30 28 50 28 C70 28 70 42 70 42 L70 68" stroke="${golds[0]}.45)" stroke-width="1.2" fill="none" stroke-linecap="round"/><line x1="24" y1="68" x2="76" y2="68" stroke="${golds[0]}.4)" stroke-width="1.2" stroke-linecap="round"/><circle cx="50" cy="40" r="8" stroke="${golds[0]}.5)" stroke-width="1.2" fill="${golds[0]}.06)"/><circle cx="50" cy="40" r="3" fill="${golds[0]}.9)"/><path d="M42 68 L42 56 L58 56 L58 68" stroke="${golds[0]}.35)" stroke-width="1" fill="none"/>`,
+    // D7 — Wealth (6)
+    `<circle cx="50" cy="50" r="28" stroke="${golds[0]}.4)" stroke-width="1.3" fill="none"/><path d="M50 30 L50 34 M50 66 L50 70" stroke="${golds[0]}.5)" stroke-width="1.2" stroke-linecap="round"/><path d="M38 38 C38 38 42 34 50 34 C58 34 62 38 62 44 C62 50 54 52 50 54 C46 56 38 58 38 64 C38 70 44 70 50 70 C56 70 62 66 62 64" stroke="${golds[0]}.7)" stroke-width="1.3" fill="none" stroke-linecap="round"/>`,
+    `<rect x="24" y="36" width="52" height="36" rx="3" stroke="${golds[0]}.4)" stroke-width="1.2" fill="none"/><circle cx="50" cy="54" r="10" stroke="${golds[0]}.5)" stroke-width="1.2" fill="${golds[0]}.06)"/><circle cx="50" cy="54" r="4" fill="${golds[0]}.5)"/><circle cx="30" cy="54" r="4" stroke="${golds[0]}.3)" stroke-width=".8" fill="none"/><circle cx="70" cy="54" r="4" stroke="${golds[0]}.3)" stroke-width=".8" fill="none"/><line x1="24" y1="44" x2="76" y2="44" stroke="${golds[0]}.2)" stroke-width=".8"/>`,
+    `<line x1="24" y1="76" x2="24" y2="28" stroke="${golds[0]}.4)" stroke-width="1" stroke-linecap="round"/><line x1="24" y1="76" x2="78" y2="76" stroke="${golds[0]}.4)" stroke-width="1" stroke-linecap="round"/><path d="M30 72 L40 58 L50 62 L60 44 L70 48 L78 30" stroke="${golds[0]}.7)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><polygon points="78,30 72,32 76,36" fill="${golds[0]}.7)"/>`,
+    `<path d="M50 24 C50 24 26 38 26 56 C26 68 37 76 50 76 C63 76 74 68 74 56 C74 38 50 24 50 24Z" stroke="${golds[0]}.4)" stroke-width="1.2" fill="none"/><path d="M50 38 C50 38 36 46 36 56 C36 64 42 68 50 68 C58 68 64 64 64 56 C64 46 50 38 50 38Z" stroke="${golds[0]}.2)" stroke-width=".8" fill="none"/><circle cx="50" cy="56" r="8" fill="${golds[0]}.12)" stroke="${golds[0]}.5)" stroke-width="1"/><circle cx="50" cy="56" r="3" fill="${golds[0]}.85)"/>`,
+    `<line x1="50" y1="76" x2="50" y2="24" stroke="${golds[0]}.3)" stroke-width="1" stroke-dasharray="3,3"/><path d="M30 60 L50 40 L70 60" stroke="${golds[0]}.6)" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M36 68 L50 54 L64 68" stroke="${golds[0]}.4)" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="40" r="4" fill="${golds[0]}.3)" stroke="${golds[0]}.7)" stroke-width="1.2"/>`,
+    `<path d="M50 24 L50 76 M50 24 L36 40 M50 24 L64 40" stroke="${golds[0]}.5)" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M26 50 C26 50 36 44 50 44 C64 44 74 50 74 50" stroke="${golds[0]}.3)" stroke-width="1" fill="none" stroke-linecap="round"/><circle cx="50" cy="24" r="4" fill="${golds[0]}.8)"/><circle cx="36" cy="40" r="2.5" fill="${golds[0]}.5)"/><circle cx="64" cy="40" r="2.5" fill="${golds[0]}.5)"/>`,
+    // D8 — Relationships (5)
+    `<circle cx="38" cy="42" r="12" stroke="${golds[0]}.45)" stroke-width="1.2" fill="${golds[0]}.04)"/><circle cx="62" cy="42" r="12" stroke="${golds[0]}.45)" stroke-width="1.2" fill="${golds[0]}.04)"/><path d="M28 68 C28 60 33 54 38 54 L62 54 C67 54 72 60 72 68" stroke="${golds[0]}.35)" stroke-width="1" fill="none" stroke-linecap="round"/><line x1="44" y1="42" x2="56" y2="42" stroke="${golds[0]}.3)" stroke-width=".8" stroke-dasharray="2,2"/><circle cx="38" cy="42" r="4" fill="${golds[0]}.3)"/><circle cx="62" cy="42" r="4" fill="${golds[0]}.3)"/>`,
+    `<path d="M50 28 L72 42 L72 58 L50 72 L28 58 L28 42 Z" stroke="${golds[0]}.4)" stroke-width="1.2" fill="${golds[0]}.04)"/><path d="M50 36 L64 44 L64 56 L50 64 L36 56 L36 44 Z" stroke="${golds[0]}.2)" stroke-width=".8" fill="none"/><circle cx="50" cy="50" r="6" stroke="${golds[0]}.5)" stroke-width="1" fill="${golds[0]}.08)"/><circle cx="50" cy="50" r="2.5" fill="${golds[0]}.9)"/>`,
+    `<path d="M50 70 C50 70 30 58 26 46 C22 34 32 24 42 26 C46 27 50 30 50 30 C50 30 54 27 58 26 C68 24 78 34 74 46 C70 58 50 70 50 70Z" stroke="${golds[0]}.5)" stroke-width="1.3" fill="none"/><circle cx="50" cy="46" r="8" fill="${golds[0]}.1)" stroke="${golds[0]}.3)" stroke-width=".8"/><circle cx="50" cy="46" r="3" fill="${golds[0]}.7)"/>`,
+    `<circle cx="50" cy="38" r="12" stroke="${golds[0]}.45)" stroke-width="1.2" fill="${golds[0]}.04)"/><path d="M30 72 C30 60 39 52 50 52 C61 52 70 60 70 72" stroke="${golds[0]}.35)" stroke-width="1" fill="none" stroke-linecap="round"/><path d="M44 38 L48 42 L56 32" stroke="${golds[0]}.9)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+    `<circle cx="50" cy="50" r="24" stroke="${golds[0]}.3)" stroke-width="1" fill="none"/><circle cx="50" cy="32" r="6" stroke="${golds[0]}.5)" stroke-width="1.2" fill="${golds[0]}.06)"/><circle cx="34" cy="60" r="6" stroke="${golds[0]}.5)" stroke-width="1.2" fill="${golds[0]}.06)"/><circle cx="66" cy="60" r="6" stroke="${golds[0]}.5)" stroke-width="1.2" fill="${golds[0]}.06)"/><line x1="50" y1="38" x2="38" y2="54" stroke="${golds[0]}.3)" stroke-width=".8"/><line x1="50" y1="38" x2="62" y2="54" stroke="${golds[0]}.3)" stroke-width=".8"/><line x1="40" y1="60" x2="60" y2="60" stroke="${golds[0]}.3)" stroke-width=".8"/>`,
+    // D9 — Power (4)
+    `<path d="M50 20 L80 80 L20 80 Z" stroke="${golds[0]}.5)" stroke-width="1.3" fill="${golds[0]}.04)"/><path d="M50 32 L72 76 L28 76 Z" stroke="${golds[0]}.2)" stroke-width=".8" fill="none"/><circle cx="50" cy="56" r="8" fill="${golds[0]}.12)" stroke="${golds[0]}.5)" stroke-width="1"/><circle cx="50" cy="20" r="3" fill="${golds[0]}.8)"/>`,
+    `<path d="M50 24 C50 24 62 30 70 42 C78 54 74 68 62 74 C56 77 50 76 50 76 C50 76 44 77 38 74 C26 68 22 54 30 42 C38 30 50 24 50 24Z" stroke="${golds[0]}.5)" stroke-width="1.3" fill="none"/><path d="M50 38 L50 62 M40 50 L60 50" stroke="${golds[0]}.6)" stroke-width="1.5" stroke-linecap="round"/><circle cx="50" cy="50" r="4" fill="${golds[0]}.2)"/>`,
+    `<circle cx="50" cy="50" r="26" stroke="${golds[0]}.35)" stroke-width="1.2" fill="none"/><path d="M36 66 L50 28 L64 66" stroke="${golds[0]}.6)" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="40" y1="56" x2="60" y2="56" stroke="${golds[0]}.4)" stroke-width="1" stroke-linecap="round"/><circle cx="50" cy="28" r="3" fill="${golds[0]}.7)"/>`,
+    `<path d="M50 24 L60 44 L80 44 L66 56 L70 76 L50 64 L30 76 L34 56 L20 44 L40 44 Z" stroke="${golds[0]}.5)" stroke-width="1.2" fill="${golds[0]}.04)"/><path d="M50 34 L56 46 L70 46 L60 54 L64 66 L50 58 L36 66 L40 54 L30 46 L44 46 Z" stroke="${golds[0]}.15)" stroke-width=".7" fill="none"/><circle cx="50" cy="52" r="5" fill="${golds[0]}.2)" stroke="${golds[0]}.5)" stroke-width="1"/>`,
+    // D10 — Balance (4)
+    `<circle cx="50" cy="50" r="28" stroke="${golds[0]}.4)" stroke-width="1.2" fill="none"/><path d="M50 22 C50 22 66 36 66 50 C66 64 50 78 50 78 C50 78 34 64 34 50 C34 36 50 22 50 22Z" stroke="${golds[0]}.3)" stroke-width=".8" fill="none"/><line x1="22" y1="50" x2="78" y2="50" stroke="${golds[0]}.2)" stroke-width=".8"/><circle cx="50" cy="36" r="6" fill="${golds[0]}.12)" stroke="${golds[0]}.4)" stroke-width="1"/><circle cx="50" cy="64" r="3" fill="${golds[0]}.4)"/><circle cx="50" cy="36" r="2.5" fill="${golds[0]}.7)"/>`,
+    `<path d="M30 50 L50 26 L70 50 L50 74 Z" stroke="${golds[0]}.4)" stroke-width="1.2" fill="${golds[0]}.04)"/><circle cx="50" cy="50" r="14" stroke="${golds[0]}.25)" stroke-width=".8" fill="none"/><circle cx="50" cy="50" r="6" fill="${golds[0]}.1)" stroke="${golds[0]}.5)" stroke-width="1"/><circle cx="50" cy="50" r="2.5" fill="${golds[0]}.9)"/>`,
+    `<line x1="50" y1="24" x2="50" y2="76" stroke="${golds[0]}.3)" stroke-width="1"/><path d="M30 40 Q50 32 70 40" stroke="${golds[0]}.5)" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M26 50 Q50 42 74 50" stroke="${golds[0]}.4)" stroke-width="1" fill="none" stroke-linecap="round"/><path d="M30 60 Q50 52 70 60" stroke="${golds[0]}.35)" stroke-width=".9" fill="none" stroke-linecap="round"/><circle cx="50" cy="50" r="4" fill="${golds[0]}.3)" stroke="${golds[0]}.6)" stroke-width="1"/>`,
+    `<circle cx="50" cy="50" r="26" stroke="${golds[0]}.3)" stroke-width="1.2" fill="none"/><path d="M50 24 Q64 50 50 76 Q36 50 50 24Z" stroke="${golds[0]}.4)" stroke-width="1" fill="${golds[0]}.05)"/><circle cx="50" cy="38" r="4" fill="${golds[0]}.6)" opacity=".6"/><circle cx="50" cy="62" r="4" fill="${golds[0]}.3)" opacity=".8"/><line x1="24" y1="50" x2="76" y2="50" stroke="${golds[0]}.15)" stroke-width=".8"/>`,
+    // D11 — Learning (4)
+    `<path d="M26 46 L50 34 L74 46 L50 58 Z" stroke="${golds[0]}.5)" stroke-width="1.3" fill="${golds[0]}.05)"/><path d="M26 46 L26 62 L50 74 L74 62 L74 46" stroke="${golds[0]}.35)" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="74" y1="46" x2="74" y2="62" stroke="${golds[0]}.4)" stroke-width="1.2" stroke-linecap="round"/><circle cx="74" cy="64" r="2.5" fill="${golds[0]}.6)"/><circle cx="50" cy="34" r="3" fill="${golds[0]}.7)"/>`,
+    `<path d="M28 66 L28 36 C28 34 30 32 32 32 L56 32 L72 48 L72 66 C72 68 70 70 68 70 L32 70 C30 70 28 68 28 66Z" stroke="${golds[0]}.45)" stroke-width="1.2" fill="none"/><path d="M56 32 L56 48 L72 48" stroke="${golds[0]}.35)" stroke-width="1" fill="none"/><line x1="36" y1="52" x2="56" y2="52" stroke="${golds[0]}.4)" stroke-width="1" stroke-linecap="round"/><line x1="36" y1="58" x2="50" y2="58" stroke="${golds[0]}.3)" stroke-width=".9" stroke-linecap="round"/><line x1="36" y1="44" x2="52" y2="44" stroke="${golds[0]}.3)" stroke-width=".9" stroke-linecap="round"/>`,
+    `<circle cx="40" cy="44" r="14" stroke="${golds[0]}.4)" stroke-width="1.2" fill="none"/><circle cx="60" cy="56" r="14" stroke="${golds[0]}.4)" stroke-width="1.2" fill="none"/><path d="M40 30 L40 44" stroke="${golds[0]}.3)" stroke-width=".8"/><path d="M60 42 L60 56" stroke="${golds[0]}.3)" stroke-width=".8"/><line x1="32" y1="66" x2="68" y2="66" stroke="${golds[0]}.2)" stroke-width=".8"/>`,
+    `<path d="M34 30 L34 70 M34 30 L66 50 L34 70" stroke="${golds[0]}.6)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="34" cy="30" r="2.5" fill="${golds[0]}.6)"/><circle cx="34" cy="70" r="2.5" fill="${golds[0]}.6)"/><circle cx="66" cy="50" r="4" fill="${golds[0]}.4)" stroke="${golds[0]}.7)" stroke-width="1.2"/>`,
+    // D12 — Energy + Philosophy (6)
+    `<path d="M56 24 L42 50 L52 50 L38 76" stroke="${golds[0]}.7)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="56" cy="24" r="3" fill="${golds[0]}.8)"/><circle cx="38" cy="76" r="3" fill="${golds[0]}.6)"/><path d="M30 42 L44 50 M44 56 L30 64" stroke="${golds[0]}.3)" stroke-width="1" fill="none" stroke-linecap="round"/>`,
+    `<circle cx="50" cy="50" r="26" stroke="${golds[0]}.3)" stroke-width="1" fill="none"/><path d="M50 24 L56 44 L78 44 L62 56 L68 76 L50 64 L32 76 L38 56 L22 44 L44 44 Z" stroke="${golds[0]}.45)" stroke-width="1.1" fill="${golds[0]}.04)"/><circle cx="50" cy="52" r="4" fill="${golds[0]}.25)"/><circle cx="50" cy="52" r="1.5" fill="${golds[0]}.9)"/>`,
+    `<path d="M50 24 C38 24 28 32 28 44 C28 54 36 60 44 62 L44 72 L56 72 L56 62 C64 60 72 54 72 44 C72 32 62 24 50 24Z" stroke="${golds[0]}.45)" stroke-width="1.2" fill="none"/><line x1="44" y1="66" x2="56" y2="66" stroke="${golds[0]}.35)" stroke-width="1" stroke-linecap="round"/><circle cx="50" cy="42" r="6" fill="${golds[0]}.1)" stroke="${golds[0]}.4)" stroke-width="1"/><circle cx="50" cy="42" r="2.5" fill="${golds[0]}.7)"/>`,
+    `<circle cx="50" cy="44" r="22" stroke="${golds[0]}.4)" stroke-width="1.2" fill="none"/><path d="M34 62 C34 62 36 72 50 76 C64 72 66 62 66 62" stroke="${golds[0]}.35)" stroke-width="1" fill="none" stroke-linecap="round"/><line x1="42" y1="76" x2="58" y2="76" stroke="${golds[0]}.3)" stroke-width="1" stroke-linecap="round"/><path d="M44 44 L48 48 L56 38" stroke="${golds[0]}.8)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+    `<path d="M50 22 L78 76 L22 76 Z" stroke="${golds[0]}.4)" stroke-width="1.2" fill="${golds[0]}.04)"/><path d="M50 32 L70 72 L30 72 Z" stroke="${golds[0]}.15)" stroke-width=".7" fill="none"/><circle cx="50" cy="60" r="8" fill="${golds[0]}.1)" stroke="${golds[0]}.4)" stroke-width="1"/><path d="M46 60 L49 63 L55 56" stroke="${golds[0]}.8)" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+    `<circle cx="50" cy="50" r="28" stroke="${golds[0]}.3)" stroke-width="1" fill="none"/><circle cx="50" cy="50" r="14" stroke="${golds[0]}.2)" stroke-width=".8" fill="none"/><circle cx="50" cy="50" r="5" fill="${golds[0]}.15)" stroke="${golds[0]}.5)" stroke-width="1"/><path d="M50 22 L50 36 M78 50 L64 50 M50 78 L50 64 M22 50 L36 50 M71 29 L61 39 M71 71 L61 61 M29 71 L39 61 M29 29 L39 39" stroke="${golds[0]}.25)" stroke-width=".8" stroke-linecap="round"/><circle cx="50" cy="50" r="2" fill="${golds[0]}.9)"/>`,
+  ];
+
+  let idx = 0;
+  for (let d = 0; d < di; d++) idx += PRODUCTS[d].length;
+  idx += pi;
+  const artwork = artworks[idx] || artworks[0];
+
+  const bgColor = t[0];
+  const accentColor = t[1];
+
+  return `<svg width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="cg${idx}" cx="50%" cy="50%" r="60%">
+        <stop offset="0%" stop-color="${accentColor}" stop-opacity=".08"/>
+        <stop offset="100%" stop-color="${bgColor}" stop-opacity="1"/>
+      </radialGradient>
+    </defs>
+    <rect width="100" height="100" fill="${bgColor}"/>
+    <rect width="100" height="100" fill="url(#cg${idx})"/>
+    <rect x="3" y="3" width="94" height="94" fill="none" stroke="rgba(196,154,60,.18)" stroke-width=".6"/>
+    <rect x="5" y="5" width="90" height="90" fill="none" stroke="rgba(196,154,60,.06)" stroke-width=".4"/>
+    ${artwork}
+    <text x="50" y="11" font-family="'Cormorant Garamond',serif" font-size="5.5" fill="rgba(196,154,60,.5)" text-anchor="middle" letter-spacing="3">VEXORIA</text>
+    <line x1="10" y1="14" x2="90" y2="14" stroke="rgba(196,154,60,.1)" stroke-width=".5"/>
+    <line x1="10" y1="86" x2="90" y2="86" stroke="rgba(196,154,60,.08)" stroke-width=".4"/>
+  </svg>`;
+}
+
+// ── PRICES ──
+const PRICES = [
+  [19,19,24,19,17,24],
+  [19,24,24,19,19],
+  [24,19,24,19,17],
+  [24,17,19,17,19],
+  [17,19,24,29,19],
+  [19,29,24,19,19],
+  [29,19,24,19,24,29],
+  [19,24,19,19,24],
+  [29,24,24,24],
+  [19,19,17,17],
+  [24,19,19,19],
+  [19,17,19,24,24,19],
+];
+
+// ── TICKER — 200 quotes ──
+const TICKER_ITEMS = [
+  {en:"Procrastination is not laziness — it is a system running the wrong code.",ar:"التسويف ليس كسلاً — إنه نظام يشغّل الكود الخاطئ."},
+  {en:"The fear you avoid is the door to who you could become.",ar:"الخوف الذي تتجنبه هو الباب لمن يمكن أن تصبح."},
+  {en:"Most decisions you make were made by patterns — not by you.",ar:"معظم القرارات التي تتخذها اتُّخذت بواسطة أنماط — وليس بواسطتك."},
+  {en:"The person who understands themselves cannot be easily defeated.",ar:"الشخص الذي يفهم نفسه لا يُهزم بسهولة."},
+  {en:"Your real power begins when you understand what moves you.",ar:"قوتك الحقيقية تبدأ حين تفهم ما يحركك."},
+  {en:"Your relationships are mirrors of what you cannot yet see in yourself.",ar:"علاقاتك مرايا لما لا تستطيع رؤيته في نفسك بعد."},
+  {en:"Discipline is not built by willpower — it is built by system.",ar:"الانضباط لا يُبنى بالإرادة — يُبنى بالنظام."},
+  {en:"Money follows clarity — and runs from internal chaos.",ar:"المال يتبع الوضوح — ويهرب من الفوضى الداخلية."},
+  {en:"Every bad habit was once a solution to a problem you never understood.",ar:"كل عادة سيئة كانت يوماً حلاً لمشكلة لم تفهمها أبداً."},
+  {en:"The rare human is not born — they are built.",ar:"الإنسان النادر لا يُولد — يُبنى."},
+  {en:"Silence is where most people meet themselves for the first time.",ar:"الصمت هو المكان الذي يلتقي فيه معظم الناس بأنفسهم لأول مرة."},
+  {en:"You were not shaped by what happened to you — but by how you interpreted it.",ar:"لم تُشكَّل بما حدث لك — بل بكيفية تفسيرك له."},
+  {en:"Most people are not afraid of failure — they are afraid of being seen trying.",ar:"معظم الناس لا يخافون الفشل — يخافون أن يُروا وهم يحاولون."},
+  {en:"Clarity is not found. It is built.",ar:"الوضوح لا يُوجد — يُبنى."},
+  {en:"The mind that never questions itself is a prison disguised as certainty.",ar:"العقل الذي لا يشكك في نفسه سجن متنكر في هيئة يقين."},
+  {en:"What you tolerate defines you more than what you achieve.",ar:"ما تتحمله يعرّفك أكثر مما تحققه."},
+  {en:"Focus is not about doing more — it is about refusing most.",ar:"التركيز لا يعني فعل المزيد — بل رفض المعظم."},
+  {en:"Self-awareness is not a destination — it is a practice you never finish.",ar:"الوعي الذاتي ليس وجهة — بل ممارسة لا تنتهي أبداً."},
+  {en:"A weak identity accepts whatever the environment offers.",ar:"الهوية الضعيفة تقبل ما يقدمه لها المحيط."},
+  {en:"The beliefs you never questioned are the ones running your life.",ar:"المعتقدات التي لم تتساءل عنها هي التي تدير حياتك."},
+  {en:"Understanding why you feel what you feel is the beginning of freedom.",ar:"فهم سبب شعورك بما تشعر به هو بداية الحرية."},
+  {en:"Your environment is either training you or draining you.",ar:"بيئتك إما تدرّبك أو تستنزفك."},
+  {en:"The decisions you delay are often the ones that define your trajectory.",ar:"القرارات التي تؤجلها هي في الغالب التي تحدد مسارك."},
+  {en:"Rare people are not perfect — they are intentional.",ar:"الناس النادرون ليسوا كاملين — هم قاصدون."},
+  {en:"Every pattern you have was once a logical response to your reality.",ar:"كل نمط لديك كان يوماً استجابة منطقية لواقعك."},
+  {en:"The quality of your questions determines the quality of your life.",ar:"جودة أسئلتك تحدد جودة حياتك."},
+  {en:"You cannot fix a problem you have not correctly named.",ar:"لا يمكنك حل مشكلة لم تسمّها بصواب."},
+  {en:"Influence is not manipulation — it is communication with depth.",ar:"التأثير ليس تلاعباً — هو تواصل بعمق."},
+  {en:"Real confidence is not thinking you will succeed — it is being comfortable with uncertainty.",ar:"الثقة الحقيقية ليست اعتقادك بأنك ستنجح — بل ارتياحك مع الغموض."},
+  {en:"Most people live their whole lives as a reaction. The rare ones choose.",ar:"معظم الناس يعيشون حياتهم كلها كرد فعل. النادرون يختارون."},
+  {en:"Emotional intelligence is not about being calm — it is about understanding the storm.",ar:"الذكاء العاطفي لا يعني الهدوء — بل يعني فهم العاصفة."},
+  {en:"Power is not taken — it is built through consistency and understanding.",ar:"القوة لا تُؤخذ — تُبنى بالاتساق والفهم."},
+  {en:"The deepest form of respect you can give someone is to understand them.",ar:"أعمق شكل من أشكال الاحترام الذي يمكنك منحه لشخص ما هو أن تفهمه."},
+  {en:"Wealth without clarity is just delayed chaos.",ar:"الثروة بدون وضوح مجرد فوضى مؤجلة."},
+  {en:"The most dangerous patterns are the ones that feel like personality.",ar:"الأنماط الأكثر خطورة هي تلك التي تبدو وكأنها شخصية."},
+  {en:"Growth is not about becoming someone new — it is about becoming more yourself.",ar:"النمو لا يعني أن تصبح شخصاً جديداً — بل أن تصبح أكثر نفسك."},
+  {en:"The person who can sit with discomfort moves faster than the one who avoids it.",ar:"الشخص الذي يتحمل الانزعاج يتقدم أسرع من الذي يتجنبه."},
+  {en:"Most social anxiety is really fear of judgment disguised as shyness.",ar:"معظم القلق الاجتماعي هو خوف من الحكم متنكراً في هيئة خجل."},
+  {en:"The story you tell about yourself is the cage or the key.",ar:"القصة التي تحكيها عن نفسك هي القفص أو المفتاح."},
+  {en:"A system beats motivation every single time.",ar:"النظام يتفوق على الدافعية في كل مرة."},
+  {en:"You do not rise to the level of your goals — you fall to the level of your systems.",ar:"لا ترقى إلى مستوى أهدافك — تنحدر إلى مستوى أنظمتك."},
+  {en:"Listening is not waiting to speak — it is trying to understand before you respond.",ar:"الاستماع ليس انتظاراً للتحدث — بل محاولة للفهم قبل الرد."},
+  {en:"The people who shaped you the most were often the ones who never explained themselves.",ar:"الناس الذين أثروا فيك أكثر كانوا في الغالب من لم يشرحوا أنفسهم أبداً."},
+  {en:"What you resist in others is often what you have not accepted in yourself.",ar:"ما تقاومه في الآخرين هو في الغالب ما لم تقبله في نفسك."},
+  {en:"Fear of success is often fear of the new identity it requires.",ar:"الخوف من النجاح هو في الغالب خوف من الهوية الجديدة التي يتطلبها."},
+  {en:"Wisdom is knowing which battles are worth the cost.",ar:"الحكمة هي معرفة أي المعارك تستحق الثمن."},
+  {en:"The most persuasive thing you can do is understand someone completely.",ar:"أكثر شيء مقنع يمكنك فعله هو فهم شخص ما بالكامل."},
+  {en:"Leadership begins with the ability to lead yourself.",ar:"القيادة تبدأ بالقدرة على قيادة نفسك."},
+  {en:"Habits are not just behaviors — they are identity made automatic.",ar:"العادات ليست مجرد سلوكيات — هي هوية تحولت إلى آلية."},
+  {en:"Inner peace is not the absence of problems — it is the presence of roots.",ar:"السلام الداخلي ليس غياب المشاكل — بل حضور الجذور."},
+  {en:"The sharpest tool you have is a clear mind.",ar:"أحدّ أداة لديك عقل واضح."},
+  {en:"People do not resist change — they resist loss.",ar:"الناس لا يقاومون التغيير — يقاومون الخسارة."},
+  {en:"Discipline is freedom in disguise.",ar:"الانضباط حرية في الخفاء."},
+  {en:"The most important relationship you will ever have is with reality.",ar:"أهم علاقة ستكون لديك على الإطلاق هي مع الواقع."},
+  {en:"How you spend your attention is how you spend your life.",ar:"كيفية إنفاق انتباهك هي كيفية إنفاق حياتك."},
+  {en:"You cannot build a future using only the tools of the past.",ar:"لا يمكنك بناء مستقبل باستخدام أدوات الماضي فقط."},
+  {en:"Real wealth is not just financial — it is freedom of time, mind, and choice.",ar:"الثروة الحقيقية ليست مالية فقط — بل حرية الوقت والعقل والاختيار."},
+  {en:"The gap between who you are and who you want to be is filled by decisions.",ar:"الفجوة بين من أنت ومن تريد أن تكون تُملأ بالقرارات."},
+  {en:"Understanding a person's fear tells you more than understanding their goals.",ar:"فهم خوف الشخص يخبرك بأكثر مما يخبرك فهم أهدافه."},
+  {en:"The foundation of any great relationship is two people who know themselves.",ar:"أساس أي علاقة عظيمة هو شخصان يعرفان نفسيهما."},
+  {en:"Most conflict is not about what people say it is about.",ar:"معظم النزاعات ليست عمّا يقول الناس إنها عنه."},
+  {en:"The mind that can hold uncertainty without collapsing is rare and powerful.",ar:"العقل الذي يتحمل الغموض دون أن ينهار نادر وقوي."},
+  {en:"You will never outperform your self-image for long.",ar:"لن تتفوق على صورتك عن نفسك لفترة طويلة."},
+  {en:"Curiosity is a more powerful driver than ambition.",ar:"الفضول محرك أقوى من الطموح."},
+  {en:"What you admire in others is a clue to what is possible for you.",ar:"ما تعجب به في الآخرين هو دليل على ما هو ممكن لك."},
+  {en:"Stress is a signal — not a life sentence.",ar:"التوتر إشارة — وليس حكماً مؤبداً."},
+  {en:"Every action you take is a vote for the person you want to become.",ar:"كل فعل تقوم به هو تصويت للشخص الذي تريد أن تصبح."},
+  {en:"The longest journey is the one from the head to the heart.",ar:"أطول رحلة هي تلك من الرأس إلى القلب."},
+  {en:"Real strength is not the absence of weakness — it is the mastery of response.",ar:"القوة الحقيقية ليست غياب الضعف — بل إتقان الاستجابة."},
+  {en:"Deep focus is a superpower in a world of shallow attention.",ar:"التركيز العميق قوة خارقة في عالم الانتباه السطحي."},
+  {en:"The person you become in difficulty is the person you actually are.",ar:"الشخص الذي تصبحه في الصعوبة هو الشخص الذي أنت فعلاً."},
+  {en:"Every system in your life either serves you or drains you.",ar:"كل نظام في حياتك إما يخدمك أو يستنزفك."},
+  {en:"You cannot think your way out of a pattern you behaved your way into.",ar:"لا يمكنك التفكير للخروج من نمط دخلته بسلوكك."},
+  {en:"The opinions of those who do not know you deeply should carry no weight.",ar:"آراء من لا يعرفونك بعمق لا ينبغي أن تحمل أي ثقل."},
+  {en:"The quality of your sleep, food, and movement shapes the quality of your thinking.",ar:"جودة نومك وطعامك وحركتك تشكّل جودة تفكيرك."},
+  {en:"A life with no philosophy is a life lived on accident.",ar:"حياة بلا فلسفة هي حياة تُعاش بالصدفة."},
+  {en:"The rare human chooses their influences deliberately.",ar:"الإنسان النادر يختار مؤثراته بوعي."},
+  {en:"Presence is not just physical — it is the state of your attention.",ar:"الحضور ليس جسدياً فقط — بل هو حالة انتباهك."},
+  {en:"What you measure improves. What you ignore quietly decays.",ar:"ما تقيسه يتحسن. ما تتجاهله يتدهور بهدوء."},
+  {en:"The way you interpret events is more important than the events themselves.",ar:"طريقة تفسيرك للأحداث أهم من الأحداث نفسها."},
+  {en:"Charisma is not a trait — it is a skill built through understanding people.",ar:"الكاريزما ليست صفة — بل مهارة تُبنى من خلال فهم الناس."},
+  {en:"Forgiveness is not for the other person — it is the release of a weight you carry.",ar:"المسامحة ليست للشخص الآخر — بل هي تحرير من ثقل تحمله."},
+  {en:"The most dangerous comfort zone is the one you have named 'who I am'.",ar:"أخطر منطقة راحة هي التي أسميتها 'من أنا'."},
+  {en:"What you repeat, you become.",ar:"ما تكرره تصبحه."},
+  {en:"Power is maintained through understanding, not force.",ar:"القوة تُحفظ بالفهم لا بالقوة."},
+  {en:"Your subconscious mind is always listening to what you say about yourself.",ar:"عقلك الباطن يستمع دائماً لما تقوله عن نفسك."},
+  {en:"Anxiety is often future-thinking without tools.",ar:"القلق في الغالب تفكير مستقبلي بدون أدوات."},
+  {en:"The truth is always worth the discomfort of finding it.",ar:"الحقيقة دائماً تستحق انزعاج إيجادها."},
+  {en:"Real knowledge changes behavior — not just opinions.",ar:"المعرفة الحقيقية تغير السلوك — لا الآراء فقط."},
+  {en:"You grow at the edge of your comfort — not inside it.",ar:"تنمو عند حافة راحتك — لا داخلها."},
+  {en:"The deepest thinking happens in the space between reactions.",ar:"أعمق التفكير يحدث في الفضاء بين ردود الفعل."},
+  {en:"To influence someone, understand what they fear losing.",ar:"لتؤثر في شخص ما، افهم ما يخاف خسارته."},
+  {en:"A goal without a system is just a wish.",ar:"هدف بدون نظام مجرد أمنية."},
+  {en:"Your habits are building or destroying your future — silently.",ar:"عاداتك تبني أو تدمر مستقبلك — بصمت."},
+  {en:"Thinking clearly is a skill. It requires practice, not talent.",ar:"التفكير بوضوح مهارة. يتطلب ممارسة لا موهبة."},
+  {en:"The most powerful question you can ask is: what am I assuming here?",ar:"أقوى سؤال يمكنك طرحه هو: ما الذي أفترضه هنا؟"},
+  {en:"Identity is not discovered — it is decided.",ar:"الهوية لا تُكتشف — تُقرَّر."},
+  {en:"People are not difficult — they are complex. The difference matters.",ar:"الناس ليسوا صعبين — هم معقدون. الفرق مهم."},
+  {en:"The quality of your decisions determines the quality of your destiny.",ar:"جودة قراراتك تحدد جودة مصيرك."},
+  {en:"To master your mind is to earn the right to master everything else.",ar:"إتقان عقلك هو اكتساب الحق في إتقان كل شيء آخر."},
+  {en:"Vulnerability is not weakness — it is the foundation of real connection.",ar:"الضعف ليس ضعفاً — بل هو أساس التواصل الحقيقي."},
+  {en:"You cannot pour from an empty vessel. Energy management is not optional.",ar:"لا يمكنك الصب من إناء فارغ. إدارة الطاقة ليست اختيارية."},
+  {en:"Read people's patterns — not just their words.",ar:"اقرأ أنماط الناس — لا مجرد كلماتهم."},
+  {en:"Maturity is the ability to hold two opposing ideas at once.",ar:"النضج هو القدرة على الإمساك بفكرتين متضادتين في آنٍ واحد."},
+  {en:"The goal is not to be positive — it is to be accurate.",ar:"الهدف ليس أن تكون إيجابياً — بل أن تكون دقيقاً."},
+  {en:"Your future self is being built right now — by your current choices.",ar:"نسختك المستقبلية تُبنى الآن — بخياراتك الحالية."},
+  {en:"The person who reads people well rarely loses.",ar:"الشخص الذي يقرأ الناس جيداً نادراً ما يخسر."},
+  {en:"Investment in your mind is the only investment with guaranteed compound returns.",ar:"الاستثمار في عقلك هو الاستثمار الوحيد بعوائد مركبة مضمونة."},
+  {en:"A clear purpose is the most powerful motivator ever discovered.",ar:"الغرض الواضح هو أقوى محفز تم اكتشافه على الإطلاق."},
+  {en:"The way you handle small things tells everything about how you handle large ones.",ar:"طريقتك في التعامل مع الأشياء الصغيرة تخبر كل شيء عن تعاملك مع الكبيرة."},
+  {en:"Silence is a strategy, not just an absence of words.",ar:"الصمت استراتيجية وليس مجرد غياب الكلمات."},
+  {en:"Most problems are not solved — they are outgrown.",ar:"معظم المشاكل لا تُحل — يُتخطى إليها."},
+  {en:"The first step to freedom is knowing what holds you.",ar:"الخطوة الأولى نحو الحرية هي معرفة ما يمسك بك."},
+  {en:"Integrity is the most underrated competitive advantage.",ar:"النزاهة هي الميزة التنافسية الأكثر تقليلاً من شأنها."},
+  {en:"Empathy is not agreement — it is understanding.",ar:"التعاطف ليس موافقة — بل فهم."},
+  {en:"The leader who understands human psychology leads without force.",ar:"القائد الذي يفهم علم النفس البشري يقود بدون قوة."},
+  {en:"Every fear, at its root, is a fear of loss.",ar:"كل خوف في جذوره هو خوف من الخسارة."},
+  {en:"A decision made in panic is rarely a good one.",ar:"القرار المتخذ في حالة هلع نادراً ما يكون جيداً."},
+  {en:"The most successful people are masters of their attention.",ar:"الأشخاص الأكثر نجاحاً هم سادة انتباههم."},
+  {en:"Character is built in the moments no one is watching.",ar:"الطابع يُبنى في اللحظات التي لا يراقبك فيها أحد."},
+  {en:"Understanding is the highest form of intelligence.",ar:"الفهم هو أرقى أشكال الذكاء."},
+  {en:"Resilience is not about bouncing back — it is about moving forward differently.",ar:"الصمود لا يعني العودة — بل التقدم بشكل مختلف."},
+  {en:"The hidden cost of every shortcut is usually paid in the future.",ar:"التكلفة الخفية لكل اختصار تُدفع عادةً في المستقبل."},
+  {en:"Mental freedom begins with questioning what you never thought to question.",ar:"الحرية الذهنية تبدأ بالتساؤل عمّا لم تفكر يوماً في التساؤل عنه."},
+  {en:"A rare mind is not one that knows more — it is one that questions more.",ar:"العقل النادر ليس من يعرف أكثر — بل من يتساءل أكثر."},
+  {en:"The real competition is not with others — it is with who you were yesterday.",ar:"المنافسة الحقيقية ليست مع الآخرين — بل مع من كنت أمس."},
+  {en:"Depth in thinking produces simplicity in action.",ar:"العمق في التفكير ينتج بساطة في الفعل."},
+  {en:"Most limitations are not external — they are inherited beliefs.",ar:"معظم القيود ليست خارجية — بل معتقدات موروثة."},
+  {en:"Time is the only currency that cannot be earned back.",ar:"الوقت هو العملة الوحيدة التي لا يمكن كسبها من جديد."},
+  {en:"To know yourself deeply is to become less afraid of everything else.",ar:"معرفة نفسك بعمق تجعلك أقل خوفاً من كل شيء آخر."},
+  {en:"The highest intelligence is knowing when to stop thinking and start doing.",ar:"أعلى أشكال الذكاء هو معرفة متى تتوقف عن التفكير وتبدأ الفعل."},
+  {en:"What drains your energy quietly is more dangerous than what attacks you loudly.",ar:"ما يستنزف طاقتك بصمت أخطر مما يهاجمك بضجيج."},
+  {en:"Change your questions and you will change your answers.",ar:"غيّر أسئلتك وستغير إجاباتك."},
+  {en:"The most powerful thing you can become is someone who knows why they do what they do.",ar:"أقوى ما يمكنك أن تصبح هو شخص يعرف لماذا يفعل ما يفعله."},
+  {en:"Build your life on understanding — everything else is decoration.",ar:"ابنِ حياتك على الفهم — كل شيء آخر زينة."},
+  {en:"The quality of your inner dialogue is the quality of your life.",ar:"جودة حوارك الداخلي هي جودة حياتك."},
+  {en:"People who take responsibility for everything have power over everything.",ar:"الناس الذين يتحملون مسؤولية كل شيء لديهم قدرة على كل شيء."},
+  {en:"Awareness without action is just comfortable suffering.",ar:"الوعي بدون فعل مجرد معاناة مريحة."},
+  {en:"A life examined is always richer than one simply lived.",ar:"الحياة المدروسة دائماً أغنى من تلك التي تُعاش ببساطة."},
+  {en:"What you refuse to face controls you.",ar:"ما ترفض مواجهته يتحكم فيك."},
+  {en:"To understand human nature is to hold a master key.",ar:"فهم الطبيعة البشرية هو الإمساك بمفتاح رئيسي."},
+  {en:"Excellence is never an accident — it is always the result of deliberate effort.",ar:"التميز ليس مصادفة أبداً — بل دائماً نتيجة جهد مقصود."},
+  {en:"The person who reads is never alone.",ar:"من يقرأ لا يكون وحيداً أبداً."},
+  {en:"True intelligence includes knowing the limits of your own knowledge.",ar:"الذكاء الحقيقي يتضمن معرفة حدود معرفتك الخاصة."},
+  {en:"Every problem you solve leaves a skill you keep forever.",ar:"كل مشكلة تحلها تترك مهارة تحتفظ بها إلى الأبد."},
+  {en:"The most undervalued trait is honesty with yourself.",ar:"أكثر صفة مُقلَّل من قيمتها هي الصدق مع نفسك."},
+  {en:"Real charisma is genuine interest in the other person.",ar:"الكاريزما الحقيقية هي الاهتمام الحقيقي بالشخص الآخر."},
+  {en:"Your greatest obstacle is often the story you keep telling about your past.",ar:"أكبر عقبة أمامك في الغالب هي القصة التي تستمر في رواية ماضيك بها."},
+  {en:"A calm mind in a storm is the most powerful position.",ar:"العقل الهادئ في العاصفة هو الموقف الأقوى."},
+  {en:"Most people seek approval before they seek understanding.",ar:"معظم الناس يبحثون عن الموافقة قبل أن يبحثوا عن الفهم."},
+  {en:"The measure of a person is what they do when no one is watching.",ar:"مقياس الشخص هو ما يفعله حين لا يراقبه أحد."},
+  {en:"Asking better questions is more valuable than having all the answers.",ar:"طرح أسئلة أفضل أقيم من امتلاك كل الإجابات."},
+  {en:"The right system can do what motivation never could.",ar:"النظام الصحيح يمكنه ما لم تستطع الدافعية أبداً."},
+  {en:"Knowing why people do what they do is the deepest form of power.",ar:"معرفة لماذا يفعل الناس ما يفعلون هي أعمق أشكال القوة."},
+  {en:"Rest is not the opposite of productivity — it is its foundation.",ar:"الراحة ليست عكس الإنتاجية — بل هي أساسها."},
+  {en:"The rarest minds question what everyone else treats as obvious.",ar:"العقول النادرة تتساءل عمّا يعامله الجميع على أنه بديهي."},
+  {en:"THINK DEEPER · SEE FURTHER · BECOME RARE",ar:"فكّر بعمق · أبعد نظراً · كن نادراً"},
+  {en:"Build the architecture of your mind — everything else follows.",ar:"ابنِ هندسة عقلك — كل شيء آخر يتبع."},
+  {en:"The mind that reads people accurately never lacks for options.",ar:"العقل الذي يقرأ الناس بدقة لا يفتقر أبداً إلى الخيارات."},
+  {en:"Rare humans do not chase belonging — they build it.",ar:"الناس النادرون لا يطاردون الانتماء — يبنونه."},
+  {en:"Emotion without understanding is chaos. Understanding without emotion is cold.",ar:"العاطفة بلا فهم فوضى. الفهم بلا عاطفة برودة."},
+  {en:"The person who understands how habits form can change anything.",ar:"الشخص الذي يفهم كيف تتشكّل العادات يمكنه تغيير أي شيء."},
+  {en:"Your weaknesses are just strengths that haven't been directed yet.",ar:"نقاط ضعفك مجرد نقاط قوة لم تُوجَّه بعد."},
+  {en:"Depth over noise. Always.",ar:"العمق على الضجيج. دائماً."},
+  {en:"Most people are living someone else's definition of a good life.",ar:"معظم الناس يعيشون تعريف شخص آخر للحياة الجيدة."},
+  {en:"Freedom is the ability to respond instead of react.",ar:"الحرية هي القدرة على الاستجابة بدلاً من رد الفعل."},
+  {en:"The patterns that hurt you most are the ones that feel most familiar.",ar:"الأنماط التي تؤذيك أكثر هي تلك التي تبدو الأكثر ألفة."},
+  {en:"A rare human builds while others wait.",ar:"الإنسان النادر يبني بينما ينتظر الآخرون."},
+  {en:"Your values — not your goals — determine who you become.",ar:"قيمك — لا أهدافك — تحدد من ستصبح."},
+  {en:"Understanding psychology is not manipulation — it is compassion at scale.",ar:"فهم علم النفس ليس تلاعباً — بل تعاطف على نطاق واسع."},
+  {en:"The most successful negotiations happen before the conversation starts.",ar:"أنجح التفاوضات تحدث قبل بدء المحادثة."},
+  {en:"Live deliberately or life will live you.",ar:"عش بقصد وإلا ستعيشك الحياة."},
+  {en:"VEXORIA — Cognitive Architecture for a Rare Human Identity.",ar:"VEXORIA — هندسة معرفية لبناء هوية إنسانية نادرة."},
+];
+
+const PROBLEMS = [
+  {en:"Sometimes you postpone things you know in your core are important… without understanding why.",ar:"أحياناً تؤجل أشياء تعرف في داخلك أنها مهمة… دون أن تفهم السبب."},
+  {en:"You feel that the real version of you has not appeared yet.",ar:"تشعر أن النسخة الحقيقية منك لم تظهر بعد."},
+  {en:"You meet people who leave a mark on you… without realising why.",ar:"تلتقي بأشخاص يتركون أثراً فيك… دون أن تدرك لماذا."},
+  {en:"You work hard… but the results do not reflect what you give.",ar:"تبذل جهداً كبيراً… لكن النتائج لا تعكس ما تقدمه."},
+  {en:"And there is always a faint feeling that something is missing… without knowing what it is.",ar:"ويظل هناك إحساس خافت بأن شيئاً ما مفقود… دون أن تعرف ما هو."},
+];
+
+const DOMAINS = [
+  {svgIdx:0,en:"Mind & Thinking",ar:"العقل والتفكير",desc_en:"How you see the world, interpret events, and make decisions.",desc_ar:"كيف ترى العالم وتفسّر ما يحدث وتتخذ قراراتك.",count:6,theme:1},
+  {svgIdx:1,en:"Psychology & Human Understanding",ar:"علم النفس وفهم البشر",desc_en:"The hidden motives, patterns, and forces that drive people.",desc_ar:"الدوافع الخفية والأنماط والقوى التي تحرك الناس.",count:5,theme:2},
+  {svgIdx:2,en:"Self Development",ar:"تطوير الذات",desc_en:"Rebuilding who you are — deliberately and completely.",desc_ar:"إعادة بناء من أنت — بوعي وبشكل كامل.",count:5,theme:3},
+  {svgIdx:3,en:"Mental Strength",ar:"القوة العقلية",desc_en:"Building a mind that does not break under pressure.",desc_ar:"بناء عقل لا ينكسر تحت الضغط.",count:5,theme:4},
+  {svgIdx:4,en:"Productivity & Discipline",ar:"الإنتاجية والانضباط",desc_en:"The systems that turn intention into consistent action.",desc_ar:"الأنظمة التي تحوّل النية إلى فعل متسق.",count:5,theme:5},
+  {svgIdx:5,en:"Success & Goals",ar:"النجاح وتحقيق الأهداف",desc_en:"How to move from where you are to where you decide to be.",desc_ar:"كيف تنتقل من حيث أنت إلى حيث تقرر أن تكون.",count:5,theme:6},
+  {svgIdx:6,en:"Wealth & Money",ar:"المال وبناء الثروة",desc_en:"Understanding, managing, and building real financial power.",desc_ar:"فهم المال وإدارته وبناء قوة مالية حقيقية.",count:6,theme:7},
+  {svgIdx:7,en:"Relationships & Social Intelligence",ar:"العلاقات والذكاء الاجتماعي",desc_en:"Reading people, building bonds, navigating human dynamics.",desc_ar:"قراءة الناس وبناء الروابط والتنقل في الديناميكيات البشرية.",count:5,theme:8},
+  {svgIdx:8,en:"Power & Influence",ar:"النفوذ والتأثير",desc_en:"The science of persuasion, authority, and strategic impact.",desc_ar:"علم الإقناع والسلطة والتأثير الاستراتيجي.",count:4,theme:9},
+  {svgIdx:9,en:"Psychological Balance",ar:"التوازن النفسي",desc_en:"Stability, inner peace, and emotional mastery.",desc_ar:"الاستقرار والسلام الداخلي وإتقان المشاعر.",count:4,theme:10},
+  {svgIdx:10,en:"Learning & Skills",ar:"التعلم وتطوير المهارات",desc_en:"Acquiring knowledge and capability faster and deeper.",desc_ar:"اكتساب المعرفة والقدرة بشكل أسرع وأعمق.",count:4,theme:11},
+  {svgIdx:11,en:"Energy & Life Philosophy",ar:"الطاقة وفلسفة الحياة",desc_en:"The fuel that runs everything — and the wisdom that directs it.",desc_ar:"الوقود الذي يشغّل كل شيء — والحكمة التي توجهه.",count:6,theme:12},
+];
+
+const PRODUCTS = [
+  [{en:"Clear Thinking System",ar:"نظام التفكير الواضح",goal_en:"Purify your thinking and make better decisions.",goal_ar:"تنقية التفكير واتخاذ قرارات أفضل.",stars:4.7},
+   {en:"Cognitive Bias Decoder",ar:"فك شفرة التحيزات المعرفية",goal_en:"Understand thinking errors and cognitive biases.",goal_ar:"فهم أخطاء التفكير والانحيازات المعرفية.",stars:4.9},
+   {en:"Strategic Thinking Framework",ar:"إطار التفكير الاستراتيجي",goal_en:"Learn to think long-term and strategically.",goal_ar:"تعلم التفكير الاستراتيجي بعيد المدى.",stars:4.7},
+   {en:"Decision Making Protocol",ar:"بروتوكول اتخاذ القرار",goal_en:"Make intelligent, clear decisions consistently.",goal_ar:"اتخاذ قرارات ذكية وواضحة باستمرار.",stars:4.5},
+   {en:"Mental Clarity Method",ar:"منهج الوضوح الذهني",goal_en:"Organise your thoughts and reduce mental noise.",goal_ar:"تنظيم الأفكار وتقليل الضوضاء الذهنية.",stars:4.6},
+   {en:"Problem Solving Architecture",ar:"هندسة حل المشكلات",goal_en:"Solve problems methodically and completely.",goal_ar:"حل المشكلات بطريقة منهجية وكاملة.",stars:4.8}],
+  [{en:"Human Behavior Decoder",ar:"فك شفرة السلوك البشري",goal_en:"Understand what drives people's actions and choices.",goal_ar:"فهم ما يحرك تصرفات الناس وخياراتهم.",stars:4.7},
+   {en:"Psychological Manipulation Detector",ar:"كاشف التلاعب النفسي",goal_en:"Detect and dismantle psychological manipulation.",goal_ar:"اكتشاف التلاعب النفسي وتفكيكه.",stars:4.6},
+   {en:"Dark Psychology Awareness Guide",ar:"دليل الوعي بعلم النفس الظلامي",goal_en:"Understand hidden methods of influence and control.",goal_ar:"فهم أساليب التأثير والسيطرة الخفية.",stars:4.8},
+   {en:"Emotional Motives Framework",ar:"إطار الدوافع العاطفية",goal_en:"Understand the emotional drives behind all behavior.",goal_ar:"فهم الدوافع العاطفية وراء كل سلوك.",stars:4.5},
+   {en:"Social Dynamics Map",ar:"خريطة الديناميكيات الاجتماعية",goal_en:"Read and navigate complex social relationships.",goal_ar:"قراءة العلاقات الاجتماعية المعقدة والتنقل فيها.",stars:4.6}],
+  [{en:"Self-Reconstruction System",ar:"نظام إعادة بناء الذات",goal_en:"Rebuild yourself from the ground up — deliberately.",goal_ar:"إعادة بناء نفسك من الأساس — بوعي.",stars:4.9},
+   {en:"Identity Design Framework",ar:"إطار تصميم الهوية",goal_en:"Build a powerful, clear personal identity.",goal_ar:"بناء هوية شخصية قوية وواضحة.",stars:4.6},
+   {en:"Personal Growth Blueprint",ar:"مخطط النمو الشخصي",goal_en:"Comprehensive personality and character development.",goal_ar:"تطوير شامل للشخصية والطابع.",stars:4.7},
+   {en:"Habit Transformation System",ar:"نظام تحويل العادات",goal_en:"Change habits permanently — with a system, not willpower.",goal_ar:"تغيير العادات بشكل دائم — بنظام لا بإرادة.",stars:4.8},
+   {en:"Self-Awareness Protocol",ar:"بروتوكول الوعي الذاتي",goal_en:"Develop deep, honest self-awareness.",goal_ar:"تطوير الوعي الذاتي العميق والصادق.",stars:4.5}],
+  [{en:"Mental Resilience Program",ar:"برنامج الصلابة النفسية",goal_en:"Build psychological resilience that doesn't break.",goal_ar:"بناء الصلابة النفسية التي لا تنكسر.",stars:4.7},
+   {en:"Fear Control System",ar:"نظام السيطرة على الخوف",goal_en:"Understand and master fear — not suppress it.",goal_ar:"فهم الخوف والتحكم فيه — لا قمعه.",stars:4.8},
+   {en:"Emotional Control Framework",ar:"إطار التحكم في المشاعر",goal_en:"Master your emotional responses and reactions.",goal_ar:"إتقان ردود فعلك العاطفية.",stars:4.6},
+   {en:"Stress Resistance Method",ar:"منهج مقاومة الضغط",goal_en:"Handle pressure without losing clarity or control.",goal_ar:"التعامل مع الضغط دون فقدان الوضوح أو السيطرة.",stars:4.5},
+   {en:"Inner Strength Protocol",ar:"بروتوكول القوة الداخلية",goal_en:"Build deep, stable inner strength.",goal_ar:"بناء القوة الداخلية العميقة والمستقرة.",stars:4.6}],
+  [{en:"Anti-Procrastination System",ar:"نظام مكافحة التسويف",goal_en:"Eliminate procrastination permanently — with a system.",goal_ar:"القضاء على التسويف بشكل دائم — بنظام.",stars:4.9},
+   {en:"Deep Focus Method",ar:"منهج التركيز العميق",goal_en:"Build the ability to focus deeply in a distracted world.",goal_ar:"بناء القدرة على التركيز العميق في عالم مشتت.",stars:4.6},
+   {en:"Discipline Architecture",ar:"هندسة الانضباط",goal_en:"Develop real discipline that sustains itself.",goal_ar:"تطوير الانضباط الحقيقي الذي يستمر من تلقاء نفسه.",stars:4.7},
+   {en:"Productivity Operating System",ar:"نظام تشغيل الإنتاجية",goal_en:"Manage your time, energy and work like a system.",goal_ar:"إدارة وقتك وطاقتك وعملك كنظام متكامل.",stars:4.8},
+   {en:"Execution Framework",ar:"إطار التنفيذ",goal_en:"Turn ideas and intentions into consistent action.",goal_ar:"تحويل الأفكار والنوايا إلى تنفيذ فعلي.",stars:4.5}],
+  [{en:"Goal Execution Blueprint",ar:"مخطط تنفيذ الأهداف",goal_en:"Execute goals with clarity and a complete system.",goal_ar:"تنفيذ الأهداف بوضوح ونظام كامل.",stars:4.7},
+   {en:"Life Strategy Framework",ar:"إطار استراتيجية الحياة",goal_en:"Build a complete life strategy — not just goals.",goal_ar:"بناء استراتيجية حياة كاملة — لا مجرد أهداف.",stars:4.6},
+   {en:"Success Mechanics Guide",ar:"دليل آلية النجاح",goal_en:"Understand how success actually works — not theories.",goal_ar:"فهم كيف يعمل النجاح فعلاً — لا مجرد نظريات.",stars:4.8},
+   {en:"Opportunity Recognition System",ar:"نظام رؤية الفرص",goal_en:"Train your mind to see opportunities others miss.",goal_ar:"تدريب عقلك على رؤية الفرص التي يفوّتها الآخرون.",stars:4.5},
+   {en:"Achievement System",ar:"نظام الإنجاز",goal_en:"Build a personal system for consistent achievement.",goal_ar:"بناء نظام شخصي للإنجاز المتسق.",stars:4.6}],
+  [{en:"Wealth Building Map",ar:"خريطة بناء الثروة",goal_en:"A complete roadmap for building real wealth.",goal_ar:"خارطة طريق كاملة لبناء ثروة حقيقية.",stars:4.9},
+   {en:"Money Mindset System",ar:"نظام عقلية المال",goal_en:"Rewire your relationship with money from the root.",goal_ar:"إعادة برمجة علاقتك بالمال من الجذر.",stars:4.6},
+   {en:"Income Expansion Framework",ar:"إطار توسيع الدخل",goal_en:"Increase your income with clear, actionable systems.",goal_ar:"زيادة دخلك بأنظمة واضحة وقابلة للتطبيق.",stars:4.7},
+   {en:"Financial Discipline Protocol",ar:"بروتوكول الانضباط المالي",goal_en:"Manage money with discipline and long-term clarity.",goal_ar:"إدارة المال بانضباط ووضوح بعيد المدى.",stars:4.5},
+   {en:"Investment Foundations Guide",ar:"دليل أسس الاستثمار",goal_en:"Understand the true foundations of smart investing.",goal_ar:"فهم الأسس الحقيقية للاستثمار الذكي.",stars:4.6},
+   {en:"Financial Freedom Strategy",ar:"استراتيجية الحرية المالية",goal_en:"Build a personal path to financial independence.",goal_ar:"بناء مسار شخصي نحو الاستقلال المالي.",stars:4.8}],
+  [{en:"Social Intelligence Guide",ar:"دليل الذكاء الاجتماعي",goal_en:"Develop high-level social intelligence.",goal_ar:"تطوير الذكاء الاجتماعي على مستوى عالٍ.",stars:4.6},
+   {en:"Communication Mastery System",ar:"نظام إتقان التواصل",goal_en:"Master communication in all its forms.",goal_ar:"إتقان التواصل بجميع أشكاله.",stars:4.7},
+   {en:"Relationship Dynamics Framework",ar:"إطار ديناميكيات العلاقات",goal_en:"Understand the deep mechanics of all relationships.",goal_ar:"فهم الآليات العميقة لجميع العلاقات.",stars:4.6},
+   {en:"Charisma Development Method",ar:"منهج تطوير الكاريزما",goal_en:"Develop natural, powerful charisma.",goal_ar:"تطوير الكاريزما الطبيعية والقوية.",stars:4.8},
+   {en:"People Influence System",ar:"نظام التأثير في الناس",goal_en:"Influence people ethically and powerfully.",goal_ar:"التأثير في الناس بأخلاقية وقوة.",stars:4.5}],
+  [{en:"Power & Influence Laws",ar:"قوانين النفوذ والتأثير",goal_en:"Understand the laws of power and how they work.",goal_ar:"فهم قوانين النفوذ وكيفية عملها.",stars:4.9},
+   {en:"Authority Building System",ar:"نظام بناء الهيبة",goal_en:"Build natural authority and presence.",goal_ar:"بناء السلطة والحضور الطبيعي.",stars:4.6},
+   {en:"Persuasion Framework",ar:"إطار الإقناع",goal_en:"Master the art and science of persuasion.",goal_ar:"إتقان فن وعلم الإقناع.",stars:4.7},
+   {en:"Strategic Influence Method",ar:"منهج التأثير الاستراتيجي",goal_en:"Influence situations and outcomes strategically.",goal_ar:"التأثير في المواقف والنتائج باستراتيجية.",stars:4.6}],
+  [{en:"Psychological Stability System",ar:"نظام الاستقرار النفسي",goal_en:"Build deep, lasting psychological stability.",goal_ar:"بناء الاستقرار النفسي العميق والدائم.",stars:4.7},
+   {en:"Inner Peace Framework",ar:"إطار السلام الداخلي",goal_en:"Find and maintain genuine inner peace.",goal_ar:"إيجاد السلام الداخلي الحقيقي والحفاظ عليه.",stars:4.8},
+   {en:"Emotional Balance Method",ar:"منهج التوازن العاطفي",goal_en:"Master emotional balance across all situations.",goal_ar:"إتقان التوازن العاطفي في جميع المواقف.",stars:4.6},
+   {en:"Mind Reset Protocol",ar:"بروتوكول إعادة ضبط العقل",goal_en:"Reset your mental state when you need to rebuild.",goal_ar:"إعادة ضبط حالتك الذهنية حين تحتاج إلى إعادة البناء.",stars:4.5}],
+  [{en:"Rapid Learning System",ar:"نظام التعلم السريع",goal_en:"Learn anything faster and retain it longer.",goal_ar:"تعلّم أي شيء بسرعة أكبر واحتفظ به أطول.",stars:4.7},
+   {en:"Skill Acquisition Framework",ar:"إطار اكتساب المهارات",goal_en:"Acquire new skills with a proven system.",goal_ar:"اكتساب مهارات جديدة بنظام مُجرَّب.",stars:4.6},
+   {en:"Knowledge Organization System",ar:"نظام تنظيم المعرفة",goal_en:"Organise knowledge so you can use it, not just hold it.",goal_ar:"تنظيم المعرفة لتستخدمها لا لمجرد امتلاكها.",stars:4.8},
+   {en:"Learning Efficiency Method",ar:"منهج كفاءة التعلم",goal_en:"Learn with less effort and more depth.",goal_ar:"التعلم بجهد أقل وعمق أكبر.",stars:4.6}],
+  [{en:"Peak Energy System",ar:"نظام الطاقة القصوى",goal_en:"Raise and sustain your daily energy levels.",goal_ar:"رفع مستويات طاقتك اليومية والحفاظ عليها.",stars:4.6},
+   {en:"Focus Energy Protocol",ar:"بروتوكول طاقة التركيز",goal_en:"Manage your energy specifically for deep focus.",goal_ar:"إدارة طاقتك بشكل خاص للتركيز العميق.",stars:4.8},
+   {en:"Performance Energy Framework",ar:"إطار طاقة الأداء العالي",goal_en:"Build the energy systems for high performance.",goal_ar:"بناء منظومات الطاقة للأداء العالي.",stars:4.6},
+   {en:"Life Philosophy Framework",ar:"إطار فلسفة الحياة",goal_en:"Build a coherent personal philosophy for living.",goal_ar:"بناء فلسفة حياة شخصية متماسكة.",stars:4.7},
+   {en:"Wisdom Architecture",ar:"هندسة الحكمة",goal_en:"Build genuine wisdom — not just knowledge.",goal_ar:"بناء الحكمة الحقيقية — لا مجرد المعرفة.",stars:4.9},
+   {en:"Meaning of Life Guide",ar:"دليل معنى الحياة",goal_en:"Discover and define your own meaning.",goal_ar:"اكتشاف معناك وتحديده بنفسك.",stars:4.6}],
+];
+
+const ABOUT_BLOCKS = [
+  {label_en:"THE ORIGIN",label_ar:"البداية",en:"VEXORIA was built from one observation: most people are running the same mental patterns their entire lives — without ever questioning them. The failures, the stagnation, the repeated mistakes — all trace back to <em>inherited thinking patterns never examined.</em>",ar:"VEXORIA بُنيت من ملاحظة واحدة: معظم الناس يشغّلون نفس الأنماط الذهنية طوال حياتهم — دون أن يتساءلوا عنها أبداً. الإخفاقات، الركود، الأخطاء المتكررة — كلها تعود إلى <em>أنماط تفكير موروثة لم تُفحص.</em>"},
+  {label_en:"THE MISSION",label_ar:"الرسالة",en:"To give people the cognitive tools to <em>see themselves clearly</em> — not through motivation, but through understanding. One decoded pattern at a time. Until the rare version of them becomes the default.",ar:"منح الناس الأدوات المعرفية <em>لرؤية أنفسهم بوضوح</em> — ليس من خلال التحفيز، بل من خلال الفهم. نمط مفكوك في كل مرة. حتى تصبح نسختهم النادرة هي الافتراضية."},
+  {label_en:"THE METHOD",label_ar:"الأسلوب",en:"Every VEXORIA system follows the same structure: <em>Reveal the hidden pattern → Explain the psychology → Give the tool to escape it.</em> No recycled advice. No empty motivation. Only depth — in language anyone can understand.",ar:"كل نظام في VEXORIA يتبع نفس البنية: <em>كشف النمط الخفي → شرح علم النفس → إعطاء الأداة للتحرر منه.</em> لا نصائح معادة. لا تحفيز فارغ. عمق فقط — بلغة يفهمها أي إنسان."},
+  {label_en:"THE VISION",label_ar:"الرؤية",en:"A world where more people choose <em>depth over noise.</em> Where understanding yourself is not a luxury — it is a standard. Where the rare human is not the exception, but the result of <em>a deliberate, examined life.</em>",ar:"عالم يختار فيه المزيد من الناس <em>العمق على الضجيج.</em> حيث فهم نفسك ليس رفاهية — بل معيار. حيث الإنسان النادر ليس استثناءً، بل نتيجة <em>حياة متأنية ومفحوصة.</em>"},
+];
+
+const ARTICLES = [
+  {cat_en:"THINKING ERRORS",cat_ar:"أخطاء التفكير",en:"The Invisible Filter: How Your Mind Decides What Is Real",ar:"المرشح الخفي: كيف يقرر عقلك ما هو حقيقي",exc_en:"Every mind runs a filter that lets in evidence confirming what it already believes — and quietly discards everything else.",exc_ar:"كل عقل يشغّل مرشحاً يسمح بدخول الأدلة التي تؤكد ما يؤمن به بالفعل — ويتجاهل بهدوء كل شيء آخر.",date:"MAR 2026",read:"6 MIN"},
+  {cat_en:"HUMAN BEHAVIOR",cat_ar:"السلوك البشري",en:"Why People Resist Success More Than Failure",ar:"لماذا يقاوم الناس النجاح أكثر من الفشل",exc_en:"Failure is familiar. Success means becoming someone new — and the unconscious mind treats that as a threat.",exc_ar:"الفشل مألوف. النجاح يعني أن تصبح شخصاً جديداً — والعقل اللاواعي يعامل ذلك كتهديد.",date:"MAR 2026",read:"7 MIN"},
+  {cat_en:"INFLUENCE",cat_ar:"التأثير",en:"The Architecture of Persuasion: Six Patterns You Face Daily",ar:"هندسة الإقناع: ستة أنماط تواجهها يومياً",exc_en:"Influence is not manipulation when you understand its mechanics. The danger is being moved without knowing it.",exc_ar:"التأثير ليس تلاعباً عندما تفهم آلياته. الخطر يكمن في أن تتحرك دون أن تعرف ذلك.",date:"FEB 2026",read:"9 MIN"},
+  {cat_en:"PSYCHOLOGY",cat_ar:"علم النفس",en:"Emotional Debt: The Feelings You Owe Yourself",ar:"الدين العاطفي: المشاعر التي تدين بها لنفسك",exc_en:"Suppressed emotions do not disappear. They accumulate — surfacing as patterns of behavior that confuse even their owner.",exc_ar:"المشاعر المكبوتة لا تختفي. تتراكم — وتظهر كأنماط سلوكية تربك حتى صاحبها.",date:"FEB 2026",read:"8 MIN"},
+  {cat_en:"SOCIETY",cat_ar:"المجتمع",en:"The Comfort Trap: Why Ordinary Feels Like Safety",ar:"فخ الراحة: لماذا يبدو العادي كالأمان",exc_en:"Society programs people to mistake familiarity for safety, and novelty for danger. The rare mind learns to reverse this.",exc_ar:"يبرمج المجتمع الناس على الخلط بين الألفة والأمان. العقل النادر يتعلم عكس ذلك.",date:"JAN 2026",read:"7 MIN"},
+  {cat_en:"MINDSET",cat_ar:"العقلية",en:"What Separates the 5% Who Think Differently",ar:"ما الذي يميز الـ 5% الذين يفكرون بشكل مختلف",exc_en:"It is not intelligence. It is not talent. It is one habit — the willingness to examine every belief they hold.",exc_ar:"ليس الذكاء. ليس الموهبة. إنها عادة واحدة — الاستعداد لفحص كل معتقد يحملونه.",date:"JAN 2026",read:"10 MIN"},
+];
+
+const SOCIALS = [
+  {name:"Instagram",handle:"@vexoria07",url:"https://www.instagram.com/vexoria07/",desc_en:"Daily insights and cognitive sparks for rare minds.",desc_ar:"رؤى يومية وشرارات معرفية للعقول النادرة.",
+   svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="var(--gold)" stroke-width="1.5"/><circle cx="12" cy="12" r="5" stroke="var(--gold)" stroke-width="1.3"/><circle cx="17.5" cy="6.5" r="1.2" fill="var(--gold)"/></svg>`},
+  {name:"Facebook",handle:"vexoria.027",url:"https://www.facebook.com/vexoria.027",desc_en:"Long-form content and community discussions.",desc_ar:"محتوى مطوّل ونقاشات مجتمعية.",
+   svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`},
+  {name:"TikTok",handle:"@vexoria_027",url:"https://www.tiktok.com/@vexoria_027",desc_en:"Short-form philosophy and psychological insights.",desc_ar:"فلسفة مقتضبة ورؤى نفسية.",
+   svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12V3H18C18.3333 5 20 7 22 8V11C20.5 11 19 10.5 18 10V16C18 19.3137 15.3137 22 12 22C8.68629 22 6 19.3137 6 16C6 12.6863 8.68629 10 12 10" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`},
+  {name:"YouTube",handle:"@VEXORIA07",url:"https://www.youtube.com/@VEXORIA07",desc_en:"Deep-dive sessions and system breakdowns.",desc_ar:"جلسات عميقة وشرح مفصّل للأنظمة.",
+   svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M22.54 6.42C22.4212 5.94541 22.1793 5.51057 21.8387 5.15941C21.498 4.80824 21.0708 4.55318 20.6 4.42C18.88 4 12 4 12 4C12 4 5.12 4 3.4 4.46C2.92925 4.59318 2.50198 4.84824 2.16135 5.19941C1.82072 5.55057 1.57879 5.98541 1.46 6.46C1.14521 8.20556 0.991235 9.97631 1 11.75C0.988787 13.537 1.14277 15.3213 1.46 17.08C1.59096 17.5398 1.83831 17.9581 2.17814 18.2945C2.51798 18.6308 2.93882 18.8738 3.4 19C5.12 19.46 12 19.46 12 19.46C12 19.46 18.88 19.46 20.6 19C21.0708 18.8668 21.498 18.6118 21.8387 18.2606C22.1793 17.9094 22.4212 17.4746 22.54 17C22.8524 15.2676 23.0063 13.5103 23 11.75C23.0112 9.96295 22.8573 8.1787 22.54 6.42Z" stroke="var(--gold)" stroke-width="1.5"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" stroke="var(--gold)" stroke-width="1.5" stroke-linejoin="round"/></svg>`},
+  {name:"Telegram",handle:"@vexoria_027",url:"https://t.me/vexoria_027",desc_en:"Exclusive content and direct access to systems.",desc_ar:"محتوى حصري ووصول مباشر إلى الأنظمة.",
+   svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21.9 4.5L18.5 19.8C18.3 20.8 17.6 21 16.7 20.6L11.7 16.9L9.3 19.2C9 19.5 8.8 19.7 8.3 19.7L8.7 14.5L18.3 5.8C18.7 5.4 18.2 5.2 17.6 5.6L5.2 14.3L0.4 12.8C-0.6 12.5 -0.6 11.9 0.6 11.4L20.5 3.2C21.4 2.9 22.1 3.4 21.9 4.5Z" stroke="var(--gold)" stroke-width="1.4" fill="none"/></svg>`},
+  {name:"X / Twitter",handle:"@VEXORIA_07",url:"https://x.com/VEXORIA_07",desc_en:"Sharp thoughts and one-line philosophies.",desc_ar:"أفكار حادة وفلسفات في سطر واحد.",
+   svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="var(--gold)"/></svg>`},
+  {name:"Threads",handle:"@vexoria07",url:"https://www.threads.com/@vexoria07",desc_en:"Conversations and ideas in progress.",desc_ar:"محادثات وأفكار في طور التشكّل.",
+   svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12.186 24h-.007C5.339 24 0 18.695 0 12.174V11.826C0 5.305 5.339 0 12.179 0h.014C18.876 0 24 5.39 24 11.88v.24C24 18.61 18.876 24 12.193 24h-.007zM12 2.4C6.698 2.4 2.4 6.698 2.4 12c0 5.302 4.298 9.6 9.6 9.6 5.302 0 9.6-4.298 9.6-9.6 0-5.302-4.298-9.6-9.6-9.6z" fill="var(--gold)" fill-opacity=".3"/><path d="M16.5 12.5c0 2.485-2.015 4.5-4.5 4.5S7.5 14.985 7.5 12.5v-1c0-2.485 2.015-4.5 4.5-4.5.8 0 1.553.209 2.207.576" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12.5" r="1.5" fill="var(--gold)"/></svg>`},
+  {name:"Pinterest",handle:"@vexoria_07",url:"https://www.pinterest.com/vexoria_07/",desc_en:"Visual inspiration and curated knowledge boards.",desc_ar:"إلهام بصري ولوحات معرفية منتقاة.",
+   svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.477 2 2 6.477 2 12C2 16.236 4.636 19.854 8.356 21.312C8.268 20.562 8.188 19.406 8.385 18.582L9.557 13.588C9.557 13.588 9.225 12.924 9.225 11.932C9.225 10.364 10.133 9.192 11.262 9.192C12.221 9.192 12.682 9.912 12.682 10.774C12.682 11.74 12.062 13.19 11.742 14.536C11.474 15.665 12.302 16.586 13.412 16.586C15.426 16.586 16.965 14.472 16.965 11.464C16.965 8.8 15.056 6.938 12.316 6.938C9.148 6.938 7.275 9.328 7.275 11.798C7.275 12.768 7.644 13.808 8.109 14.374C8.2 14.478 8.213 14.57 8.186 14.676L7.797 16.256C7.745 16.468 7.632 16.512 7.41 16.408C6.015 15.758 5.139 13.698 5.139 11.754C5.139 8.22 7.687 4.972 12.611 4.972C16.564 4.972 19.657 7.824 19.657 11.412C19.657 15.17 17.287 18.196 13.966 18.196C12.818 18.196 11.739 17.59 11.371 16.878L10.614 19.758C10.335 20.826 9.603 22.168 9.11 23C10.04 23.276 11.011 23.424 12.016 23.424C17.543 23.424 22.02 18.947 22.02 13.42C22.02 7.893 17.543 2 12.016 2H12Z" stroke="var(--gold)" stroke-width="1.4" fill="none"/></svg>`},
+  {name:"Reddit",handle:"u/VEXORIA07",url:"https://www.reddit.com/user/VEXORIA07/",desc_en:"Deep discussions and community threads.",desc_ar:"نقاشات عميقة وخيوط مجتمعية.",
+   svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="var(--gold)" stroke-width="1.4"/><path d="M20 12C20 12 18 10 16 10M4 12C4 12 6 10 8 10" stroke="var(--gold)" stroke-width="1.3" stroke-linecap="round"/><circle cx="12" cy="7" r="2" stroke="var(--gold)" stroke-width="1.2"/><path d="M8 12C8 12 8 16 12 16C16 16 16 12 16 12" stroke="var(--gold)" stroke-width="1.3" fill="none" stroke-linecap="round"/><circle cx="9.5" cy="13" r="1" fill="var(--gold)"/><circle cx="14.5" cy="13" r="1" fill="var(--gold)"/><line x1="12" y1="7" x2="14" y2="10" stroke="var(--gold)" stroke-width="1" stroke-linecap="round"/></svg>`},
+  {name:"WhatsApp",handle:"VEXORIA Group",url:"https://chat.whatsapp.com/KfoHDNzJpOJBlVzcWltbYp",desc_en:"Join the private VEXORIA community group.",desc_ar:"انضم إلى مجموعة VEXORIA الخاصة.",
+   svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.9C9.87812 3.30493 11.1801 2.99656 12.5 3H13C15.0843 3.11499 17.053 3.99476 18.5291 5.47086C20.0052 6.94696 20.885 8.91565 21 11V11.5Z" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`},
+  {name:"Telegram Channel",handle:"@vexoria_027",url:"https://t.me/vexoria_027",desc_en:"Broadcast channel — announcements and launches.",desc_ar:"قناة بث — إعلانات وإطلاقات.",
+   svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21.9 4.5L18.5 19.8C18.3 20.8 17.6 21 16.7 20.6L11.7 16.9L9.3 19.2C9 19.5 8.8 19.7 8.3 19.7L8.7 14.5L18.3 5.8C18.7 5.4 18.2 5.2 17.6 5.6L5.2 14.3L0.4 12.8C-0.6 12.5 -0.6 11.9 0.6 11.4L20.5 3.2C21.4 2.9 22.1 3.4 21.9 4.5Z" stroke="var(--gold)" stroke-width="1.4" fill="none"/><path d="M9 19.7 L9.3 15.2 L13 18" stroke="var(--gold)" stroke-width="1" fill="none" stroke-linecap="round"/></svg>`},
+  {name:"Email",handle:"vexoria_027@outlook.com",url:"mailto:vexoria_027@outlook.com",desc_en:"For orders, questions, and collaborations.",desc_ar:"للطلبات والاستفسارات والتعاون.",
+   svg:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="var(--gold)" stroke-width="1.5"/><path d="M2 8L12 14L22 8" stroke="var(--gold)" stroke-width="1.3" fill="none"/></svg>`},
+];
+
+// ════════════════════════════════════════
+// BUILDERS
+// ════════════════════════════════════════
+
+function buildTicker(){
+  const el = document.getElementById('tickerInner');
+  const doubled = [...TICKER_ITEMS,...TICKER_ITEMS];
+  el.innerHTML = doubled.map(t=>`<span class="tick-item">${isAR?t.ar:t.en}</span><span class="tick-item tick-dot">◆</span>`).join('');
+}
+
+function buildProblems(){
+  document.getElementById('problemList').innerHTML = PROBLEMS.map((p,i)=>`
+    <li class="prob-item reveal">
+      <span class="prob-num">0${i+1}</span>
+      <span class="prob-text${isAR?' ar':''}">${isAR?p.ar:p.en}</span>
+    </li>`).join('');
+  bindReveal();
+}
+
+function buildSysGrid(){
+  document.getElementById('sysGrid').innerHTML = DOMAINS.map((d,i)=>`
+    <div class="sys-card">
+      <span class="sys-count">${d.count} ${isAR?'نظام':'SYSTEMS'}</span>
+      <span class="sys-icon-svg">${DOMAIN_SVGS[d.svgIdx]}</span>
+      <div class="sys-name${isAR?' ar':''}">${isAR?d.ar:d.en}</div>
+      <div class="sys-desc${isAR?' ar':''}">${isAR?d.desc_ar:d.desc_en}</div>
+    </div>`).join('');
+}
+
+function buildProducts(){
+  document.getElementById('productsContainer').innerHTML = DOMAINS.map((d,di)=>{
+    const prods = PRODUCTS[di];
+    const domainPrices = PRICES[di]||[];
+    const cards = prods.map((p,pi)=>{
+      const s = p.stars;
+      const full = Math.floor(s);
+      const half = (s%1)>=.5?1:0;
+      const sh = '★'.repeat(full)+(half?'½':'')+('☆'.repeat(5-full-half));
+      const price = domainPrices[pi]||19;
+      const pName = isAR?p.ar:p.en;
+      return `<div class="prod-card">
+        <div class="prod-cover">${makeCoverSVG(di,pi,p.en,d.en)}</div>
+        <div class="prod-body">
+          <div class="prod-name${isAR?' ar':''}">${pName}</div>
+          <div class="prod-goal${isAR?' ar':''}">${isAR?p.goal_ar:p.goal_en}</div>
+          <div class="prod-meta">
+            <div class="prod-stars"><span class="stars">${'★'.repeat(full)}${'☆'.repeat(5-full)}</span><span class="stars-num">${s}</span></div>
+            <div class="prod-price">$${price}</div>
+          </div>
+          <div class="prod-actions">
+            <button class="prod-btn primary" onclick="openModal('${pName.replace(/'/g,"\\'")}','${price}')">${isAR?'احصل عليه':'GET'}</button>
+            <button class="prod-btn" onclick="openModal('${pName.replace(/'/g,"\\'")}','${price}')">${isAR?'Arabic':'عربي'}</button>
+            <button class="prod-btn" onclick="openModal('${pName.replace(/'/g,"\\'")}','${price}')">${isAR?'لغة أخرى بالطلب':'Other Language'}</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="domain-sec">
+      <div class="domain-header">
+        <span class="domain-icon-svg">${DOMAIN_SVGS[d.svgIdx]}</span>
+        <span class="domain-name${isAR?' ar':''}">${isAR?d.ar:d.en}</span>
+        <span class="domain-count">${d.count} ${isAR?'نظام':'SYSTEMS'}</span>
+      </div>
+      <div class="products-grid">${cards}</div>
+    </div>`;
+  }).join('');
+}
+
+function buildAbout(){
+  // VX logo SVG
+  document.getElementById('aboutAvatar').innerHTML = `
+    <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+      <circle cx="40" cy="40" r="38" stroke="rgba(196,154,60,.35)" stroke-width="1"/>
+      <circle cx="40" cy="40" r="32" stroke="rgba(196,154,60,.15)" stroke-width=".8"/>
+      <path d="M15 22 L30 22 L40 50 L50 22 L65 22 L50 58 L30 58 Z" stroke="var(--gold2)" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+      <circle cx="40" cy="40" r="8" fill="rgba(196,154,60,.08)" stroke="rgba(196,154,60,.3)" stroke-width=".8"/>
+    </svg>`;
+  document.getElementById('aboutRole').textContent = isAR ? 'مؤسس · مهندس عقول' : 'Founder · Mind Architect';
+  document.getElementById('aboutRole').className = isAR ? 'about-role reveal ar' : 'about-role reveal';
+  document.getElementById('manifestoQ').className = isAR ? 'manifesto-q ar' : 'manifesto-q';
+  document.getElementById('manifestoQ').innerHTML = isAR
+    ? '"معظم المحتوى يعلمك ماذا تفكر.<br>VEXORIA تريك كيف تفكر بالفعل."'
+    : '"Most content teaches you what to think.<br>VEXORIA shows you how you are already thinking."';
+  document.getElementById('manifestoA').className = isAR ? 'manifesto-a ar' : 'manifesto-a';
+  document.getElementById('manifestoA').textContent = isAR
+    ? 'هذه الفجوة — بين ما تعتقد أنك تؤمن به، وما يحرك سلوكك فعلاً — هي المكان الذي تعيش فيه VEXORIA.'
+    : 'That gap — between what you think you believe, and what actually drives your behavior — is where VEXORIA lives.';
+  document.getElementById('aboutBlocks').innerHTML = ABOUT_BLOCKS.map(b=>`
+    <div class="about-block">
+      <span class="about-block-label">${isAR?b.label_ar:b.label_en}</span>
+      <p class="about-block-text${isAR?' ar':''}">${isAR?b.ar:b.en}</p>
+    </div>`).join('');
+}
+
+function buildArticles(){
+  document.getElementById('articlesGrid').innerHTML = ARTICLES.map(a=>`
+    <div class="article-card">
+      <span class="art-cat">${isAR?a.cat_ar:a.cat_en}</span>
+      <h3 class="art-title${isAR?' ar':''}">${isAR?a.ar:a.en}</h3>
+      <p class="art-excerpt${isAR?' ar':''}">${isAR?a.exc_ar:a.exc_en}</p>
+      <div class="art-meta"><span>${a.date}</span><span class="art-read">${a.read} READ →</span></div>
+    </div>`).join('');
+}
+
+function buildSocials(){
+  document.getElementById('socialsGrid').innerHTML = SOCIALS.map(s=>`
+    <a href="${s.url}" target="_blank" class="soc-card">
+      <div class="soc-icon-wrap">${s.svg}</div>
+      <div class="soc-info">
+        <div class="soc-name">${s.name}</div>
+        <div class="soc-handle">${s.handle}</div>
+        <div class="soc-desc">${isAR?s.desc_ar:s.desc_en}</div>
+      </div>
+    </a>`).join('');
+}
+
+function buildFooters(){
+  const txt = isAR ? 'هندسة معرفية لبناء هوية إنسانية نادرة.' : 'Cognitive Architecture for a Rare Human Identity.';
+  ['footCopy','footCopy2'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){el.textContent=txt;el.className=isAR?'foot-copy ar':'foot-copy';}
+  });
+}
+
+function buildAll(){
+  buildTicker(); buildProblems(); buildSysGrid();
+  buildProducts(); buildAbout(); buildArticles(); buildSocials(); buildFooters();
+  buildRevealTexts();
+}
+
+function buildRevealTexts(){
+  document.querySelectorAll('[data-en],[data-ar]').forEach(el=>{
+    const val = isAR ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+    if(val!==null) el.innerHTML = val;
+  });
+  document.querySelectorAll('[data-placeholder-en]').forEach(el=>{
+    el.placeholder = isAR ? el.getAttribute('data-placeholder-ar') : el.getAttribute('data-placeholder-en');
+  });
+}
+
+// ════ PAGE NAV ════
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const nl=document.getElementById('nl-'+name);
+  if(nl) nl.classList.add('active');
+  window.scrollTo(0,0);
+  setTimeout(bindReveal,100);
+}
+
+// ════ LANG ════
+function toggleLang(){
+  isAR=!isAR;
+  document.getElementById('langBtn').textContent=isAR?'English':'عربي';
+  document.documentElement.lang=isAR?'ar':'en';
+  document.documentElement.dir=isAR?'rtl':'ltr';
+  buildAll(); bindReveal();
+}
+
+// ════ THEME ════
+function toggleTheme(){
+  const dark=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',dark?'light':'dark');
+  document.getElementById('themeLabel').textContent=dark?'DARK':'LIGHT';
+}
+
+// ════ REVEAL ════
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:.08});
+function bindReveal(){document.querySelectorAll('.reveal').forEach(el=>io.observe(el));}
+
+// ════ MODAL ════
+function openModal(name, price){
+  const m=document.getElementById('modalOverlay');
+  document.getElementById('modalProductName').textContent=name+(price?` — $${price}`:'');
+  document.getElementById('modalTitle').textContent=isAR?'احصل على هذا النظام':'Get This System';
+  document.getElementById('modalSub').textContent=isAR?'تواصل معنا مباشرة للحصول على نظامك.':'Contact us directly to receive your system.';
+  m.classList.add('open');
+}
+function closeModal(e){
+  if(!e||e.target.id==='modalOverlay') document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// ════ EMAIL ════
+function submitEmail(){
+  const v=document.getElementById('emailInput').value;
+  if(!v) return;
+  document.getElementById('emailInput').value='';
+  document.getElementById('emailInput').placeholder=isAR?'✓ شكراً — وصل طلبك':'✓ Thank you — you are in';
+}
+
+// ════ CURSOR ════
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop);})();
+
+// ════ CANVAS ════
+const canvas=document.getElementById('bgc'),ctx=canvas.getContext('2d');
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight;}
+resize(); window.addEventListener('resize',resize);
+class Ember{
+  reset(i){this.x=Math.random()*innerWidth;this.y=i?Math.random()*innerHeight:innerHeight+4;this.vx=(Math.random()-.5)*.35;this.vy=-(Math.random()*.5+.1);this.r=Math.random()*1.1+.2;this.a=Math.random()*.15+.02;this.life=0;this.max=Math.random()*220+80;}
+  constructor(){this.reset(true);}
+  step(){this.x+=this.vx+Math.sin(this.life*.05)*.1;this.y+=this.vy;this.life++;const t=this.life/this.max;this.ca=t<.2?this.a*(t/.2):t>.75?this.a*((1-t)/.25):this.a;if(this.life>this.max)this.reset();}
+  draw(){const dark=document.documentElement.getAttribute('data-theme')==='dark';ctx.save();ctx.globalAlpha=this.ca;ctx.fillStyle=dark?'rgb(196,154,60)':'rgb(138,94,26)';ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fill();ctx.restore();}
+}
+const embers=[];for(let i=0;i<60;i++)embers.push(new Ember());
+(function loop(){ctx.clearRect(0,0,innerWidth,innerHeight);embers.forEach(e=>{e.step();e.draw();});requestAnimationFrame(loop);})();
+
+// ════ LOADER ════
+window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('loader').classList.add('gone'),2000);});
+
+// ════ INIT ════
+buildAll();
+setTimeout(bindReveal,300);
+</script>
+</body>
+</html>

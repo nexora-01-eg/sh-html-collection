@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEXORIA — Building The Rare Human</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Naskh+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f0e8;--bg2:#ede6d6;--bg3:#e4dbc8;--bg4:#d8cdb5;
+  --text:#2c1f0e;--text2:#4a3520;--text3:#6b4f2e;
+  --muted:#8c6d45;--faint:#b8965a;
+  --gold:#9a6e2a;--gold2:#c49a3c;--gold3:#e8c060;--gold-hi:#f5d878;
+  --border:rgba(154,110,42,.18);--border2:rgba(154,110,42,.10);
+  --card-bg:rgba(237,230,214,.7);--nav-bg:rgba(245,240,232,.96);
+  --shadow:rgba(44,31,14,.08);--inv-label:#6b4f2e;
+}
+[data-theme="dark"]{
+  --bg:#0f0d08;--bg2:#141108;--bg3:#1a160d;--bg4:#201a0f;
+  --text:#f5f0e8;--text2:#e4dbc8;--text3:#c8b48a;
+  --muted:#8c6d45;--faint:#5a3d18;
+  --gold:#e8c060;--gold2:#c49a3c;--gold3:#9a6e2a;--gold-hi:#f5f0e8;
+  --border:rgba(232,192,96,.15);--border2:rgba(232,192,96,.08);
+  --card-bg:rgba(20,17,8,.8);--nav-bg:rgba(10,8,5,.97);
+  --shadow:rgba(0,0,0,.4);--inv-label:#8c6d45;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{background:var(--bg);color:var(--text);font-family:'EB Garamond',serif;overflow-x:hidden;cursor:none;transition:background .6s,color .6s;}
+::selection{background:var(--gold2);color:var(--bg);}
+::-webkit-scrollbar{width:2px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--gold2);}
+
+/* CURSOR */
+#cur{position:fixed;width:6px;height:6px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s,background .3s;}
+#curR{position:fixed;width:22px;height:22px;border:1px solid var(--gold2);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.4;transition:width .2s,height .2s,opacity .2s,border-color .3s;}
+body:has(a:hover) #curR,body:has(button:hover) #curR{width:40px;height:40px;opacity:.2;}
+
+#bgc{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;transition:opacity .6s;}
+[data-theme="dark"] #bgc{opacity:1;}
+
+/* NAV */
+.theme-switch{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-size:10px;letter-spacing:2px;color:var(--muted);cursor:none;}
+.switch-track{width:44px;height:22px;border-radius:11px;background:var(--bg3);border:1px solid var(--border);position:relative;cursor:none;transition:background .4s,border-color .4s;flex-shrink:0;}
+.switch-thumb{position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--gold2);transition:transform .4s cubic-bezier(.34,1.56,.64,1),background .4s;}
+[data-theme="dark"] .switch-thumb{transform:translateX(22px);background:var(--gold);}
+.switch-label{font-size:9px;letter-spacing:3px;color:var(--inv-label);transition:color .4s;}
+.lang-btn{font-family:'Playfair Display',serif;font-size:9px;letter-spacing:3px;color:var(--muted);background:transparent;border:1px solid var(--border);padding:6px 14px;cursor:none;transition:all .3s;}
+.lang-btn:hover{border-color:var(--gold2);color:var(--gold);}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:20px 64px;display:flex;align-items:center;justify-content:space-between;gap:24px;background:var(--nav-bg);border-bottom:1px solid var(--border2);backdrop-filter:blur(12px);transition:background .6s,border-color .6s;}
+.nav-logo{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;letter-spacing:8px;color:var(--gold);text-decoration:none;cursor:none;transition:color .3s;white-space:nowrap;}
+.nav-logo:hover{color:var(--gold2);}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{font-family:'Playfair Display',serif;font-size:9px;letter-spacing:3px;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);}
+.nav-right{display:flex;align-items:center;gap:18px;}
+
+/* PAGES */
+.page{display:none;min-height:100vh;position:relative;z-index:1;}
+.page.active{display:block;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes shimmer{0%{background-position:0% center;}100%{background-position:200% center;}}
+@keyframes breathe{0%,100%{text-shadow:0 0 20px rgba(196,154,60,.4),0 0 60px rgba(154,110,42,.2);}50%{text-shadow:0 0 40px rgba(196,154,60,.7),0 0 100px rgba(154,110,42,.35);}}
+@keyframes pulse{0%,100%{opacity:.25;}50%{opacity:.7;}}
+@keyframes floatQ{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+@keyframes tickerMove{0%{transform:translateX(0);}100%{transform:translateX(-50%)}}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s;}
+.reveal.vis{opacity:1;transform:translateY(0);}
+.reveal-d1{transition-delay:.1s;}.reveal-d2{transition-delay:.2s;}.reveal-d3{transition-delay:.3s;}
+
+/* COMMON */
+.sec{max-width:1200px;margin:0 auto;padding:90px 64px;}
+.sec-eyebrow{font-family:'Playfair Display',serif;font-size:9px;letter-spacing:7px;color:var(--faint);display:block;margin-bottom:16px;transition:color .4s;}
+.sec-title{font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(24px,3.5vw,44px);letter-spacing:.04em;color:var(--text);line-height:1.2;margin-bottom:20px;transition:color .4s;}
+.sec-title em{font-style:italic;color:var(--gold);}
+.sec-body{font-family:'EB Garamond',serif;font-size:18px;font-weight:400;color:var(--text3);line-height:1.9;max-width:640px;transition:color .4s;}
+.gold-rule{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gold2) 25%,var(--gold3) 50%,var(--gold2) 75%,transparent);opacity:.3;}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:130px 40px 100px;position:relative;overflow:hidden;}
+#hero::before{content:'';position:absolute;width:600px;height:600px;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(196,154,60,.06) 0%,transparent 70%);pointer-events:none;}
+.hero-eyebrow{font-family:'Playfair Display',serif;font-size:9px;letter-spacing:9px;color:var(--faint);margin-bottom:40px;opacity:0;animation:fadeUp .8s .2s forwards;transition:color .4s;}
+.hero-title{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(58px,11vw,140px);letter-spacing:.22em;line-height:1;background:linear-gradient(135deg,var(--gold3),var(--gold2),var(--gold),var(--gold2),var(--gold3));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fadeUp .8s .35s forwards,shimmer 6s 1s linear infinite,breathe 4.5s 1s ease-in-out infinite;opacity:0;white-space:nowrap;}
+.hero-divider{display:flex;align-items:center;gap:16px;margin:32px 0;opacity:0;animation:fadeUp .8s .5s forwards;}
+.hdline{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold2));opacity:.5;}
+.hdline.r{background:linear-gradient(90deg,var(--gold2),transparent);}
+.hddot{width:3px;height:3px;background:var(--gold2);border-radius:50%;opacity:.6;}
+.hero-sub{font-family:'EB Garamond',serif;font-style:italic;font-size:clamp(16px,2.2vw,22px);font-weight:400;color:var(--text3);max-width:560px;line-height:1.8;opacity:0;animation:fadeUp .8s .65s forwards;transition:color .4s;}
+.hero-sub strong{font-style:normal;font-weight:500;color:var(--text);}
+.hero-cta{margin-top:48px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp .8s .85s forwards;}
+.btn-fill{font-family:'Playfair Display',serif;font-size:9px;letter-spacing:4px;color:var(--bg);background:linear-gradient(135deg,var(--gold2),var(--gold3),var(--gold2));background-size:200% auto;padding:14px 38px;border:none;cursor:none;text-decoration:none;display:inline-block;transition:background-position .4s,transform .25s;}
+.btn-fill:hover{background-position:right center;transform:translateY(-2px);}
+.btn-outline{font-family:'Playfair Display',serif;font-size:9px;letter-spacing:4px;color:var(--gold);background:transparent;padding:13px 38px;border:1px solid var(--border);cursor:none;text-decoration:none;display:inline-block;transition:all .3s;}
+.btn-outline:hover{border-color:var(--gold2);color:var(--gold2);transform:translateY(-2px);}
+.scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;opacity:0;animation:fadeUp .8s 1.2s forwards;}
+.scroll-hint span{font-family:'Playfair Display',serif;font-size:7px;letter-spacing:4px;color:var(--faint);}
+.scr-line{width:1px;height:32px;background:linear-gradient(180deg,var(--gold2),transparent);animation:pulse 2s ease-in-out infinite;}
+
+/* IDEA */
+.idea-wrap{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;margin-top:52px;}
+.idea-quote{font-family:'Cormorant',serif;font-style:italic;font-weight:300;font-size:clamp(22px,2.8vw,34px);line-height:1.6;color:var(--text2);border-left:2px solid var(--gold2);padding-left:28px;animation:floatQ 6s ease-in-out infinite;transition:color .4s,border-color .4s;}
+.idea-quote[lang="ar"]{border-left:none;border-right:2px solid var(--gold2);padding-left:0;padding-right:28px;text-align:right;font-family:'Noto Naskh Arabic',serif;font-style:normal;font-size:clamp(18px,2.2vw,26px);}
+.idea-text p{font-family:'EB Garamond',serif;font-size:17px;color:var(--text3);line-height:1.9;margin-bottom:18px;transition:color .4s;}
+.idea-text p[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-size:16px;direction:rtl;text-align:right;}
+.idea-text strong{color:var(--text);font-weight:500;}
+
+/* QUOTES */
+.quotes-ticker{overflow:hidden;position:relative;margin-top:40px;}
+.quotes-ticker::before,.quotes-ticker::after{content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none;}
+.quotes-ticker::before{left:0;background:linear-gradient(90deg,var(--bg),transparent);}
+.quotes-ticker::after{right:0;background:linear-gradient(270deg,var(--bg),transparent);}
+.ticker-track{display:flex;gap:0;animation:tickerMove 60s linear infinite;width:max-content;}
+.ticker-track:hover{animation-play-state:paused;}
+.ticker-item{font-family:'EB Garamond',serif;font-style:italic;font-size:15px;color:var(--text3);white-space:nowrap;padding:0 36px;border-right:1px solid var(--border2);transition:color .3s;}
+.ticker-item[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;font-size:14px;}
+.ticker-item:hover{color:var(--gold);}
+.q-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;margin-top:48px;background:var(--border2);}
+.q-card{background:var(--card-bg);padding:36px 28px;transition:background .3s;position:relative;overflow:hidden;}
+.q-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);opacity:0;transition:opacity .4s;}
+.q-card:hover{background:var(--bg2);}
+.q-card:hover::before{opacity:.6;}
+.q-mark-sm{font-family:'Cormorant',serif;font-size:52px;font-weight:300;color:var(--gold3);line-height:.6;display:block;margin-bottom:12px;opacity:.35;}
+.q-text{font-family:'EB Garamond',serif;font-style:italic;font-size:16px;color:var(--text2);line-height:1.75;transition:color .4s;}
+.q-text[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;font-size:15px;direction:rtl;text-align:right;}
+.q-card:hover .q-text{color:var(--text);}
+
+/* LEARN */
+.learn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border2);margin-top:48px;}
+.learn-item{background:var(--card-bg);padding:40px 28px;transition:background .3s;cursor:default;}
+.learn-item:hover{background:var(--bg2);}
+.learn-num{font-family:'Playfair Display',serif;font-size:11px;letter-spacing:3px;color:var(--gold3);margin-bottom:14px;display:block;transition:color .4s;}
+.learn-title{font-family:'Playfair Display',serif;font-size:14px;font-weight:500;color:var(--text);margin-bottom:10px;transition:color .4s;line-height:1.4;}
+.learn-title[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-size:15px;direction:rtl;text-align:right;}
+.learn-body{font-family:'EB Garamond',serif;font-style:italic;font-size:14.5px;color:var(--muted);line-height:1.65;transition:color .4s;}
+.learn-body[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;font-size:14px;direction:rtl;text-align:right;}
+
+/* WHY */
+.why-wrap{background:var(--bg2);border:1px solid var(--border);padding:72px;margin-top:52px;position:relative;overflow:hidden;transition:background .4s,border-color .4s;}
+.why-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);opacity:.4;}
+.why-wrap::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);opacity:.4;}
+.why-title{font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(22px,3vw,40px);color:var(--gold);margin-bottom:28px;line-height:1.3;transition:color .4s;}
+.why-title[lang="ar"]{font-family:'Noto Naskh Arabic',serif;direction:rtl;text-align:right;}
+.why-body{font-family:'EB Garamond',serif;font-size:18px;color:var(--text3);line-height:1.95;max-width:700px;transition:color .4s;}
+.why-body[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-size:17px;direction:rtl;text-align:right;}
+.why-body em{font-style:normal;color:var(--text);font-weight:500;}
+
+/* SOCIAL */
+.soc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border2);margin-top:48px;}
+.soc-card{background:var(--card-bg);padding:32px 24px;text-decoration:none;cursor:none;transition:background .3s;display:flex;flex-direction:column;gap:12px;}
+.soc-card:hover{background:var(--bg2);}
+.soc-card:hover .soc-name{color:var(--gold);}
+.soc-icon-wrap{width:40px;height:40px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:border-color .3s;}
+.soc-card:hover .soc-icon-wrap{border-color:var(--gold2);}
+.soc-svg{width:18px;height:18px;fill:var(--gold2);transition:fill .3s;}
+.soc-card:hover .soc-svg{fill:var(--gold);}
+.soc-name{font-family:'Playfair Display',serif;font-size:10px;letter-spacing:3px;color:var(--text2);transition:color .3s;}
+.soc-handle{font-family:'EB Garamond',serif;font-style:italic;font-size:13px;color:var(--muted);}
+.soc-desc{font-family:'EB Garamond',serif;font-style:italic;font-size:12.5px;color:var(--faint);line-height:1.5;}
+.soc-arrow{font-family:'Playfair Display',serif;font-size:8px;letter-spacing:2px;color:var(--gold3);margin-top:4px;transition:color .3s;}
+.soc-card:hover .soc-arrow{color:var(--gold);}
+
+/* ══ STORE ══ */
+.store-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border2);margin-top:48px;}
+.store-card{background:var(--card-bg);padding:48px 36px;position:relative;overflow:hidden;transition:background .4s;display:flex;flex-direction:column;gap:16px;}
+.store-card:hover{background:var(--bg2);}
+.store-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);opacity:0;transition:opacity .4s;}
+.store-card:hover::before{opacity:.7;}
+.store-badge{font-family:'Playfair Display',serif;font-size:8px;letter-spacing:4px;color:var(--bg);background:var(--gold2);padding:5px 14px;display:inline-block;width:fit-content;}
+.store-badge.soon{background:var(--border);color:var(--muted);}
+.store-title{font-family:'Playfair Display',serif;font-weight:600;font-size:20px;color:var(--text);line-height:1.3;transition:color .4s;}
+.store-title[lang="ar"]{font-family:'Noto Naskh Arabic',serif;direction:rtl;text-align:right;}
+.store-desc{font-family:'EB Garamond',serif;font-style:italic;font-size:16px;color:var(--text3);line-height:1.7;flex:1;transition:color .4s;}
+.store-desc[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;direction:rtl;text-align:right;}
+.store-price{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--gold);letter-spacing:.02em;}
+.store-price span{font-size:14px;font-weight:400;color:var(--muted);margin-left:4px;}
+.store-price.free{color:var(--gold3);}
+.store-threshold{font-family:'EB Garamond',serif;font-style:italic;font-size:13px;color:var(--faint);}
+.store-btn{font-family:'Playfair Display',serif;font-size:9px;letter-spacing:4px;color:var(--bg);background:linear-gradient(135deg,var(--gold2),var(--gold3),var(--gold2));background-size:200% auto;padding:13px 28px;border:none;cursor:none;text-decoration:none;display:inline-block;transition:all .3s;text-align:center;width:100%;}
+.store-btn:hover{background-position:right center;transform:translateY(-2px);}
+.store-btn.disabled{background:var(--bg3);color:var(--muted);cursor:not-allowed;transform:none;}
+.store-features{display:flex;flex-direction:column;gap:7px;}
+.store-features li{font-family:'EB Garamond',serif;font-size:14px;color:var(--text3);list-style:none;padding-left:16px;position:relative;}
+.store-features li::before{content:'—';position:absolute;left:0;color:var(--gold3);font-size:12px;}
+.store-features li[lang="ar"]{padding-left:0;padding-right:16px;direction:rtl;text-align:right;font-family:'Noto Naskh Arabic',serif;}
+.store-features li[lang="ar"]::before{left:auto;right:0;}
+
+/* ══ EMAIL FORM ══ */
+.email-section{background:var(--bg2);border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);position:relative;overflow:hidden;transition:background .4s;}
+.email-section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);opacity:.4;}
+.email-inner{max-width:680px;margin:0 auto;padding:80px 40px;text-align:center;}
+.email-title{font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(22px,3vw,36px);color:var(--text);margin-bottom:14px;line-height:1.3;}
+.email-title em{color:var(--gold);font-style:italic;}
+.email-sub{font-family:'EB Garamond',serif;font-style:italic;font-size:17px;color:var(--text3);line-height:1.8;margin-bottom:40px;}
+.email-form{display:flex;gap:0;max-width:480px;margin:0 auto;}
+.email-input{flex:1;font-family:'EB Garamond',serif;font-size:16px;color:var(--text);background:var(--bg);border:1px solid var(--border);border-right:none;padding:14px 20px;outline:none;transition:border-color .3s,background .4s;}
+.email-input::placeholder{color:var(--muted);font-style:italic;}
+.email-input:focus{border-color:var(--gold2);}
+.email-submit{font-family:'Playfair Display',serif;font-size:9px;letter-spacing:3px;color:var(--bg);background:var(--gold2);border:none;padding:14px 28px;cursor:none;transition:background .3s;white-space:nowrap;}
+.email-submit:hover{background:var(--gold3);}
+.email-note{font-family:'EB Garamond',serif;font-style:italic;font-size:13px;color:var(--faint);margin-top:16px;}
+.email-success{display:none;font-family:'Playfair Display',serif;font-size:11px;letter-spacing:3px;color:var(--gold);margin-top:20px;}
+
+/* TAGLINE / FOOTER */
+.tagline-sec{text-align:center;padding:90px 40px;position:relative;z-index:1;}
+.tagline-text{font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(10px,1.6vw,14px);letter-spacing:10px;background:linear-gradient(90deg,transparent,var(--gold3),var(--gold2),var(--gold),var(--gold2),var(--gold3),transparent);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 5s linear infinite;}
+footer{border-top:1px solid var(--border2);padding:32px 64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;position:relative;z-index:1;transition:border-color .4s;}
+.foot-logo{font-family:'Playfair Display',serif;font-size:10px;letter-spacing:6px;color:var(--faint);}
+.foot-copy{font-family:'EB Garamond',serif;font-style:italic;font-size:12px;color:var(--faint);}
+
+@media(max-width:900px){
+  nav{padding:16px 24px;}.nav-links{display:none;}
+  .sec{padding:64px 24px;}.idea-wrap{grid-template-columns:1fr;gap:40px;}
+  .why-wrap{padding:40px 28px;}footer{padding:28px 24px;}
+  .email-form{flex-direction:column;}.email-input{border-right:1px solid var(--border);border-bottom:none;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div><div id="curR"></div>
+<canvas id="bgc"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#" onclick="showPage('home');return false">VEXORIA</a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home');return false" id="nl-home" class="active" data-en="HOME" data-ar="الرئيسية">HOME</a></li>
+    <li><a href="#" onclick="showPage('home');smoothTo('sec-idea');return false" data-en="PHILOSOPHY" data-ar="الفلسفة">PHILOSOPHY</a></li>
+    <li><a href="#" onclick="showPage('home');smoothTo('sec-quotes');return false" data-en="INSIGHTS" data-ar="رؤى">INSIGHTS</a></li>
+    <li><a href="#" onclick="showPage('store');return false" id="nl-store" data-en="STORE" data-ar="المتجر">STORE</a></li>
+    <li><a href="#" onclick="showPage('home');smoothTo('sec-social');return false" data-en="COMMUNITY" data-ar="المجتمع">COMMUNITY</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">عربي</button>
+    <div class="theme-switch" onclick="toggleTheme()">
+      <span class="switch-label" id="themeLabel">DARK</span>
+      <div class="switch-track"><div class="switch-thumb"></div></div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════ HOME PAGE ══════════ -->
+<div class="page active" id="page-home">
+
+<section id="hero">
+  <p class="hero-eyebrow" data-en="VEXORIA DIGITAL · BUILDING THE RARE HUMAN" data-ar="فيكسوريا ديجيتال · بناء الإنسان النادر">VEXORIA DIGITAL · BUILDING THE RARE HUMAN</p>
+  <h1 class="hero-title">VEXORIA</h1>
+  <div class="hero-divider"><div class="hdline"></div><div class="hddot"></div><div class="hddot" style="opacity:.4;transform:scale(.6)"></div><div class="hddot" style="opacity:.2;transform:scale(.4)"></div><div class="hdline r"></div></div>
+  <p class="hero-sub" data-en="Understand the hidden patterns that govern human life.<br><strong>Short, sharp insights</strong> on thinking errors and human behavior." data-ar="افهم الأنماط الخفية التي تتحكم في حياة البشر.<br><strong>رؤى قصيرة وعميقة</strong> حول أخطاء التفكير والسلوك البشري.">Understand the hidden patterns that govern human life.<br><strong>Short, sharp insights</strong> on thinking errors and human behavior.</p>
+  <div class="hero-cta">
+    <a href="#sec-quotes" class="btn-fill" onclick="smoothTo('sec-quotes');return false" data-en="START READING" data-ar="ابدأ القراءة">START READING</a>
+    <a href="#" class="btn-outline" onclick="showPage('store');return false" data-en="THE STORE" data-ar="المتجر">THE STORE</a>
+  </div>
+  <div class="scroll-hint"><span data-en="SCROLL" data-ar="اسحب">SCROLL</span><div class="scr-line"></div></div>
+</section>
+
+<div style="position:relative;z-index:1;padding:0 64px;"><div class="gold-rule"></div></div>
+
+<!-- PHILOSOPHY -->
+<section id="sec-idea" style="position:relative;z-index:1;">
+<div class="sec">
+  <span class="sec-eyebrow reveal" data-en="THE PHILOSOPHY" data-ar="الفلسفة">THE PHILOSOPHY</span>
+  <h2 class="sec-title reveal" data-en="Most people treat the <em>symptom</em>.<br>We go to the root." data-ar="معظم الناس يعالجون <em>الأعراض</em>.<br>نحن نذهب إلى الجذر.">Most people treat the <em>symptom</em>.<br>We go to the root.</h2>
+  <div class="idea-wrap">
+    <blockquote class="idea-quote reveal reveal-d1" data-en="Most people believe their problems are caused by circumstances. The truth is almost always found in patterns of thinking — invisible, inherited, and unchallenged." data-ar="معظم الناس تعتقد أن مشاكلها بسبب الظروف. لكن الحقيقة غالبًا تكون في طريقة التفكير — أنماط غير مرئية، موروثة، لم يتحدّ أحدها من قبل.">Most people believe their problems are caused by circumstances. The truth is almost always found in patterns of thinking — invisible, inherited, and unchallenged.</blockquote>
+    <div class="idea-text reveal reveal-d2">
+      <p data-en="VEXORIA does not offer motivation. It does not recycle advice. It offers something rarer: <strong>a quiet analysis of the human mind</strong> — exposing the cognitive errors, inherited beliefs, and psychological patterns that run most people's lives without their knowledge." data-ar="VEXORIA لا تقدم تحفيزًا. لا تعيد تدوير النصائح. تقدم شيئًا أنادر: <strong>تحليل هادئ للعقل البشري</strong> — يكشف الأخطاء المعرفية والمعتقدات الموروثة والأنماط النفسية التي تسيّر حياة الناس دون علمهم.">VEXORIA does not offer motivation. It does not recycle advice. It offers something rarer: <strong>a quiet analysis of the human mind</strong> — exposing the cognitive errors, inherited beliefs, and psychological patterns that run most people's lives without their knowledge.</p>
+      <p data-en="<strong>The question is not what is wrong.</strong> The question is why — and that requires depth most content will never reach." data-ar="<strong>السؤال ليس ماذا يحدث.</strong> السؤال هو لماذا — وهذا يتطلب عمقًا لن يصله معظم المحتوى أبدًا."><strong>The question is not what is wrong.</strong> The question is why — and that requires depth most content will never reach.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<div style="position:relative;z-index:1;padding:0 64px;"><div class="gold-rule"></div></div>
+
+<!-- INSIGHTS / QUOTES -->
+<section id="sec-quotes" style="position:relative;z-index:1;">
+<div class="sec">
+  <div style="text-align:center;">
+    <span class="sec-eyebrow reveal" data-en="INSIGHTS" data-ar="رؤى">INSIGHTS</span>
+    <h2 class="sec-title reveal" style="text-align:center;" data-en="Short truths. <em>Deep roots.</em>" data-ar="حقائق قصيرة. <em>جذور عميقة.</em>">Short truths. <em>Deep roots.</em></h2>
+    <p class="sec-body reveal" style="margin:0 auto;text-align:center;" data-en="Each line is a key. Some will unlock something you've known but never named." data-ar="كل سطر هو مفتاح. بعضها سيفتح شيئًا عرفته دائمًا لكنك لم تسمّه قط.">Each line is a key. Some will unlock something you've known but never named.</p>
+  </div>
+  <div class="quotes-ticker reveal"><div class="ticker-track" id="tickerTrack"></div></div>
+  <div class="q-grid reveal" id="qGrid"></div>
+</div>
+</section>
+
+<div style="position:relative;z-index:1;padding:0 64px;"><div class="gold-rule"></div></div>
+
+<!-- LEARN -->
+<section id="sec-learn" style="position:relative;z-index:1;">
+<div class="sec">
+  <span class="sec-eyebrow reveal" data-en="WHAT YOU WILL LEARN" data-ar="ماذا ستتعلم">WHAT YOU WILL LEARN</span>
+  <h2 class="sec-title reveal" data-en="Five skills most people <em>never develop</em>." data-ar="خمس مهارات <em>لا يطوّرها</em> معظم الناس.">Five skills most people <em>never develop</em>.</h2>
+  <div class="learn-grid reveal">
+    <div class="learn-item"><span class="learn-num">01</span><h3 class="learn-title" data-en="Understand Thinking Errors" data-ar="فهم أخطاء التفكير">Understand Thinking Errors</h3><p class="learn-body" data-en="Identify the cognitive distortions that sabotage your decisions before they happen." data-ar="تعرّف على التشوهات المعرفية التي تخرب قراراتك قبل أن تحدث.">Identify the cognitive distortions that sabotage your decisions before they happen.</p></div>
+    <div class="learn-item"><span class="learn-num">02</span><h3 class="learn-title" data-en="Read Human Behavior" data-ar="قراءة السلوك البشري">Read Human Behavior</h3><p class="learn-body" data-en="See the patterns behind what people do — not just what they say." data-ar="رؤية الأنماط خلف ما يفعله الناس — ليس فقط ما يقولونه.">See the patterns behind what people do — not just what they say.</p></div>
+    <div class="learn-item"><span class="learn-num">03</span><h3 class="learn-title" data-en="Avoid Psychological Manipulation" data-ar="تجنّب التلاعب النفسي">Avoid Psychological Manipulation</h3><p class="learn-body" data-en="Recognize the invisible forces that shape your choices without your awareness." data-ar="التعرف على القوى الخفية التي تشكّل اختياراتك دون وعيك.">Recognize the invisible forces that shape your choices without your awareness.</p></div>
+    <div class="learn-item"><span class="learn-num">04</span><h3 class="learn-title" data-en="Build a Powerful Mindset" data-ar="بناء عقلية قوية">Build a Powerful Mindset</h3><p class="learn-body" data-en="Replace inherited assumptions with deliberate, tested beliefs that serve you." data-ar="استبدل الافتراضات الموروثة بمعتقدات مدروسة ومختبرة تخدمك.">Replace inherited assumptions with deliberate, tested beliefs that serve you.</p></div>
+    <div class="learn-item"><span class="learn-num">05</span><h3 class="learn-title" data-en="Think With Clarity" data-ar="التفكير بوضوح">Think With Clarity</h3><p class="learn-body" data-en="Develop the quiet precision that turns complexity into clear, confident action." data-ar="طوّر الدقة الهادئة التي تحوّل التعقيد إلى عمل واضح وواثق.">Develop the quiet precision that turns complexity into clear, confident action.</p></div>
+  </div>
+</div>
+</section>
+
+<div style="position:relative;z-index:1;padding:0 64px;"><div class="gold-rule"></div></div>
+
+<!-- WHY VEXORIA -->
+<section id="sec-why" style="position:relative;z-index:1;">
+<div class="sec">
+  <span class="sec-eyebrow reveal" data-en="WHY VEXORIA" data-ar="لماذا فيكسوريا">WHY VEXORIA</span>
+  <div class="why-wrap reveal">
+    <h2 class="why-title" data-en="VEXORIA is not motivational content. It is quiet surgery on the mind." data-ar="VEXORIA ليس محتوى تحفيزيًا. إنه جراحة هادئة في العقل.">VEXORIA is not motivational content. It is quiet surgery on the mind.</h2>
+    <p class="why-body" data-en="In an age of noise — where motivation is sold cheap and advice is recycled endlessly — VEXORIA offers something most content will never dare to give: <em>depth.</em><br><br>We do not teach you what to think. We show you <em>how you are already thinking</em> — and why that thinking may be the source of every pattern you are trying to escape.<br><br>This is the home of those who refuse to stay ordinary. Those who want to understand, not just consume. Those who are building, quietly and deliberately, <em>the rare version of themselves.</em>" data-ar="في عصر الضجيج — حيث يُباع التحفيز بثمن رخيص وتُعاد النصائح بلا نهاية — تقدم VEXORIA شيئًا لن يجرؤ معظم المحتوى على تقديمه: <em>العمق.</em><br><br>لا نعلمك ماذا تفكر. نريك <em>كيف تفكر بالفعل</em> — ولماذا قد يكون هذا التفكير مصدر كل نمط تحاول الهروب منه.<br><br>هذا هو بيت أولئك الذين يرفضون أن يبقوا عاديين. أولئك الذين يريدون الفهم، لا مجرد الاستهلاك. أولئك الذين يبنون، بهدوء وتأنٍّ، <em>النسخة النادرة من أنفسهم.</em>">In an age of noise — where motivation is sold cheap and advice is recycled endlessly — VEXORIA offers something most content will never dare to give: <em>depth.</em><br><br>We do not teach you what to think. We show you <em>how you are already thinking</em> — and why that thinking may be the source of every pattern you are trying to escape.<br><br>This is the home of those who refuse to stay ordinary. Those who want to understand, not just consume. Those who are building, quietly and deliberately, <em>the rare version of themselves.</em></p>
+  </div>
+</div>
+</section>
+
+<div style="position:relative;z-index:1;padding:0 64px;"><div class="gold-rule"></div></div>
+
+<!-- COMMUNITY -->
+<section id="sec-social" style="position:relative;z-index:1;">
+<div class="sec">
+  <span class="sec-eyebrow reveal" data-en="FIND VEXORIA" data-ar="تواصل معنا">FIND VEXORIA</span>
+  <h2 class="sec-title reveal" data-en="One community. <em>Every platform.</em>" data-ar="مجتمع واحد. <em>كل المنصات.</em>">One community. <em>Every platform.</em></h2>
+  <p class="sec-body reveal" data-en="A space built on respect, depth and love — where every mind is heard." data-ar="مساحة مبنية على الاحترام والعمق والمحبة — حيث يُسمع كل عقل.">A space built on respect, depth and love — where every mind is heard.</p>
+  <div class="soc-grid reveal" id="socGrid"></div>
+</div>
+</section>
+
+<!-- EMAIL SECTION -->
+<section class="email-section" style="position:relative;z-index:1;">
+<div class="email-inner">
+  <h2 class="email-title reveal" data-en="Get exclusive insights.<br><em>Before everyone else.</em>" data-ar="احصل على رؤى حصرية.<br><em>قبل الجميع.</em>">Get exclusive insights.<br><em>Before everyone else.</em></h2>
+  <p class="email-sub reveal" data-en="Join the VEXORIA inner circle. No noise. No recycled advice. Only depth — delivered directly to you." data-ar="انضم إلى الدائرة الداخلية لـ VEXORIA. لا ضجيج. لا نصائح معادة. عمق فقط — يصلك مباشرة.">Join the VEXORIA inner circle. No noise. No recycled advice. Only depth — delivered directly to you.</p>
+  <div class="email-form reveal">
+    <input class="email-input" type="email" id="emailInput" placeholder="Your email address" data-placeholder-en="Your email address" data-placeholder-ar="بريدك الإلكتروني">
+    <button class="email-submit" onclick="submitEmail()" data-en="JOIN" data-ar="انضم">JOIN</button>
+  </div>
+  <p class="email-note reveal" data-en="No spam. Unsubscribe anytime. Your mind deserves better than clutter." data-ar="لا رسائل مزعجة. إلغاء الاشتراك في أي وقت. عقلك يستحق أفضل من الفوضى.">No spam. Unsubscribe anytime. Your mind deserves better than clutter.</p>
+  <p class="email-success" id="emailSuccess" data-en="✦ WELCOME TO THE RARE CIRCLE ✦" data-ar="✦ مرحباً بك في الدائرة النادرة ✦">✦ WELCOME TO THE RARE CIRCLE ✦</p>
+</div>
+</section>
+
+<div class="tagline-sec">
+  <p class="tagline-text" data-en="THINK DEEPER · SEE FURTHER · BECOME RARE" data-ar="فكّر أعمق · شوف أبعد · كن نادراً">THINK DEEPER · SEE FURTHER · BECOME RARE</p>
+</div>
+
+</div><!-- end home page -->
+
+<!-- ══════════ STORE PAGE ══════════ -->
+<div class="page" id="page-store">
+<div style="height:100px;"></div>
+<div class="sec">
+  <span class="sec-eyebrow reveal" data-en="THE VEXORIA STORE" data-ar="متجر فيكسوريا">THE VEXORIA STORE</span>
+  <h2 class="sec-title reveal" data-en="Knowledge that <em>actually changes</em> how you think." data-ar="معرفة <em>تغيّر فعلاً</em> طريقة تفكيرك.">Knowledge that <em>actually changes</em> how you think.</h2>
+  <p class="sec-body reveal" data-en="Each product is built from the VEXORIA content system. Not motivation — architecture for the mind." data-ar="كل منتج مبني من نظام محتوى VEXORIA. ليس تحفيزًا — بل هندسة للعقل.">Each product is built from the VEXORIA content system. Not motivation — architecture for the mind.</p>
+
+  <div class="store-grid">
+
+    <!-- Product 1 — Notion Pack -->
+    <div class="store-card reveal">
+      <span class="store-badge" data-en="AVAILABLE NOW" data-ar="متاح الآن">AVAILABLE NOW</span>
+      <h3 class="store-title" data-en="The VEXORIA Mind System" data-ar="نظام عقل VEXORIA">The VEXORIA Mind System</h3>
+      <p class="store-desc" data-en="A complete Notion workspace — content calendar, thinking journal, habit tracker, goals system. Everything in one place." data-ar="مساحة عمل Notion كاملة — تقويم المحتوى، مجلة التفكير، متتبع العادات، نظام الأهداف. كل شيء في مكان واحد.">A complete Notion workspace — content calendar, thinking journal, habit tracker, goals system. Everything in one place.</p>
+      <ul class="store-features">
+        <li data-en="Content Calendar (AR + EN)" data-ar="تقويم المحتوى (عربي + إنجليزي)">Content Calendar (AR + EN)</li>
+        <li data-en="Thinking Journal Template" data-ar="قالب مجلة التفكير">Thinking Journal Template</li>
+        <li data-en="Ideas Bank Database" data-ar="قاعدة بيانات الأفكار">Ideas Bank Database</li>
+        <li data-en="Goals & Growth Tracker" data-ar="متتبع الأهداف والنمو">Goals & Growth Tracker</li>
+      </ul>
+      <div class="store-price">$9 <span>one-time</span></div>
+      <a href="#" class="store-btn" data-en="GET IT NOW" data-ar="احصل عليه الآن">GET IT NOW</a>
+    </div>
+
+    <!-- Product 2 — eBook 1 -->
+    <div class="store-card reveal reveal-d1">
+      <span class="store-badge soon" data-en="AT 5K FOLLOWERS" data-ar="عند 5 آلاف متابع">AT 5K FOLLOWERS</span>
+      <h3 class="store-title" data-en="50 Psychological Tricks" data-ar="50 حيلة نفسية">50 Psychological Tricks</h3>
+      <p class="store-desc" data-en="The hidden mechanics of human behavior — 50 psychological patterns that govern how people think, decide, and act." data-ar="الميكانيكا الخفية للسلوك البشري — 50 نمطًا نفسيًا يحكم كيف يفكر الناس ويقررون ويتصرفون.">The hidden mechanics of human behavior — 50 psychological patterns that govern how people think, decide, and act.</p>
+      <ul class="store-features">
+        <li data-en="50 core psychological patterns" data-ar="50 نمطًا نفسيًا أساسيًا">50 core psychological patterns</li>
+        <li data-en="Real examples for each pattern" data-ar="أمثلة حقيقية لكل نمط">Real examples for each pattern</li>
+        <li data-en="Arabic + English PDF" data-ar="PDF بالعربي والإنجليزي">Arabic + English PDF</li>
+        <li data-en="40–60 pages, VEXORIA design" data-ar="40-60 صفحة، تصميم VEXORIA">40–60 pages, VEXORIA design</li>
+      </ul>
+      <div class="store-price">$14 <span>PDF</span></div>
+      <a href="#" class="store-btn disabled" data-en="COMING SOON" data-ar="قريباً">COMING SOON</a>
+    </div>
+
+    <!-- Product 3 — eBook 2 -->
+    <div class="store-card reveal reveal-d2">
+      <span class="store-badge soon" data-en="AT 10K FOLLOWERS" data-ar="عند 10 آلاف متابع">AT 10K FOLLOWERS</span>
+      <h3 class="store-title" data-en="How To Read People" data-ar="كيف تقرأ الناس">How To Read People</h3>
+      <p class="store-desc" data-en="A complete field guide to reading personality, body language, and social signals — in any situation." data-ar="دليل ميداني كامل لقراءة الشخصية ولغة الجسد والإشارات الاجتماعية — في أي موقف.">A complete field guide to reading personality, body language, and social signals — in any situation.</p>
+      <ul class="store-features">
+        <li data-en="4 personality archetypes" data-ar="4 نماذج شخصية أساسية">4 personality archetypes</li>
+        <li data-en="Body language decoder" data-ar="فك شفرة لغة الجسد">Body language decoder</li>
+        <li data-en="Social signal patterns" data-ar="أنماط الإشارات الاجتماعية">Social signal patterns</li>
+        <li data-en="50–70 pages, Arabic + English" data-ar="50-70 صفحة، عربي + إنجليزي">50–70 pages, Arabic + English</li>
+      </ul>
+      <div class="store-price">$19 <span>PDF</span></div>
+      <a href="#" class="store-btn disabled" data-en="COMING SOON" data-ar="قريباً">COMING SOON</a>
+    </div>
+
+    <!-- Product 4 — Mini Course -->
+    <div class="store-card reveal">
+      <span class="store-badge soon" data-en="AT 30K FOLLOWERS" data-ar="عند 30 آلاف متابع">AT 30K FOLLOWERS</span>
+      <h3 class="store-title" data-en="Build A Strong Mind" data-ar="ابنِ عقلاً قوياً">Build A Strong Mind</h3>
+      <p class="store-desc" data-en="5-module video course covering the 5 core VEXORIA skills. With PDF workbook and practical exercises." data-ar="دورة فيديو من 5 وحدات تغطي المهارات الخمس الأساسية لـ VEXORIA. مع كتاب تدريبي PDF وتمارين عملية.">5-module video course covering the 5 core VEXORIA skills. With PDF workbook and practical exercises.</p>
+      <ul class="store-features">
+        <li data-en="5 video modules" data-ar="5 وحدات فيديو">5 video modules</li>
+        <li data-en="PDF workbook included" data-ar="كتاب تدريبي PDF مرفق">PDF workbook included</li>
+        <li data-en="Lifetime access" data-ar="وصول مدى الحياة">Lifetime access</li>
+        <li data-en="Arabic + English" data-ar="عربي + إنجليزي">Arabic + English</li>
+      </ul>
+      <div class="store-price">$39 <span>course</span></div>
+      <a href="#" class="store-btn disabled" data-en="COMING SOON" data-ar="قريباً">COMING SOON</a>
+    </div>
+
+    <!-- Product 5 — Full Course -->
+    <div class="store-card reveal reveal-d1">
+      <span class="store-badge soon" data-en="AT 50K FOLLOWERS" data-ar="عند 50 آلاف متابع">AT 50K FOLLOWERS</span>
+      <h3 class="store-title" data-en="Decoding Human Behavior" data-ar="فك شفرة السلوك البشري">Decoding Human Behavior</h3>
+      <p class="store-desc" data-en="The complete VEXORIA system. All 30 content categories, fully structured, with exercises, case studies, and lifetime updates." data-ar="النظام الكامل لـ VEXORIA. جميع الـ 30 فئة محتوى، منظمة بالكامل، مع تمارين ودراسات حالة وتحديثات مدى الحياة.">The complete VEXORIA system. All 30 content categories, fully structured, with exercises, case studies, and lifetime updates.</p>
+      <ul class="store-features">
+        <li data-en="All 30 VEXORIA topics" data-ar="جميع الـ 30 موضوع لـ VEXORIA">All 30 VEXORIA topics</li>
+        <li data-en="Full video + PDF + exercises" data-ar="فيديو + PDF + تمارين كاملة">Full video + PDF + exercises</li>
+        <li data-en="Lifetime access + updates" data-ar="وصول مدى الحياة + تحديثات">Lifetime access + updates</li>
+        <li data-en="VEXORIA's flagship product" data-ar="المنتج الرئيسي لـ VEXORIA">VEXORIA's flagship product</li>
+      </ul>
+      <div class="store-price">$99 <span>course</span></div>
+      <a href="#" class="store-btn disabled" data-en="COMING SOON" data-ar="قريباً">COMING SOON</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- EMAIL IN STORE TOO -->
+<section class="email-section" style="position:relative;z-index:1;">
+<div class="email-inner">
+  <h2 class="email-title reveal" data-en="Be first when products <em>go live.</em>" data-ar="كن أول من يعرف عند <em>إطلاق المنتجات.</em>">Be first when products <em>go live.</em></h2>
+  <p class="email-sub reveal" data-en="Join the list. Get early access, launch discounts, and exclusive VEXORIA insights." data-ar="انضم إلى القائمة. احصل على وصول مبكر وخصومات الإطلاق ورؤى VEXORIA الحصرية.">Join the list. Get early access, launch discounts, and exclusive VEXORIA insights.</p>
+  <div class="email-form reveal">
+    <input class="email-input" type="email" id="emailInput2" placeholder="Your email address" data-placeholder-en="Your email address" data-placeholder-ar="بريدك الإلكتروني">
+    <button class="email-submit" onclick="submitEmail2()" data-en="JOIN" data-ar="انضم">JOIN</button>
+  </div>
+  <p class="email-note reveal" data-en="No spam. Unsubscribe anytime." data-ar="لا رسائل مزعجة. إلغاء الاشتراك في أي وقت.">No spam. Unsubscribe anytime.</p>
+  <p class="email-success" id="emailSuccess2" data-en="✦ YOU ARE ON THE LIST ✦" data-ar="✦ أنت على القائمة ✦">✦ YOU ARE ON THE LIST ✦</p>
+</div>
+</section>
+
+<div class="tagline-sec">
+  <p class="tagline-text" data-en="THINK DEEPER · SEE FURTHER · BECOME RARE" data-ar="فكّر أعمق · شوف أبعد · كن نادراً">THINK DEEPER · SEE FURTHER · BECOME RARE</p>
+</div>
+
+</div><!-- end store page -->
+
+<footer>
+  <span class="foot-logo">VEXORIA</span>
+  <span class="foot-copy" data-en="Cognitive Architecture & Digital Identity" data-ar="هندسة معرفية وهوية رقمية">Cognitive Architecture & Digital Identity</span>
+  <span style="font-family:'Playfair Display',serif;font-size:8px;letter-spacing:3px;color:var(--faint);">© VEXORIA DIGITAL</span>
+</footer>
+
+<script>
+/* ══ QUOTES DATA — AR + EN ══ */
+const quotesAR = [
+"العقل الهادئ يرى ما لا يراه العقل المزدحم.","معظم الأخطاء تبدأ بفكرة لم تُفحص جيدًا.","الإنسان غالبًا يقاوم الحقيقة قبل أن يفهمها.","القرارات الهادئة تدوم أطول من القرارات المتسرعة.","بعض المخاوف تكبر فقط لأننا نتجنب النظر إليها.","العادات البسيطة تبني مصائر كبيرة مع الوقت.","التفكير الواضح يقلل نصف مشكلات الحياة.","الإنسان يرى العالم كما يفكر، لا كما هو.","كثير من الناس يهربون من التفكير العميق.","الوضوح الذهني بداية أي تغيير حقيقي.","التردد الطويل يضيع فرصًا لا تعود.","القوة الحقيقية تبدأ بالسيطرة على الذات.","النجاح الهادئ غالبًا غير ملحوظ في بدايته.","العقل المنظم يرى الحلول أسرع.","الخوف غير المفهوم يتحول إلى قيد دائم.","الأفكار الصغيرة قد تغير طريق الحياة.","الصبر العقلي مهارة نادرة في هذا العصر.","الفهم العميق يولد من الأسئلة الصادقة.","التجربة الصادقة أفضل من المعرفة السطحية.","الإنسان يتغير عندما يرى نفسه بصدق.","الأفكار غير المختبرة تقود إلى أخطاء متكررة.","القوة ليست في المعرفة بل في استخدامها.","العقل الذي يتعلم باستمرار يبقى شابًا.","كثير من القيود ذهنية أكثر منها واقعية.","التفكير البسيط أحيانًا هو الأكثر حكمة.","التغيير يبدأ غالبًا من فكرة هادئة.","الإنسان يميل لما يعرفه حتى لو كان خاطئًا.","الفهم الحقيقي يحتاج هدوءًا في النظر.","الأغلبية تتبع الطريق المألوف.","القلة تبحث عن الطريق الصحيح.","بعض القرارات تغير حياة كاملة.","الوضوح الداخلي يمنح الإنسان ثباتًا.","العقل المشتت يفقد الفرص بسهولة.","التفكير العميق يقلل الندم.","النجاح يحتاج رؤية قبل الجهد.","الإنسان الذي يعرف هدفه يتحرك بثبات.","الشك أحيانًا بداية الفهم.","الحكمة تنمو مع الملاحظة الصادقة.","الإنسان يتعلم أكثر من أخطائه.","الهدوء يساعد العقل على رؤية التفاصيل.","الضجيج يربك التفكير.","التركيز قوة نادرة في عالم سريع.","العقل الذي يلاحظ يتعلم بسرعة.","كثير من القرارات تأتي من العاطفة.","التفكير الواعي يوازن العاطفة.","الفهم الجيد يقلل الصراعات.","العقل المرتب يرى الصورة كاملة.","المعرفة بدون تطبيق تبقى نظرية.","الأفكار الواضحة تقود أفعالًا واضحة.","الإنسان يتغير عندما يفهم نفسه.","الوعي بداية النضج.","العادات تصنع المسار اليومي للحياة.","النجاح غالبًا نتيجة تكرار بسيط.","التقدم الصغير أفضل من الجمود.","العقل القلق يرى المخاطر فقط.","العقل الهادئ يرى الاحتمالات.","القرارات الحكيمة تحتاج وقتًا.","التسرع غالبًا يندم صاحبه.","الملاحظة الهادئة تكشف الكثير.","الإنسان يصدق ما يريد تصديقه.","الفهم الصادق يحتاج شجاعة.","بعض الحقائق بسيطة لكنها غير مريحة.","العقل القوي يقبل المراجعة.","التفكير المختلف يبدأ بالسؤال.","الإنسان يتأثر بالبيئة أكثر مما يظن.","الاستقلال الفكري يحتاج وعيًا.","الإنسان يبحث عن القبول.","القلة تبحث عن الحقيقة.","الفهم العميق يحتاج صبرًا.","العقل المتعلم يراجع نفسه.","التجربة مدرسة هادئة.","الإنسان يكرر ما اعتاد عليه.","التغيير يبدأ بملاحظة النمط.","التفكير الواعي يغير المسار.","بعض الفرص تختبئ خلف الصبر.","الهدوء في القرار قوة.","الإنسان يتقدم عندما يتحمل مسؤوليته.","الأفكار تقود الاتجاه.","الاتجاه يصنع النتيجة.","الفهم الجيد يختصر الطريق.","العقل الواضح يقلل الأخطاء.","الإنسان الذي يسأل يتعلم.","العقل الذي يلاحظ يفهم.","الفهم العميق يغير السلوك.","المعرفة الحقيقية تغير النظرة.","الهدوء يمنح العقل مساحة.","الضوضاء تشتت الفهم.","التركيز مهارة تبنى بالتدريب.","الإنسان يرى ما يركز عليه.","التفكير الواضح يقود أفعالًا أفضل.","الفهم يقلل الخوف.","الإنسان يخاف ما لا يفهمه.","المعرفة تقلل الغموض.","العقل المنفتح يتطور.","الإنسان يتعلم من الحوار.","الفهم يولد احترامًا.","العقل المتزن يرى الجانبين.","التفكير المتطرف يضيق الرؤية.","الحكمة غالبًا بسيطة."
+];
+
+const quotesEN = [
+"A calm mind sees what a cluttered mind cannot.","Most mistakes begin with an idea that was never examined.","People usually resist the truth before they understand it.","Calm decisions last longer than rushed ones.","Some fears only grow because we avoid looking at them.","Simple habits build great destinies over time.","Clear thinking eliminates half of life's problems.","A person sees the world as they think, not as it is.","Many people run from deep thinking.","Mental clarity is the beginning of any real change.","Long hesitation wastes opportunities that never return.","True strength begins with control over the self.","Quiet success is rarely noticed at its beginning.","An organized mind sees solutions faster.","Fear that is not understood becomes a permanent chain.","Small ideas can change the direction of a life.","Mental patience is a rare skill in this age.","Deep understanding is born from honest questions.","Honest experience is better than shallow knowledge.","A person changes when they see themselves honestly.","Untested ideas lead to repeated mistakes.","Power is not in knowledge — it is in its use.","A mind that keeps learning stays young.","Many limitations are mental, not real.","Simple thinking is sometimes the wisest.","Change usually begins with a quiet thought.","People gravitate toward what they know, even if it is wrong.","True understanding requires stillness in observation.","The majority follow the familiar path.","The few seek the right path.","Some decisions change an entire life.","Inner clarity gives a person stability.","A distracted mind loses opportunities easily.","Deep thinking reduces regret.","Success requires vision before effort.","A person who knows their purpose moves with steadiness.","Doubt is sometimes the beginning of understanding.","Wisdom grows through honest observation.","A person learns most from their mistakes.","Stillness helps the mind see the details.","Noise disrupts thinking.","Focus is a rare power in a fast world.","A mind that observes learns quickly.","Many decisions come from emotion.","Conscious thinking balances emotion.","Good understanding reduces conflict.","An organized mind sees the full picture.","Knowledge without application remains theory.","Clear thoughts lead to clear actions.","A person changes when they understand themselves.","Awareness is the beginning of maturity.","Habits shape the daily path of life.","Success is usually the result of simple repetition.","Small progress is better than stagnation.","An anxious mind sees only danger.","A calm mind sees possibilities.","Wise decisions require time.","Haste usually leads to regret.","Quiet observation reveals much.","A person believes what they want to believe.","Honest understanding requires courage.","Some truths are simple but uncomfortable.","A strong mind accepts re-examination.","Different thinking begins with a question.","A person is more influenced by their environment than they realize.","Intellectual independence requires awareness.","People seek acceptance.","The few seek the truth.","Deep understanding requires patience.","A learning mind revisits itself.","Experience is a quiet school.","People repeat what they are accustomed to.","Change begins by noticing the pattern.","Conscious thinking changes the course.","Some opportunities hide behind patience.","Stillness in a decision is power.","A person advances when they take responsibility.","Thoughts lead direction.","Direction creates results.","Good understanding shortens the path.","A clear mind reduces mistakes.","The person who asks — learns.","The mind that observes — understands.","Deep understanding changes behavior.","Real knowledge changes perspective.","Stillness gives the mind space.","Noise scatters understanding.","Focus is a skill built through practice.","A person sees what they focus on.","Clear thinking leads to better action.","Understanding reduces fear.","People fear what they do not understand.","Knowledge reduces ambiguity.","An open mind evolves.","People learn through dialogue.","Understanding generates respect.","A balanced mind sees both sides.","Extreme thinking narrows vision.","Wisdom is usually simple.","People tire when they resist reality.","Accepting reality is the beginning of solutions.","A flexible mind adapts.","Intellectual rigidity blocks progress.","People search for meaning.","Understanding brings peace.","A clear mind reduces chaos.","Deep thinking grants vision.","Observation generates knowledge.","People learn through repetition.","Daily habits create the future.","Good understanding builds better decisions.","People usually choose the easier path.","The few choose the right path.","A mind that thinks calmly sees clearly.","Good understanding saves effort.","An anxious mind magnifies problems.","Stillness reduces complexity.","Organized thoughts lead an organized life.","Good understanding reduces regret.","Knowledge begins with a question.","Wisdom grows with experience.","A learning mind becomes humble.","People make mistakes then learn.","An honest mistake is a good teacher.","A mind that examines itself advances.","The person who observes — changes.","Honest understanding requires directness.","A strong mind accepts criticism.","Clear thinking reduces conflict.","Shared understanding builds trust.","An open mind sees possibilities.","People develop through learning.","Understanding reduces quick judgments.","Stillness aids understanding.","Haste creates misunderstanding.","A balanced mind sees details.","Deep understanding requires time.","Experience refines understanding.","People learn through persistence.","A clear mind shortens the path.","Good understanding reduces randomness.","A person advances step by step.","Small progress accumulates.","A patient mind sees results.","People change slowly.","Understanding grows gradually.","A mind that learns stays alive.","Honest thinking frees a person.","Inner clarity grants peace.","An organized mind reduces anxiety.","Understanding reduces ambiguity.","Balanced thinking builds wisdom.","A mind that questions — discovers.","Deep understanding changes perspective.","A person sees the world through their thoughts.","Quiet thoughts create wise decisions.","A reflective mind sees meaning.","Understanding grants a person stability.","Mental stillness expands vision.","The person who understands themselves — understands others.","A clear mind sees the path.","Honest understanding removes illusion.","Organized thoughts build vision.","A learning mind develops its life.","People grow with knowledge.","Real understanding changes behavior.","A mind that learns renews itself.","Honest thinking leads to wisdom.","The person who observes — learns more.","A calm mind sees deeply.","Understanding gives a person quiet power.","Deep thoughts generate far vision.","A person changes when they understand why.","A mind that understands — acts with wisdom.","Deep understanding changes course.","Mental stillness produces better decisions.","A mind that sees clearly — moves with confidence."
+];
+
+/* ══ BUILD TICKER ══ */
+const track = document.getElementById('tickerTrack');
+let isAR = false;
+function buildTicker(){
+  track.innerHTML='';
+  const src = isAR ? quotesAR : quotesEN;
+  const all = [...src,...src];
+  all.forEach(q=>{
+    const el=document.createElement('span');
+    el.className='ticker-item';
+    if(isAR) el.setAttribute('lang','ar');
+    el.textContent=q;
+    track.appendChild(el);
+  });
+}
+
+/* ══ BUILD QUOTE CARDS ══ */
+const grid = document.getElementById('qGrid');
+function buildCards(){
+  grid.innerHTML='';
+  const src = isAR ? quotesAR : quotesEN;
+  src.slice(0,24).forEach(q=>{
+    const card=document.createElement('div');
+    card.className='q-card';
+    const langAttr = isAR ? ' lang="ar"' : '';
+    card.innerHTML=`<span class="q-mark-sm">"</span><p class="q-text"${langAttr}>${q}</p>`;
+    grid.appendChild(card);
+  });
+}
+
+buildTicker(); buildCards();
+
+/* ══ SOCIAL CARDS ══ */
+const socials=[
+  {name:'FACEBOOK',handle:'vexoria.07',url:'https://www.facebook.com/vexoria.07',desc_en:'Main page — content & updates',desc_ar:'الصفحة الرئيسية',arrow:'FOLLOW',svg:'<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>'},
+  {name:'INSTAGRAM',handle:'@vexoria07',url:'https://www.instagram.com/vexoria07/',desc_en:'Visual content & wisdom',desc_ar:'محتوى مرئي وحكمة',arrow:'FOLLOW',svg:'<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>'},
+  {name:'X / TWITTER',handle:'@VEXORIA_07',url:'https://x.com/VEXORIA_07',desc_en:'Thoughts & deep threads',desc_ar:'أفكار وخيوط عميقة',arrow:'FOLLOW',svg:'<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>'},
+  {name:'TIKTOK',handle:'@vexoria_027',url:'https://www.tiktok.com/@vexoria_027',desc_en:'Short cognitive content',desc_ar:'محتوى معرفي قصير',arrow:'FOLLOW',svg:'<path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>'},
+  {name:'YOUTUBE',handle:'@VEXORIA07',url:'https://www.youtube.com/@VEXORIA07',desc_en:'Deep-dive videos',desc_ar:'فيديوهات عمق',arrow:'SUBSCRIBE',svg:'<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>'},
+  {name:'TELEGRAM',handle:'@vexoria_027',url:'https://t.me/vexoria_027',desc_en:'Exclusive channel',desc_ar:'قناة حصرية',arrow:'JOIN',svg:'<path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>'},
+  {name:'WHATSAPP',handle:'Community',url:'https://chat.whatsapp.com/KfoHDNzJpOJBlVzcWltbYp',desc_en:'Built on respect & depth',desc_ar:'مبني على الاحترام والعمق',arrow:'JOIN',svg:'<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>'},
+  {name:'REDDIT',handle:'VEXORIA07',url:'https://www.reddit.com/user/VEXORIA07/',desc_en:'Deep discussions',desc_ar:'نقاشات عميقة',arrow:'JOIN',svg:'<path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>'},
+  {name:'PINTEREST',handle:'vexoria_07',url:'https://www.pinterest.com/vexoria_07/',desc_en:'Visual inspiration boards',desc_ar:'لوحات إلهام مرئية',arrow:'FOLLOW',svg:'<path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>'},
+  {name:'THREADS',handle:'@vexoria07',url:'https://www.threads.com/@vexoria07',desc_en:'Daily wisdom',desc_ar:'حكمة يومية',arrow:'FOLLOW',svg:'<path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.026c-.784 0-1.979.233-2.721 1.32L7.734 9.13c1.098-1.68 2.989-2.498 5.089-2.498h.040c3.806.025 5.967 2.198 6.289 6.177.064.084.128.168.189.255.962 1.362 1.446 3.218.922 5.408-.63 2.668-2.443 4.532-5.302 5.387-.942.278-1.97.421-3.048.432zm-.402-10.618c-.061 0-.12.003-.18.006-1.048.059-1.832.349-2.363.862-.464.449-.685.994-.655 1.584.03.569.285 1.068.763 1.386.609.395 1.448.574 2.354.526 1.022-.056 1.796-.43 2.302-1.114.43-.574.673-1.363.72-2.332a11.764 11.764 0 0 0-2.941-.918z"/>'},
+];
+
+function buildSocials(){
+  const sg=document.getElementById('socGrid');
+  sg.innerHTML='';
+  socials.forEach(s=>{
+    const desc = isAR ? s.desc_ar : s.desc_en;
+    const arrow = isAR ? (s.arrow==='SUBSCRIBE'?'اشترك':'انضم') : s.arrow+' →';
+    sg.innerHTML+=`<a href="${s.url}" target="_blank" class="soc-card">
+      <div class="soc-icon-wrap"><svg class="soc-svg" viewBox="0 0 24 24">${s.svg}</svg></div>
+      <span class="soc-name">${s.name}</span>
+      <span class="soc-handle">${s.handle}</span>
+      <span class="soc-desc">${desc}</span>
+      <span class="soc-arrow">${arrow}</span>
+    </a>`;
+  });
+}
+buildSocials();
+
+/* ══ PAGE NAV ══ */
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const nl=document.getElementById('nl-'+name);
+  if(nl) nl.classList.add('active');
+  window.scrollTo(0,0);
+  setTimeout(()=>{
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  },100);
+}
+
+function smoothTo(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+
+/* ══ REVEAL ══ */
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ══ CURSOR ══ */
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;curR.style.left=Math.round(rx*10)/10+'px';curR.style.top=Math.round(ry*10)/10+'px';requestAnimationFrame(loop);})();
+
+/* ══ THEME ══ */
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('themeLabel').textContent=isDark?'DARK':'LIGHT';
+}
+
+/* ══ LANG ══ */
+function toggleLang(){
+  isAR=!isAR;
+  document.getElementById('langBtn').textContent=isAR?'English':'عربي';
+  document.documentElement.lang=isAR?'ar':'en';
+  document.querySelectorAll('[data-en],[data-ar]').forEach(el=>{
+    const val=isAR?el.getAttribute('data-ar'):el.getAttribute('data-en');
+    if(val!==null)el.innerHTML=val;
+  });
+  document.querySelectorAll('[data-placeholder-en],[data-placeholder-ar]').forEach(el=>{
+    el.placeholder=isAR?el.getAttribute('data-placeholder-ar'):el.getAttribute('data-placeholder-en');
+  });
+  buildTicker();
+  buildCards();
+  buildSocials();
+}
+
+/* ══ EMAIL ══ */
+function submitEmail(){
+  const v=document.getElementById('emailInput').value;
+  if(!v||!v.includes('@'))return;
+  document.getElementById('emailInput').value='';
+  document.getElementById('emailSuccess').style.display='block';
+  setTimeout(()=>document.getElementById('emailSuccess').style.display='none',5000);
+}
+function submitEmail2(){
+  const v=document.getElementById('emailInput2').value;
+  if(!v||!v.includes('@'))return;
+  document.getElementById('emailInput2').value='';
+  document.getElementById('emailSuccess2').style.display='block';
+  setTimeout(()=>document.getElementById('emailSuccess2').style.display='none',5000);
+}
+
+/* ══ PARTICLES ══ */
+const canvas=document.getElementById('bgc'),ctx=canvas.getContext('2d');
+const dpr=window.devicePixelRatio||1;
+function resize(){canvas.width=innerWidth*dpr;canvas.height=innerHeight*dpr;canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';ctx.resetTransform();ctx.scale(dpr,dpr);}
+resize();window.addEventListener('resize',resize);
+function goldColor(){const dark=document.documentElement.getAttribute('data-theme')==='dark';return dark?[[232,192,96],[196,154,60],[245,216,120],[154,110,42]]:[[154,110,42],[196,154,60],[120,80,30],[100,65,20]];}
+class Ember{reset(i){this.x=Math.random()*innerWidth;this.y=i?Math.random()*innerHeight:innerHeight+6;this.vx=(Math.random()-.5)*.38;this.vy=-(Math.random()*.6+.14);this.r=Math.random()*1.2+.25;this.a=Math.random()*.18+.025;this.c=goldColor()[Math.floor(Math.random()*4)];this.life=0;this.max=Math.random()*240+100;}constructor(){this.reset(true);}step(){this.x+=this.vx+Math.sin(this.life*.055)*.12;this.y+=this.vy;this.life++;const t=this.life/this.max;this.ca=t<.2?this.a*(t/.2):t>.72?this.a*((1-t)/.28):this.a;if(this.life>this.max)this.reset(false);}draw(){ctx.save();ctx.globalAlpha=this.ca;ctx.fillStyle=`rgb(${this.c[0]},${this.c[1]},${this.c[2]})`;ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fill();ctx.restore();}}
+class Shard{reset(i){this.x=Math.random()*innerWidth;this.y=i?Math.random()*innerHeight:innerHeight+10;this.vx=(Math.random()-.5)*.28;this.vy=-(Math.random()*.45+.1);this.rot=Math.random()*Math.PI*2;this.vr=(Math.random()-.5)*.014;this.w=Math.random()*6+2;this.h=Math.random()*2+.4;this.a=Math.random()*.1+.015;this.c=goldColor()[Math.floor(Math.random()*4)];this.life=0;this.max=Math.random()*280+120;}constructor(){this.reset(true);}step(){this.x+=this.vx;this.y+=this.vy;this.rot+=this.vr;this.life++;const t=this.life/this.max;this.ca=t<.15?this.a*(t/.15):t>.65?this.a*((1-t)/.35):this.a;if(this.life>this.max)this.reset(false);}draw(){ctx.save();ctx.translate(this.x,this.y);ctx.rotate(this.rot);ctx.globalAlpha=this.ca;ctx.fillStyle=`rgb(${this.c[0]},${this.c[1]},${this.c[2]})`;ctx.beginPath();ctx.moveTo(0,-this.h);ctx.lineTo(this.w,0);ctx.lineTo(0,this.h);ctx.lineTo(-this.w*.38,0);ctx.closePath();ctx.fill();ctx.restore();}}
+const parts=[];
+for(let i=0;i<55;i++)parts.push(new Ember());
+for(let i=0;i<25;i++)parts.push(new Shard());
+(function loop(){ctx.clearRect(0,0,innerWidth,innerHeight);const g=ctx.createRadialGradient(innerWidth*.5,innerHeight*.35,0,innerWidth*.5,innerHeight*.35,innerWidth*.4);const dark=document.documentElement.getAttribute('data-theme')==='dark';g.addColorStop(0,dark?'rgba(196,154,60,.04)':'rgba(154,110,42,.025)');g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.fillRect(0,0,innerWidth,innerHeight);parts.forEach(p=>{p.step();p.draw();});requestAnimationFrame(loop);})();
+</script>
+</body>
+</html>

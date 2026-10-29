@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEXORIA — Building The Rare Human</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Pinyon+Script&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════
+   VEXORIA — FULL LANDING PAGE
+   #F7DC97 gold · #030302 black
+   Open structure — sections easy to edit/add
+═══════════════════════════════════════════════ */
+:root {
+  --gold:       #F7DC97;
+  --gold-deep:  #C9A030;
+  --gold-dark:  #7B5010;
+  --gold-dim:   #3a2200;
+  --black:      #030302;
+  --black2:     #060504;
+  --black3:     #0a0908;
+  --black4:     #0f0e0c;
+  --body:       #b8965a;
+  --muted:      #5a3d18;
+  --faint:      #2a1e0a;
+  --white-soft: #FFF8E0;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--gold);font-family:'Cormorant Garamond',serif;overflow-x:hidden;cursor:none;}
+
+/* Cursor */
+.cur{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;}
+.curR{position:fixed;width:30px;height:30px;border:1px solid var(--gold-deep);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.45;transition:width .3s,height .3s;}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:2px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:var(--gold-dark);}
+
+/* Canvas BG */
+#bgc{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:24px 60px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(3,3,2,.97) 0%,transparent 100%);}
+.nav-logo{font-family:'Cinzel',serif;font-size:12px;font-weight:700;letter-spacing:10px;background:linear-gradient(90deg,var(--gold-dark),var(--gold),var(--white-soft),var(--gold),var(--gold-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;color:var(--muted);text-decoration:none;transition:color .3s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-lang{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--muted);background:transparent;border:1px solid var(--faint);padding:6px 14px;cursor:none;transition:all .3s;}
+.nav-lang:hover{border-color:var(--gold-dark);color:var(--gold);}
+
+/* ── HERO ── */
+#hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 40px 100px;overflow:hidden;}
+#hero::before{content:'';position:absolute;width:700px;height:700px;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(199,160,48,.055) 0%,transparent 70%);pointer-events:none;}
+
+.eyebrow{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:10px;color:var(--muted);margin-bottom:44px;opacity:0;animation:fadeUp .8s .2s forwards;}
+.hero-title{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(56px,11vw,138px);letter-spacing:.25em;line-height:1;background:linear-gradient(135deg,var(--gold-dim),var(--gold-dark),var(--gold-deep),var(--gold),var(--white-soft),var(--gold),var(--gold-deep),var(--gold-dark),var(--gold-dim));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fadeUp .8s .4s forwards,shimmerText 6s 1.2s linear infinite;opacity:0;filter:drop-shadow(0 0 50px rgba(247,220,151,.12));}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(15px,2.2vw,21px);font-weight:300;color:var(--body);max-width:580px;line-height:1.85;letter-spacing:.03em;margin-top:28px;opacity:0;animation:fadeUp .8s .7s forwards;}
+.hero-sub em{font-style:normal;color:var(--gold);}
+
+.divider{display:flex;align-items:center;gap:18px;margin:36px 0;opacity:0;animation:fadeUp .8s .55s forwards;}
+.dline{width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-deep));}
+.dline.r{background:linear-gradient(90deg,var(--gold-deep),transparent);}
+.ddot{width:3.5px;height:3.5px;background:var(--gold-deep);border-radius:50%;}
+
+.cta-wrap{margin-top:52px;display:flex;gap:18px;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp .8s .9s forwards;}
+.btn-p{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:5px;color:var(--black);background:linear-gradient(135deg,var(--gold-deep),var(--gold),var(--white-soft),var(--gold));background-size:200% auto;padding:15px 40px;border:none;cursor:none;text-decoration:none;display:inline-block;transition:background-position .4s,transform .3s;}
+.btn-p:hover{background-position:right center;transform:translateY(-2px);}
+.btn-g{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:5px;color:var(--gold-deep);background:transparent;padding:14px 40px;border:1px solid var(--gold-dark);cursor:none;text-decoration:none;display:inline-block;transition:all .3s;}
+.btn-g:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px);}
+
+.scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp .8s 1.3s forwards;}
+.scroll-hint span{font-family:'Cinzel',serif;font-size:7px;letter-spacing:4px;color:var(--faint);}
+.sline{width:1px;height:38px;background:linear-gradient(180deg,var(--gold-dark),transparent);animation:sPulse 2s ease-in-out infinite;}
+
+/* ── GOLD RULE ── */
+.rule{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dark) 20%,var(--gold-deep) 50%,var(--gold-dark) 80%,transparent);opacity:.28;margin:0;}
+.rule-wrap{position:relative;z-index:1;padding:0 60px;}
+.rule-sm{width:48px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:22px auto;opacity:.35;}
+
+/* ── SECTION BASE ── */
+.sec{position:relative;z-index:1;padding:100px 60px;max-width:1240px;margin:0 auto;}
+.sec-label{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:8px;color:var(--faint);margin-bottom:18px;display:block;}
+.sec-title{font-family:'Cinzel',serif;font-weight:400;font-size:clamp(26px,3.8vw,46px);letter-spacing:.08em;line-height:1.2;background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--white-soft),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:22px;}
+.sec-body{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;font-weight:300;color:var(--body);line-height:1.9;max-width:660px;}
+
+/* ── PROBLEMS / SOLUTIONS GRID ── */
+.ps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2px;margin-top:50px;}
+.ps-card{background:var(--black2);border:1px solid #0f0d08;padding:44px 32px;position:relative;overflow:hidden;transition:border-color .4s,background .4s;}
+.ps-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dark),transparent);opacity:0;transition:opacity .4s;}
+.ps-card:hover{border-color:#1a1408;background:#060503;}
+.ps-card:hover::after{opacity:1;}
+.ps-card:hover .ps-title{color:var(--gold);}
+.ps-icon{font-size:22px;margin-bottom:18px;display:block;filter:drop-shadow(0 0 8px rgba(199,160,48,.3));}
+.ps-tag{font-family:'Cinzel',serif;font-size:7px;letter-spacing:4px;color:var(--faint);margin-bottom:12px;display:block;}
+.ps-title{font-family:'Cinzel',serif;font-size:12px;font-weight:400;letter-spacing:3px;color:var(--gold-deep);margin-bottom:14px;transition:color .3s;}
+.ps-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14.5px;font-weight:300;color:var(--muted);line-height:1.7;}
+
+/* ── ARTICLES ── */
+.articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px;margin-top:50px;}
+.article-card{background:var(--black2);border:1px solid #0f0d08;padding:40px 32px;cursor:none;transition:border-color .4s,background .4s;position:relative;overflow:hidden;}
+.article-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dark),transparent);opacity:0;transition:opacity .4s;}
+.article-card:hover{border-color:#1a1408;background:#060503;}
+.article-card:hover::before{opacity:1;}
+.article-card:hover .art-title{color:var(--gold);}
+.art-lang{font-family:'Cinzel',serif;font-size:7px;letter-spacing:3px;color:var(--faint);margin-bottom:8px;display:block;}
+.art-num{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--faint);margin-bottom:16px;display:block;}
+.art-title{font-family:'Cinzel',serif;font-size:13px;font-weight:400;letter-spacing:2px;color:var(--gold-deep);margin-bottom:14px;line-height:1.5;transition:color .3s;}
+.art-title-ar{font-family:'Noto Naskh Arabic',serif;font-size:16px;color:var(--gold-deep);margin-bottom:14px;line-height:1.6;transition:color .3s;direction:rtl;text-align:right;}
+.art-body{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;font-weight:300;color:var(--muted);line-height:1.7;}
+.art-body-ar{font-family:'Noto Naskh Arabic',serif;font-size:14px;color:var(--muted);line-height:1.8;direction:rtl;text-align:right;}
+.art-read{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:4px;color:var(--gold-dark);margin-top:20px;display:block;transition:color .3s;}
+.article-card:hover .art-read{color:var(--gold);}
+
+/* ── SOCIAL SECTION ── */
+#social{background:var(--black3);}
+.social-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:2px;margin-top:50px;}
+.soc-card{background:var(--black2);border:1px solid #0f0d08;padding:28px 16px;display:flex;flex-direction:column;align-items:center;gap:12px;cursor:none;transition:border-color .4s,background .4s;}
+.soc-card:hover{border-color:#1a1408;background:#060503;}
+.soc-card:hover .soc-name{color:var(--gold);}
+.soc-card:hover .soc-icon{filter:drop-shadow(0 0 10px rgba(199,160,48,.5));}
+.soc-icon{width:28px;height:28px;fill:var(--gold-deep);transition:filter .4s;}
+.soc-name{font-family:'Cinzel',serif;font-size:7px;letter-spacing:3px;color:var(--muted);transition:color .3s;text-align:center;}
+
+/* ── PAYMENT SECTION ── */
+.pay-grid{display:flex;flex-wrap:wrap;gap:2px;margin-top:40px;}
+.pay-card{background:var(--black2);border:1px solid #0f0d08;padding:20px 24px;display:flex;flex-direction:column;align-items:center;gap:10px;min-width:110px;transition:border-color .4s;}
+.pay-card:hover{border-color:#1a1408;}
+.pay-card:hover .pay-name{color:var(--gold);}
+.pay-name{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:2px;color:var(--muted);transition:color .3s;}
+.pay-icon{font-size:20px;}
+
+/* ── QUOTE ── */
+#quote{position:relative;z-index:1;text-align:center;padding:100px 40px;}
+.q-mark{font-family:'Pinyon Script',cursive;font-size:110px;color:var(--gold-dim);line-height:.4;display:block;margin-bottom:16px;opacity:.35;}
+.q-text{font-family:'Pinyon Script',cursive;font-size:clamp(26px,3.8vw,46px);color:var(--gold);line-height:1.6;max-width:680px;margin:0 auto 28px;filter:drop-shadow(0 0 18px rgba(247,220,151,.1));}
+.q-attr{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:6px;color:var(--faint);}
+
+/* ── IDENTITIES ── */
+#identities{background:var(--black3);position:relative;z-index:1;}
+.id-list{columns:3;column-gap:40px;margin-top:46px;list-style:none;}
+.id-list li{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--muted);padding:11px 0;border-bottom:1px solid #0f0d08;display:flex;align-items:center;gap:12px;break-inside:avoid;transition:color .3s;}
+.id-list li:hover{color:var(--gold);}
+.id-list li::before{content:'◆';font-size:4.5px;color:var(--gold-dark);flex-shrink:0;}
+
+/* ── TAGLINE CLOSER ── */
+#closer{position:relative;z-index:1;text-align:center;padding:120px 40px;overflow:hidden;}
+#closer::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 45% at 50% 50%,rgba(199,160,48,.045) 0%,transparent 70%);pointer-events:none;}
+.closer-title{font-family:'Cinzel',serif;font-weight:300;font-size:clamp(10px,1.8vw,15px);letter-spacing:10px;background:linear-gradient(90deg,var(--gold-dim),var(--gold-dark),var(--gold-deep),var(--gold),var(--white-soft),var(--gold),var(--gold-deep),var(--gold-dark),var(--gold-dim));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmerText 5s linear infinite;margin-bottom:40px;}
+.closer-sub{font-family:'Cinzel',serif;font-size:9px;letter-spacing:6px;color:var(--faint);}
+
+/* ── FOOTER ── */
+footer{position:relative;z-index:1;border-top:1px solid #0f0d08;padding:36px 60px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.foot-logo{font-family:'Cinzel',serif;font-size:9px;letter-spacing:8px;color:var(--faint);}
+.foot-copy{font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--faint);font-style:italic;}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+@keyframes shimmerText{0%{background-position:0% center;}100%{background-position:200% center;}}
+@keyframes sPulse{0%,100%{opacity:.3;}50%{opacity:.8;}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav{padding:18px 24px;}
+  .nav-links{display:none;}
+  .sec{padding:70px 24px;}
+  .rule-wrap{padding:0 24px;}
+  .id-list{columns:2;}
+  #social .sec{padding:70px 24px;}
+  footer{padding:30px 24px;}
+}
+@media(max-width:480px){.id-list{columns:1;}}
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cur" id="cur"></div>
+<div class="curR" id="curR"></div>
+<canvas id="bgc"></canvas>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <a href="#hero" class="nav-logo">VEXORIA</a>
+  <ul class="nav-links">
+    <li><a href="#problems">PROBLEMS</a></li>
+    <li><a href="#articles">ARTICLES</a></li>
+    <li><a href="#social">COMMUNITY</a></li>
+    <li><a href="#products">PRODUCTS</a></li>
+    <li><a href="#identities">IDENTITY</a></li>
+  </ul>
+  <button class="nav-lang" onclick="toggleLang()">AR / EN</button>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <p class="eyebrow">VEXORIA DIGITAL &nbsp;·&nbsp; BUILDING THE RARE HUMAN</p>
+  <h1 class="hero-title">VEXORIA</h1>
+  <div class="divider">
+    <div class="dline"></div>
+    <div class="ddot"></div><div class="ddot" style="opacity:.5;transform:scale(.6)"></div><div class="ddot" style="opacity:.25;transform:scale(.4)"></div>
+    <div class="dline r"></div>
+  </div>
+  <p class="hero-sub" id="heroSub">
+    A space where <em>clarity meets depth</em> —<br>
+    built for those who refuse to move through life<br>
+    on borrowed assumptions.
+  </p>
+  <div class="cta-wrap">
+    <a href="#problems" class="btn-p" id="cta1">ENTER THE SPACE</a>
+    <a href="#articles"  class="btn-g" id="cta2">READ & GROW</a>
+  </div>
+  <div class="scroll-hint"><span>SCROLL</span><div class="sline"></div></div>
+</section>
+
+<div class="rule-wrap"><div class="rule"></div></div>
+
+<!-- ══ PROBLEMS & SOLUTIONS ══ -->
+<section id="problems" style="position:relative;z-index:1;padding:80px 0;">
+<div class="sec" style="padding-top:0;padding-bottom:0;">
+  <span class="sec-label reveal" id="psLabel">WHAT WE SOLVE</span>
+  <h2 class="sec-title reveal" id="psTitle">Every Problem<br>Has a Root</h2>
+  <p class="sec-body reveal" id="psBody">Most people treat symptoms. VEXORIA goes deeper — we decode the invisible patterns behind every struggle and hand you the tools to dissolve them permanently.</p>
+</div>
+<div class="ps-grid reveal" style="max-width:1240px;margin:50px auto 0;padding:0 60px;">
+
+  <div class="ps-card">
+    <span class="ps-icon">🧠</span>
+    <span class="ps-tag">MIND</span>
+    <h3 class="ps-title">THINKING ERRORS</h3>
+    <p class="ps-text">The invisible cognitive distortions sabotaging your decisions every single day — exposed and dismantled.</p>
+  </div>
+
+  <div class="ps-card">
+    <span class="ps-icon">💰</span>
+    <span class="ps-tag">WEALTH</span>
+    <h3 class="ps-title">MONEY MINDSET</h3>
+    <p class="ps-text">Why most people stay broke — not because of lack of money, but because of the wrong relationship with it.</p>
+  </div>
+
+  <div class="ps-card">
+    <span class="ps-icon">👁️</span>
+    <span class="ps-tag">AWARENESS</span>
+    <h3 class="ps-title">SELF-DECEPTION</h3>
+    <p class="ps-text">The stories you tell yourself that feel like truth — and how to see through them with brutal clarity.</p>
+  </div>
+
+  <div class="ps-card">
+    <span class="ps-icon">⚖️</span>
+    <span class="ps-tag">DISCIPLINE</span>
+    <h3 class="ps-title">WEAK WILL</h3>
+    <p class="ps-text">Why willpower fails — and the ancient systems that build unbreakable discipline without relying on motivation.</p>
+  </div>
+
+  <div class="ps-card">
+    <span class="ps-icon">🌱</span>
+    <span class="ps-tag">GROWTH</span>
+    <h3 class="ps-title">WRONG UPBRINGING</h3>
+    <p class="ps-text">The beliefs planted in childhood that still run your adult life — how to identify and rewrite them.</p>
+  </div>
+
+  <div class="ps-card">
+    <span class="ps-icon">🔥</span>
+    <span class="ps-tag">EMOTION</span>
+    <h3 class="ps-title">REACTIVE LIVING</h3>
+    <p class="ps-text">Moving through life driven by emotion, fear and pressure — and how to become the one who responds, never reacts.</p>
+  </div>
+
+  <div class="ps-card">
+    <span class="ps-icon">🤝</span>
+    <span class="ps-tag">PEOPLE</span>
+    <h3 class="ps-title">HUMAN DYNAMICS</h3>
+    <p class="ps-text">Understanding why people do what they do — and using that knowledge to navigate every relationship with precision.</p>
+  </div>
+
+  <div class="ps-card">
+    <span class="ps-icon">🎯</span>
+    <span class="ps-tag">PURPOSE</span>
+    <h3 class="ps-title">LOST DIRECTION</h3>
+    <p class="ps-text">The paralysis of having no clear path — how philosophy and cognitive science give you back your compass.</p>
+  </div>
+
+  <div class="ps-card">
+    <span class="ps-icon">📦</span>
+    <span class="ps-tag">FUTURE</span>
+    <h3 class="ps-title">DIGITAL PRODUCTS</h3>
+    <p class="ps-text">Coming soon — tools, guides and systems built to solve these problems at their root. Permanently.</p>
+  </div>
+
+</div>
+</section>
+
+<div class="rule-wrap"><div class="rule"></div></div>
+
+<!-- ══ QUOTE ══ -->
+<section id="quote">
+  <span class="q-mark">"</span>
+  <p class="q-text reveal" id="qText">
+    Most people do not lack potential.<br>They lack the map.
+  </p>
+  <span class="q-attr reveal">— VEXORIA</span>
+</section>
+
+<div class="rule-wrap"><div class="rule"></div></div>
+
+<!-- ══ ARTICLES ══ -->
+<section id="articles" style="position:relative;z-index:1;padding:80px 0;">
+<div class="sec" style="padding-top:0;padding-bottom:0;">
+  <span class="sec-label reveal" id="artLabel">KNOWLEDGE DROPS</span>
+  <h2 class="sec-title reveal" id="artTitle">The Articles</h2>
+  <p class="sec-body reveal" id="artBody">Short. Sharp. Unforgettable. Each piece is a key — built to unlock something in you that was always there.</p>
+</div>
+<div class="articles-grid reveal" style="max-width:1240px;margin:50px auto 0;padding:0 60px;">
+
+  <div class="article-card">
+    <span class="art-lang">EN</span>
+    <span class="art-num">01</span>
+    <h3 class="art-title">Why You Keep Making the Same Mistakes</h3>
+    <p class="art-body">It's not weakness. It's a pattern your mind was never taught to see — until now.</p>
+    <span class="art-read">READ MORE →</span>
+  </div>
+
+  <div class="article-card">
+    <span class="art-lang">AR</span>
+    <span class="art-num">02</span>
+    <h3 class="art-title-ar">لماذا تكرر نفس الأخطاء؟</h3>
+    <p class="art-body-ar">ليس ضعفاً — إنه نمط لم يتعلم عقلك رؤيته بعد.</p>
+    <span class="art-read">اقرأ المزيد →</span>
+  </div>
+
+  <div class="article-card">
+    <span class="art-lang">EN</span>
+    <span class="art-num">03</span>
+    <h3 class="art-title">The Stoic's Secret to Unbreakable Calm</h3>
+    <p class="art-body">Marcus Aurelius ruled an empire and faced every chaos with silence. Here's exactly how.</p>
+    <span class="art-read">READ MORE →</span>
+  </div>
+
+  <div class="article-card">
+    <span class="art-lang">AR</span>
+    <span class="art-num">04</span>
+    <h3 class="art-title-ar">سر الرواقي في الهدوء المطلق</h3>
+    <p class="art-body-ar">ماركوس أوريليوس حكم إمبراطورية وواجه كل فوضى بصمت. هنا بالضبط كيف فعل ذلك.</p>
+    <span class="art-read">اقرأ المزيد →</span>
+  </div>
+
+  <div class="article-card">
+    <span class="art-lang">EN</span>
+    <span class="art-num">05</span>
+    <h3 class="art-title">How Chess Rewires Your Brain for Real Life</h3>
+    <p class="art-body">Ten moves ahead. Calculated patience. The board is just a metaphor — you are the game.</p>
+    <span class="art-read">READ MORE →</span>
+  </div>
+
+  <div class="article-card">
+    <span class="art-lang">AR</span>
+    <span class="art-num">06</span>
+    <h3 class="art-title-ar">كيف تصبح The Rare One</h3>
+    <p class="art-body-ar">ليس الأذكى، ليس الأقوى — بل الشخص الذي يرى ما لا يراه الآخرون ويتحرك بوضوح مطلق.</p>
+    <span class="art-read">اقرأ المزيد →</span>
+  </div>
+
+  <div class="article-card">
+    <span class="art-lang">EN</span>
+    <span class="art-num">07</span>
+    <h3 class="art-title">The Money Mindset Nobody Taught You</h3>
+    <p class="art-body">Your relationship with money was built before you were 10. Here's how to rebuild it from scratch.</p>
+    <span class="art-read">READ MORE →</span>
+  </div>
+
+  <div class="article-card">
+    <span class="art-lang">AR</span>
+    <span class="art-num">08</span>
+    <h3 class="art-title-ar">عقلية المال التي لم يعلّمك إياها أحد</h3>
+    <p class="art-body-ar">علاقتك بالمال بُنيت قبل أن تبلغ العاشرة. إليك كيف تعيد بناءها من الصفر.</p>
+    <span class="art-read">اقرأ المزيد →</span>
+  </div>
+
+  <div class="article-card">
+    <span class="art-lang">EN</span>
+    <span class="art-num">09</span>
+    <h3 class="art-title">The Warrior Monk: When Discipline Becomes Freedom</h3>
+    <p class="art-body">The martial arts tradition didn't train fighters. It trained minds. The body was just the tool.</p>
+    <span class="art-read">READ MORE →</span>
+  </div>
+
+  <div class="article-card">
+    <span class="art-lang">AR</span>
+    <span class="art-num">10</span>
+    <h3 class="art-title-ar">VEXORIA — طريقك إلى أعلى مستوى</h3>
+    <p class="art-body-ar">ليس تحفيزاً — إنه نظام. هنا نبني الإنسان النادر خطوة بخطوة.</p>
+    <span class="art-read">اقرأ المزيد →</span>
+  </div>
+
+  <div class="article-card">
+    <span class="art-lang">EN</span>
+    <span class="art-num">11</span>
+    <h3 class="art-title">Perception Is Everything — And You Control It</h3>
+    <p class="art-body">Reality is filtered through your mind before you ever experience it. Change the filter, change the world.</p>
+    <span class="art-read">READ MORE →</span>
+  </div>
+
+  <div class="article-card">
+    <span class="art-lang">AR</span>
+    <span class="art-num">12</span>
+    <h3 class="art-title-ar">الإدراك هو كل شيء — وأنت تتحكم فيه</h3>
+    <p class="art-body-ar">الواقع يُصفَّى عبر عقلك قبل أن تعيشه. غيّر الفلتر — تغيّر الدنيا.</p>
+    <span class="art-read">اقرأ المزيد →</span>
+  </div>
+
+</div>
+</section>
+
+<div class="rule-wrap"><div class="rule"></div></div>
+
+<!-- ══ SOCIAL MEDIA ══ -->
+<section id="social" style="position:relative;z-index:1;padding:80px 0;">
+<div class="sec" style="padding-top:0;padding-bottom:0;">
+  <span class="sec-label reveal">JOIN THE COMMUNITY</span>
+  <h2 class="sec-title reveal">Find VEXORIA<br>Everywhere</h2>
+</div>
+<div class="social-grid reveal" style="max-width:1240px;margin:50px auto 0;padding:0 60px;">
+
+  <!-- Facebook -->
+  <div class="soc-card">
+    <svg class="soc-icon" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+    <span class="soc-name">FACEBOOK</span>
+  </div>
+  <!-- Instagram -->
+  <div class="soc-card">
+    <svg class="soc-icon" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" fill="none" stroke="var(--gold-deep)" stroke-width="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="var(--gold-deep)" stroke-width="2"/></svg>
+    <span class="soc-name">INSTAGRAM</span>
+  </div>
+  <!-- X/Twitter -->
+  <div class="soc-card">
+    <svg class="soc-icon" viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20" stroke="var(--gold-deep)" stroke-width="2" stroke-linecap="round"/></svg>
+    <span class="soc-name">X / TWITTER</span>
+  </div>
+  <!-- TikTok -->
+  <div class="soc-card">
+    <svg class="soc-icon" viewBox="0 0 24 24"><path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/></svg>
+    <span class="soc-name">TIKTOK</span>
+  </div>
+  <!-- YouTube -->
+  <div class="soc-card">
+    <svg class="soc-icon" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="var(--black)"/></svg>
+    <span class="soc-name">YOUTUBE</span>
+  </div>
+  <!-- Pinterest -->
+  <div class="soc-card">
+    <svg class="soc-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.03-2.83.19-.77 1.27-5.37 1.27-5.37s-.32-.65-.32-1.61c0-1.51.88-2.63 1.97-2.63.93 0 1.38.7 1.38 1.54 0 .94-.6 2.34-.91 3.64-.26 1.09.54 1.97 1.6 1.97 1.92 0 3.4-2.02 3.4-4.95 0-2.59-1.86-4.4-4.52-4.4-3.08 0-4.89 2.31-4.89 4.7 0 .93.36 1.93.8 2.47.09.11.1.2.07.32-.08.33-.26 1.09-.3 1.24-.05.2-.16.24-.37.15-1.39-.65-2.26-2.68-2.26-4.32 0-3.51 2.55-6.74 7.35-6.74 3.86 0 6.86 2.75 6.86 6.42 0 3.83-2.41 6.91-5.76 6.91-1.13 0-2.18-.59-2.54-1.28l-.69 2.59c-.25.96-.93 2.16-1.39 2.89.05.01.09.01.14.01z"/></svg>
+    <span class="soc-name">PINTEREST</span>
+  </div>
+  <!-- Reddit -->
+  <div class="soc-card">
+    <svg class="soc-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16.8 11.5a1.3 1.3 0 10.1 1.9M7.2 11.5a1.3 1.3 0 110 1.9" stroke="var(--black)" stroke-width="1.5"/><path d="M9.5 15.5s.6 1 2.5 1 2.5-1 2.5-1M9.5 13a.5.5 0 110-1 .5.5 0 010 1zM14.5 13a.5.5 0 110-1 .5.5 0 010 1z" fill="var(--black)"/><path d="M15 7.5l-3-.5-1 2" stroke="var(--black)" stroke-width="1.2"/></svg>
+    <span class="soc-name">REDDIT</span>
+  </div>
+  <!-- Threads -->
+  <div class="soc-card">
+    <svg class="soc-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 14c-2.67 0-8-1.34-8-4v-2c0-2.66 5.33-4 8-4s8 1.34 8 4v2c0 2.66-5.33 4-8 4z"/></svg>
+    <span class="soc-name">THREADS</span>
+  </div>
+  <!-- Shopify -->
+  <div class="soc-card">
+    <svg class="soc-icon" viewBox="0 0 24 24"><path d="M15.5 3s-.3 0-.6.1L14 3.4C13.4 1.8 12.2 1 11 1c-.1 0-.2 0-.3.1C10.4.5 9.9 0 9 0c-2 0-3 2.5-3.3 3.8l-2 .6C3 4.8 3 4.9 3 5L2 20l13 2.3L20 21V4.5L15.5 3zM13 4.2l-1.8.5C11.5 3.5 12 2.5 12.7 2c.1.5.2 1.3.3 2.2zM11 2c.2 0 .4.3.6.8L9.1 3.5C9.4 2.5 10.2 2 11 2zM9 22.3l-7-1.2L3 5.5l8.5-2.4c0 .3.1.5.1.8L10 4.5c-.5.1-.5.5-.5.5L8.4 18l.6.1z"/></svg>
+    <span class="soc-name">SHOPIFY</span>
+  </div>
+
+</div>
+</section>
+
+<div class="rule-wrap"><div class="rule"></div></div>
+
+<!-- ══ PAYMENT METHODS ══ -->
+<section id="products" style="position:relative;z-index:1;padding:80px 0;">
+<div class="sec" style="padding-top:0;padding-bottom:0;">
+  <span class="sec-label reveal">SECURE PAYMENTS</span>
+  <h2 class="sec-title reveal">Accepted Everywhere</h2>
+  <p class="sec-body reveal">Digital products will be available soon — pay with any method, from anywhere in the world.</p>
+  <div class="pay-grid reveal" style="margin-top:40px;">
+    <div class="pay-card"><span class="pay-icon">💳</span><span class="pay-name">PAYPAL</span></div>
+    <div class="pay-card"><span class="pay-icon">💛</span><span class="pay-name">INSTAPAY</span></div>
+    <div class="pay-card"><span class="pay-icon">🔶</span><span class="pay-name">BINANCE</span></div>
+    <div class="pay-card"><span class="pay-icon">💎</span><span class="pay-name">CRYPTO</span></div>
+    <div class="pay-card"><span class="pay-icon">🏦</span><span class="pay-name">BANK TRANSFER</span></div>
+    <div class="pay-card"><span class="pay-icon">📱</span><span class="pay-name">MOBILE WALLET</span></div>
+    <div class="pay-card"><span class="pay-icon">🛍️</span><span class="pay-name">SHOPIFY PAY</span></div>
+    <div class="pay-card"><span class="pay-icon">📲</span><span class="pay-name">VODAFONE CASH</span></div>
+  </div>
+</div>
+</section>
+
+<div class="rule-wrap"><div class="rule"></div></div>
+
+<!-- ══ QUOTE 2 ══ -->
+<section id="quote">
+  <span class="q-mark">"</span>
+  <p class="q-text reveal">
+    We do not teach success.<br>
+    We teach understanding —<br>
+    and true understanding<br>
+    brings everything else in its wake.
+  </p>
+  <span class="q-attr reveal">— VEXORIA</span>
+</section>
+
+<div class="rule-wrap"><div class="rule"></div></div>
+
+<!-- ══ IDENTITIES ══ -->
+<section id="identities" style="padding:80px 0;">
+<div class="sec" style="padding-top:0;padding-bottom:0;max-width:1240px;">
+  <span class="sec-label reveal">WHO YOU BECOME</span>
+  <h2 class="sec-title reveal">The Rare Identities</h2>
+  <ul class="id-list reveal">
+    <li>The Architect</li><li>The Illuminator</li><li>The Decoder</li>
+    <li>The Awakener</li><li>The Surgeon of Thought</li><li>The Reader</li>
+    <li>The Chess Master</li><li>The Warrior Monk</li><li>The Stoic</li>
+    <li>The Philosopher</li><li>The Still Water</li><li>The Observer</li>
+    <li>The Detached</li><li>The Grounded</li><li>The Seeker</li>
+    <li>The Sage</li><li>The Renaissance Man</li><li>The Strategist</li>
+    <li>The Alchemist</li><li>The Sovereign</li>
+    <li style="color:var(--gold);font-style:normal;font-weight:600;">The Rare One 🖤</li>
+  </ul>
+</div>
+</section>
+
+<div class="rule-wrap"><div class="rule"></div></div>
+
+<!-- ══ CLOSER ══ -->
+<section id="closer">
+  <p class="closer-title">THINK DEEPER &nbsp;·&nbsp; SEE FURTHER &nbsp;·&nbsp; BECOME RARE</p>
+  <div class="rule-sm"></div>
+  <p class="closer-sub reveal">VEXORIA — BUILDING THE RARE HUMAN</p>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <span class="foot-logo">VEXORIA</span>
+  <span class="foot-copy">Cognitive Architecture & Digital Identity</span>
+  <span style="font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:3px;color:var(--faint);">© VEXORIA DIGITAL</span>
+</footer>
+
+<!-- ══ SCRIPTS ══ -->
+<script>
+// Cursor
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.ps-card,.article-card,.soc-card,.pay-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{curR.style.width='50px';curR.style.height='50px';curR.style.opacity='.25';});
+  el.addEventListener('mouseleave',()=>{curR.style.width='30px';curR.style.height='30px';curR.style.opacity='.45';});
+});
+
+// Scroll reveal
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// Language toggle
+let isAR=false;
+const translations={
+  heroSub:{en:'A space where <em>clarity meets depth</em> —<br>built for those who refuse to move through life<br>on borrowed assumptions.',ar:'مساحة حيث <em>الوضوح يلتقي العمق</em> —<br>بُنيت لمن يرفض أن يعيش حياته<br>على افتراضات مستعارة.'},
+  cta1:{en:'ENTER THE SPACE',ar:'ادخل المساحة'},
+  cta2:{en:'READ & GROW',ar:'اقرأ وانمُ'},
+  psLabel:{en:'WHAT WE SOLVE',ar:'ما نحله'},
+  psTitle:{en:'Every Problem<br>Has a Root',ar:'لكل مشكلة<br>جذر'},
+  psBody:{en:'Most people treat symptoms. VEXORIA goes deeper — we decode the invisible patterns behind every struggle.',ar:'معظم الناس يعالجون الأعراض. VEXORIA يذهب أعمق — نفك شفرة الأنماط الخفية وراء كل صراع.'},
+  artLabel:{en:'KNOWLEDGE DROPS',ar:'قطرات المعرفة'},
+  artTitle:{en:'The Articles',ar:'المقالات'},
+  artBody:{en:'Short. Sharp. Unforgettable. Each piece is a key.',ar:'قصيرة. حادة. لا تُنسى. كل مقالة مفتاح.'},
+  qText:{en:'Most people do not lack potential.<br>They lack the map.',ar:'معظم الناس لا يفتقرون إلى الإمكانات.<br>يفتقرون إلى الخريطة.'},
+};
+
+function toggleLang(){
+  isAR=!isAR;
+  document.documentElement.lang=isAR?'ar':'en';
+  Object.keys(translations).forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.innerHTML=isAR?translations[id].ar:translations[id].en;
+  });
+}
+
+// Particles
+const canvas=document.getElementById('bgc'),ctx=canvas.getContext('2d'),dpr=window.devicePixelRatio||1;
+function resize(){canvas.width=innerWidth*dpr;canvas.height=innerHeight*dpr;canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';ctx.resetTransform();ctx.scale(dpr,dpr);}
+resize();window.addEventListener('resize',resize);
+const W=()=>innerWidth,H=()=>innerHeight;
+const G=[[247,220,151],[201,160,48],[255,248,224],[123,80,16],[240,192,64]];
+class E{reset(i){this.x=Math.random()*W();this.y=i?Math.random()*H():H()+6;this.vx=(Math.random()-.5)*.4;this.vy=-(Math.random()*.65+.15);this.r=Math.random()*1.3+.2;this.a=Math.random()*.2+.025;this.c=G[Math.floor(Math.random()*G.length)];this.life=0;this.max=Math.random()*250+110;}constructor(){this.reset(true);}step(){this.x+=this.vx+Math.sin(this.life*.055)*.13;this.y+=this.vy;this.life++;const t=this.life/this.max;this.ca=t<.2?this.a*(t/.2):t>.72?this.a*((1-t)/.28):this.a;if(this.life>this.max)this.reset(false);}draw(){ctx.save();ctx.globalAlpha=this.ca;ctx.fillStyle=`rgb(${this.c[0]},${this.c[1]},${this.c[2]})`;ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fill();ctx.restore();}}
+class S{reset(i){this.x=Math.random()*W();this.y=i?Math.random()*H():H()+10;this.vx=(Math.random()-.5)*.3;this.vy=-(Math.random()*.5+.12);this.rot=Math.random()*Math.PI*2;this.vr=(Math.random()-.5)*.015;this.w=Math.random()*6.5+2;this.h=Math.random()*2.2+.4;this.a=Math.random()*.12+.018;this.c=G[Math.floor(Math.random()*G.length)];this.life=0;this.max=Math.random()*290+140;}constructor(){this.reset(true);}step(){this.x+=this.vx;this.y+=this.vy;this.rot+=this.vr;this.life++;const t=this.life/this.max;this.ca=t<.15?this.a*(t/.15):t>.65?this.a*((1-t)/.35):this.a;if(this.life>this.max)this.reset(false);}draw(){ctx.save();ctx.translate(this.x,this.y);ctx.rotate(this.rot);ctx.globalAlpha=this.ca;ctx.fillStyle=`rgb(${this.c[0]},${this.c[1]},${this.c[2]})`;ctx.beginPath();ctx.moveTo(0,-this.h);ctx.lineTo(this.w,0);ctx.lineTo(0,this.h);ctx.lineTo(-this.w*.38,0);ctx.closePath();ctx.fill();ctx.restore();}}
+const parts=[];
+for(let i=0;i<55;i++)parts.push(new E());
+for(let i=0;i<25;i++)parts.push(new S());
+function loop(){ctx.clearRect(0,0,W(),H());ctx.fillStyle='#030302';ctx.fillRect(0,0,W(),H());const g=ctx.createRadialGradient(W()*.5,H()*.3,0,W()*.5,H()*.3,W()*.42);g.addColorStop(0,'rgba(38,24,7,.11)');g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.fillRect(0,0,W(),H());parts.forEach(p=>{p.step();p.draw();});requestAnimationFrame(loop);}
+loop();
+</script>
+</body>
+</html>
