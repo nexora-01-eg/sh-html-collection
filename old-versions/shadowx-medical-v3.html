@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shadow X Medical — The Future Of Medical Presence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet"/>
+<style>
+/* ════════ RESET & TOKENS ════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0A0A0F;
+  --bg2:#080D1E;
+  --blue:#00C8FF;
+  --blue2:#A0F8FF;
+  --cyan:#7BFFFB;
+  --orange:#FF7A00;
+  --orange2:#FFAA33;
+  --white:#FFFFFF;
+  --gray:#B8C2D1;
+  --muted:#7E8A9A;
+  --glass:rgba(255,255,255,0.04);
+  --glass2:rgba(255,255,255,0.07);
+  --border:rgba(255,255,255,0.07);
+  --bblue:rgba(0,200,255,0.18);
+  --gblue:rgba(0,200,255,0.12);
+  --fd:'Syne',sans-serif;
+  --fb:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--fb);overflow-x:hidden;cursor:none}
+::selection{background:rgba(0,200,255,0.2)}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--blue),var(--cyan));border-radius:4px}
+
+/* ════════ CREATIVE IDEA 1: MAGNETIC CURSOR ════════ */
+#cur{position:fixed;width:10px;height:10px;background:var(--blue);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;mix-blend-mode:screen;will-change:transform}
+#cur-trail{position:fixed;width:40px;height:40px;border:1px solid rgba(0,200,255,0.35);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:transform .08s linear,width .3s,height .3s,border-color .3s;will-change:transform}
+body:has(a:hover) #cur,body:has(button:hover) #cur{width:6px;height:6px;background:var(--orange)}
+body:has(a:hover) #cur-trail,body:has(button:hover) #cur-trail{width:56px;height:56px;border-color:rgba(255,122,0,0.4)}
+
+/* ════════ CREATIVE IDEA 2: LOADER WITH DNA HELIX ════════ */
+#loader{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px;transition:opacity .7s ease,visibility .7s ease}
+#loader.done{opacity:0;visibility:hidden;pointer-events:none}
+.dna{display:flex;align-items:center;gap:6px;height:48px;margin-bottom:4px}
+.dna-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);animation:dna 1.2s ease-in-out infinite}
+.dna-dot:nth-child(2){background:var(--cyan);animation-delay:.1s}
+.dna-dot:nth-child(3){background:var(--blue2);animation-delay:.2s}
+.dna-dot:nth-child(4){background:var(--blue);animation-delay:.3s}
+.dna-dot:nth-child(5){background:var(--orange);animation-delay:.4s}
+.dna-dot:nth-child(6){background:var(--blue);animation-delay:.5s}
+.dna-dot:nth-child(7){background:var(--cyan);animation-delay:.6s}
+@keyframes dna{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(.7);background:var(--orange)}}
+.ld-logo{font-family:var(--fd);font-size:28px;font-weight:800;letter-spacing:-.02em}
+.ld-logo em{font-style:normal;color:var(--blue)}
+.ld-line{width:180px;height:1px;background:var(--border);border-radius:1px;overflow:hidden}
+.ld-fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--orange));transition:width 1.9s cubic-bezier(.2,0,.05,1)}
+.ld-tag{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* ════════ NAV ════════ */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:22px 0;transition:all .4s ease}
+nav.stuck{background:rgba(10,10,15,.88);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-bottom:1px solid var(--border);padding:13px 0}
+.ni{max-width:1320px;margin:0 auto;padding:0 52px;display:flex;align-items:center;justify-content:space-between;gap:32px}
+.logo{font-family:var(--fd);font-size:21px;font-weight:800;letter-spacing:-.02em;color:var(--white);text-decoration:none;display:inline-flex;align-items:center;gap:1px}
+.lx{color:var(--blue);display:inline-block;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.logo:hover .lx{transform:rotate(90deg) scale(1.2)}
+.nl{display:flex;align-items:center;gap:32px;list-style:none}
+.nl a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;position:relative}
+.nl a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--blue);transition:width .25s}
+.nl a:hover{color:var(--white)}
+.nl a:hover::after{width:100%}
+.ncta{background:var(--orange);color:var(--white);border:none;padding:11px 22px;border-radius:14px;font-size:13px;font-weight:700;cursor:none;transition:all .3s;font-family:var(--fb);white-space:nowrap;letter-spacing:.01em}
+.ncta:hover{background:var(--orange2);transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,122,0,.4)}
+.nmb{display:none;background:none;border:1px solid var(--border);color:var(--white);width:40px;height:40px;border-radius:11px;cursor:none;align-items:center;justify-content:center;font-size:18px;transition:border-color .2s}
+.nmb:hover{border-color:var(--bblue)}
+
+/* MOBILE NAV */
+.mnav{position:fixed;inset:0;background:rgba(8,8,14,.97);backdrop-filter:blur(24px);z-index:998;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;opacity:0;visibility:hidden;transition:all .4s ease}
+.mnav.open{opacity:1;visibility:visible}
+.mnav a{font-family:var(--fd);font-size:30px;font-weight:700;color:var(--white);text-decoration:none;transition:color .2s;opacity:0;transform:translateY(16px);transition:all .35s ease}
+.mnav.open a{opacity:1;transform:none}
+.mnav.open a:nth-child(1){transition-delay:.08s}
+.mnav.open a:nth-child(2){transition-delay:.13s}
+.mnav.open a:nth-child(3){transition-delay:.18s}
+.mnav.open a:nth-child(4){transition-delay:.23s}
+.mnav.open a:nth-child(5){transition-delay:.28s}
+.mnav.open a:nth-child(6){transition-delay:.33s}
+.mnav a:hover{color:var(--blue)}
+.mnav-close{position:absolute;top:24px;right:24px;background:var(--glass);border:1px solid var(--border);color:var(--white);width:44px;height:44px;border-radius:12px;cursor:none;font-size:20px;display:flex;align-items:center;justify-content:center}
+
+/* ════════ LAYOUT ════════ */
+section{padding:120px 0}
+.wrap{max-width:1320px;margin:0 auto;padding:0 52px}
+h1,h2,h3,h4{font-family:var(--fd);letter-spacing:-.03em;line-height:1.06}
+h1{font-size:clamp(46px,6.5vw,92px);font-weight:800}
+h2{font-size:clamp(34px,4.5vw,62px);font-weight:700}
+h3{font-size:20px;font-weight:700}
+p{color:var(--gray);line-height:1.75}
+.eye{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--blue);margin-bottom:18px}
+.eye::before{content:'';width:22px;height:1px;background:var(--blue)}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.rv.on{opacity:1;transform:none}
+.rvl{opacity:0;transform:translateX(-28px);transition:opacity .7s ease,transform .7s ease}
+.rvl.on{opacity:1;transform:none}
+.rvr{opacity:0;transform:translateX(28px);transition:opacity .7s ease,transform .7s ease}
+.rvr.on{opacity:1;transform:none}
+
+/* BTNS */
+.bp{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,var(--orange),var(--orange2));color:var(--white);border:none;padding:16px 32px;border-radius:16px;font-size:15px;font-weight:700;cursor:none;transition:all .3s;text-decoration:none;font-family:var(--fb);letter-spacing:.01em;position:relative;overflow:hidden}
+.bp::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);opacity:0;transition:opacity .3s}
+.bp:hover{transform:translateY(-3px);box-shadow:0 18px 52px rgba(255,122,0,.42)}
+.bp:hover::after{opacity:1}
+.bs{display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.04);color:var(--white);border:1px solid var(--border);padding:16px 32px;border-radius:16px;font-size:15px;font-weight:600;cursor:none;transition:all .3s;text-decoration:none;font-family:var(--fb);backdrop-filter:blur(12px)}
+.bs:hover{background:rgba(0,200,255,.06);border-color:var(--bblue);transform:translateY(-3px);box-shadow:0 14px 44px rgba(0,200,255,.1)}
+.bsm{padding:11px 20px;font-size:13px;border-radius:12px}
+
+/* GLASS CARD */
+.gc{background:var(--glass);border:1px solid var(--border);border-radius:24px;padding:36px;backdrop-filter:blur(20px);transition:all .35s cubic-bezier(.4,0,.2,1)}
+.gc:hover{background:var(--glass2);border-color:rgba(0,200,255,.16);transform:translateY(-5px);box-shadow:0 28px 72px rgba(0,0,0,.38),0 0 0 1px rgba(0,200,255,.05)}
+
+/* ════════ CREATIVE IDEA 3: HERO WITH FLOATING HEARTBEAT LINE ════════ */
+#hero{min-height:100vh;display:flex;align-items:center;padding-top:90px;position:relative;overflow:hidden}
+.hbg{position:absolute;inset:0;pointer-events:none}
+/* CREATIVE IDEA 4: PERSPECTIVE GRID FLOOR */
+.hgrid{position:absolute;bottom:0;left:0;right:0;height:50%;background-image:linear-gradient(rgba(0,200,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,.04) 1px,transparent 1px);background-size:60px 60px;transform:perspective(600px) rotateX(40deg);transform-origin:bottom;opacity:.5}
+.orb{position:absolute;border-radius:50%;filter:blur(88px);animation:orbf 9s ease-in-out infinite}
+.o1{width:650px;height:650px;background:radial-gradient(circle,rgba(0,200,255,.1),transparent 65%);top:-200px;right:-150px}
+.o2{width:450px;height:450px;background:radial-gradient(circle,rgba(123,255,251,.07),transparent 70%);bottom:-50px;left:-120px;animation-delay:4s}
+.o3{width:280px;height:280px;background:radial-gradient(circle,rgba(255,122,0,.06),transparent 70%);top:35%;left:38%;animation-delay:7s}
+@keyframes orbf{0%,100%{transform:translate(0,0)}40%{transform:translate(22px,-18px)}70%{transform:translate(-14px,14px)}}
+
+/* CREATIVE IDEA 3: SVG HEARTBEAT */
+.hbeat-wrap{position:absolute;bottom:80px;left:0;right:0;height:60px;overflow:hidden;pointer-events:none;opacity:.25}
+.hbeat{animation:hbeatMove 6s linear infinite}
+@keyframes hbeatMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.hero-inner{display:grid;grid-template-columns:55% 45%;gap:48px;align-items:center;position:relative;z-index:1}
+.hbadge{display:inline-flex;align-items:center;gap:10px;background:rgba(0,200,255,.07);border:1px solid rgba(0,200,255,.18);border-radius:100px;padding:7px 16px;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--blue);margin-bottom:26px}
+.bdot{width:7px;height:7px;border-radius:50%;background:var(--blue);animation:bdot 2s ease-in-out infinite}
+@keyframes bdot{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(0,200,255,.5)}50%{transform:scale(.8);box-shadow:0 0 0 7px rgba(0,200,255,0)}}
+.hh1{margin-bottom:20px}
+.hh1 em{font-style:normal;color:var(--blue)}
+.hsub{font-size:18px;color:var(--gray);margin-bottom:14px;font-weight:400;letter-spacing:-.01em;line-height:1.5}
+.hdesc{font-size:15px;color:var(--muted);margin-bottom:38px;max-width:480px;line-height:1.85}
+.hbtns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:52px;align-items:center}
+
+/* CREATIVE IDEA 5: SOCIAL PROOF AVATARS STACK */
+.hproof{display:flex;align-items:center;gap:14px}
+.av-stack{display:flex}
+.av{width:34px;height:34px;border-radius:50%;border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:11px;font-weight:800;margin-left:-9px;flex-shrink:0}
+.av:first-child{margin-left:0}
+.av1{background:linear-gradient(135deg,#00C8FF,#7BFFFB);color:#0A0A0F}
+.av2{background:linear-gradient(135deg,#FF7A00,#FFAA33);color:#fff}
+.av3{background:linear-gradient(135deg,#A0F8FF,#00C8FF);color:#0A0A0F}
+.av4{background:linear-gradient(135deg,#7BFFFB,#A0F8FF);color:#0A0A0F}
+.hproof-text{font-size:13px;color:var(--muted)}
+.hproof-text strong{color:var(--white)}
+
+.hstats{display:flex;gap:40px;margin-top:36px}
+.hs-n{font-family:var(--fd);font-size:32px;font-weight:800;color:var(--white);line-height:1;display:block}
+.hs-n em{font-style:normal;color:var(--orange)}
+.hs-l{font-size:12px;color:var(--muted);font-weight:500;margin-top:4px;display:block}
+
+/* CREATIVE IDEA 6: HERO VISUAL — LIVE CLINIC OS MOCKUP */
+.hvis{position:relative;height:580px}
+.hos{position:absolute;top:20px;left:10px;right:0;background:rgba(9,13,30,.82);border:1px solid rgba(255,255,255,.09);border-radius:24px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);animation:osf 5s ease-in-out infinite}
+@keyframes osf{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.os-bar{background:rgba(255,255,255,.04);border-bottom:1px solid var(--border);padding:12px 18px;display:flex;align-items:center;gap:8px}
+.os-dot{width:10px;height:10px;border-radius:50%}
+.os-dot:nth-child(1){background:#FF5F57}
+.os-dot:nth-child(2){background:#FEBC2E}
+.os-dot:nth-child(3){background:#28C840}
+.os-title{font-family:var(--fd);font-size:12px;font-weight:700;color:rgba(255,255,255,.5);margin:0 auto}
+.os-body{display:grid;grid-template-columns:180px 1fr;min-height:320px}
+.os-sidebar{border-right:1px solid var(--border);padding:16px 12px;display:flex;flex-direction:column;gap:4px}
+.os-nav-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;font-size:11px;font-weight:600;color:var(--muted);cursor:default;transition:all .2s}
+.os-nav-item.act{background:rgba(0,200,255,.1);color:var(--blue)}
+.os-nav-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+.os-main{padding:16px}
+.os-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.kpi{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:10px}
+.kpi-v{font-family:var(--fd);font-size:18px;font-weight:800;color:var(--white);display:block;line-height:1}
+.kpi-k{font-size:9px;color:var(--muted);font-weight:500;margin-top:3px;display:block}
+.kpi-u{font-size:9px;color:var(--cyan);font-weight:700;display:block;margin-top:1px}
+.os-chart-label{font-size:9px;color:var(--muted);font-weight:600;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px}
+.os-bars{height:60px;display:flex;align-items:flex-end;gap:3px}
+.ob{flex:1;border-radius:2px 2px 0 0}
+.ob.hi{background:linear-gradient(180deg,var(--blue),rgba(0,200,255,.15))}
+.ob.lo{background:rgba(255,255,255,.05)}
+.os-appts{margin-top:12px;display:flex;flex-direction:column;gap:5px}
+.oa{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.025);border-radius:8px;padding:7px 10px}
+.oa-c{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.oa-c.n{background:var(--cyan)}
+.oa-c.c{background:var(--orange)}
+.oa-c.p{background:var(--blue)}
+.oa-name{font-size:10px;font-weight:600;color:var(--white);flex:1}
+.oa-t{font-size:9px;color:var(--muted)}
+.oa-b{font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px}
+.oa-b.nb{background:rgba(123,255,251,.1);color:var(--cyan)}
+.oa-b.cb{background:rgba(255,122,0,.1);color:var(--orange)}
+
+/* Floating tags */
+.ftag{position:absolute;background:rgba(9,13,30,.9);border:1px solid var(--bblue);border-radius:14px;padding:11px 16px;backdrop-filter:blur(20px);box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.ft1{top:0;right:6px;animation:ft 4s .5s ease-in-out infinite}
+.ft2{bottom:55px;left:0;animation:ft 3.8s 1.8s ease-in-out infinite}
+.ft3{bottom:140px;right:4px;animation:ft 4.2s 3s ease-in-out infinite}
+@keyframes ft{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.fti{width:26px;height:26px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;margin-right:8px;vertical-align:middle;flex-shrink:0}
+.fti.b{background:rgba(0,200,255,.15)}
+.fti.o{background:rgba(255,122,0,.15)}
+.fti.c{background:rgba(123,255,251,.15)}
+.ftx{font-size:12px;font-weight:700;color:var(--white);vertical-align:middle}
+.fts{font-size:10px;color:var(--muted);display:block;margin-top:1px;padding-left:34px}
+
+/* ════════ TRUST BAR ════════ */
+#trust{padding:36px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.tb-wrap{display:flex;align-items:center;overflow:hidden;position:relative}
+.tb-wrap::before,.tb-wrap::after{content:'';position:absolute;top:0;bottom:0;width:100px;z-index:1;pointer-events:none}
+.tb-wrap::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+.tb-wrap::after{right:0;background:linear-gradient(270deg,var(--bg),transparent)}
+.tb-lbl{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);white-space:nowrap;flex-shrink:0;padding:0 36px}
+.tb-scroll{display:flex;gap:56px;animation:tbm 24s linear infinite;flex-shrink:0}
+.tb-scroll:hover{animation-play-state:paused}
+.tb-i{font-family:var(--fd);font-size:12px;font-weight:700;color:rgba(255,255,255,.22);letter-spacing:.07em;white-space:nowrap;transition:color .3s;cursor:default}
+.tb-i:hover{color:rgba(255,255,255,.6)}
+@keyframes tbm{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ════════ CREATIVE IDEA 7: ABOUT — LEFT SIDE IS AN INTERACTIVE IDENTITY CARD ════════ */
+#about{background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.id-card{position:relative;height:500px}
+.idc-main{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,200,255,.04),rgba(9,13,30,.95));border:1px solid var(--border);border-radius:28px;overflow:hidden;display:flex;flex-direction:column;transition:transform .5s ease;transform-style:preserve-3d}
+.idc-main:hover{transform:perspective(900px) rotateY(-4deg) rotateX(2deg)}
+.idc-head{padding:28px 32px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.idc-logo{font-family:var(--fd);font-size:17px;font-weight:800;color:var(--white)}
+.idc-logo span{color:var(--blue)}
+.idc-year{font-size:11px;font-weight:700;color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:4px 10px}
+.idc-xwrap{flex:1;display:flex;align-items:center;justify-content:center;position:relative}
+.idc-x{font-family:var(--fd);font-size:180px;font-weight:800;color:transparent;-webkit-text-stroke:1.5px rgba(0,200,255,.22);line-height:1;letter-spacing:-.05em;animation:xg 4s ease-in-out infinite}
+@keyframes xg{0%,100%{-webkit-text-stroke-color:rgba(0,200,255,.15)}50%{-webkit-text-stroke-color:rgba(0,200,255,.45)}}
+.idc-xglow{position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(0,200,255,.08),transparent 70%);animation:breathe 3s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.2);opacity:1}}
+.idc-pills{display:flex;gap:8px;padding:0 28px 28px;flex-wrap:wrap}
+.idc-pill{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:100px;padding:6px 14px;font-size:11px;font-weight:600;color:var(--gray)}
+
+/* FLOATING STAT CARDS */
+.id-floats{position:absolute;right:-22px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px}
+.idf{background:rgba(9,13,30,.92);border:1px solid var(--bblue);border-radius:16px;padding:15px 20px;backdrop-filter:blur(20px);min-width:130px}
+.idf-n{font-family:var(--fd);font-size:28px;font-weight:800;color:var(--white);display:block;line-height:1}
+.idf-n em{font-style:normal;color:var(--orange)}
+.idf-l{font-size:10px;color:var(--muted);font-weight:500;margin-top:4px;display:block}
+.about-text h2{margin-bottom:18px}
+.about-text .lead{font-size:17px;color:var(--gray);line-height:1.75;margin-bottom:18px}
+.about-text p{font-size:15px;margin-bottom:14px}
+.about-pillars{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:32px}
+.pillar{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--gray)}
+.pillar-d{width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0;box-shadow:0 0 8px rgba(0,200,255,.5)}
+
+/* ════════ CREATIVE IDEA 8: WHY US — BENTO GRID ════════ */
+#why{background:var(--bg)}
+.bento{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:auto;gap:16px;margin-top:60px}
+.bc{background:var(--glass);border:1px solid var(--border);border-radius:22px;padding:28px;transition:all .35s cubic-bezier(.4,0,.2,1);overflow:hidden;position:relative}
+.bc:hover{background:var(--glass2);border-color:rgba(0,200,255,.16);transform:translateY(-4px);box-shadow:0 24px 64px rgba(0,0,0,.35),0 0 0 1px rgba(0,200,255,.05)}
+.bc.sp2{grid-column:span 2}
+.bc.sp3{grid-column:span 3}
+.bc.sp4{grid-column:span 4}
+.bc.sp6{grid-column:span 6}
+.bc-n{position:absolute;top:20px;right:20px;font-family:var(--fd);font-size:44px;font-weight:800;color:rgba(255,255,255,.03);line-height:1}
+.bc-icon{width:48px;height:48px;border-radius:13px;background:rgba(0,200,255,.07);border:1px solid rgba(0,200,255,.11);display:flex;align-items:center;justify-content:center;margin-bottom:18px;transition:all .35s}
+.bc-icon svg{width:22px;height:22px;stroke:var(--blue);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.bc:hover .bc-icon{background:rgba(0,200,255,.13);box-shadow:0 0 0 8px rgba(0,200,255,.06)}
+.bc h3{font-size:17px;margin-bottom:10px}
+.bc p{font-size:13px;color:var(--muted);line-height:1.7}
+/* CREATIVE IDEA 8b: Big stat bento cell */
+.bc-stat{font-family:var(--fd);font-size:52px;font-weight:800;color:var(--blue);line-height:1;margin-bottom:8px}
+.bc-stat em{font-style:normal;color:var(--orange)}
+.bc-stat-label{font-size:14px;color:var(--gray)}
+/* Bento wide cell — testimonial snippet */
+.bc-quote{font-size:16px;font-style:italic;color:var(--gray);line-height:1.7;border-left:2px solid var(--blue);padding-left:20px;margin-top:12px}
+.bc-quote-auth{font-size:12px;font-weight:700;color:var(--blue);margin-top:10px;font-style:normal}
+
+/* ════════ SERVICES ════════ */
+#services{}
+.svc-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:52px}
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.sc{background:var(--glass);border:1px solid var(--border);border-radius:20px;padding:26px 22px;transition:all .35s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;cursor:none}
+.sc::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% -15%,rgba(0,200,255,.07),transparent 60%);opacity:0;transition:opacity .35s}
+.sc:hover::before{opacity:1}
+.sc:hover{border-color:rgba(0,200,255,.18);transform:translateY(-4px);box-shadow:0 20px 56px rgba(0,0,0,.38)}
+.sc-icon{width:44px;height:44px;border-radius:12px;background:rgba(0,200,255,.07);border:1px solid rgba(0,200,255,.1);display:flex;align-items:center;justify-content:center;margin-bottom:16px;transition:all .3s}
+.sc-icon svg{width:19px;height:19px;stroke:var(--blue);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.sc:hover .sc-icon{background:rgba(0,200,255,.12);border-color:rgba(0,200,255,.24)}
+.sc h3{font-size:15px;font-family:var(--fb);font-weight:600;margin-bottom:7px;letter-spacing:-.01em}
+.sc p{font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:16px}
+.sc-lnk{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.07em;text-transform:uppercase;display:inline-flex;align-items:center;gap:4px;transition:gap .2s}
+.sc:hover .sc-lnk{gap:8px}
+
+/* ════════ CREATIVE IDEA 9: PACKAGE BUILDER — GAMIFIED ════════ */
+#builder{background:linear-gradient(180deg,var(--bg2),var(--bg))}
+.bld-head{text-align:center;max-width:580px;margin:0 auto 56px}
+.bld-layout{display:grid;grid-template-columns:1fr 390px;gap:52px;align-items:start}
+.bld-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.bi{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:14px 16px;cursor:none;transition:all .22s;user-select:none}
+.bi:hover{background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.1)}
+.bi.s{background:rgba(0,200,255,.07);border-color:rgba(0,200,255,.28)}
+.bi.s .bck{background:var(--blue);border-color:var(--blue)}
+.bi.s .bck::after{opacity:1}
+.bi.s .bnm{color:var(--white)}
+.bck{width:20px;height:20px;border-radius:6px;border:1.5px solid rgba(255,255,255,.14);flex-shrink:0;transition:all .2s;position:relative}
+.bck::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--bg);font-weight:900;opacity:0;transition:opacity .2s}
+.bnm{font-size:13px;font-weight:500;color:var(--muted);transition:color .2s}
+.bpr{font-size:11px;font-weight:700;color:var(--orange);margin-left:auto;white-space:nowrap;opacity:0;transition:opacity .2s}
+.bi.s .bpr{opacity:1}
+.bsum{background:rgba(8,13,30,.85);border:1px solid var(--border);border-radius:24px;padding:34px;position:sticky;top:106px;backdrop-filter:blur(24px)}
+/* CREATIVE IDEA 9b: progress bar inside builder */
+.bsum-prog-wrap{margin-bottom:22px}
+.bsum-prog-label{display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px}
+.bsum-prog-label span:last-child{color:var(--orange)}
+.bsum-prog{height:3px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+.bsum-prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--orange));border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1);width:0}
+.bsum-title{font-family:var(--fd);font-size:19px;font-weight:700;margin-bottom:4px}
+.bsum-sub{font-size:12px;color:var(--muted);margin-bottom:24px}
+.blist{min-height:130px;margin-bottom:20px}
+.blist-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);animation:blin .25s ease}
+@keyframes blin{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+.blist-nm{font-size:13px;color:var(--gray)}
+.blist-pr{font-size:11px;font-weight:700;color:var(--cyan)}
+.bempty{font-size:13px;color:var(--muted);text-align:center;padding:32px 0;border-bottom:1px solid var(--border)}
+.bdiv{height:1px;background:var(--border);margin:16px 0}
+.btotal-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.btotal-lbl{font-size:13px;font-weight:600;color:var(--gray)}
+.btotal-v{font-family:var(--fd);font-size:20px;font-weight:800;color:var(--orange)}
+.bnote{font-size:11px;color:var(--muted);text-align:center;margin-bottom:18px;line-height:1.6}
+.bcta{width:100%;background:linear-gradient(135deg,var(--orange),var(--orange2));color:var(--white);border:none;padding:16px;border-radius:16px;font-size:14px;font-weight:700;cursor:none;transition:all .3s;font-family:var(--fb)}
+.bcta:hover{transform:translateY(-2px);box-shadow:0 16px 44px rgba(255,122,0,.42)}
+
+/* ════════ PRICING ════════ */
+#pricing{background:var(--bg)}
+.pr-head{text-align:center;max-width:580px;margin:0 auto 60px}
+.pr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.prc{background:var(--glass);border:1px solid var(--border);border-radius:24px;padding:34px;position:relative;transition:all .35s;overflow:hidden;display:flex;flex-direction:column}
+.prc.feat{background:rgba(0,200,255,.04);border-color:rgba(0,200,255,.22);transform:scale(1.02)}
+.prc.feat::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(0,200,255,.07),transparent 55%);pointer-events:none}
+.prc-badge{position:absolute;top:22px;right:22px;background:var(--blue);color:var(--bg);font-size:9px;font-weight:800;padding:4px 11px;border-radius:100px;letter-spacing:.08em;text-transform:uppercase}
+.prc-tier{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.prc.feat .prc-tier{color:var(--blue)}
+.prc-name{font-family:var(--fd);font-size:24px;font-weight:700;margin-bottom:6px}
+.prc-desc{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6}
+.prc-from{font-size:11px;color:var(--muted)}
+.prc-amount{font-family:var(--fd);font-size:42px;font-weight:800;color:var(--white);line-height:1;margin-bottom:2px}
+.prc-amount span{font-size:18px;color:var(--muted)}
+.prc-period{font-size:12px;color:var(--muted);margin-bottom:28px}
+.prc-feats{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:32px;flex:1}
+.prc-feats li{display:flex;align-items:center;gap:11px;font-size:13px;color:var(--gray)}
+.prc-feats li::before{content:'';width:16px;height:16px;min-width:16px;border-radius:50%;background:rgba(0,200,255,.09);border:1px solid rgba(0,200,255,.22);display:flex;align-items:center;justify-content:center;background-image:url("data:image/svg+xml,%3Csvg width='9' height='7' viewBox='0 0 9 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 3.5L3.2 6L8 1' stroke='%2300C8FF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center}
+.prc-feats li.dim{color:rgba(126,138,154,.5)}
+.prc-feats li.dim::before{background-image:none;border-color:rgba(255,255,255,.06);background-color:rgba(255,255,255,.03)}
+
+/* ════════ PROCESS ════════ */
+#process{background:linear-gradient(180deg,var(--bg),rgba(9,13,30,.6))}
+.proc-head{text-align:center;max-width:560px;margin:0 auto 60px}
+/* CREATIVE IDEA 10: PROCESS — HORIZONTAL SCROLL TIMELINE ON MOBILE, INLINE ON DESKTOP */
+.proc-row{display:grid;grid-template-columns:repeat(7,1fr);position:relative;padding-top:8px}
+.proc-line{position:absolute;top:38px;left:calc(100%/14);right:calc(100%/14);height:1px;background:linear-gradient(90deg,transparent,rgba(0,200,255,.2) 20%,rgba(0,200,255,.2) 80%,transparent)}
+.ps{text-align:center;position:relative;z-index:1;padding:0 6px}
+.psd{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-family:var(--fd);font-size:13px;font-weight:800;color:var(--muted);transition:all .4s;position:relative;cursor:none}
+.ps:hover .psd,.ps.act .psd{background:rgba(0,200,255,.1);border-color:rgba(0,200,255,.35);color:var(--blue);box-shadow:0 0 0 8px rgba(0,200,255,.06)}
+.ps-t{font-size:12px;font-weight:700;color:var(--white);margin-bottom:4px}
+.ps-d{font-size:10px;color:var(--muted);line-height:1.55}
+
+/* ════════ STATS ════════ */
+#stats{padding:80px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(0,200,255,.018)}
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.st{text-align:center;padding:0 28px;position:relative}
+.st:not(:last-child)::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);height:44px;width:1px;background:var(--border)}
+.st-n{font-family:var(--fd);font-size:52px;font-weight:800;color:var(--white);line-height:1;display:block;margin-bottom:7px}
+.st-n em{font-style:normal;color:var(--orange)}
+.st-d{font-size:12px;color:var(--muted);font-weight:500}
+
+/* ════════ CREATIVE IDEA 11: PORTFOLIO WITH SLIDER TRANSITION ════════ */
+#portfolio{background:var(--bg)}
+.port-head{text-align:center;max-width:580px;margin:0 auto 60px}
+.port-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.pc{border-radius:24px;overflow:hidden;border:1px solid var(--border);background:var(--glass);transition:all .35s;cursor:none}
+.pc:hover{border-color:rgba(0,200,255,.18);box-shadow:0 28px 72px rgba(0,0,0,.38);transform:translateY(-4px)}
+.pc-vis{display:grid;grid-template-columns:1fr 1fr;height:190px;position:relative}
+.pc-vis::after{content:'VS';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:30px;height:30px;background:var(--bg);border:1px solid var(--bblue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:var(--blue);letter-spacing:.04em;z-index:1}
+.pbef,.paft{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:18px}
+.pbef{background:rgba(20,20,32,.6)}
+.paft{background:linear-gradient(135deg,rgba(0,200,255,.05),rgba(9,13,30,.4))}
+.pbl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.pbl.af{color:var(--cyan)}
+.pbm{font-family:var(--fd);font-size:28px;font-weight:800;color:var(--white);line-height:1}
+.pbm.af{color:var(--blue)}
+.pbs{font-size:11px;color:var(--muted);text-align:center}
+.pcb{padding:22px 24px}
+.pctag{display:inline-block;background:rgba(0,200,255,.07);border:1px solid rgba(0,200,255,.13);border-radius:100px;padding:3px 11px;font-size:10px;font-weight:700;color:var(--blue);margin-bottom:9px}
+.pcb h3{font-size:16px;margin-bottom:5px}
+.pcb p{font-size:12px;color:var(--muted);line-height:1.65}
+.pc-pills{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.pcpill{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:7px;padding:5px 10px;font-size:10px;font-weight:700;color:var(--cyan)}
+
+/* ════════ CREATIVE IDEA 12: TESTIMONIALS WITH ROTATING QUOTE RING ════════ */
+#testimonials{background:var(--bg2)}
+.test-head{text-align:center;max-width:540px;margin:0 auto 60px}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tc{background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:24px;padding:30px;transition:all .35s;display:flex;flex-direction:column}
+.tc:hover{border-color:rgba(0,200,255,.14);transform:translateY(-4px);box-shadow:0 22px 60px rgba(0,0,0,.28)}
+.tc-stars{display:flex;gap:3px;margin-bottom:16px}
+.tc-stars span{color:var(--orange2);font-size:12px}
+/* CREATIVE IDEA 12: Quote mark styled */
+.tc-q::before{content:'\201C';font-family:var(--fd);font-size:48px;color:rgba(0,200,255,.2);line-height:.5;display:block;margin-bottom:8px}
+.tc-q{font-size:14px;color:var(--gray);line-height:1.75;margin-bottom:22px;flex:1}
+.tc-auth{display:flex;align-items:center;gap:12px;margin-top:auto}
+.tav{width:46px;height:46px;border-radius:50%;border:2px solid rgba(0,200,255,.14);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:15px;font-weight:800;flex-shrink:0}
+.tav1{background:linear-gradient(135deg,rgba(0,200,255,.2),rgba(123,255,251,.1));color:var(--blue)}
+.tav2{background:linear-gradient(135deg,rgba(255,122,0,.2),rgba(255,170,51,.1));color:var(--orange)}
+.tav3{background:linear-gradient(135deg,rgba(160,248,255,.2),rgba(0,200,255,.1));color:var(--blue2)}
+.tc-name{font-size:13px;font-weight:700;color:var(--white);display:block}
+.tc-role{font-size:11px;color:var(--muted);margin-top:2px}
+.tc-ver{font-size:9px;font-weight:700;color:var(--cyan);margin-top:3px;display:flex;align-items:center;gap:4px;letter-spacing:.04em}
+.tc-ver::before{content:'✓';width:13px;height:13px;background:rgba(0,200,255,.1);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:8px}
+
+/* ════════ CREATIVE IDEA 13: FAQ — SPLIT LAYOUT ════════ */
+#faq{background:var(--bg)}
+.faq-inner{display:grid;grid-template-columns:360px 1fr;gap:72px;align-items:start}
+.faq-left h2{margin-bottom:14px}
+.faq-left p{margin-bottom:28px}
+/* CREATIVE IDEA 13b: FAQ has subtle number accent */
+.faq-list{display:flex;flex-direction:column}
+.fi{border-bottom:1px solid var(--border)}
+.fiq{display:flex;justify-content:space-between;align-items:center;padding:20px 0;cursor:none;gap:20px}
+.fiq-n{font-family:var(--fd);font-size:11px;font-weight:800;color:rgba(0,200,255,.3);flex-shrink:0;letter-spacing:.04em;width:22px}
+.fiq-t{font-size:15px;font-weight:500;color:var(--white);flex:1;transition:color .2s;line-height:1.4}
+.fiq:hover .fiq-t{color:var(--blue)}
+.fiq-tog{width:28px;height:28px;border-radius:8px;background:var(--glass);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s;font-size:17px;color:var(--blue);line-height:1}
+.fi.open .fiq-tog{background:rgba(0,200,255,.09);border-color:rgba(0,200,255,.22);transform:rotate(45deg)}
+.fia{font-size:14px;color:var(--muted);line-height:1.75;max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1),padding .45s;padding-left:22px}
+.fi.open .fia{max-height:260px;padding-bottom:20px;padding-left:22px}
+
+/* ════════ CREATIVE IDEA 14: CONTACT — GLASS FORM WITH FLOATING LABEL ════════ */
+#contact{background:linear-gradient(180deg,rgba(9,13,30,.5),var(--bg))}
+.cnt-inner{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.cnt-left h2{margin-bottom:14px}
+.cnt-lead{font-size:16px;color:var(--gray);margin-bottom:32px;line-height:1.75}
+.cm{display:flex;align-items:center;gap:16px;padding:20px 0;border-bottom:1px solid var(--border)}
+.cm:last-child{border:none}
+.cm-icon{width:46px;height:46px;border-radius:13px;background:rgba(0,200,255,.07);border:1px solid rgba(0,200,255,.11);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s}
+.cm:hover .cm-icon{background:rgba(0,200,255,.12);box-shadow:0 0 20px rgba(0,200,255,.1)}
+.cm-icon svg{width:19px;height:19px;stroke:var(--blue);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.cm-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px}
+.cm-val{font-size:15px;font-weight:600;color:var(--white)}
+.cform{background:rgba(9,13,30,.75);border:1px solid var(--border);border-radius:24px;padding:36px;backdrop-filter:blur(24px)}
+/* CREATIVE IDEA 14: Floating label fields */
+.ff{position:relative;margin-bottom:16px}
+.ff.half{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ff-group{position:relative}
+.ff-group input,.ff-group select,.ff-group textarea{width:100%;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px 18px 8px;font-size:15px;color:var(--white);font-family:var(--fb);outline:none;transition:all .25s;-webkit-appearance:none}
+.ff-group textarea{padding-top:22px;resize:vertical;min-height:100px;line-height:1.6}
+.ff-group select option{background:var(--bg2)}
+.ff-group input:focus,.ff-group select:focus,.ff-group textarea:focus{border-color:rgba(0,200,255,.32);background:rgba(0,200,255,.03);box-shadow:0 0 0 3px rgba(0,200,255,.07)}
+.ff-lbl{position:absolute;top:14px;left:18px;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;transition:all .2s;pointer-events:none}
+.ff-group input:focus ~ .ff-lbl,.ff-group input:not(:placeholder-shown) ~ .ff-lbl,.ff-group select:focus ~ .ff-lbl,.ff-group textarea:focus ~ .ff-lbl{top:7px;font-size:9px;color:var(--blue)}
+.fsub{width:100%;background:linear-gradient(135deg,var(--orange),var(--orange2));color:var(--white);border:none;padding:17px;border-radius:16px;font-size:15px;font-weight:700;cursor:none;transition:all .3s;font-family:var(--fb);margin-top:8px;letter-spacing:.01em}
+.fsub:hover{transform:translateY(-2px);box-shadow:0 16px 48px rgba(255,122,0,.42)}
+
+/* ════════ CREATIVE IDEA 15: FINAL CTA — FULL BLEED GLOW ════════ */
+#fcta{padding:120px 0;text-align:center;position:relative;overflow:hidden}
+.fcta-bg{position:absolute;inset:0;background:radial-gradient(ellipse 72% 72% at 50% 50%,rgba(0,200,255,.06),transparent 70%)}
+.fcta-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,.025) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 72% 80% at 50% 50%,black 20%,transparent 80%)}
+.fcta-inner{position:relative;z-index:1;max-width:740px;margin:0 auto}
+.fcta-eye{display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:18px;background:rgba(255,122,0,.07);border:1px solid rgba(255,122,0,.17);border-radius:100px;padding:7px 16px}
+.fcta-eye span{width:6px;height:6px;border-radius:50%;background:var(--orange);animation:bdot 2s infinite}
+.fcta-inner h2{margin-bottom:14px}
+.fcta-inner p{font-size:17px;color:var(--muted);margin-bottom:44px;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.75}
+.fcta-btns{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+
+/* ════════ FOOTER ════════ */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:68px 0 32px}
+.ft{display:grid;grid-template-columns:2.1fr 1fr 1fr 1fr;gap:56px;margin-bottom:52px}
+.fb-brand p{font-size:13px;color:var(--muted);line-height:1.75;max-width:280px;margin-top:12px}
+/* CREATIVE IDEA 16: FOOTER NEWSLETTER */
+.f-nl{margin-top:24px}
+.f-nl p{font-size:12px;color:var(--muted);margin-bottom:10px}
+.f-nl-row{display:flex;gap:7px}
+.f-nl-inp{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:11px;padding:10px 14px;font-size:13px;color:var(--white);font-family:var(--fb);outline:none;transition:border-color .2s}
+.f-nl-inp:focus{border-color:rgba(0,200,255,.28)}
+.f-nl-inp::placeholder{color:var(--muted)}
+.f-nl-btn{background:var(--blue);color:var(--bg);border:none;padding:10px 16px;border-radius:11px;font-size:12px;font-weight:700;cursor:none;font-family:var(--fb);transition:background .2s;white-space:nowrap}
+.f-nl-btn:hover{background:var(--cyan)}
+.fc h4{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:18px}
+.fc ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+.fc ul li a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s}
+.fc ul li a:hover{color:var(--white)}
+.fbot{display:flex;align-items:center;justify-content:space-between;padding-top:28px;border-top:1px solid var(--border)}
+.fcopy{font-size:12px;color:rgba(255,255,255,.22)}
+.fsoc{display:flex;gap:9px}
+/* CREATIVE IDEA 17: SOCIAL ICONS WITH HOVER GLOW */
+.fsb{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .25s;color:var(--muted)}
+.fsb:hover{background:rgba(0,200,255,.08);border-color:rgba(0,200,255,.2);color:var(--blue);box-shadow:0 0 16px rgba(0,200,255,.12)}
+.fsb svg{width:15px;height:15px;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.f-links{display:flex;gap:18px}
+.f-links a{font-size:12px;color:rgba(255,255,255,.28);text-decoration:none;transition:color .2s}
+.f-links a:hover{color:var(--white)}
+
+/* ════════ CREATIVE IDEA 18: WHATSAPP FLOAT + BACK TO TOP ════════ */
+.wa-wrap{position:fixed;bottom:30px;right:30px;z-index:900;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.wa-tip{background:rgba(9,13,30,.94);border:1px solid var(--border);border-radius:12px;padding:9px 14px;font-size:12px;font-weight:600;color:var(--white);white-space:nowrap;backdrop-filter:blur(16px);opacity:0;transform:translateX(8px);transition:all .25s;pointer-events:none}
+.wa-wrap:hover .wa-tip{opacity:1;transform:none}
+.wa-btn{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7E);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 28px rgba(37,211,102,.32);transition:all .3s;cursor:none;text-decoration:none}
+.wa-btn:hover{transform:scale(1.08);box-shadow:0 12px 36px rgba(37,211,102,.42)}
+.wa-btn svg{width:27px;height:27px;fill:white}
+.btt{position:fixed;bottom:30px;left:30px;z-index:900;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:none;transition:all .3s;opacity:0;transform:translateY(8px);backdrop-filter:blur(10px)}
+.btt.show{opacity:1;transform:none}
+.btt:hover{background:rgba(0,200,255,.08);border-color:rgba(0,200,255,.22)}
+.btt svg{width:17px;height:17px;stroke:var(--white);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none}
+
+/* ════════ CREATIVE IDEA 19: SECTION DIVIDER GRADIENT ════════ */
+.sdiv{height:1px;background:linear-gradient(90deg,transparent,var(--bblue),transparent);margin:0;border:none}
+
+/* ════════ RESPONSIVE ════════ */
+@media(max-width:1100px){
+  .hero-inner{grid-template-columns:1fr;gap:52px}
+  .hvis{display:none}
+  .about-inner{grid-template-columns:1fr}
+  .id-floats{display:none}
+  .bento{grid-template-columns:repeat(2,1fr)}
+  .bc.sp2,.bc.sp3,.bc.sp4,.bc.sp6{grid-column:span 2}
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .bld-layout{grid-template-columns:1fr}
+  .pr-grid{grid-template-columns:1fr}
+  .prc.feat{transform:none}
+  .port-grid{grid-template-columns:1fr}
+  .test-grid{grid-template-columns:1fr}
+  .faq-inner{grid-template-columns:1fr}
+  .cnt-inner{grid-template-columns:1fr}
+  .ft{grid-template-columns:1fr 1fr}
+  .stats-row{grid-template-columns:repeat(3,1fr)}
+  .st:nth-child(3)::after{display:none}
+  .proc-row{grid-template-columns:repeat(4,1fr);gap:20px}
+  .proc-line{display:none}
+}
+@media(max-width:768px){
+  section{padding:80px 0}
+  .wrap{padding:0 24px}
+  .ni{padding:0 24px}
+  .nl{display:none}
+  .nmb{display:flex}
+  .hbtns{flex-direction:column;align-items:flex-start}
+  .hstats{flex-wrap:wrap;gap:24px}
+  .bento{grid-template-columns:1fr}
+  .bc.sp2,.bc.sp3,.bc.sp4,.bc.sp6{grid-column:span 1}
+  .svc-grid{grid-template-columns:1fr}
+  .bld-grid{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .ft{grid-template-columns:1fr}
+  .fbot{flex-direction:column;gap:16px;text-align:center}
+  .proc-row{grid-template-columns:repeat(2,1fr)}
+  body{cursor:auto}
+  #cur,#cur-trail{display:none}
+  .ncta,.bcta,.fsub,.f-nl-btn,.wa-btn,.btt{cursor:pointer}
+  .ni{gap:16px}
+  .ncta{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cur"></div>
+<div id="cur-trail"></div>
+
+<!-- LOADER (IDEA 2: DNA DOTS) -->
+<div id="loader">
+  <div class="dna">
+    <div class="dna-dot"></div><div class="dna-dot"></div><div class="dna-dot"></div>
+    <div class="dna-dot"></div><div class="dna-dot"></div><div class="dna-dot"></div>
+    <div class="dna-dot"></div>
+  </div>
+  <div class="ld-logo">Shadow<em>X</em> Medical</div>
+  <div class="ld-tag">Healthcare Digital Transformation</div>
+  <div class="ld-line"><div class="ld-fill" id="ldf"></div></div>
+</div>
+
+<!-- MOBILE NAV -->
+<div class="mnav" id="mnav">
+  <button class="mnav-close" onclick="toggleNav()">✕</button>
+  <a href="#about" onclick="toggleNav()">About</a>
+  <a href="#services" onclick="toggleNav()">Services</a>
+  <a href="#pricing" onclick="toggleNav()">Pricing</a>
+  <a href="#portfolio" onclick="toggleNav()">Portfolio</a>
+  <a href="#faq" onclick="toggleNav()">FAQ</a>
+  <a href="#contact" onclick="toggleNav()" style="color:var(--orange)">Book Consultation →</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="ni">
+    <a href="#hero" class="logo">Shadow<span class="lx">X</span> Medical</a>
+    <ul class="nl">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="ncta" onclick="gotoContact()">Book Consultation</button>
+    <button class="nmb" onclick="toggleNav()">
+      <svg width="17" height="14" viewBox="0 0 17 14" fill="none"><path d="M1 1h15M1 7h15M1 13h15" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<section id="hero">
+  <div class="hbg">
+    <div class="hgrid"></div>
+    <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+    <!-- IDEA 3: HEARTBEAT LINE -->
+    <div class="hbeat-wrap">
+      <svg class="hbeat" width="2400" height="60" viewBox="0 0 2400 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 30 L200 30 L240 30 L260 5 L280 55 L300 30 L320 30 L360 30 L400 30 L440 30 L460 5 L480 55 L500 30 L520 30 L560 30 L600 30 L640 30 L660 5 L680 55 L700 30 L720 30 L760 30 L800 30 L840 30 L860 5 L880 55 L900 30 L920 30 L960 30 L1000 30 L1040 30 L1060 5 L1080 55 L1100 30 L1120 30 L1160 30 L1200 30 L1240 30 L1260 5 L1280 55 L1300 30 L1320 30 L1360 30 L1400 30 L1440 30 L1460 5 L1480 55 L1500 30 L1520 30 L1560 30 L1600 30 L1640 30 L1660 5 L1680 55 L1700 30 L1720 30 L1760 30 L1800 30 L1840 30 L1860 5 L1880 55 L1900 30 L1920 30 L1960 30 L2000 30 L2040 30 L2060 5 L2080 55 L2100 30 L2120 30 L2160 30 L2200 30 L2240 30 L2260 5 L2280 55 L2300 30 L2320 30 L2400 30" stroke="url(#hbgrad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs><linearGradient id="hbgrad" x1="0" y1="0" x2="2400" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#00C8FF" stop-opacity="0"/><stop offset="30%" stop-color="#00C8FF"/><stop offset="70%" stop-color="#7BFFFB"/><stop offset="100%" stop-color="#00C8FF" stop-opacity="0"/></linearGradient></defs>
+      </svg>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div class="rv">
+        <div class="hbadge"><span class="bdot"></span>Healthcare Digital Transformation</div>
+        <h1 class="hh1">The Future Of<br><em>Medical Presence</em></h1>
+        <p class="hsub">Everything you need to build your medical brand — in one place.</p>
+        <p class="hdesc">Shadow X Medical helps doctors, clinics and healthcare organizations build premium digital identities that inspire trust, dominate local search and convert visitors into loyal patients.</p>
+        <div class="hbtns">
+          <a href="#contact" class="bp">Let's Build Your Presence →</a>
+          <a href="#services" class="bs">Explore Solutions</a>
+        </div>
+        <div class="hproof">
+          <div class="av-stack">
+            <div class="av av1">DM</div><div class="av av2">NS</div>
+            <div class="av av3">AK</div><div class="av av4">RM</div>
+          </div>
+          <span class="hproof-text">Trusted by <strong>120+ doctors</strong> across the Middle East</span>
+        </div>
+        <div class="hstats">
+          <div><span class="hs-n" id="hc1">0<em>+</em></span><span class="hs-l">Projects Delivered</span></div>
+          <div><span class="hs-n" id="hc2">0<em>%</em></span><span class="hs-l">Client Satisfaction</span></div>
+          <div><span class="hs-n" id="hc3">0<em>+</em></span><span class="hs-l">Healthcare Partners</span></div>
+        </div>
+      </div>
+      <!-- IDEA 6: CLINIC OS MOCKUP -->
+      <div class="hvis rvr">
+        <div class="hos">
+          <div class="os-bar">
+            <div class="os-dot"></div><div class="os-dot"></div><div class="os-dot"></div>
+            <span class="os-title">ShadowX Medical OS — Live Dashboard</span>
+          </div>
+          <div class="os-body">
+            <div class="os-sidebar">
+              <div class="os-nav-item act"><span class="os-nav-dot"></span>Dashboard</div>
+              <div class="os-nav-item"><span class="os-nav-dot"></span>Appointments</div>
+              <div class="os-nav-item"><span class="os-nav-dot"></span>Patients</div>
+              <div class="os-nav-item"><span class="os-nav-dot"></span>Analytics</div>
+              <div class="os-nav-item"><span class="os-nav-dot"></span>AI Chatbot</div>
+              <div class="os-nav-item"><span class="os-nav-dot"></span>Marketing</div>
+              <div class="os-nav-item"><span class="os-nav-dot"></span>Branding</div>
+            </div>
+            <div class="os-main">
+              <div class="os-kpis">
+                <div class="kpi"><span class="kpi-v">+347%</span><span class="kpi-k">Online Visibility</span><span class="kpi-u">↑ This Month</span></div>
+                <div class="kpi"><span class="kpi-v">2,841</span><span class="kpi-k">Appointments</span><span class="kpi-u">↑ 12% Growth</span></div>
+                <div class="kpi"><span class="kpi-v">98.4%</span><span class="kpi-k">Patient Trust</span><span class="kpi-u">↑ Excellent</span></div>
+              </div>
+              <div class="os-chart-label">Monthly Appointments</div>
+              <div class="os-bars" id="oschart"></div>
+              <div class="os-appts">
+                <div class="oa"><span class="oa-c n"></span><span class="oa-name">Dr. Mohamed Hassan</span><span class="oa-t">10:00</span><span class="oa-b nb">New</span></div>
+                <div class="oa"><span class="oa-c c"></span><span class="oa-name">Dr. Nour Samir</span><span class="oa-t">11:30</span><span class="oa-b cb">Confirmed</span></div>
+                <div class="oa"><span class="oa-c p"></span><span class="oa-name">Dr. Ahmed Khalil</span><span class="oa-t">14:00</span><span class="oa-b nb">New</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ftag ft1"><span class="fti b">◆</span><span class="ftx">AI Chatbot Active</span><span class="fts">24/7 Patient Support</span></div>
+        <div class="ftag ft2"><span class="fti o">★</span><span class="ftx">Brand Launched</span><span class="fts">+340% Revenue Growth</span></div>
+        <div class="ftag ft3"><span class="fti c">▲</span><span class="ftx">#1 Google Ranking</span><span class="fts">Local Search Domination</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div id="trust">
+  <div class="wrap">
+    <div class="tb-wrap">
+      <span class="tb-lbl">Trusted By</span>
+      <div style="display:flex;overflow:hidden;flex:1">
+        <div class="tb-scroll">
+          <span class="tb-i">CAIRO DENTAL CENTER</span><span class="tb-i">NOVA CLINIC</span>
+          <span class="tb-i">MEDLIFE IVF</span><span class="tb-i">ALPHA ORTHOPEDIC</span>
+          <span class="tb-i">DERMA ELITE</span><span class="tb-i">VITAHEALTH GROUP</span>
+          <span class="tb-i">LUXE AESTHETICS</span><span class="tb-i">PRIME MEDICAL</span>
+          <span class="tb-i">SAUDI HEALTH CORP</span><span class="tb-i">EMIRATES CLINIC</span>
+          <span class="tb-i">CAIRO DENTAL CENTER</span><span class="tb-i">NOVA CLINIC</span>
+          <span class="tb-i">MEDLIFE IVF</span><span class="tb-i">ALPHA ORTHOPEDIC</span>
+          <span class="tb-i">DERMA ELITE</span><span class="tb-i">VITAHEALTH GROUP</span>
+          <span class="tb-i">LUXE AESTHETICS</span><span class="tb-i">PRIME MEDICAL</span>
+          <span class="tb-i">SAUDI HEALTH CORP</span><span class="tb-i">EMIRATES CLINIC</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT (IDEA 7: IDENTITY CARD) -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-inner">
+      <div class="rvl">
+        <div class="id-card">
+          <div class="idc-main">
+            <div class="idc-head">
+              <div class="idc-logo">Shadow<span>X</span> Medical</div>
+              <div class="idc-year">Est. 2020</div>
+            </div>
+            <div class="idc-xwrap">
+              <div class="idc-xglow"></div>
+              <div class="idc-x">X</div>
+            </div>
+            <div class="idc-pills">
+              <span class="idc-pill">Healthcare Technology</span>
+              <span class="idc-pill">AI Solutions</span>
+              <span class="idc-pill">Premium Design</span>
+              <span class="idc-pill">Digital Strategy</span>
+              <span class="idc-pill">Growth Partner</span>
+            </div>
+          </div>
+          <div class="id-floats">
+            <div class="idf"><span class="idf-n" id="asc1">0<em>+</em></span><span class="idf-l">Projects</span></div>
+            <div class="idf"><span class="idf-n" id="asc2">0<em>%</em></span><span class="idf-l">Satisfaction</span></div>
+            <div class="idf"><span class="idf-n" style="color:var(--cyan)">24/7</span><span class="idf-l">Support</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="about-text rvr">
+        <span class="eye">About Us</span>
+        <h2>We Don't Build Websites.<br>We Build Medical Brands.</h2>
+        <p class="lead" style="margin-top:18px">Shadow X Medical transforms healthcare businesses into premium digital brands that inspire trust and accelerate real growth.</p>
+        <p>We combine branding, technology, AI and digital strategy to help medical professionals establish a presence that reflects the quality of their care — and converts visitors into loyal patients.</p>
+        <p style="margin-top:12px">We are not an agency. We are not a studio. We are your long-term healthcare technology partner in the Middle East.</p>
+        <div class="about-pillars">
+          <div class="pillar"><div class="pillar-d"></div><span>Healthcare-Exclusive Focus</span></div>
+          <div class="pillar"><div class="pillar-d" style="background:var(--orange)"></div><span>AI-Powered Solutions</span></div>
+          <div class="pillar"><div class="pillar-d" style="background:var(--cyan)"></div><span>Apple-Level Design</span></div>
+          <div class="pillar"><div class="pillar-d" style="background:var(--orange2)"></div><span>Long-Term Partnership</span></div>
+          <div class="pillar"><div class="pillar-d"></div><span>Measurable Growth</span></div>
+          <div class="pillar"><div class="pillar-d" style="background:var(--blue2)"></div><span>Fast Delivery</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sdiv">
+
+<!-- WHY US (IDEA 8: BENTO GRID) -->
+<section id="why" style="padding-top:100px">
+  <div class="wrap">
+    <div class="rv" style="text-align:center;max-width:580px;margin:0 auto">
+      <span class="eye">Why Shadow X Medical</span>
+      <h2>Built Different.<br>For Healthcare.</h2>
+      <p style="margin-top:14px;font-size:16px">Every feature, every service, every decision is built for one type of client: the medical professional who refuses to settle for average.</p>
+    </div>
+    <div class="bento">
+      <!-- Row 1 -->
+      <div class="bc sp3 rv">
+        <span class="bc-n">01</span>
+        <div class="bc-icon"><svg viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg></div>
+        <h3>Healthcare-Exclusive Focus</h3>
+        <p>We work only with medical professionals. No retail, no restaurants. Only healthcare — which means we understand your world better than any generalist agency ever could.</p>
+      </div>
+      <div class="bc sp3 rv" style="background:rgba(0,200,255,.04);border-color:rgba(0,200,255,.13)">
+        <div class="bc-stat" id="bs1">0<em>+</em></div>
+        <div class="bc-stat-label">Successful Projects Delivered</div>
+        <p style="margin-top:10px;font-size:13px">From solo clinics to hospital groups across the Middle East.</p>
+      </div>
+      <!-- Row 2 -->
+      <div class="bc sp2 rv">
+        <span class="bc-n">02</span>
+        <div class="bc-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <h3>Apple-Level Design</h3>
+        <p>Purposeful, premium, conversion-driven. No templates, no shortcuts. Ever.</p>
+      </div>
+      <div class="bc sp2 rv">
+        <span class="bc-n">03</span>
+        <div class="bc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m12 8 4 4-4 4M8 12h8"/></svg></div>
+        <h3>AI-Powered Operations</h3>
+        <p>Intelligent chatbots and automation so your clinic works smarter 24/7.</p>
+      </div>
+      <div class="bc sp2 rv">
+        <span class="bc-n">04</span>
+        <div class="bc-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+        <h3>Measurable Growth</h3>
+        <p>More appointments, higher rankings, better conversion. We track everything.</p>
+      </div>
+      <!-- Row 3: Wide testimonial snippet -->
+      <div class="bc sp4 rv">
+        <span class="bc-n">05</span>
+        <div class="bc-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Long-Term Partnership</h3>
+        <p>We become part of your team. Monthly reporting, continuous optimization, always on call.</p>
+        <p class="bc-quote">"Our bookings tripled in four months. Shadow X Medical isn't a vendor — they're a genuine partner in our growth." <span class="bc-quote-auth">— Dr. Mohamed Hassan, Cairo Dental Center</span></p>
+      </div>
+      <div class="bc sp2 rv" style="background:rgba(255,122,0,.03);border-color:rgba(255,122,0,.12)">
+        <div class="bc-stat" style="color:var(--orange)" id="bs2">0<em>%</em></div>
+        <div class="bc-stat-label">Client Satisfaction Rate</div>
+        <p style="margin-top:10px;font-size:13px">Maintained consistently since our founding in 2020.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sdiv">
+
+<!-- SERVICES -->
+<section id="services" style="padding-top:100px">
+  <div class="wrap">
+    <div class="svc-head rv">
+      <div>
+        <span class="eye">What We Do</span>
+        <h2>Complete Medical Digital Solutions</h2>
+      </div>
+      <a href="#builder" class="bs bsm" style="white-space:nowrap">Build Package →</a>
+    </div>
+    <div class="svc-grid">
+      <div class="sc rv"><div class="sc-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></div><h3>Medical Branding</h3><p>Logo, identity and brand system built to communicate trust and authority in healthcare.</p><span class="sc-lnk">Learn More →</span></div>
+      <div class="sc rv"><div class="sc-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><h3>Premium Websites</h3><p>Conversion-focused medical websites built to the highest design standards. Zero templates.</p><span class="sc-lnk">Learn More →</span></div>
+      <div class="sc rv"><div class="sc-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></div><h3>Booking Systems</h3><p>Smart appointment management that fills your schedule without the admin burden.</p><span class="sc-lnk">Learn More →</span></div>
+      <div class="sc rv"><div class="sc-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><h3>Google SEO</h3><p>Dominate local search. Be the first clinic patients find for your specialty.</p><span class="sc-lnk">Learn More →</span></div>
+      <div class="sc rv"><div class="sc-icon"><svg viewBox="0 0 24 24"><path d="m12 8-9.04 9.06a2.82 2.82 0 1 0 3.98 3.98L16 12"/><circle cx="17" cy="7" r="5"/></svg></div><h3>AI Chatbot</h3><p>24/7 intelligent assistant that answers questions, books appointments and qualifies leads automatically.</p><span class="sc-lnk">Learn More →</span></div>
+      <div class="sc rv"><div class="sc-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12.2a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.5h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.15 6.15l1.77-1.77a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><h3>WhatsApp Business</h3><p>Professional setup with automated responses, broadcasts and patient follow-up sequences.</p><span class="sc-lnk">Learn More →</span></div>
+      <div class="sc rv"><div class="sc-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><h3>Medical Marketing</h3><p>Data-driven campaigns across Google and social platforms, built for healthcare conversion.</p><span class="sc-lnk">Learn More →</span></div>
+      <div class="sc rv"><div class="sc-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><h3>Content Creation</h3><p>Premium photography, video and copywriting that positions you as the authority.</p><span class="sc-lnk">Learn More →</span></div>
+      <div class="sc rv"><div class="sc-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><h3>Analytics & Reporting</h3><p>Real-time dashboards showing how your digital presence performs and where to grow next.</p><span class="sc-lnk">Learn More →</span></div>
+      <div class="sc rv"><div class="sc-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><h3>Electronic Invoice</h3><p>Digital billing compliant with healthcare financial standards, fully integrated.</p><span class="sc-lnk">Learn More →</span></div>
+      <div class="sc rv"><div class="sc-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>CRM Integration</h3><p>Patient relationship management that tracks every touchpoint and automates retention.</p><span class="sc-lnk">Learn More →</span></div>
+      <div class="sc rv"><div class="sc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div><h3>Workflow Automation</h3><p>Automate follow-ups, reminders and internal tasks — saving your team hours every week.</p><span class="sc-lnk">Learn More →</span></div>
+    </div>
+  </div>
+</section>
+
+<hr class="sdiv">
+
+<!-- BUILDER (IDEA 9: GAMIFIED + PROGRESS BAR) -->
+<section id="builder" style="padding-top:100px">
+  <div class="wrap">
+    <div class="bld-head rv">
+      <span class="eye">Package Builder</span>
+      <h2>Build Your Custom Solution</h2>
+      <p style="margin-top:12px;font-size:15px">Select services. Watch your package take shape. Book a free consultation — we'll prepare a tailored proposal based on your exact goals.</p>
+    </div>
+    <div class="bld-layout">
+      <div class="bld-grid rv" id="bldGrid"></div>
+      <div class="bsum rvr">
+        <div class="bsum-prog-wrap">
+          <div class="bsum-prog-label"><span>Package Completeness</span><span id="bpct">0%</span></div>
+          <div class="bsum-prog"><div class="bsum-prog-fill" id="bpfill"></div></div>
+        </div>
+        <div class="bsum-title">Your Package</div>
+        <div class="bsum-sub">Selected services appear below</div>
+        <div class="blist" id="blist"><div class="bempty">Select services to start building →</div></div>
+        <div class="bdiv"></div>
+        <div class="btotal-row">
+          <span class="btotal-lbl">Services Selected</span>
+          <span class="btotal-v" id="bcount">0 services</span>
+        </div>
+        <div class="bnote">Book a free consultation and we'll prepare a custom quote for your selection.</div>
+        <button class="bcta" onclick="gotoContact()">Book Free Consultation →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="pr-head rv">
+      <span class="eye">Pricing</span>
+      <h2>Transparent, Honest Pricing</h2>
+      <p style="margin-top:12px;font-size:15px">Choose a starting package or build a custom solution. Every plan includes a dedicated account manager and priority support.</p>
+    </div>
+    <div class="pr-grid">
+      <div class="prc rv">
+        <div class="prc-tier">Starter</div>
+        <div class="prc-name">Foundation</div>
+        <div class="prc-desc">Perfect for solo doctors and small clinics beginning their digital journey.</div>
+        <div class="prc-from">Starting from</div>
+        <div class="prc-amount"><span>$</span>1,200</div>
+        <div class="prc-period">one-time + $150/mo</div>
+        <ul class="prc-feats">
+          <li>Medical Brand Identity</li><li>Premium 5-Page Website</li>
+          <li>Google Business Setup</li><li>Basic SEO</li>
+          <li>WhatsApp Business</li>
+          <li class="dim">AI Chatbot</li><li class="dim">CRM Integration</li>
+        </ul>
+        <a href="#contact" class="bs" style="width:100%;justify-content:center;padding:14px">Get Started →</a>
+      </div>
+      <div class="prc feat rv">
+        <div class="prc-badge">Most Popular</div>
+        <div class="prc-tier">Growth</div>
+        <div class="prc-name">Accelerator</div>
+        <div class="prc-desc">For clinics and medical centers ready to scale and dominate their market.</div>
+        <div class="prc-from">Starting from</div>
+        <div class="prc-amount"><span>$</span>3,500</div>
+        <div class="prc-period">one-time + $450/mo</div>
+        <ul class="prc-feats">
+          <li>Everything in Foundation</li><li>AI Chatbot + Automation</li>
+          <li>Booking System</li><li>Full SEO Campaign</li>
+          <li>Social Media Marketing</li><li>Content Creation (4/mo)</li>
+          <li>Analytics Dashboard</li>
+        </ul>
+        <a href="#contact" class="bp" style="width:100%;justify-content:center;padding:14px">Build My Presence →</a>
+      </div>
+      <div class="prc rv">
+        <div class="prc-tier">Enterprise</div>
+        <div class="prc-name">Total Dominance</div>
+        <div class="prc-desc">For hospitals, medical groups and healthcare investors building market leadership.</div>
+        <div class="prc-from">Starting from</div>
+        <div class="prc-amount"><span>$</span>8,000</div>
+        <div class="prc-period">one-time + $950/mo</div>
+        <ul class="prc-feats">
+          <li>Everything in Accelerator</li><li>CRM Integration</li>
+          <li>Multi-Branch Management</li><li>Electronic Invoice System</li>
+          <li>Workflow Automation Suite</li><li>Dedicated Account Team</li>
+          <li>Quarterly Strategy Sessions</li>
+        </ul>
+        <a href="#contact" class="bs" style="width:100%;justify-content:center;padding:14px">Request Proposal →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS (IDEA 10) -->
+<section id="process">
+  <div class="wrap">
+    <div class="proc-head rv">
+      <span class="eye">How We Work</span>
+      <h2>A Process Built For Results</h2>
+      <p style="margin-top:12px">From strategy to launch to continuous growth — every step built around measurable outcomes for your practice.</p>
+    </div>
+    <div class="proc-row">
+      <div class="proc-line"></div>
+      <div class="ps act rv"><div class="psd">01</div><div class="ps-t">Discovery</div><div class="ps-d">Deep dive into your practice, goals and patients</div></div>
+      <div class="ps rv"><div class="psd">02</div><div class="ps-t">Research</div><div class="ps-d">Market, competitors and audience analysis</div></div>
+      <div class="ps rv"><div class="psd">03</div><div class="ps-t">Strategy</div><div class="ps-d">Custom digital roadmap for your growth</div></div>
+      <div class="ps rv"><div class="psd">04</div><div class="ps-t">Design</div><div class="ps-d">Premium visual system for your brand</div></div>
+      <div class="ps rv"><div class="psd">05</div><div class="ps-t">Development</div><div class="ps-d">Engineered to perform and convert</div></div>
+      <div class="ps rv"><div class="psd">06</div><div class="ps-t">Launch</div><div class="ps-d">Precise deployment with quality checks</div></div>
+      <div class="ps rv"><div class="psd">07</div><div class="ps-t">Growth</div><div class="ps-d">Ongoing optimization and partnership</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="wrap">
+    <div class="stats-row">
+      <div class="st rv"><span class="st-n"><span class="sc" data-t="120">0</span><em>+</em></span><div class="st-d">Projects Delivered</div></div>
+      <div class="st rv"><span class="st-n"><span class="sc" data-t="98">0</span><em>%</em></span><div class="st-d">Client Satisfaction</div></div>
+      <div class="st rv"><span class="st-n"><span class="sc" data-t="45">0</span><em>+</em></span><div class="st-d">Healthcare Partners</div></div>
+      <div class="st rv"><span class="st-n" style="color:var(--cyan)">24/7</span><div class="st-d">Support Availability</div></div>
+      <div class="st rv"><span class="st-n"><span class="sc" data-t="5">0</span><em>+</em></span><div class="st-d">Years of Excellence</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PORTFOLIO (IDEA 11) -->
+<section id="portfolio">
+  <div class="wrap">
+    <div class="port-head rv">
+      <span class="eye">Case Studies</span>
+      <h2>Real Results. Real Clinics.</h2>
+      <p style="margin-top:12px;font-size:15px">We measure success in patient appointments, revenue growth and market authority — not just beautiful pixels.</p>
+    </div>
+    <div class="port-grid">
+      <div class="pc rv">
+        <div class="pc-vis">
+          <div class="pbef"><span class="pbl">Before</span><span class="pbm">12</span><span class="pbs">Monthly Appts</span></div>
+          <div class="paft"><span class="pbl af">After</span><span class="pbm af">247</span><span class="pbs">Monthly Appts</span></div>
+        </div>
+        <div class="pcb">
+          <span class="pctag">Dental Center · Cairo</span>
+          <h3>Cairo Dental Center</h3>
+          <p>Full brand overhaul, premium website, booking system and local SEO. 20× appointment growth in 6 months.</p>
+          <div class="pc-pills"><span class="pcpill">+1958% Appointments</span><span class="pcpill">#1 Google Ranking</span></div>
+        </div>
+      </div>
+      <div class="pc rv">
+        <div class="pc-vis">
+          <div class="pbef"><span class="pbl">Before</span><span class="pbm">3%</span><span class="pbs">Online Visibility</span></div>
+          <div class="paft"><span class="pbl af">After</span><span class="pbm af">89%</span><span class="pbs">Local Search Rank</span></div>
+        </div>
+        <div class="pcb">
+          <span class="pctag">Dermatology · Alexandria</span>
+          <h3>Derma Elite Clinic</h3>
+          <p>AI chatbot, WhatsApp automation and aggressive SEO. #1 dermatology clinic in local search within 4 months.</p>
+          <div class="pc-pills"><span class="pcpill">+2,600% Visibility</span><span class="pcpill">80% AI-Handled</span></div>
+        </div>
+      </div>
+      <div class="pc rv">
+        <div class="pc-vis">
+          <div class="pbef"><span class="pbl">Before</span><span class="pbm">$0</span><span class="pbs">Digital Presence</span></div>
+          <div class="paft"><span class="pbl af">After</span><span class="pbm af">340%</span><span class="pbs">Revenue Growth</span></div>
+        </div>
+        <div class="pcb">
+          <span class="pctag">IVF Center · Giza</span>
+          <h3>MedLife IVF Center</h3>
+          <p>Brand identity, premium website, patient management and full digital marketing from zero. Fully booked in 90 days.</p>
+          <div class="pc-pills"><span class="pcpill">Launched from Zero</span><span class="pcpill">Fully Booked in 90 Days</span></div>
+        </div>
+      </div>
+      <div class="pc rv">
+        <div class="pc-vis">
+          <div class="pbef"><span class="pbl">Before</span><span class="pbm">2.1★</span><span class="pbs">Google Rating</span></div>
+          <div class="paft"><span class="pbl af">After</span><span class="pbm af">4.9★</span><span class="pbs">Google Rating</span></div>
+        </div>
+        <div class="pcb">
+          <span class="pctag">Orthopedic · Mansoura</span>
+          <h3>Alpha Orthopedic Center</h3>
+          <p>Reputation management, Google Business optimization and brand refresh. From forgettable to outstanding in 5 months.</p>
+          <div class="pc-pills"><span class="pcpill">+133% Rating</span><span class="pcpill">Top 3 Local Results</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS (IDEA 12) -->
+<section id="testimonials">
+  <div class="wrap">
+    <div class="test-head rv">
+      <span class="eye">Testimonials</span>
+      <h2>Doctors Who Chose Growth</h2>
+    </div>
+    <div class="test-grid">
+      <div class="tc rv">
+        <div class="tc-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="tc-q">Shadow X Medical completely transformed how patients perceive our clinic. Our bookings tripled in four months. We're now the most-reviewed dental center in Cairo.</p>
+        <div class="tc-auth">
+          <div class="tav tav1">DM</div>
+          <div><span class="tc-name">Dr. Mohamed Hassan</span><span class="tc-role">Founder, Cairo Dental Center</span><span class="tc-ver">Verified Partner</span></div>
+        </div>
+      </div>
+      <div class="tc rv">
+        <div class="tc-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="tc-q">The AI chatbot handles 80% of our patient inquiries automatically. We save 20+ hours a week and never miss a new patient. The ROI is extraordinary.</p>
+        <div class="tc-auth">
+          <div class="tav tav2">NS</div>
+          <div><span class="tc-name">Dr. Nour Samir</span><span class="tc-role">Dermatologist, Derma Elite</span><span class="tc-ver">Verified Partner</span></div>
+        </div>
+      </div>
+      <div class="tc rv">
+        <div class="tc-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="tc-q">We went from zero digital presence to fully booked within 90 days of launch. Shadow X Medical doesn't just build websites — they build businesses.</p>
+        <div class="tc-auth">
+          <div class="tav tav3">AK</div>
+          <div><span class="tc-name">Dr. Ahmed Khalil</span><span class="tc-role">Medical Director, MedLife IVF</span><span class="tc-ver">Verified Partner</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ (IDEA 13) -->
+<section id="faq">
+  <div class="wrap">
+    <div class="faq-inner">
+      <div class="rvl">
+        <span class="eye">FAQ</span>
+        <h2>Questions Worth Asking</h2>
+        <p style="margin-top:12px">Answers to everything a medical professional should ask before choosing a digital partner.</p>
+        <a href="#contact" class="bs bsm" style="margin-top:28px;display:inline-flex">Ask A Question →</a>
+      </div>
+      <div class="faq-list rvr" id="faqList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT (IDEA 14: FLOATING LABELS) -->
+<section id="contact">
+  <div class="wrap">
+    <div class="cnt-inner">
+      <div class="rvl">
+        <span class="eye">Contact</span>
+        <h2>Start Your Transformation</h2>
+        <p class="cnt-lead" style="margin-top:14px">Book a free 30-minute consultation. We'll analyze your current digital presence and present a clear growth plan — no commitment required.</p>
+        <div class="cm"><div class="cm-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12.2a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.5h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.15 6.15l1.77-1.77a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div><span class="cm-lbl">Phone & WhatsApp</span><span class="cm-val">+20 100 000 0000</span></div></div>
+        <div class="cm"><div class="cm-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><span class="cm-lbl">Email</span><span class="cm-val">hello@shadowxmedical.com</span></div></div>
+        <div class="cm"><div class="cm-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></div><div><span class="cm-lbl">Location</span><span class="cm-val">Cairo, Egypt — Serving the Middle East</span></div></div>
+      </div>
+      <div class="cform rvr">
+        <div class="ff half">
+          <div class="ff-group"><input type="text" placeholder=" "/><span class="ff-lbl">Full Name</span></div>
+          <div class="ff-group"><input type="tel" placeholder=" "/><span class="ff-lbl">Phone Number</span></div>
+        </div>
+        <div class="ff half">
+          <div class="ff-group"><input type="email" placeholder=" "/><span class="ff-lbl">Email Address</span></div>
+          <div class="ff-group"><input type="text" placeholder=" "/><span class="ff-lbl">Clinic Name</span></div>
+        </div>
+        <div class="ff"><div class="ff-group"><select><option value="" disabled selected></option><option>General Practice</option><option>Dentistry</option><option>Dermatology</option><option>Plastic Surgery</option><option>Orthopedics</option><option>IVF & Fertility</option><option>Pediatrics</option><option>Ophthalmology</option><option>Cardiology</option><option>Other</option></select><span class="ff-lbl">Medical Specialty</span></div></div>
+        <div class="ff"><div class="ff-group"><textarea placeholder=" " style="min-height:100px"></textarea><span class="ff-lbl">Message</span></div></div>
+        <button class="fsub" id="fsub" onclick="submitForm()">Book Free Consultation →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA (IDEA 15) -->
+<section id="fcta">
+  <div class="fcta-bg"></div>
+  <div class="fcta-grid"></div>
+  <div class="wrap">
+    <div class="fcta-inner rv">
+      <div class="fcta-eye"><span></span>Ready To Transform?</div>
+      <h2>Build Your Medical Presence.<br><span style="color:var(--blue)">Start Today.</span></h2>
+      <p>Join 120+ medical professionals who invested in their digital future. The consultation is free. The growth is real. The transformation is permanent.</p>
+      <div class="fcta-btns">
+        <a href="#contact" class="bp" style="font-size:17px;padding:18px 40px">Let's Build Together →</a>
+        <a href="#services" class="bs" style="font-size:17px;padding:18px 40px">Explore Services</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER (IDEAS 16 + 17) -->
+<footer>
+  <div class="wrap">
+    <div class="ft">
+      <div class="fb-brand">
+        <a href="#hero" class="logo" style="margin-bottom:12px;display:inline-block">Shadow<span class="lx">X</span> Medical</a>
+        <p>The Future Of Medical Presence. Helping healthcare professionals build premium digital identities that inspire trust and drive growth across the Middle East.</p>
+        <div class="f-nl">
+          <p>Stay updated with healthcare digital trends:</p>
+          <div class="f-nl-row">
+            <input class="f-nl-inp" type="email" placeholder="your@email.com"/>
+            <button class="f-nl-btn">Subscribe</button>
+          </div>
+        </div>
+      </div>
+      <div class="fc">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Medical Branding</a></li>
+          <li><a href="#services">Premium Websites</a></li>
+          <li><a href="#services">AI Solutions</a></li>
+          <li><a href="#services">SEO & Marketing</a></li>
+          <li><a href="#services">Booking Systems</a></li>
+          <li><a href="#services">Analytics</a></li>
+        </ul>
+      </div>
+      <div class="fc">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#portfolio">Case Studies</a></li>
+          <li><a href="#process">Our Process</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="fc">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#contact">Book Consultation</a></li>
+          <li><a href="mailto:hello@shadowxmedical.com">hello@shadowxmedical.com</a></li>
+          <li><a href="tel:+201000000000">+20 100 000 0000</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <p class="fcopy">© 2025 Shadow X Medical. All rights reserved. Healthcare Digital Transformation.</p>
+      <div class="fsoc">
+        <a href="#" class="fsb" title="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        <a href="#" class="fsb" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="#" class="fsb" title="X"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></a>
+        <a href="#" class="fsb" title="WhatsApp"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></a>
+      </div>
+      <div class="f-links">
+        <a href="#">Privacy</a><a href="#">Terms</a><a href="#">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP + BACK TO TOP (IDEA 18) -->
+<div class="wa-wrap">
+  <div class="wa-tip">Chat with us on WhatsApp</div>
+  <a href="https://wa.me/201000000000" class="wa-btn" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+  </a>
+</div>
+<button class="btt" id="btt" onclick="scrollTop()"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+<!-- CREATIVE IDEA 20: SCROLL PROGRESS BAR AT TOP -->
+<div id="spbar" style="position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--orange));z-index:9997;width:0%;transition:width .1s linear;pointer-events:none"></div>
+
+<script>
+/* ── CURSOR ── */
+const cur=document.getElementById('cur'),trail=document.getElementById('cur-trail');
+let mx=0,my=0,tx=0,ty=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+(function loop(){tx+=(mx-tx)*.1;ty+=(my-ty)*.1;trail.style.left=tx+'px';trail.style.top=ty+'px';requestAnimationFrame(loop)})();
+
+/* ── LOADER ── */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('ldf').style.width='100%';
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('done');
+    initReveal();startHeroCounters();
+  },2200);
+});
+
+/* ── NAV ── */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('stuck',scrollY>60);
+  document.getElementById('btt').classList.toggle('show',scrollY>400);
+  /* scroll progress */
+  const pct=scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+  document.getElementById('spbar').style.width=pct+'%';
+},{passive:true});
+
+function toggleNav(){document.getElementById('mnav').classList.toggle('open')}
+function gotoContact(){document.getElementById('contact').scrollIntoView({behavior:'smooth'})}
+function scrollTop(){window.scrollTo({top:0,behavior:'smooth'})}
+
+/* ── HERO OS CHART ── */
+const bh=[20,32,25,48,40,62,52,75,60,72,68,90];
+const osc=document.getElementById('oschart');
+if(osc)bh.forEach((h,i)=>{const b=document.createElement('div');b.className='ob '+(i>=bh.length-4?'hi':'lo');b.style.height=h+'%';osc.appendChild(b)});
+
+/* ── COUNT UP ── */
+function countUp(el,t,d){
+  let s=0;const step=t/(d/16);
+  (function r(){s=Math.min(s+step,t);el.textContent=Math.floor(s);if(s<t)requestAnimationFrame(r)})();
+}
+
+/* ── REVEAL ── */
+function initReveal(){
+  const all=document.querySelectorAll('.rv,.rvl,.rvr');
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('on'),i*55);io.unobserve(e.target)}});
+  },{threshold:.1});
+  all.forEach(el=>io.observe(el));
+
+  /* stat counters */
+  const sc=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){countUp(e.target,parseInt(e.target.dataset.t),1800);sc.unobserve(e.target)}});
+  },{threshold:.5});
+  document.querySelectorAll('.sc').forEach(el=>sc.observe(el));
+
+  /* bento stat + about stat */
+  const bso=new IntersectionObserver((e)=>{
+    e.forEach(en=>{if(en.isIntersecting){
+      const b1=document.getElementById('bs1'),b2=document.getElementById('bs2');
+      if(b1){b1.innerHTML='<span id="bn1">0</span><em>+</em>';countUp(document.getElementById('bn1'),120,1800)}
+      if(b2){b2.innerHTML='<span id="bn2">0</span><em>%</em>';countUp(document.getElementById('bn2'),98,1800)}
+      bso.disconnect();
+    }});
+  },{threshold:.3});
+  const wy=document.getElementById('why');if(wy)bso.observe(wy);
+
+  const aso=new IntersectionObserver((e)=>{
+    e.forEach(en=>{if(en.isIntersecting){
+      const a1=document.getElementById('asc1'),a2=document.getElementById('asc2');
+      if(a1){a1.innerHTML='<span id="an1">0</span><em>+</em>';countUp(document.getElementById('an1'),120,1600)}
+      if(a2){a2.innerHTML='<span id="an2">0</span><em>%</em>';countUp(document.getElementById('an2'),98,1600)}
+      aso.disconnect();
+    }});
+  },{threshold:.3});
+  const ab=document.getElementById('about');if(ab)aso.observe(ab);
+}
+
+/* ── HERO COUNTERS ── */
+function startHeroCounters(){
+  setTimeout(()=>{
+    const c1=document.getElementById('hc1'),c2=document.getElementById('hc2'),c3=document.getElementById('hc3');
+    if(c1){c1.innerHTML='<span id="h1">0</span><em>+</em>';countUp(document.getElementById('h1'),120,1600)}
+    if(c2){c2.innerHTML='<span id="h2">0</span><em>%</em>';countUp(document.getElementById('h2'),98,1600)}
+    if(c3){c3.innerHTML='<span id="h3">0</span><em>+</em>';countUp(document.getElementById('h3'),45,1600)}
+  },500);
+}
+
+/* ── PACKAGE BUILDER ── */
+const SVCS=[
+  {n:'Medical Branding',p:'From $800'},
+  {n:'Premium Website',p:'From $1,200'},
+  {n:'Booking System',p:'From $600'},
+  {n:'Google SEO',p:'From $400/mo'},
+  {n:'AI Chatbot',p:'From $900'},
+  {n:'WhatsApp Business',p:'From $300'},
+  {n:'Medical Marketing',p:'From $500/mo'},
+  {n:'Content Creation',p:'From $350/mo'},
+  {n:'Analytics Dashboard',p:'From $400'},
+  {n:'Electronic Invoice',p:'From $500'},
+  {n:'CRM Integration',p:'From $700'},
+  {n:'Workflow Automation',p:'From $800'},
+];
+const sel=new Set();
+const grid=document.getElementById('bldGrid');
+const list=document.getElementById('blist');
+const cnt=document.getElementById('bcount');
+const fill=document.getElementById('bpfill');
+const pct=document.getElementById('bpct');
+if(grid){
+  SVCS.forEach(s=>{
+    const el=document.createElement('div');
+    el.className='bi';
+    el.innerHTML=`<div class="bck"></div><span class="bnm">${s.n}</span><span class="bpr">${s.p}</span>`;
+    el.addEventListener('click',()=>{
+      if(sel.has(s.n)){sel.delete(s.n);el.classList.remove('s')}
+      else{sel.add(s.n);el.classList.add('s')}
+      updateBld();
+    });
+    grid.appendChild(el);
+  });
+}
+function updateBld(){
+  if(!list||!cnt)return;
+  const p=Math.round((sel.size/SVCS.length)*100);
+  if(fill)fill.style.width=p+'%';
+  if(pct)pct.textContent=p+'%';
+  if(!sel.size){list.innerHTML='<div class="bempty">Select services to start building →</div>';cnt.textContent='0 services';return}
+  cnt.textContent=sel.size+(sel.size===1?' service':' services');
+  list.innerHTML='';
+  SVCS.filter(s=>sel.has(s.n)).forEach(s=>{
+    const r=document.createElement('div');r.className='blist-item';
+    r.innerHTML=`<span class="blist-nm">${s.n}</span><span class="blist-pr">${s.p}</span>`;
+    list.appendChild(r);
+  });
+}
+
+/* ── FAQ ── */
+const FAQS=[
+  {n:'01',q:'What makes Shadow X Medical different from a regular agency?',a:'We work exclusively with healthcare businesses. Every service, process and design decision is built for medical professionals. We combine deep healthcare knowledge with premium technology to deliver results that generalist agencies simply cannot match.'},
+  {n:'02',q:'How long does it take to launch a complete medical brand?',a:'A full brand and website project typically takes 3–5 weeks from strategy to launch. Complex systems with AI chatbots and booking platforms take 6–8 weeks. We never rush quality, but we always hit our timelines.'},
+  {n:'03',q:'Do you work with clinics outside Egypt?',a:'Yes. We serve healthcare professionals across the Middle East including Egypt, UAE, Saudi Arabia, Kuwait and Jordan. Our entire workflow is built for seamless remote collaboration through our client portal.'},
+  {n:'04',q:'What is included in the free consultation?',a:'A 30-minute strategy call where we analyze your digital presence, identify your biggest growth opportunities and present a clear roadmap specific to your specialty and market. No sales pressure — just real insights.'},
+  {n:'05',q:'Can I start with one service and expand later?',a:'Absolutely. Many clients begin with branding or a website and add services as they grow. Our systems integrate seamlessly, so expanding is always straightforward and cost-efficient.'},
+  {n:'06',q:'What results can I realistically expect?',a:'Most clients see significant improvements in online visibility within 60–90 days. Appointment growth varies by specialty, but our case studies show 3× to 20× increases over 6 months. We track and report everything transparently.'},
+  {n:'07',q:'Do you provide ongoing support after launch?',a:'Yes. All partners receive ongoing support, monthly performance reports and continuous optimization. We are your long-term digital partner — not a vendor who disappears after launch.'},
+];
+const fl=document.getElementById('faqList');
+if(fl){
+  FAQS.forEach(f=>{
+    const el=document.createElement('div');el.className='fi';
+    el.innerHTML=`<div class="fiq" onclick="toggleFaq(this)"><span class="fiq-n">${f.n}</span><span class="fiq-t">${f.q}</span><div class="fiq-tog">+</div></div><div class="fia">${f.a}</div>`;
+    fl.appendChild(el);
+  });
+}
+function toggleFaq(btn){
+  const item=btn.closest('.fi');const was=item.classList.contains('open');
+  document.querySelectorAll('.fi.open').forEach(el=>el.classList.remove('open'));
+  if(!was)item.classList.add('open');
+}
+
+/* ── FORM ── */
+function submitForm(){
+  const btn=document.getElementById('fsub');if(!btn)return;
+  btn.textContent='✓ Received — We\'ll Contact You Within 2 Hours';
+  btn.style.background='linear-gradient(135deg,rgba(0,200,255,.22),rgba(0,200,255,.1))';
+  btn.style.border='1px solid rgba(0,200,255,.22)';
+  btn.disabled=true;
+}
+
+/* ── ACTIVE NAV ── */
+const secs=[...document.querySelectorAll('section[id]')];
+const nls=[...document.querySelectorAll('.nl a')];
+window.addEventListener('scroll',()=>{
+  let cur2='';
+  secs.forEach(s=>{if(scrollY>=s.offsetTop-220)cur2=s.id});
+  nls.forEach(a=>{a.style.color=a.getAttribute('href')==='#'+cur2?'var(--white)':''});
+},{passive:true});
+
+/* ── 3D TILT for identity card on desktop ── */
+const idc=document.querySelector('.idc-main');
+if(idc){
+  idc.addEventListener('mousemove',e=>{
+    const r=idc.getBoundingClientRect();
+    const x=((e.clientX-r.left)/r.width-.5)*10;
+    const y=((e.clientY-r.top)/r.height-.5)*-10;
+    idc.style.transform=`perspective(900px) rotateY(${x}deg) rotateX(${y}deg)`;
+  });
+  idc.addEventListener('mouseleave',()=>{idc.style.transform='perspective(900px) rotateY(0) rotateX(0)'});
+}
+</script>
+</body>
+</html>
