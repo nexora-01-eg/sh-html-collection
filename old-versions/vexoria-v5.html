@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEXORIA — Cognitive Architecture for a Rare Human Identity</title>
+<meta name="description" content="VEXORIA is a method for rebuilding your inner world — to become rare and in control. 60 systems across 12 domains of human life.">
+<meta name="keywords" content="VEXORIA, self development, human systems, cognitive architecture, rare identity, psychology, philosophy, rare human, منظومة, تطوير الذات">
+<meta property="og:title" content="VEXORIA — Cognitive Architecture for a Rare Human Identity">
+<meta property="og:description" content="The world shaped you before you could shape yourself. A method for rebuilding your inner world.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@VEXORIA_07">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   VEXORIA V5 — COGNITIVE ARCHITECTURE
+   "The world shaped you before you could shape yourself."
+═══════════════════════════════════════ */
+
+:root {
+  --black: #080604;
+  --black2: #0d0b07;
+  --black3: #131009;
+  --black4: #1a160d;
+  --gold: #c49a3c;
+  --gold2: #e8c060;
+  --gold3: #f5d878;
+  --gold-dim: #7a5c1e;
+  --gold-faint: #3a2a0e;
+  --cream: #f5f0e8;
+  --cream2: #e8dfc8;
+  --text: #d4c49a;
+  --text2: #a88c5a;
+  --text3: #7a6040;
+  --muted: #4a3820;
+  --border: rgba(196,154,60,.12);
+  --border2: rgba(196,154,60,.06);
+  --border3: rgba(196,154,60,.25);
+  --card: rgba(13,11,7,.8);
+  --nav-bg: rgba(8,6,4,.95);
+  --shadow: rgba(0,0,0,.6);
+}
+[data-theme="light"] {
+  --black: #f5f0e8;
+  --black2: #ede6d6;
+  --black3: #e4dbc8;
+  --black4: #d8cdb5;
+  --gold: #8a5e1a;
+  --gold2: #c49a3c;
+  --gold3: #e8c060;
+  --gold-dim: #c49a3c;
+  --gold-faint: #f0e4c8;
+  --cream: #1a1208;
+  --cream2: #2c1e0a;
+  --text: #3a2810;
+  --text2: #6b4a20;
+  --text3: #8c6030;
+  --muted: #b88040;
+  --border: rgba(138,94,26,.15);
+  --border2: rgba(138,94,26,.08);
+  --border3: rgba(138,94,26,.3);
+  --card: rgba(237,230,214,.85);
+  --nav-bg: rgba(245,240,232,.97);
+  --shadow: rgba(44,30,8,.12);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--text);font-family:'EB Garamond',serif;overflow-x:hidden;cursor:none;transition:background .5s,color .5s;-webkit-font-smoothing:antialiased;}
+::selection{background:var(--gold2);color:var(--black);}
+::-webkit-scrollbar{width:2px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:var(--gold-dim);}
+
+/* ── CURSOR ── */
+#cur{position:fixed;width:5px;height:5px;background:var(--gold2);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;}
+#curR{position:fixed;width:20px;height:20px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.35;transition:all .25s;}
+body:has(a:hover) #curR,body:has(button:hover) #curR{width:36px;height:36px;opacity:.15;}
+
+/* ── LOADER ── */
+#loader{position:fixed;inset:0;z-index:9990;background:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity 1s,visibility 1s;}
+#loader.gone{opacity:0;visibility:hidden;pointer-events:none;}
+.ld-logo{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(36px,8vw,90px);letter-spacing:.4em;color:transparent;background:linear-gradient(135deg,var(--gold-dim) 0%,var(--gold2) 40%,var(--gold3) 60%,var(--gold) 100%);background-size:200%;-webkit-background-clip:text;background-clip:text;animation:shimmer 2.5s linear infinite;}
+.ld-line{width:80px;height:1px;background:var(--gold-faint);position:relative;overflow:hidden;}
+.ld-line::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,var(--gold2),transparent);animation:slide 1.4s ease infinite;}
+.ld-tag{font-family:'EB Garamond',serif;font-size:9px;letter-spacing:8px;color:var(--gold-dim);text-transform:uppercase;}
+@keyframes shimmer{0%{background-position:200% center;}100%{background-position:-200% center;}}
+@keyframes slide{0%{left:-100%;}100%{left:100%;}}
+
+/* ── CANVAS BG ── */
+#bgc{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;}
+
+/* ── GRAIN ── */
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;background:var(--nav-bg);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);transition:all .4s;}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:13px;letter-spacing:.5em;color:var(--gold2);text-decoration:none;cursor:pointer;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-family:'EB Garamond',serif;font-size:10px;letter-spacing:4px;color:var(--text2);text-decoration:none;transition:color .3s;cursor:pointer;}
+.nav-links a:hover,.nav-links a.active{color:var(--gold2);}
+.nav-right{display:flex;align-items:center;gap:20px;}
+.lang-btn{font-family:'EB Garamond',serif;font-size:9px;letter-spacing:3px;color:var(--text3);border:1px solid var(--border);padding:6px 14px;background:none;cursor:pointer;transition:all .3s;}
+.lang-btn:hover{border-color:var(--gold);color:var(--gold);}
+.theme-btn{display:flex;align-items:center;gap:8px;cursor:pointer;background:none;border:none;}
+.theme-label{font-family:'EB Garamond',serif;font-size:9px;letter-spacing:3px;color:var(--text3);}
+.theme-track{width:32px;height:16px;border:1px solid var(--border3);border-radius:8px;position:relative;transition:border-color .3s;}
+.theme-thumb{position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--gold);transition:left .3s;}
+[data-theme="light"] .theme-thumb{left:18px;}
+
+/* ── PAGES ── */
+.page{display:none;position:relative;z-index:2;}
+.page.active{display:block;}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 40px 80px;position:relative;}
+#hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 40%,rgba(196,154,60,.04) 0%,transparent 70%);pointer-events:none;}
+.hero-eyebrow{font-family:'EB Garamond',serif;font-size:9px;letter-spacing:8px;color:var(--gold-dim);margin-bottom:48px;opacity:0;animation:fadeUp .8s ease .3s forwards;}
+.hero-line1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(32px,5vw,72px);color:var(--text2);line-height:1.2;opacity:0;animation:fadeUp .8s ease .5s forwards;}
+.hero-line1 em{font-style:italic;color:var(--gold2);}
+.hero-divider{width:1px;height:48px;background:linear-gradient(to bottom,transparent,var(--gold-dim),transparent);margin:40px auto;opacity:0;animation:fadeUp .8s ease .7s forwards;}
+.hero-q{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(16px,2.2vw,26px);color:var(--text3);opacity:0;animation:fadeUp .8s ease .9s forwards;max-width:600px;}
+.hero-alone{font-family:'EB Garamond',serif;font-size:13px;letter-spacing:4px;color:var(--gold-dim);margin-top:28px;opacity:0;animation:fadeUp .8s ease 1.1s forwards;}
+.hero-brand-wrap{margin-top:64px;opacity:0;animation:fadeUp .8s ease 1.3s forwards;}
+.hero-brand{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(52px,10vw,140px);letter-spacing:.25em;color:transparent;background:linear-gradient(135deg,var(--gold-dim) 0%,var(--gold2) 35%,var(--gold3) 55%,var(--gold) 100%);background-size:200%;-webkit-background-clip:text;background-clip:text;animation:shimmer 4s linear infinite;line-height:1;}
+.hero-method{font-family:'EB Garamond',serif;font-style:italic;font-size:clamp(13px,1.5vw,18px);color:var(--text3);letter-spacing:.05em;margin-top:16px;}
+.hero-scroll{margin-top:80px;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:fadeUp .8s ease 1.8s forwards;}
+.hero-scroll span{font-family:'EB Garamond',serif;font-size:8px;letter-spacing:5px;color:var(--text3);}
+.scroll-dot{width:1px;height:48px;background:linear-gradient(to bottom,var(--gold-dim),transparent);animation:scrollPulse 2s ease infinite;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scrollPulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+
+/* ── TICKER ── */
+.ticker-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--black2);padding:16px 0;position:relative;z-index:3;}
+.ticker-inner{display:flex;gap:0;white-space:nowrap;animation:ticker 40s linear infinite;}
+.ticker-inner:hover{animation-play-state:paused;}
+.tick-item{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--text3);padding:0 48px;}
+.tick-dot{color:var(--gold-dim);}
+
+/* ── SECTIONS ── */
+.sec{padding:100px 8vw;position:relative;}
+.sec-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-family:'EB Garamond',serif;font-size:9px;letter-spacing:7px;color:var(--gold-dim);display:block;margin-bottom:24px;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(32px,4vw,64px);color:var(--cream);line-height:1.15;margin-bottom:24px;}
+.sec-title em{font-style:italic;color:var(--gold2);}
+.sec-body{font-family:'EB Garamond',serif;font-size:18px;color:var(--text2);line-height:1.9;max-width:680px;}
+.sec-body[lang="ar"]{font-family:'Noto Naskh Arabic',serif;direction:rtl;text-align:right;font-size:17px;}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s ease,transform .8s ease;}
+.reveal.vis{opacity:1;transform:none;}
+
+/* ── DIVIDER ── */
+.div-line{border:none;height:1px;background:linear-gradient(90deg,transparent,var(--border3),transparent);margin:0;}
+
+/* ── PROBLEMS ── */
+.problems-sec{background:var(--black2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.problem-list{list-style:none;margin-top:52px;display:flex;flex-direction:column;gap:0;}
+.prob-item{padding:28px 0;border-bottom:1px solid var(--border2);display:flex;align-items:flex-start;gap:24px;cursor:default;transition:all .3s;}
+.prob-item:hover .prob-text{color:var(--cream);}
+.prob-item:hover .prob-num{color:var(--gold);}
+.prob-num{font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:3px;color:var(--gold-dim);min-width:32px;padding-top:4px;transition:color .3s;}
+.prob-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(18px,2.2vw,28px);color:var(--text2);line-height:1.4;transition:color .3s;}
+.prob-text[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;direction:rtl;}
+.pain-box{margin-top:64px;padding:48px;border:1px solid var(--border3);background:var(--black3);text-align:center;position:relative;overflow:hidden;}
+.pain-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);}
+.pain-quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,2.5vw,34px);color:var(--gold2);line-height:1.4;}
+.pain-quote[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;}
+
+/* ── SYSTEMS LIST ── */
+.systems-sec{background:var(--black);}
+.sys-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2);margin-top:52px;}
+.sys-card{background:var(--black2);padding:40px 32px;position:relative;overflow:hidden;transition:background .4s;cursor:default;}
+.sys-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);opacity:0;transition:opacity .4s;}
+.sys-card:hover{background:var(--black3);}
+.sys-card:hover::before{opacity:1;}
+.sys-icon{font-size:22px;margin-bottom:16px;display:block;}
+.sys-name{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:18px;color:var(--cream);margin-bottom:10px;line-height:1.3;}
+.sys-name[lang="ar"]{font-family:'Noto Naskh Arabic',serif;direction:rtl;}
+.sys-desc{font-family:'EB Garamond',serif;font-style:italic;font-size:13px;color:var(--text3);line-height:1.7;}
+.sys-desc[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;direction:rtl;text-align:right;}
+.sys-count{position:absolute;top:24px;right:24px;font-family:'Cormorant Garamond',serif;font-size:9px;letter-spacing:2px;color:var(--gold-dim);}
+
+/* ── PRIVATE ROOM ── */
+.room-sec{text-align:center;padding:100px 8vw;background:var(--black3);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.room-quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(24px,3vw,48px);color:var(--gold2);line-height:1.4;max-width:700px;margin:0 auto;}
+.room-quote[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;}
+.room-sub{font-family:'EB Garamond',serif;font-size:13px;letter-spacing:4px;color:var(--text3);margin-top:24px;}
+
+/* ── PRODUCTS PAGE ── */
+.prod-hero{padding:140px 8vw 60px;text-align:center;position:relative;}
+.prod-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 40% at 50% 30%,rgba(196,154,60,.03) 0%,transparent 70%);}
+.domain-sec{padding:0 8vw 80px;}
+.domain-header{display:flex;align-items:center;gap:20px;padding:40px 0 28px;border-bottom:1px solid var(--border);}
+.domain-icon{font-size:24px;}
+.domain-name{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(22px,2.5vw,36px);color:var(--cream);}
+.domain-name[lang="ar"]{font-family:'Noto Naskh Arabic',serif;}
+.domain-count{font-family:'EB Garamond',serif;font-size:9px;letter-spacing:4px;color:var(--gold-dim);margin-left:auto;}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border2);margin-top:1px;}
+
+/* ── PRODUCT CARD ── */
+.prod-card{background:var(--black2);display:flex;flex-direction:column;position:relative;overflow:hidden;transition:background .4s;}
+.prod-card:hover{background:var(--black3);}
+.prod-cover{height:180px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.prod-cover-inner{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center;position:relative;}
+.cover-symbol{font-size:28px;opacity:.6;}
+.cover-title{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:14px;color:var(--gold2);letter-spacing:.08em;line-height:1.3;text-align:center;}
+.cover-title[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-size:12px;}
+.cover-line{width:40px;height:1px;background:var(--gold-dim);opacity:.5;}
+.cover-sub{font-family:'EB Garamond',serif;font-style:italic;font-size:10px;color:var(--text3);letter-spacing:.05em;}
+.cover-sub[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;}
+.cover-vx{position:absolute;bottom:12px;right:14px;font-family:'Cormorant Garamond',serif;font-size:8px;letter-spacing:3px;color:var(--gold-dim);opacity:.5;}
+.prod-body{padding:20px 20px 16px;flex:1;display:flex;flex-direction:column;gap:10px;}
+.prod-name{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:15px;color:var(--cream);line-height:1.3;}
+.prod-name[lang="ar"]{font-family:'Noto Naskh Arabic',serif;direction:rtl;text-align:right;font-size:14px;}
+.prod-goal{font-family:'EB Garamond',serif;font-style:italic;font-size:12px;color:var(--text3);line-height:1.6;flex:1;}
+.prod-goal[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;direction:rtl;text-align:right;}
+.prod-stars{display:flex;align-items:center;gap:6px;}
+.stars{color:var(--gold2);font-size:11px;letter-spacing:1px;}
+.stars-num{font-family:'EB Garamond',serif;font-size:11px;color:var(--text3);}
+.prod-actions{display:flex;gap:1px;margin-top:12px;}
+.prod-btn{flex:1;padding:10px 8px;font-family:'EB Garamond',serif;font-size:9px;letter-spacing:3px;background:var(--black3);border:none;color:var(--text3);cursor:pointer;transition:all .3s;border-top:1px solid var(--border2);}
+.prod-btn:hover{background:var(--gold-faint);color:var(--gold2);}
+.prod-btn.primary{background:var(--gold-faint);color:var(--gold);}
+.prod-btn.primary:hover{background:var(--gold-dim);color:var(--black);}
+
+/* ── CONTACT MODAL ── */
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--black2);border:1px solid var(--border3);padding:52px;max-width:480px;width:90%;position:relative;text-align:center;}
+.modal::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);}
+.modal-close{position:absolute;top:20px;right:20px;background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;font-family:'EB Garamond',serif;transition:color .3s;}
+.modal-close:hover{color:var(--gold);}
+.modal-title{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:28px;color:var(--gold2);margin-bottom:10px;}
+.modal-title[lang="ar"]{font-family:'Noto Naskh Arabic',serif;}
+.modal-sub{font-family:'EB Garamond',serif;font-style:italic;font-size:15px;color:var(--text3);margin-bottom:36px;}
+.modal-sub[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;}
+.modal-btns{display:flex;flex-direction:column;gap:12px;}
+.modal-link{display:flex;align-items:center;gap:16px;padding:16px 24px;border:1px solid var(--border);background:var(--black3);color:var(--text2);text-decoration:none;font-family:'EB Garamond',serif;font-size:13px;letter-spacing:2px;transition:all .3s;}
+.modal-link:hover{border-color:var(--gold);color:var(--gold2);background:var(--gold-faint);}
+.modal-link-icon{font-size:18px;}
+.modal-product-name{font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--gold-dim);margin-top:24px;letter-spacing:3px;}
+
+/* ── EMAIL SEC ── */
+.email-sec{background:var(--black2);border-top:1px solid var(--border);padding:80px 8vw;text-align:center;}
+.email-title{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(28px,3.5vw,52px);color:var(--cream);line-height:1.3;margin-bottom:12px;}
+.email-title em{font-style:italic;color:var(--gold2);}
+.email-title[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;}
+.email-sub{font-family:'EB Garamond',serif;font-style:italic;font-size:16px;color:var(--text3);margin-bottom:36px;}
+.email-sub[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;}
+.email-form{display:flex;max-width:480px;margin:0 auto;border:1px solid var(--border3);}
+.email-input{flex:1;padding:16px 20px;background:var(--black3);border:none;color:var(--cream);font-family:'EB Garamond',serif;font-size:14px;outline:none;}
+.email-input::placeholder{color:var(--text3);}
+.email-submit{padding:16px 28px;background:var(--gold-dim);border:none;color:var(--black);font-family:'EB Garamond',serif;font-size:10px;letter-spacing:3px;cursor:pointer;transition:background .3s;white-space:nowrap;}
+.email-submit:hover{background:var(--gold2);}
+.email-note{font-family:'EB Garamond',serif;font-size:11px;color:var(--text3);margin-top:14px;}
+
+/* ── CLOSING ── */
+.closing-sec{text-align:center;padding:100px 8vw;background:var(--black);}
+.closing-quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(18px,2.5vw,36px);color:var(--text2);line-height:1.6;max-width:720px;margin:0 auto 32px;}
+.closing-quote[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;}
+.closing-quote em{color:var(--gold2);font-style:italic;}
+.closing-brand{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(36px,6vw,80px);letter-spacing:.3em;color:transparent;background:linear-gradient(135deg,var(--gold-dim),var(--gold2),var(--gold3));background-size:200%;-webkit-background-clip:text;background-clip:text;animation:shimmer 5s linear infinite;}
+
+/* ── SOCIALS ── */
+.socials-sec{background:var(--black2);border-top:1px solid var(--border);padding:60px 8vw;}
+.socials-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px;justify-content:center;}
+.soc-link{display:flex;align-items:center;gap:10px;padding:12px 20px;border:1px solid var(--border);background:var(--black3);color:var(--text3);text-decoration:none;font-family:'EB Garamond',serif;font-size:10px;letter-spacing:3px;transition:all .3s;}
+.soc-link:hover{border-color:var(--gold);color:var(--gold2);background:var(--gold-faint);}
+
+/* ── FOOTER ── */
+footer{padding:32px 8vw;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--black);}
+.foot-logo{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:11px;letter-spacing:.5em;color:var(--gold-dim);}
+.foot-copy{font-family:'EB Garamond',serif;font-style:italic;font-size:13px;color:var(--text3);text-align:center;flex:1;}
+.foot-copy[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;}
+.foot-cr{font-family:'EB Garamond',serif;font-size:9px;letter-spacing:3px;color:var(--muted);}
+
+/* ── TICKER ── */
+@keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* ── ABOUT PAGE ── */
+.about-hero{padding:140px 8vw 60px;text-align:center;}
+.about-avatar{width:100px;height:100px;border-radius:50%;border:1px solid var(--border3);margin:0 auto 28px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);background:var(--black3);transition:all .4s;}
+.about-name{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(28px,4vw,56px);color:var(--cream);letter-spacing:.06em;margin-bottom:10px;}
+.about-role{font-family:'EB Garamond',serif;font-style:italic;font-size:17px;color:var(--gold2);}
+.about-role[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;}
+.about-blocks{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border2);margin:52px 8vw;}
+.about-block{background:var(--black2);padding:48px 40px;transition:background .4s;}
+.about-block:hover{background:var(--black3);}
+.about-block-label{font-family:'EB Garamond',serif;font-size:9px;letter-spacing:5px;color:var(--gold-dim);display:block;margin-bottom:18px;}
+.about-block-text{font-family:'EB Garamond',serif;font-size:16px;color:var(--text2);line-height:1.9;}
+.about-block-text[lang="ar"]{font-family:'Noto Naskh Arabic',serif;direction:rtl;text-align:right;}
+.about-block-text em{color:var(--cream);font-style:normal;}
+.about-manifesto{margin:0 8vw 80px;padding:64px;border:1px solid var(--border);background:var(--black2);text-align:center;position:relative;}
+.about-manifesto::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);}
+.manifesto-q{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,2.5vw,36px);color:var(--gold2);line-height:1.5;margin-bottom:20px;}
+.manifesto-q[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;}
+.manifesto-a{font-family:'EB Garamond',serif;font-size:16px;color:var(--text3);line-height:1.9;max-width:640px;margin:0 auto;}
+
+/* ── ARTICLES PAGE ── */
+.articles-hero{padding:140px 8vw 60px;text-align:center;}
+.articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border2);margin:0 8vw 80px;}
+.article-card{background:var(--black2);padding:40px 32px;display:flex;flex-direction:column;gap:14px;transition:background .4s;position:relative;overflow:hidden;}
+.article-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);opacity:0;transition:opacity .4s;}
+.article-card:hover{background:var(--black3);}
+.article-card:hover::before{opacity:.5;}
+.art-cat{font-family:'EB Garamond',serif;font-size:8px;letter-spacing:4px;color:var(--gold-dim);}
+.art-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:19px;color:var(--cream);line-height:1.3;transition:color .3s;}
+.art-title[lang="ar"]{font-family:'Noto Naskh Arabic',serif;direction:rtl;text-align:right;}
+.article-card:hover .art-title{color:var(--gold2);}
+.art-excerpt{font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:var(--text3);line-height:1.7;flex:1;}
+.art-excerpt[lang="ar"]{font-family:'Noto Naskh Arabic',serif;font-style:normal;direction:rtl;text-align:right;}
+.art-meta{font-family:'EB Garamond',serif;font-size:8px;letter-spacing:3px;color:var(--muted);display:flex;justify-content:space-between;}
+.art-read{color:var(--gold-dim);transition:color .3s;}
+.article-card:hover .art-read{color:var(--gold);}
+
+/* ── COVER THEMES — each domain gets a unique gradient ── */
+.cover-theme-1{background:linear-gradient(135deg,#0d0b07 0%,#1a1208 50%,#0f0d08 100%);}
+.cover-theme-1 .cover-symbol{filter:sepia(1) saturate(2) hue-rotate(0deg);}
+.cover-bg-1::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(196,154,60,.08) 0%,transparent 70%);}
+.cover-theme-2{background:linear-gradient(135deg,#080a0d 0%,#0d1018 50%,#080c12 100%);}
+.cover-bg-2::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(60,100,196,.08) 0%,transparent 70%);}
+.cover-theme-3{background:linear-gradient(135deg,#0a0d08 0%,#101808 50%,#080d05 100%);}
+.cover-bg-3::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(80,160,60,.06) 0%,transparent 70%);}
+.cover-theme-4{background:linear-gradient(135deg,#0d0808 0%,#180d08 50%,#100505 100%);}
+.cover-bg-4::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(196,80,60,.07) 0%,transparent 70%);}
+.cover-theme-5{background:linear-gradient(135deg,#0d0b07 0%,#1a1508 50%,#0f0c05 100%);}
+.cover-bg-5::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(220,180,50,.08) 0%,transparent 70%);}
+.cover-theme-6{background:linear-gradient(135deg,#08080d 0%,#0f0d18 50%,#06060f 100%);}
+.cover-bg-6::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(120,60,200,.07) 0%,transparent 70%);}
+.cover-theme-7{background:linear-gradient(135deg,#080d0d 0%,#0a1818 50%,#05100f 100%);}
+.cover-bg-7::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(60,180,180,.06) 0%,transparent 70%);}
+.cover-theme-8{background:linear-gradient(135deg,#0d0a08 0%,#1a1008 50%,#100b05 100%);}
+.cover-bg-8::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(200,140,40,.07) 0%,transparent 70%);}
+.cover-theme-9{background:linear-gradient(135deg,#0a080d 0%,#120d18 50%,#080510 100%);}
+.cover-bg-9::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(160,80,200,.07) 0%,transparent 70%);}
+.cover-theme-10{background:linear-gradient(135deg,#080d08 0%,#0d180d 50%,#051005 100%);}
+.cover-bg-10::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(80,200,80,.06) 0%,transparent 70%);}
+.cover-theme-11{background:linear-gradient(135deg,#0d0808 0%,#180808 50%,#100505 100%);}
+.cover-bg-11::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(220,60,60,.06) 0%,transparent 70%);}
+.cover-theme-12{background:linear-gradient(135deg,#080a0d 0%,#0a1018 50%,#060810 100%);}
+.cover-bg-12::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(60,120,220,.07) 0%,transparent 70%);}
+
+/* ── COVER DECORATIVE LINES ── */
+.cover-deco{position:absolute;inset:0;pointer-events:none;}
+.cover-deco::before{content:'';position:absolute;top:50%;left:50%;width:120px;height:120px;transform:translate(-50%,-50%) rotate(45deg);border:1px solid rgba(196,154,60,.08);}
+.cover-deco::after{content:'';position:absolute;top:50%;left:50%;width:80px;height:80px;transform:translate(-50%,-50%) rotate(45deg);border:1px solid rgba(196,154,60,.06);}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  nav{padding:14px 20px;}
+  .nav-links{display:none;}
+  .sec,.domain-sec{padding:60px 20px;}
+  .sec-inner{max-width:100%;}
+  #hero{padding:100px 20px 60px;}
+  .sys-grid{grid-template-columns:1fr 1fr;}
+  .about-blocks{grid-template-columns:1fr;margin:40px 20px;}
+  .about-manifesto{margin:0 20px 60px;padding:40px 24px;}
+  .articles-grid{grid-template-columns:1fr;margin:0 20px 60px;}
+  .prod-hero{padding:100px 20px 40px;}
+  .domain-sec{padding:0 20px 60px;}
+  .products-grid{grid-template-columns:1fr 1fr;}
+  .email-sec{padding:60px 20px;}
+  footer{padding:24px 20px;flex-direction:column;gap:8px;text-align:center;}
+  .about-hero{padding:100px 20px 40px;}
+  .articles-hero{padding:100px 20px 40px;}
+  .pain-box{padding:32px 24px;}
+  .room-sec{padding:60px 20px;}
+  .closing-sec{padding:60px 20px;}
+  .socials-sec{padding:40px 20px;}
+}
+@media(max-width:520px){
+  .sys-grid{grid-template-columns:1fr;}
+  .products-grid{grid-template-columns:1fr;}
+  .hero-brand{font-size:52px;letter-spacing:.18em;}
+  .lang-btn{padding:5px 10px;font-size:8px;}
+}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="ld-logo">VEXORIA</div>
+  <div class="ld-line"></div>
+  <div class="ld-tag">Cognitive Architecture for a Rare Human Identity</div>
+</div>
+
+<div class="grain"></div>
+<canvas id="bgc"></canvas>
+<div id="cur"></div>
+<div id="curR"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a class="nav-logo" onclick="showPage('home')">VEXORIA</a>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" id="nl-home" class="active" data-en="HOME" data-ar="الرئيسية">HOME</a></li>
+    <li><a onclick="showPage('products')" id="nl-products" data-en="SYSTEMS" data-ar="الأنظمة">SYSTEMS</a></li>
+    <li><a onclick="showPage('articles')" id="nl-articles" data-en="ARTICLES" data-ar="مقالات">ARTICLES</a></li>
+    <li><a onclick="showPage('about')" id="nl-about" data-en="ABOUT" data-ar="من نحن">ABOUT</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">عربي</button>
+    <button class="theme-btn" onclick="toggleTheme()">
+      <span class="theme-label" id="themeLabel">LIGHT</span>
+      <div class="theme-track"><div class="theme-thumb"></div></div>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════
+     HOME PAGE
+═══════════════════════════ -->
+<div class="page active" id="page-home">
+
+<!-- HERO -->
+<section id="hero">
+  <span class="hero-eyebrow" data-en="VEXORIA — A METHOD FOR BECOMING" data-ar="VEXORIA — منهج للتحول">VEXORIA — A METHOD FOR BECOMING</span>
+  <h1 class="hero-line1" data-en="The world shaped you <em>before</em><br>you could shape yourself." data-ar="العالم شكّلك <em>قبل</em><br>أن تتمكن من تشكيل نفسك.">The world shaped you <em>before</em><br>you could shape yourself.</h1>
+  <div class="hero-divider"></div>
+  <p class="hero-q" data-en="When did you last feel free inside your own life?" data-ar="متى كانت آخر مرة شعرت فيها بالحرية داخل حياتك الخاصة؟">When did you last feel free inside your own life?</p>
+  <p class="hero-alone" data-en="YOU ARE NOT ALONE ON THIS JOURNEY" data-ar="أنت لست وحدك في هذه الرحلة">YOU ARE NOT ALONE ON THIS JOURNEY</p>
+  <div class="hero-brand-wrap">
+    <div class="hero-brand">VEXORIA</div>
+    <p class="hero-method" data-en="A method for rebuilding your inner world — to become rare and in control." data-ar="منهج لإعادة بناء عالمك الداخلي — لتصبح نادراً ومتحكماً.">A method for rebuilding your inner world — to become rare and in control.</p>
+  </div>
+  <div class="hero-scroll"><span data-en="SCROLL" data-ar="اسكرول">SCROLL</span><div class="scroll-dot"></div></div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner" id="tickerInner"></div>
+</div>
+
+<!-- PROBLEMS -->
+<section class="sec problems-sec">
+  <div class="sec-inner">
+    <span class="eyebrow reveal" data-en="DOES THIS SOUND FAMILIAR" data-ar="هل هذا مألوف لك">DOES THIS SOUND FAMILIAR</span>
+    <h2 class="sec-title reveal" data-en="You have been <em>feeling it</em> for a while now." data-ar="لقد كنت <em>تشعر بها</em> منذ فترة.">You have been <em>feeling it</em> for a while now.</h2>
+    <ul class="problem-list" id="problemList"></ul>
+    <div class="pain-box reveal">
+      <p class="pain-quote" data-en='"Nothing was wrong with you — the system was."' data-ar='"لم يكن فيك خطأ — كان النظام هو المشكلة."'>"Nothing was wrong with you — the system was."</p>
+    </div>
+  </div>
+</section>
+
+<!-- SYSTEMS OVERVIEW -->
+<section class="sec systems-sec">
+  <div class="sec-inner">
+    <span class="eyebrow reveal" data-en="THE 12 DOMAINS" data-ar="المجالات الـ 12">THE 12 DOMAINS</span>
+    <h2 class="sec-title reveal" data-en="Every system that <em>shapes</em> a human life." data-ar="كل نظام <em>يشكّل</em> حياة إنسان.">Every system that <em>shapes</em> a human life.</h2>
+    <p class="sec-body reveal" data-en="60 practical systems across 12 domains. Each one built to decode a specific dimension of human experience — and give you the tools to master it." data-ar="60 نظاماً عملياً عبر 12 مجالاً. كل واحد مبني لفك شفرة بُعد محدد من التجربة الإنسانية — وإعطائك الأدوات للتحكم فيه.">60 practical systems across 12 domains. Each one built to decode a specific dimension of human experience — and give you the tools to master it.</p>
+    <div class="sys-grid reveal" id="sysGrid"></div>
+    <div style="text-align:center;margin-top:40px;">
+      <a onclick="showPage('products')" style="display:inline-flex;align-items:center;gap:12px;padding:16px 32px;border:1px solid var(--border3);color:var(--gold2);font-family:'EB Garamond',serif;font-size:10px;letter-spacing:4px;cursor:pointer;transition:all .3s;text-decoration:none;background:none;" onmouseover="this.style.background='var(--gold-faint)'" onmouseout="this.style.background='none'">
+        <span data-en="EXPLORE ALL SYSTEMS" data-ar="استكشف كل الأنظمة">EXPLORE ALL SYSTEMS</span> →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVATE ROOM -->
+<div class="room-sec">
+  <p class="room-quote reveal" data-en='"Each system is a private room — built for one person — you."' data-ar='"كل نظام غرفة خاصة — بُنيت لشخص واحد — أنت."'>"Each system is a private room — built for one person — you."</p>
+  <p class="room-sub reveal" data-en="ARABIC · ENGLISH · MORE LANGUAGES ON REQUEST" data-ar="عربي · إنجليزي · لغات أخرى بالطلب">ARABIC · ENGLISH · MORE LANGUAGES ON REQUEST</p>
+</div>
+
+<!-- EMAIL -->
+<div class="email-sec">
+  <h2 class="email-title reveal" data-en='Get exclusive insights <em>before everyone else.</em>' data-ar='احصل على رؤى حصرية <em>قبل الجميع.</em>'>Get exclusive insights <em>before everyone else.</em></h2>
+  <p class="email-sub reveal" data-en="No noise. No recycled advice. Depth only — delivered directly to you." data-ar="لا ضجيج. لا نصائح معادة. عمق فقط — يصلك مباشرة.">No noise. No recycled advice. Depth only — delivered directly to you.</p>
+  <div class="email-form reveal">
+    <input class="email-input" type="email" id="emailInput" data-placeholder-en="Your email address" data-placeholder-ar="بريدك الإلكتروني" placeholder="Your email address">
+    <button class="email-submit" onclick="submitEmail()" data-en="JOIN" data-ar="انضم">JOIN</button>
+  </div>
+  <p class="email-note reveal" data-en="No spam. Unsubscribe anytime. Your mind deserves better than ordinary." data-ar="لا رسائل مزعجة. إلغاء الاشتراك في أي وقت. عقلك يستحق أفضل من العادي.">No spam. Unsubscribe anytime. Your mind deserves better than ordinary.</p>
+</div>
+
+<!-- CLOSING -->
+<div class="closing-sec">
+  <p class="closing-quote reveal" data-en='"The rarest thing in the world is a person who chose to understand themselves — by learning the systems and <em>patterns that shape life.</em>"' data-ar='"أندر شيء في العالم — إنسان اختار أن يفهم نفسه — بتعلّم الأنظمة <em>والأنماط التي تشكّل الحياة.</em>"'>"The rarest thing in the world is a person who chose to understand themselves — by learning the systems and <em>patterns that shape life.</em>"</p>
+  <div class="closing-brand reveal">VEXORIA</div>
+</div>
+
+<!-- SOCIALS -->
+<div class="socials-sec">
+  <div style="text-align:center;margin-bottom:8px;">
+    <span class="eyebrow reveal" data-en="JOIN THE RARE ONES" data-ar="انضم إلى النادرين">JOIN THE RARE ONES</span>
+  </div>
+  <div class="socials-grid" id="socialsGrid"></div>
+</div>
+
+<hr class="div-line">
+<footer>
+  <span class="foot-logo">VEXORIA</span>
+  <span class="foot-copy" data-en="Cognitive Architecture for a Rare Human Identity." data-ar="هندسة معرفية لبناء هوية إنسانية نادرة.">Cognitive Architecture for a Rare Human Identity.</span>
+  <span class="foot-cr">© VEXORIA</span>
+</footer>
+
+</div><!-- end home -->
+
+<!-- ═══════════════════════════
+     PRODUCTS PAGE
+═══════════════════════════ -->
+<div class="page" id="page-products">
+<div class="prod-hero">
+  <span class="eyebrow reveal" data-en="60 SYSTEMS · 12 DOMAINS" data-ar="60 نظام · 12 مجال">60 SYSTEMS · 12 DOMAINS</span>
+  <h1 class="sec-title reveal" data-en="Choose the room <em>you need</em> to enter." data-ar="اختر الغرفة <em>التي تحتاج</em> أن تدخلها.">Choose the room <em>you need</em> to enter.</h1>
+  <p class="sec-body reveal" style="margin:0 auto;text-align:center;" data-en="Each system solves one dimension of human life completely. Arabic & English available. More languages on request." data-ar="كل نظام يحل بُعداً واحداً من حياة الإنسان بالكامل. متاح بالعربي والإنجليزي. لغات أخرى بالطلب.">Each system solves one dimension of human life completely. Arabic & English available. More languages on request.</p>
+</div>
+<div id="productsContainer"></div>
+<hr class="div-line">
+<footer>
+  <span class="foot-logo">VEXORIA</span>
+  <span class="foot-copy" data-en="Cognitive Architecture for a Rare Human Identity." data-ar="هندسة معرفية لبناء هوية إنسانية نادرة.">Cognitive Architecture for a Rare Human Identity.</span>
+  <span class="foot-cr">© VEXORIA</span>
+</footer>
+</div><!-- end products -->
+
+<!-- ═══════════════════════════
+     ABOUT PAGE
+═══════════════════════════ -->
+<div class="page" id="page-about">
+<div class="about-hero">
+  <div class="about-avatar reveal">VX</div>
+  <h1 class="about-name reveal">VEXORIA</h1>
+  <p class="about-role reveal" data-en="Founder · Cognitive Architect" data-ar="مؤسس · مهندس معرفي">Founder · Cognitive Architect</p>
+</div>
+<div class="about-blocks reveal" id="aboutBlocks"></div>
+<div class="about-manifesto reveal">
+  <p class="manifesto-q" data-en='"Most content teaches you what to think.<br>VEXORIA shows you how you are already thinking."' data-ar='"معظم المحتوى يعلمك ماذا تفكر.<br>VEXORIA تريك كيف تفكر بالفعل."'>"Most content teaches you what to think.<br>VEXORIA shows you how you are already thinking."</p>
+  <p class="manifesto-a" data-en="That gap — between what you think you believe, and what actually drives your behavior — is where VEXORIA lives." data-ar="هذه الفجوة — بين ما تعتقد أنك تؤمن به، وما يحرك سلوكك فعلاً — هي المكان الذي تعيش فيه VEXORIA.">That gap — between what you think you believe, and what actually drives your behavior — is where VEXORIA lives.</p>
+</div>
+<hr class="div-line">
+<footer>
+  <span class="foot-logo">VEXORIA</span>
+  <span class="foot-copy" data-en="Cognitive Architecture for a Rare Human Identity." data-ar="هندسة معرفية لبناء هوية إنسانية نادرة.">Cognitive Architecture for a Rare Human Identity.</span>
+  <span class="foot-cr">© VEXORIA</span>
+</footer>
+</div><!-- end about -->
+
+<!-- ═══════════════════════════
+     ARTICLES PAGE
+═══════════════════════════ -->
+<div class="page" id="page-articles">
+<div class="articles-hero">
+  <span class="eyebrow reveal" data-en="ARTICLES & INSIGHTS" data-ar="مقالات ورؤى">ARTICLES & INSIGHTS</span>
+  <h1 class="sec-title reveal" data-en="Deep reads for <em>rare minds.</em>" data-ar="قراءات عميقة <em>لعقول نادرة.</em>">Deep reads for <em>rare minds.</em></h1>
+  <p class="sec-body reveal" style="margin:0 auto;text-align:center;" data-en="Long-form explorations of psychology, philosophy, and human behavior. No filler. No recycled wisdom." data-ar="استكشافات مطوّلة في علم النفس والفلسفة والسلوك البشري. لا حشو. لا حكمة معادة.">Long-form explorations of psychology, philosophy, and human behavior. No filler. No recycled wisdom.</p>
+</div>
+<div class="articles-grid reveal" id="articlesGrid"></div>
+<hr class="div-line">
+<footer>
+  <span class="foot-logo">VEXORIA</span>
+  <span class="foot-copy" data-en="Cognitive Architecture for a Rare Human Identity." data-ar="هندسة معرفية لبناء هوية إنسانية نادرة.">Cognitive Architecture for a Rare Human Identity.</span>
+  <span class="foot-cr">© VEXORIA</span>
+</footer>
+</div><!-- end articles -->
+
+<!-- ═══ CONTACT MODAL ═══ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <p class="modal-title" id="modalTitle">Get This System</p>
+    <p class="modal-sub" data-en="Contact us directly to receive your system." data-ar="تواصل معنا مباشرة للحصول على نظامك." id="modalSub">Contact us directly to receive your system.</p>
+    <div class="modal-btns">
+      <a href="https://t.me/VEXORIA_07" target="_blank" class="modal-link">
+        <span class="modal-link-icon">✈</span>
+        <span data-en="Telegram — t.me/VEXORIA_07" data-ar="تيليجرام — t.me/VEXORIA_07">Telegram — t.me/VEXORIA_07</span>
+      </a>
+      <a href="mailto:vexoria_027@outlook.com" target="_blank" class="modal-link">
+        <span class="modal-link-icon">✉</span>
+        <span data-en="Email — vexoria_027@outlook.com" data-ar="إيميل — vexoria_027@outlook.com">Email — vexoria_027@outlook.com</span>
+      </a>
+    </div>
+    <p class="modal-product-name" id="modalProductName"></p>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════
+
+let isAR = false;
+
+const TICKER_ITEMS = [
+  {en:"Procrastination is not laziness — it is a system running the wrong code.",ar:"التسويف ليس كسلاً — إنه نظام يشغّل الكود الخاطئ."},
+  {en:"The fear you avoid is the door to who you could become.",ar:"الخوف الذي تتجنبه هو الباب لمن يمكن أن تصبح."},
+  {en:"Most decisions you make were made by patterns — not by you.",ar:"معظم القرارات التي تتخذها اتُّخذت بواسطة أنماط — وليس بواسطتك."},
+  {en:"The person who understands themselves cannot be easily defeated.",ar:"الشخص الذي يفهم نفسه لا يُهزم بسهولة."},
+  {en:"Your real power begins when you understand what moves you.",ar:"قوتك الحقيقية تبدأ حين تفهم ما يحركك."},
+  {en:"Your relationships are mirrors of what you cannot yet see in yourself.",ar:"علاقاتك مرايا لما لا تستطيع رؤيته في نفسك بعد."},
+  {en:"Discipline is not built by willpower — it is built by system.",ar:"الانضباط لا يُبنى بالإرادة — يُبنى بالنظام."},
+  {en:"Money follows clarity — and runs from internal chaos.",ar:"المال يتبع الوضوح — ويهرب من الفوضى الداخلية."},
+  {en:"Every bad habit was once a solution to a problem you never understood.",ar:"كل عادة سيئة كانت يوماً حلاً لمشكلة لم تفهمها أبداً."},
+  {en:"The rare human is not born — they are built.",ar:"الإنسان النادر لا يُولد — يُبنى."},
+  {en:"Silence is where most people meet themselves for the first time.",ar:"الصمت هو المكان الذي يلتقي فيه معظم الناس بأنفسهم لأول مرة."},
+  {en:"You were not shaped by what happened to you — but by how you interpreted it.",ar:"لم تُشكَّل بما حدث لك — بل بكيفية تفسيرك له."},
+];
+
+const PROBLEMS = [
+  {en:"Sometimes you postpone things you know in your core are important… without understanding why.",ar:"أحياناً تؤجل أشياء تعرف في داخلك أنها مهمة… دون أن تفهم السبب."},
+  {en:"You feel that the real version of you has not appeared yet.",ar:"تشعر أن النسخة الحقيقية منك لم تظهر بعد."},
+  {en:"You meet people who leave a mark on you… without realising why.",ar:"تلتقي بأشخاص يتركون أثراً فيك… دون أن تدرك لماذا."},
+  {en:"You work hard… but the results do not reflect what you give.",ar:"تبذل جهداً كبيراً… لكن النتائج لا تعكس ما تقدمه."},
+  {en:"And there is always a faint feeling that something is missing… without knowing what it is.",ar:"ويظل هناك إحساس خافت بأن شيئاً ما مفقود… دون أن تعرف ما هو."},
+];
+
+const DOMAINS = [
+  {icon:"🧠",en:"Mind & Thinking",ar:"العقل والتفكير",desc_en:"How you see the world, interpret events, and make decisions.",desc_ar:"كيف ترى العالم وتفسّر ما يحدث وتتخذ قراراتك.",count:6,theme:1},
+  {icon:"🧠",en:"Psychology & Human Understanding",ar:"علم النفس وفهم البشر",desc_en:"The hidden motives, patterns, and forces that drive people.",desc_ar:"الدوافع الخفية والأنماط والقوى التي تحرك الناس.",count:5,theme:2},
+  {icon:"💪",en:"Self Development",ar:"تطوير الذات",desc_en:"Rebuilding who you are — deliberately and completely.",desc_ar:"إعادة بناء من أنت — بوعي وبشكل كامل.",count:5,theme:3},
+  {icon:"🔥",en:"Mental Strength",ar:"القوة العقلية",desc_en:"Building a mind that does not break under pressure.",desc_ar:"بناء عقل لا ينكسر تحت الضغط.",count:5,theme:4},
+  {icon:"⚡",en:"Productivity & Discipline",ar:"الإنتاجية والانضباط",desc_en:"The systems that turn intention into consistent action.",desc_ar:"الأنظمة التي تحوّل النية إلى فعل متسق.",count:5,theme:5},
+  {icon:"🚀",en:"Success & Goals",ar:"النجاح وتحقيق الأهداف",desc_en:"How to move from where you are to where you decide to be.",desc_ar:"كيف تنتقل من حيث أنت إلى حيث تقرر أن تكون.",count:5,theme:6},
+  {icon:"💰",en:"Wealth & Money",ar:"المال وبناء الثروة",desc_en:"Understanding, managing, and building real financial power.",desc_ar:"فهم المال وإدارته وبناء قوة مالية حقيقية.",count:6,theme:7},
+  {icon:"🧑‍🤝‍🧑",en:"Relationships & Social Intelligence",ar:"العلاقات والذكاء الاجتماعي",desc_en:"Reading people, building bonds, and navigating human dynamics.",desc_ar:"قراءة الناس وبناء الروابط والتنقل في الديناميكيات البشرية.",count:5,theme:8},
+  {icon:"👑",en:"Power & Influence",ar:"النفوذ والتأثير",desc_en:"The science of persuasion, authority, and strategic impact.",desc_ar:"علم الإقناع والسلطة والتأثير الاستراتيجي.",count:4,theme:9},
+  {icon:"🧘",en:"Psychological Balance",ar:"التوازن النفسي",desc_en:"Stability, inner peace, and emotional mastery.",desc_ar:"الاستقرار والسلام الداخلي وإتقان المشاعر.",count:4,theme:10},
+  {icon:"📚",en:"Learning & Skills",ar:"التعلم وتطوير المهارات",desc_en:"Acquiring knowledge and capability faster and deeper.",desc_ar:"اكتساب المعرفة والقدرة بشكل أسرع وأعمق.",count:4,theme:11},
+  {icon:"⚡",en:"Energy & Life Philosophy",ar:"الطاقة وفلسفة الحياة",desc_en:"The fuel that runs everything — and the wisdom that directs it.",desc_ar:"الوقود الذي يشغّل كل شيء — والحكمة التي توجهه.",count:6,theme:12},
+];
+
+const PRODUCTS = [
+  // Domain 1 — Mind
+  [{en:"Clear Thinking System",ar:"نظام التفكير الواضح",goal_en:"Purify your thinking and make better decisions.",goal_ar:"تنقية التفكير واتخاذ قرارات أفضل.",stars:"4.7"},
+   {en:"Cognitive Bias Decoder",ar:"فك شفرة التحيزات المعرفية",goal_en:"Understand thinking errors and cognitive biases.",goal_ar:"فهم أخطاء التفكير والانحيازات المعرفية.",stars:"4.6"},
+   {en:"Strategic Thinking Framework",ar:"إطار التفكير الاستراتيجي",goal_en:"Learn to think long-term and strategically.",goal_ar:"تعلم التفكير الاستراتيجي بعيد المدى.",stars:"4.7"},
+   {en:"Decision Making Protocol",ar:"بروتوكول اتخاذ القرار",goal_en:"Make intelligent, clear decisions consistently.",goal_ar:"اتخاذ قرارات ذكية وواضحة باستمرار.",stars:"4.5"},
+   {en:"Mental Clarity Method",ar:"منهج الوضوح الذهني",goal_en:"Organise your thoughts and reduce mental noise.",goal_ar:"تنظيم الأفكار وتقليل الضوضاء الذهنية.",stars:"4.6"},
+   {en:"Problem Solving Architecture",ar:"هندسة حل المشكلات",goal_en:"Solve problems methodically and completely.",goal_ar:"حل المشكلات بطريقة منهجية وكاملة.",stars:"4.5"}],
+  // Domain 2 — Psychology
+  [{en:"Human Behavior Decoder",ar:"فك شفرة السلوك البشري",goal_en:"Understand what drives people's actions and choices.",goal_ar:"فهم ما يحرك تصرفات الناس وخياراتهم.",stars:"4.7"},
+   {en:"Psychological Manipulation Detector",ar:"كاشف التلاعب النفسي",goal_en:"Detect and dismantle psychological manipulation.",goal_ar:"اكتشاف التلاعب النفسي وتفكيكه.",stars:"4.6"},
+   {en:"Dark Psychology Awareness Guide",ar:"دليل الوعي بعلم النفس الظلامي",goal_en:"Understand hidden methods of influence and control.",goal_ar:"فهم أساليب التأثير والسيطرة الخفية.",stars:"4.7"},
+   {en:"Emotional Motives Framework",ar:"إطار الدوافع العاطفية",goal_en:"Understand the emotional drives behind all behavior.",goal_ar:"فهم الدوافع العاطفية وراء كل سلوك.",stars:"4.5"},
+   {en:"Social Dynamics Map",ar:"خريطة الديناميكيات الاجتماعية",goal_en:"Read and navigate complex social relationships.",goal_ar:"قراءة العلاقات الاجتماعية المعقدة والتنقل فيها.",stars:"4.6"}],
+  // Domain 3 — Self Dev
+  [{en:"Self-Reconstruction System",ar:"نظام إعادة بناء الذات",goal_en:"Rebuild yourself from the ground up — deliberately.",goal_ar:"إعادة بناء نفسك من الأساس — بوعي.",stars:"4.7"},
+   {en:"Identity Design Framework",ar:"إطار تصميم الهوية",goal_en:"Build a powerful, clear personal identity.",goal_ar:"بناء هوية شخصية قوية وواضحة.",stars:"4.6"},
+   {en:"Personal Growth Blueprint",ar:"مخطط النمو الشخصي",goal_en:"Comprehensive personality and character development.",goal_ar:"تطوير شامل للشخصية والطابع.",stars:"4.7"},
+   {en:"Habit Transformation System",ar:"نظام تحويل العادات",goal_en:"Change habits permanently — with a system, not willpower.",goal_ar:"تغيير العادات بشكل دائم — بنظام لا بإرادة.",stars:"4.6"},
+   {en:"Self-Awareness Protocol",ar:"بروتوكول الوعي الذاتي",goal_en:"Develop deep, honest self-awareness.",goal_ar:"تطوير الوعي الذاتي العميق والصادق.",stars:"4.5"}],
+  // Domain 4 — Mental Strength
+  [{en:"Mental Resilience Program",ar:"برنامج الصلابة النفسية",goal_en:"Build psychological resilience that doesn't break.",goal_ar:"بناء الصلابة النفسية التي لا تنكسر.",stars:"4.7"},
+   {en:"Fear Control System",ar:"نظام السيطرة على الخوف",goal_en:"Understand and master fear — not suppress it.",goal_ar:"فهم الخوف والتحكم فيه — لا قمعه.",stars:"4.7"},
+   {en:"Emotional Control Framework",ar:"إطار التحكم في المشاعر",goal_en:"Master your emotional responses and reactions.",goal_ar:"إتقان ردود فعلك العاطفية.",stars:"4.6"},
+   {en:"Stress Resistance Method",ar:"منهج مقاومة الضغط",goal_en:"Handle pressure without losing clarity or control.",goal_ar:"التعامل مع الضغط دون فقدان الوضوح أو السيطرة.",stars:"4.5"},
+   {en:"Inner Strength Protocol",ar:"بروتوكول القوة الداخلية",goal_en:"Build deep, stable inner strength.",goal_ar:"بناء القوة الداخلية العميقة والمستقرة.",stars:"4.6"}],
+  // Domain 5 — Productivity
+  [{en:"Anti-Procrastination System ✓",ar:"نظام مكافحة التسويف ✓",goal_en:"Eliminate procrastination permanently — with a system.",goal_ar:"القضاء على التسويف بشكل دائم — بنظام.",stars:"4.7"},
+   {en:"Deep Focus Method",ar:"منهج التركيز العميق",goal_en:"Build the ability to focus deeply in a distracted world.",goal_ar:"بناء القدرة على التركيز العميق في عالم مشتت.",stars:"4.6"},
+   {en:"Discipline Architecture",ar:"هندسة الانضباط",goal_en:"Develop real discipline that sustains itself.",goal_ar:"تطوير الانضباط الحقيقي الذي يستمر من تلقاء نفسه.",stars:"4.7"},
+   {en:"Productivity Operating System",ar:"نظام تشغيل الإنتاجية",goal_en:"Manage your time, energy and work like a system.",goal_ar:"إدارة وقتك وطاقتك وعملك كنظام متكامل.",stars:"4.6"},
+   {en:"Execution Framework",ar:"إطار التنفيذ",goal_en:"Turn ideas and intentions into consistent action.",goal_ar:"تحويل الأفكار والنوايا إلى تنفيذ فعلي.",stars:"4.5"}],
+  // Domain 6 — Success
+  [{en:"Goal Execution Blueprint",ar:"مخطط تنفيذ الأهداف",goal_en:"Execute goals with clarity and a complete system.",goal_ar:"تنفيذ الأهداف بوضوح ونظام كامل.",stars:"4.7"},
+   {en:"Life Strategy Framework",ar:"إطار استراتيجية الحياة",goal_en:"Build a complete life strategy — not just goals.",goal_ar:"بناء استراتيجية حياة كاملة — لا مجرد أهداف.",stars:"4.6"},
+   {en:"Success Mechanics Guide",ar:"دليل آلية النجاح",goal_en:"Understand how success actually works — not theories.",goal_ar:"فهم كيف يعمل النجاح فعلاً — لا مجرد نظريات.",stars:"4.7"},
+   {en:"Opportunity Recognition System",ar:"نظام رؤية الفرص",goal_en:"Train your mind to see opportunities others miss.",goal_ar:"تدريب عقلك على رؤية الفرص التي يفوّتها الآخرون.",stars:"4.5"},
+   {en:"Achievement System",ar:"نظام الإنجاز",goal_en:"Build a personal system for consistent achievement.",goal_ar:"بناء نظام شخصي للإنجاز المتسق.",stars:"4.6"}],
+  // Domain 7 — Money
+  [{en:"Wealth Building Map",ar:"خريطة بناء الثروة",goal_en:"A complete roadmap for building real wealth.",goal_ar:"خارطة طريق كاملة لبناء ثروة حقيقية.",stars:"4.7"},
+   {en:"Money Mindset System",ar:"نظام عقلية المال",goal_en:"Rewire your relationship with money from the root.",goal_ar:"إعادة برمجة علاقتك بالمال من الجذر.",stars:"4.6"},
+   {en:"Income Expansion Framework",ar:"إطار توسيع الدخل",goal_en:"Increase your income with clear, actionable systems.",goal_ar:"زيادة دخلك بأنظمة واضحة وقابلة للتطبيق.",stars:"4.7"},
+   {en:"Financial Discipline Protocol",ar:"بروتوكول الانضباط المالي",goal_en:"Manage money with discipline and long-term clarity.",goal_ar:"إدارة المال بانضباط ووضوح بعيد المدى.",stars:"4.5"},
+   {en:"Investment Foundations Guide",ar:"دليل أسس الاستثمار",goal_en:"Understand the true foundations of smart investing.",goal_ar:"فهم الأسس الحقيقية للاستثمار الذكي.",stars:"4.6"},
+   {en:"Financial Freedom Strategy",ar:"استراتيجية الحرية المالية",goal_en:"Build a personal path to financial independence.",goal_ar:"بناء مسار شخصي نحو الاستقلال المالي.",stars:"4.7"}],
+  // Domain 8 — Relationships
+  [{en:"Social Intelligence Guide",ar:"دليل الذكاء الاجتماعي",goal_en:"Develop high-level social intelligence.",goal_ar:"تطوير الذكاء الاجتماعي على مستوى عالٍ.",stars:"4.6"},
+   {en:"Communication Mastery System",ar:"نظام إتقان التواصل",goal_en:"Master communication in all its forms.",goal_ar:"إتقان التواصل بجميع أشكاله.",stars:"4.7"},
+   {en:"Relationship Dynamics Framework",ar:"إطار ديناميكيات العلاقات",goal_en:"Understand the deep mechanics of all relationships.",goal_ar:"فهم الآليات العميقة لجميع العلاقات.",stars:"4.6"},
+   {en:"Charisma Development Method",ar:"منهج تطوير الكاريزما",goal_en:"Develop natural, powerful charisma.",goal_ar:"تطوير الكاريزما الطبيعية والقوية.",stars:"4.7"},
+   {en:"People Influence System",ar:"نظام التأثير في الناس",goal_en:"Influence people ethically and powerfully.",goal_ar:"التأثير في الناس بأخلاقية وقوة.",stars:"4.5"}],
+  // Domain 9 — Power
+  [{en:"Power & Influence Laws",ar:"قوانين النفوذ والتأثير",goal_en:"Understand the laws of power and how they work.",goal_ar:"فهم قوانين النفوذ وكيفية عملها.",stars:"4.7"},
+   {en:"Authority Building System",ar:"نظام بناء الهيبة",goal_en:"Build natural authority and presence.",goal_ar:"بناء السلطة والحضور الطبيعي.",stars:"4.6"},
+   {en:"Persuasion Framework",ar:"إطار الإقناع",goal_en:"Master the art and science of persuasion.",goal_ar:"إتقان فن وعلم الإقناع.",stars:"4.7"},
+   {en:"Strategic Influence Method",ar:"منهج التأثير الاستراتيجي",goal_en:"Influence situations and outcomes strategically.",goal_ar:"التأثير في المواقف والنتائج باستراتيجية.",stars:"4.6"}],
+  // Domain 10 — Balance
+  [{en:"Psychological Stability System",ar:"نظام الاستقرار النفسي",goal_en:"Build deep, lasting psychological stability.",goal_ar:"بناء الاستقرار النفسي العميق والدائم.",stars:"4.7"},
+   {en:"Inner Peace Framework",ar:"إطار السلام الداخلي",goal_en:"Find and maintain genuine inner peace.",goal_ar:"إيجاد السلام الداخلي الحقيقي والحفاظ عليه.",stars:"4.7"},
+   {en:"Emotional Balance Method",ar:"منهج التوازن العاطفي",goal_en:"Master emotional balance across all situations.",goal_ar:"إتقان التوازن العاطفي في جميع المواقف.",stars:"4.6"},
+   {en:"Mind Reset Protocol",ar:"بروتوكول إعادة ضبط العقل",goal_en:"Reset your mental state when you need to rebuild.",goal_ar:"إعادة ضبط حالتك الذهنية حين تحتاج إلى إعادة البناء.",stars:"4.5"}],
+  // Domain 11 — Learning
+  [{en:"Rapid Learning System",ar:"نظام التعلم السريع",goal_en:"Learn anything faster and retain it longer.",goal_ar:"تعلّم أي شيء بسرعة أكبر واحتفظ به أطول.",stars:"4.7"},
+   {en:"Skill Acquisition Framework",ar:"إطار اكتساب المهارات",goal_en:"Acquire new skills with a proven system.",goal_ar:"اكتساب مهارات جديدة بنظام مُجرَّب.",stars:"4.6"},
+   {en:"Knowledge Organization System",ar:"نظام تنظيم المعرفة",goal_en:"Organise knowledge so you can use it, not just hold it.",goal_ar:"تنظيم المعرفة لتستخدمها لا لمجرد امتلاكها.",stars:"4.7"},
+   {en:"Learning Efficiency Method",ar:"منهج كفاءة التعلم",goal_en:"Learn with less effort and more depth.",goal_ar:"التعلم بجهد أقل وعمق أكبر.",stars:"4.6"}],
+  // Domain 12 — Energy + Philosophy
+  [{en:"Peak Energy System",ar:"نظام الطاقة القصوى",goal_en:"Raise and sustain your daily energy levels.",goal_ar:"رفع مستويات طاقتك اليومية والحفاظ عليها.",stars:"4.6"},
+   {en:"Focus Energy Protocol",ar:"بروتوكول طاقة التركيز",goal_en:"Manage your energy specifically for deep focus.",goal_ar:"إدارة طاقتك بشكل خاص للتركيز العميق.",stars:"4.7"},
+   {en:"Performance Energy Framework",ar:"إطار طاقة الأداء العالي",goal_en:"Build the energy systems for high performance.",goal_ar:"بناء منظومات الطاقة للأداء العالي.",stars:"4.6"},
+   {en:"Life Philosophy Framework",ar:"إطار فلسفة الحياة",goal_en:"Build a coherent personal philosophy for living.",goal_ar:"بناء فلسفة حياة شخصية متماسكة.",stars:"4.7"},
+   {en:"Wisdom Architecture",ar:"هندسة الحكمة",goal_en:"Build genuine wisdom — not just knowledge.",goal_ar:"بناء الحكمة الحقيقية — لا مجرد المعرفة.",stars:"4.7"},
+   {en:"Meaning of Life Guide",ar:"دليل معنى الحياة",goal_en:"Discover and define your own meaning.",goal_ar:"اكتشاف معناك وتحديده بنفسك.",stars:"4.6"}],
+];
+
+const ABOUT_BLOCKS = [
+  {label_en:"THE ORIGIN",label_ar:"البداية",en:"VEXORIA was built from one observation: most people are running the same mental patterns their entire lives — without ever questioning them. The failures, the stagnation, the repeated mistakes — they all trace back to <em>thinking patterns inherited without examination.</em>",ar:"بُنيت VEXORIA من ملاحظة واحدة: معظم الناس يشغّلون نفس الأنماط الذهنية طوال حياتهم — دون أن يتساءلوا عنها. الإخفاقات، الركود، الأخطاء المتكررة — كلها تعود إلى <em>أنماط تفكير موروثة دون فحص.</em>"},
+  {label_en:"THE MISSION",label_ar:"الرسالة",en:"To give people the cognitive tools to <em>see themselves clearly</em> — not through motivation, but through understanding. One decoded pattern at a time. Until the rare version of them becomes the default.",ar:"منح الناس الأدوات المعرفية <em>لرؤية أنفسهم بوضوح</em> — ليس من خلال التحفيز، بل من خلال الفهم. نمط مفكوك في كل مرة. حتى تصبح نسختهم النادرة هي الافتراضية."},
+  {label_en:"THE METHOD",label_ar:"الأسلوب",en:"Every VEXORIA system follows the same structure: <em>Reveal the hidden pattern → Explain the psychology → Give the tool to escape it.</em> No recycled advice. No empty motivation. Only depth — in language anyone can understand.",ar:"كل نظام في VEXORIA يتبع نفس البنية: <em>كشف النمط الخفي → شرح علم النفس → إعطاء الأداة للتحرر منه.</em> لا نصائح معادة. لا تحفيز فارغ. عمق فقط — بلغة يفهمها أي إنسان."},
+  {label_en:"THE VISION",label_ar:"الرؤية",en:"A world where more people choose <em>depth over noise.</em> Where understanding yourself is not a luxury — it is a standard. Where the rare human is not the exception, but the result of <em>a deliberate, examined life.</em>",ar:"عالم يختار فيه المزيد من الناس <em>العمق على الضجيج.</em> حيث فهم نفسك ليس رفاهية — بل معيار. حيث الإنسان النادر ليس استثناءً، بل نتيجة <em>حياة متأنية ومفحوصة.</em>"},
+];
+
+const ARTICLES = [
+  {cat_en:"THINKING ERRORS",cat_ar:"أخطاء التفكير",en:"The Invisible Filter: How Your Mind Decides What Is Real",ar:"المرشح الخفي: كيف يقرر عقلك ما هو حقيقي",exc_en:"Every mind runs a filter that lets in evidence confirming what it already believes — and quietly discards everything else.",exc_ar:"كل عقل يشغّل مرشحاً يسمح بدخول الأدلة التي تؤكد ما يؤمن به بالفعل — ويتجاهل بهدوء كل شيء آخر.",date:"MAR 2026",read:"6 MIN"},
+  {cat_en:"HUMAN BEHAVIOR",cat_ar:"السلوك البشري",en:"Why People Resist Success More Than Failure",ar:"لماذا يقاوم الناس النجاح أكثر من الفشل",exc_en:"Failure is familiar. Success means becoming someone new — and the unconscious mind treats that as a threat.",exc_ar:"الفشل مألوف. النجاح يعني أن تصبح شخصاً جديداً — والعقل اللاواعي يعامل ذلك كتهديد.",date:"MAR 2026",read:"7 MIN"},
+  {cat_en:"INFLUENCE",cat_ar:"التأثير",en:"The Architecture of Persuasion: Six Patterns You Face Daily",ar:"هندسة الإقناع: ستة أنماط تواجهها يومياً",exc_en:"Influence is not manipulation when you understand its mechanics. The danger is being moved without knowing it.",exc_ar:"التأثير ليس تلاعباً عندما تفهم آلياته. الخطر يكمن في أن تتحرك دون أن تعرف ذلك.",date:"FEB 2026",read:"9 MIN"},
+  {cat_en:"PSYCHOLOGY",cat_ar:"علم النفس",en:"Emotional Debt: The Feelings You Owe Yourself",ar:"الدين العاطفي: المشاعر التي تدين بها لنفسك",exc_en:"Suppressed emotions do not disappear. They accumulate — surfacing as patterns of behavior that confuse even their owner.",exc_ar:"المشاعر المكبوتة لا تختفي. تتراكم — وتظهر كأنماط سلوكية تربك حتى صاحبها.",date:"FEB 2026",read:"8 MIN"},
+  {cat_en:"SOCIETY",cat_ar:"المجتمع",en:"The Comfort Trap: Why Ordinary Feels Like Safety",ar:"فخ الراحة: لماذا يبدو العادي كالأمان",exc_en:"Society programs people to mistake familiarity for safety, and novelty for danger. The rare mind learns to reverse this.",exc_ar:"يبرمج المجتمع الناس على الخلط بين الألفة والأمان. العقل النادر يتعلم عكس ذلك.",date:"JAN 2026",read:"7 MIN"},
+  {cat_en:"MINDSET",cat_ar:"العقلية",en:"What Separates the 5% Who Think Differently",ar:"ما الذي يميز الـ 5% الذين يفكرون بشكل مختلف",exc_en:"It is not intelligence. It is not talent. It is one habit — the willingness to examine every belief they hold.",exc_ar:"ليس الذكاء. ليس الموهبة. إنها عادة واحدة — الاستعداد لفحص كل معتقد يحملونه.",date:"JAN 2026",read:"10 MIN"},
+];
+
+const SOCIALS = [
+  {name:"Instagram",url:"https://www.instagram.com/vexoria07/",icon:"📷"},
+  {name:"Facebook",url:"https://www.facebook.com/vexoria.027",icon:"📘"},
+  {name:"TikTok",url:"https://www.tiktok.com/@vexoria_027",icon:"🎵"},
+  {name:"YouTube",url:"https://www.youtube.com/@VEXORIA07",icon:"▶"},
+  {name:"Telegram",url:"https://t.me/vexoria_027",icon:"✈"},
+  {name:"X / Twitter",url:"https://x.com/VEXORIA_07",icon:"✕"},
+  {name:"Threads",url:"https://www.threads.com/@vexoria07",icon:"@"},
+  {name:"Pinterest",url:"https://www.pinterest.com/vexoria_07/",icon:"📌"},
+  {name:"Reddit",url:"https://www.reddit.com/user/VEXORIA07/",icon:"🔴"},
+  {name:"WhatsApp",url:"https://chat.whatsapp.com/KfoHDNzJpOJBlVzcWltbYp",icon:"💬"},
+];
+
+// ═══════════════════════════════════════
+// BUILDERS
+// ═══════════════════════════════════════
+
+function buildTicker(){
+  const el = document.getElementById('tickerInner');
+  let html = '';
+  const doubled = [...TICKER_ITEMS,...TICKER_ITEMS];
+  doubled.forEach(t=>{
+    const txt = isAR ? t.ar : t.en;
+    html += `<span class="tick-item">${txt}</span><span class="tick-item tick-dot">◆</span>`;
+  });
+  el.innerHTML = html;
+}
+
+function buildProblems(){
+  const el = document.getElementById('problemList');
+  el.innerHTML = PROBLEMS.map((p,i)=>`
+    <li class="prob-item reveal">
+      <span class="prob-num">0${i+1}</span>
+      <span class="prob-text"${isAR?' lang="ar"':''}>${isAR?p.ar:p.en}</span>
+    </li>`).join('');
+  bindReveal();
+}
+
+function buildSysGrid(){
+  const el = document.getElementById('sysGrid');
+  el.innerHTML = DOMAINS.map(d=>`
+    <div class="sys-card">
+      <span class="sys-count">${d.count} SYSTEMS</span>
+      <span class="sys-icon">${d.icon}</span>
+      <div class="sys-name"${isAR?' lang="ar"':''}>${isAR?d.ar:d.en}</div>
+      <div class="sys-desc"${isAR?' lang="ar"':''}>${isAR?d.desc_ar:d.desc_en}</div>
+    </div>`).join('');
+}
+
+function buildProducts(){
+  const el = document.getElementById('productsContainer');
+  el.innerHTML = DOMAINS.map((d,di)=>{
+    const prods = PRODUCTS[di];
+    const cards = prods.map(p=>{
+      const stars = Math.round(parseFloat(p.stars)*2)/2;
+      const full = Math.floor(stars);
+      const half = stars%1>=.5?1:0;
+      const starHtml = '★'.repeat(full)+(half?'☆':'')+'☆'.repeat(5-full-half);
+      return `<div class="prod-card">
+        <div class="prod-cover cover-theme-${d.theme}">
+          <div class="cover-deco"></div>
+          <div class="cover-bg-${d.theme}"></div>
+          <div class="prod-cover-inner">
+            <span class="cover-symbol">${d.icon}</span>
+            <div class="cover-line"></div>
+            <div class="cover-title"${isAR?' lang="ar"':''}>${isAR?p.ar:p.en}</div>
+            <div class="cover-sub" lang="en">VEXORIA SYSTEM</div>
+          </div>
+          <span class="cover-vx">VEXORIA</span>
+        </div>
+        <div class="prod-body">
+          <div class="prod-name"${isAR?' lang="ar"':''}>${isAR?p.ar:p.en}</div>
+          <div class="prod-goal"${isAR?' lang="ar"':''}>${isAR?p.goal_ar:p.goal_en}</div>
+          <div class="prod-stars"><span class="stars">${starHtml}</span><span class="stars-num">${p.stars}</span></div>
+          <div class="prod-actions">
+            <button class="prod-btn primary" onclick="openModal('${isAR?p.ar:p.en}')" data-en="GET" data-ar="احصل عليه">${isAR?'احصل عليه':'GET'}</button>
+            <button class="prod-btn" data-en="عربي" data-ar="Arabic" onclick="openModal('${isAR?p.ar:p.en}')">${isAR?'Arabic':'عربي'}</button>
+            <button class="prod-btn" data-en="English" data-ar="English" onclick="openModal('${isAR?p.ar:p.en}')">EN</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="domain-sec">
+      <div class="domain-header">
+        <span class="domain-icon">${d.icon}</span>
+        <span class="domain-name"${isAR?' lang="ar"':''}>${isAR?d.ar:d.en}</span>
+        <span class="domain-count">${d.count} ${isAR?'نظام':'SYSTEMS'}</span>
+      </div>
+      <div class="products-grid">${cards}</div>
+    </div>`;
+  }).join('');
+}
+
+function buildAbout(){
+  const el = document.getElementById('aboutBlocks');
+  el.innerHTML = ABOUT_BLOCKS.map(b=>`
+    <div class="about-block">
+      <span class="about-block-label">${isAR?b.label_ar:b.label_en}</span>
+      <p class="about-block-text"${isAR?' lang="ar"':''}>${isAR?b.ar:b.en}</p>
+    </div>`).join('');
+}
+
+function buildArticles(){
+  const el = document.getElementById('articlesGrid');
+  el.innerHTML = ARTICLES.map(a=>`
+    <div class="article-card">
+      <span class="art-cat">${isAR?a.cat_ar:a.cat_en}</span>
+      <h3 class="art-title"${isAR?' lang="ar"':''}>${isAR?a.ar:a.en}</h3>
+      <p class="art-excerpt"${isAR?' lang="ar"':''}>${isAR?a.exc_ar:a.exc_en}</p>
+      <div class="art-meta"><span>${a.date}</span><span class="art-read">${a.read} READ →</span></div>
+    </div>`).join('');
+}
+
+function buildSocials(){
+  const el = document.getElementById('socialsGrid');
+  el.innerHTML = SOCIALS.map(s=>`
+    <a href="${s.url}" target="_blank" class="soc-link">
+      <span>${s.icon}</span><span>${s.name}</span>
+    </a>`).join('');
+}
+
+function buildAll(){
+  buildTicker(); buildProblems(); buildSysGrid();
+  buildProducts(); buildAbout(); buildArticles(); buildSocials();
+  buildRevealTexts();
+}
+
+function buildRevealTexts(){
+  document.querySelectorAll('[data-en],[data-ar]').forEach(el=>{
+    const val = isAR ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+    if(val!==null) el.innerHTML = val;
+  });
+  document.querySelectorAll('[data-placeholder-en],[data-placeholder-ar]').forEach(el=>{
+    el.placeholder = isAR ? el.getAttribute('data-placeholder-ar') : el.getAttribute('data-placeholder-en');
+  });
+}
+
+// ═══ PAGE NAV ═══
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const nl = document.getElementById('nl-'+name);
+  if(nl) nl.classList.add('active');
+  window.scrollTo(0,0);
+  setTimeout(bindReveal,100);
+}
+
+// ═══ LANG ═══
+function toggleLang(){
+  isAR = !isAR;
+  document.getElementById('langBtn').textContent = isAR ? 'English' : 'عربي';
+  document.documentElement.lang = isAR ? 'ar' : 'en';
+  document.documentElement.dir = isAR ? 'rtl' : 'ltr';
+  buildAll();
+  bindReveal();
+}
+
+// ═══ THEME ═══
+function toggleTheme(){
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+  document.getElementById('themeLabel').textContent = dark ? 'DARK' : 'LIGHT';
+}
+
+// ═══ REVEAL ═══
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('vis'); });
+},{threshold:.08});
+function bindReveal(){
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+}
+
+// ═══ MODAL ═══
+function openModal(productName){
+  const m = document.getElementById('modalOverlay');
+  document.getElementById('modalProductName').textContent = productName;
+  document.getElementById('modalTitle').textContent = isAR ? 'احصل على هذا النظام' : 'Get This System';
+  document.getElementById('modalSub').textContent = isAR ? 'تواصل معنا مباشرة للحصول على نظامك.' : 'Contact us directly to receive your system.';
+  m.classList.add('open');
+}
+function closeModal(e){
+  if(!e || e.target.id==='modalOverlay') document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// ═══ EMAIL ═══
+function submitEmail(){
+  const v = document.getElementById('emailInput').value;
+  if(!v) return;
+  document.getElementById('emailInput').value = '';
+  document.getElementById('emailInput').placeholder = isAR ? '✓ شكراً — وصل طلبك' : '✓ Thank you — you are in';
+}
+
+// ═══ CURSOR ═══
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop);})();
+
+// ═══ CANVAS ═══
+const canvas=document.getElementById('bgc'),ctx=canvas.getContext('2d');
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight;}
+resize();window.addEventListener('resize',resize);
+class Ember{
+  reset(i){this.x=Math.random()*innerWidth;this.y=i?Math.random()*innerHeight:innerHeight+4;this.vx=(Math.random()-.5)*.35;this.vy=-(Math.random()*.5+.1);this.r=Math.random()*1.1+.2;this.a=Math.random()*.15+.02;this.life=0;this.max=Math.random()*220+80;}
+  constructor(){this.reset(true);}
+  step(){this.x+=this.vx+Math.sin(this.life*.05)*.1;this.y+=this.vy;this.life++;const t=this.life/this.max;this.ca=t<.2?this.a*(t/.2):t>.75?this.a*((1-t)/.25):this.a;if(this.life>this.max)this.reset();}
+  draw(){const dark=document.documentElement.getAttribute('data-theme')==='dark';ctx.save();ctx.globalAlpha=this.ca;ctx.fillStyle=dark?'rgb(196,154,60)':'rgb(138,94,26)';ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fill();ctx.restore();}
+}
+const embers=[];for(let i=0;i<60;i++)embers.push(new Ember());
+(function loop(){ctx.clearRect(0,0,innerWidth,innerHeight);embers.forEach(e=>{e.step();e.draw();});requestAnimationFrame(loop);})();
+
+// ═══ LOADER ═══
+window.addEventListener('load',()=>{
+  setTimeout(()=>document.getElementById('loader').classList.add('gone'),2000);
+});
+
+// ═══ INIT ═══
+buildAll();
+setTimeout(bindReveal,300);
+</script>
+</body>
+</html>

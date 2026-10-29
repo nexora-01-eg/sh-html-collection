@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEXORIA — Building The Rare Human</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Pinyon+Script&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#F7DC97;
+  --gold-deep:#C9A030;
+  --gold-dark:#7B5010;
+  --gold-dim:#3a2200;
+  --black:#030302;
+  --black2:#060504;
+  --black3:#0a0908;
+  --black4:#0f0e0c;
+  --body:#b8965a;
+  --muted:#5a3d18;
+  --faint:#2a1e0a;
+  --white-soft:#FFF8E0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--gold);font-family:'Cormorant Garamond',serif;overflow-x:hidden;cursor:none;}
+::-webkit-scrollbar{width:2px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:var(--gold-dark);}
+
+/* ── CURSOR ── */
+.cur{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;}
+.curR{position:fixed;width:30px;height:30px;border:1px solid var(--gold-deep);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.45;transition:width .3s,height .3s;}
+
+/* ── CANVAS ── */
+#bgc{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:22px 60px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(3,3,2,.97) 0%,transparent 100%);}
+.nav-logo{font-family:'Cinzel',serif;font-size:12px;font-weight:700;letter-spacing:10px;background:linear-gradient(90deg,var(--gold-dark),var(--gold),var(--white-soft),var(--gold),var(--gold-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none;cursor:none;}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;color:var(--muted);text-decoration:none;transition:color .3s;cursor:none;}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);}
+.nav-right{display:flex;gap:12px;align-items:center;}
+.btn-lang{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:3px;color:var(--muted);background:transparent;border:1px solid var(--faint);padding:6px 12px;cursor:none;transition:all .3s;}
+.btn-lang:hover{border-color:var(--gold-dark);color:var(--gold);}
+
+/* ── PAGES ── */
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+@keyframes shimmerText{0%{background-position:0% center;}100%{background-position:200% center;}}
+@keyframes breathe{
+  0%,100%{filter:drop-shadow(0 0 30px rgba(201,160,48,.9)) drop-shadow(0 0 80px rgba(160,80,0,.5));}
+  50%{filter:drop-shadow(0 0 55px rgba(255,220,80,1)) drop-shadow(0 0 130px rgba(201,120,0,.7));}
+}
+@keyframes sPulse{0%,100%{opacity:.3;}50%{opacity:.8;}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s,transform .8s;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ── GOLD RULE ── */
+.rule{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dark) 20%,var(--gold-deep) 50%,var(--gold-dark) 80%,transparent);opacity:.28;}
+.rule-sm{width:48px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:20px auto;opacity:.35;}
+.rule-wrap{position:relative;z-index:1;padding:0 60px;}
+
+/* ── SECTION BASE ── */
+.sec{position:relative;z-index:1;padding:100px 60px;max-width:1240px;margin:0 auto;}
+.sec-label{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:8px;color:var(--faint);margin-bottom:18px;display:block;}
+.sec-title{font-family:'Cinzel',serif;font-weight:400;font-size:clamp(26px,3.8vw,46px);letter-spacing:.08em;line-height:1.2;background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--white-soft),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:22px;}
+.sec-body{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;font-weight:300;color:var(--body);line-height:1.9;max-width:660px;}
+
+/* ════════════════════════
+   PAGE: HOME
+════════════════════════ */
+#hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 40px 100px;overflow:hidden;}
+#hero::before{content:'';position:absolute;width:700px;height:700px;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(199,160,48,.055) 0%,transparent 70%);pointer-events:none;}
+.eyebrow{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:10px;color:var(--muted);margin-bottom:44px;opacity:0;animation:fadeUp .8s .2s forwards;}
+.hero-title{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(56px,11vw,138px);letter-spacing:.25em;line-height:1;background:linear-gradient(135deg,var(--gold-dim),var(--gold-dark),var(--gold-deep),var(--gold),var(--white-soft),var(--gold),var(--gold-deep),var(--gold-dark),var(--gold-dim));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fadeUp .8s .4s forwards,shimmerText 6s 1.2s linear infinite;opacity:0;filter:drop-shadow(0 0 50px rgba(247,220,151,.12));}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(15px,2.2vw,21px);font-weight:300;color:var(--body);max-width:580px;line-height:1.85;letter-spacing:.03em;margin-top:28px;opacity:0;animation:fadeUp .8s .7s forwards;}
+.hero-sub em{font-style:normal;color:var(--gold);}
+.divider{display:flex;align-items:center;gap:18px;margin:36px 0;opacity:0;animation:fadeUp .8s .55s forwards;}
+.dline{width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-deep));}
+.dline.r{background:linear-gradient(90deg,var(--gold-deep),transparent);}
+.ddot{width:3.5px;height:3.5px;background:var(--gold-deep);border-radius:50%;}
+.cta-wrap{margin-top:52px;display:flex;gap:18px;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp .8s .9s forwards;}
+.btn-p{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:5px;color:var(--black);background:linear-gradient(135deg,var(--gold-deep),var(--gold),var(--white-soft),var(--gold));background-size:200% auto;padding:15px 40px;border:none;cursor:none;text-decoration:none;display:inline-block;transition:background-position .4s,transform .3s;}
+.btn-p:hover{background-position:right center;transform:translateY(-2px);}
+.btn-g{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:5px;color:var(--gold-deep);background:transparent;padding:14px 40px;border:1px solid var(--gold-dark);cursor:none;text-decoration:none;display:inline-block;transition:all .3s;}
+.btn-g:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px);}
+.scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp .8s 1.3s forwards;}
+.scroll-hint span{font-family:'Cinzel',serif;font-size:7px;letter-spacing:4px;color:var(--faint);}
+.sline{width:1px;height:38px;background:linear-gradient(180deg,var(--gold-dark),transparent);animation:sPulse 2s ease-in-out infinite;}
+
+/* Problems grid */
+.ps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2px;margin-top:50px;}
+.ps-card{background:var(--black2);border:1px solid #0f0d08;padding:44px 32px;position:relative;overflow:hidden;transition:border-color .4s,background .4s;}
+.ps-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dark),transparent);opacity:0;transition:opacity .4s;}
+.ps-card:hover{border-color:#1a1408;background:#060503;}
+.ps-card:hover::after{opacity:1;}
+.ps-card:hover .ps-title{color:var(--gold);}
+.ps-icon{font-size:22px;margin-bottom:18px;display:block;}
+.ps-tag{font-family:'Cinzel',serif;font-size:7px;letter-spacing:4px;color:var(--faint);margin-bottom:12px;display:block;}
+.ps-title{font-family:'Cinzel',serif;font-size:12px;font-weight:400;letter-spacing:3px;color:var(--gold-deep);margin-bottom:14px;transition:color .3s;}
+.ps-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14.5px;font-weight:300;color:var(--muted);line-height:1.7;}
+
+/* Quote */
+.q-mark{font-family:'Pinyon Script',cursive;font-size:110px;color:var(--gold-dim);line-height:.4;display:block;margin-bottom:16px;opacity:.35;}
+.q-text{font-family:'Pinyon Script',cursive;font-size:clamp(26px,3.8vw,46px);color:var(--gold);line-height:1.6;max-width:680px;margin:0 auto 28px;filter:drop-shadow(0 0 18px rgba(247,220,151,.1));}
+.q-attr{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:6px;color:var(--faint);}
+
+/* ════════════════════════
+   PAGE: ARTICLES
+════════════════════════ */
+.articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:2px;margin-top:50px;}
+.art-card{background:var(--black2);border:1px solid #0f0d08;padding:44px 36px;cursor:none;transition:border-color .4s,background .4s;position:relative;overflow:hidden;}
+.art-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dark),transparent);opacity:0;transition:opacity .4s;}
+.art-card:hover{border-color:#1a1408;background:#060503;}
+.art-card:hover::before{opacity:1;}
+.art-card:hover .art-title,.art-card:hover .art-title-ar{color:var(--gold);}
+.art-lang{font-family:'Cinzel',serif;font-size:7px;letter-spacing:3px;color:var(--faint);margin-bottom:8px;display:block;}
+.art-num{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--faint);margin-bottom:16px;display:block;}
+.art-title{font-family:'Cinzel',serif;font-size:14px;font-weight:400;letter-spacing:2px;color:var(--gold-deep);margin-bottom:16px;line-height:1.5;transition:color .3s;}
+.art-title-ar{font-family:'Noto Naskh Arabic',serif;font-size:17px;color:var(--gold-deep);margin-bottom:16px;line-height:1.6;transition:color .3s;direction:rtl;text-align:right;}
+.art-body{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;font-weight:300;color:var(--muted);line-height:1.75;}
+.art-body-ar{font-family:'Noto Naskh Arabic',serif;font-size:14px;color:var(--muted);line-height:1.8;direction:rtl;text-align:right;}
+.art-read{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:4px;color:var(--gold-dark);margin-top:24px;display:inline-block;transition:color .3s;}
+.art-card:hover .art-read{color:var(--gold);}
+.art-tag{font-family:'Cinzel',serif;font-size:7px;letter-spacing:3px;color:var(--faint);background:var(--black3);border:1px solid #0f0d08;padding:4px 10px;display:inline-block;margin-bottom:16px;}
+
+/* ════════════════════════
+   PAGE: STORE
+════════════════════════ */
+.store-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2px;margin-top:50px;}
+.store-card{background:var(--black2);border:1px solid #0f0d08;padding:44px 36px;position:relative;overflow:hidden;transition:border-color .4s,background .4s;}
+.store-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dark),transparent);opacity:0;transition:opacity .4s;}
+.store-card:hover{border-color:#1a1408;background:#060503;}
+.store-card:hover::after{opacity:1;}
+.store-card:hover .store-title{color:var(--gold);}
+.store-icon{font-size:32px;margin-bottom:20px;display:block;}
+.store-tag{font-family:'Cinzel',serif;font-size:7px;letter-spacing:4px;color:var(--faint);margin-bottom:12px;display:block;}
+.store-title{font-family:'Cinzel',serif;font-size:14px;font-weight:400;letter-spacing:3px;color:var(--gold-deep);margin-bottom:14px;transition:color .3s;}
+.store-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:24px;}
+.store-price{font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;color:var(--gold);margin-bottom:20px;display:block;}
+.store-btn{font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;color:var(--black);background:linear-gradient(135deg,var(--gold-deep),var(--gold));padding:12px 28px;border:none;cursor:none;display:inline-block;transition:transform .3s;}
+.store-btn:hover{transform:translateY(-2px);}
+.store-soon{font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;color:var(--faint);border:1px solid var(--faint);padding:12px 28px;display:inline-block;}
+
+/* Payment methods */
+.pay-wrap{margin-top:60px;}
+.pay-title{font-family:'Cinzel',serif;font-size:9px;letter-spacing:6px;color:var(--faint);margin-bottom:24px;display:block;}
+.pay-grid{display:flex;flex-wrap:wrap;gap:2px;}
+.pay-card{background:var(--black2);border:1px solid #0f0d08;padding:18px 22px;display:flex;align-items:center;gap:10px;transition:border-color .3s;}
+.pay-card:hover{border-color:#1a1408;}
+.pay-icon{font-size:18px;}
+.pay-name{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:2px;color:var(--muted);}
+
+/* ════════════════════════
+   PAGE: ABOUT
+════════════════════════ */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:60px;}
+.about-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;font-weight:300;color:var(--body);line-height:1.9;}
+.about-text em{font-style:normal;color:var(--gold);}
+.about-text p{margin-bottom:24px;}
+.id-list{list-style:none;margin-top:0;}
+.id-list li{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--muted);padding:10px 0;border-bottom:1px solid #0f0d08;display:flex;align-items:center;gap:12px;transition:color .3s;}
+.id-list li:hover{color:var(--gold);}
+.id-list li::before{content:'◆';font-size:4.5px;color:var(--gold-dark);flex-shrink:0;}
+
+/* ════════════════════════
+   PAGE: SOCIAL
+════════════════════════ */
+.social-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:2px;margin-top:50px;}
+.soc-card{background:var(--black2);border:1px solid #0f0d08;padding:36px 28px;display:flex;flex-direction:column;gap:16px;cursor:none;transition:border-color .4s,background .4s;text-decoration:none;}
+.soc-card:hover{border-color:#1a1408;background:#060503;}
+.soc-card:hover .soc-name{color:var(--gold);}
+.soc-icon{font-size:28px;}
+.soc-name{font-family:'Cinzel',serif;font-size:10px;letter-spacing:4px;color:var(--gold-deep);transition:color .3s;}
+.soc-handle{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--muted);}
+.soc-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--faint);line-height:1.5;}
+.soc-join{font-family:'Cinzel',serif;font-size:7px;letter-spacing:3px;color:var(--gold-dark);margin-top:4px;transition:color .3s;}
+.soc-card:hover .soc-join{color:var(--gold);}
+
+/* ════════════════════════
+   FOOTER
+════════════════════════ */
+footer{position:relative;z-index:1;border-top:1px solid #0f0d08;padding:36px 60px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.foot-logo{font-family:'Cinzel',serif;font-size:9px;letter-spacing:8px;color:var(--faint);}
+.foot-copy{font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--faint);font-style:italic;}
+
+/* ── TAGLINE CLOSER ── */
+#closer{position:relative;z-index:1;text-align:center;padding:100px 40px;}
+.closer-text{font-family:'Cinzel',serif;font-weight:300;font-size:clamp(10px,1.8vw,15px);letter-spacing:10px;background:linear-gradient(90deg,var(--gold-dim),var(--gold-dark),var(--gold-deep),var(--gold),var(--white-soft),var(--gold),var(--gold-deep),var(--gold-dark),var(--gold-dim));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmerText 5s linear infinite;}
+
+@media(max-width:768px){
+  nav{padding:18px 24px;}
+  .nav-links{display:none;}
+  .sec{padding:70px 24px;}
+  .rule-wrap{padding:0 24px;}
+  .about-grid{grid-template-columns:1fr;gap:40px;}
+  footer{padding:30px 24px;}
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="curR" id="curR"></div>
+<canvas id="bgc"></canvas>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <a href="#" class="nav-logo" onclick="showPage('home')">VEXORIA</a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home')"   id="nav-home"    class="active">HOME</a></li>
+    <li><a href="#" onclick="showPage('articles')" id="nav-articles">ARTICLES</a></li>
+    <li><a href="#" onclick="showPage('store')"  id="nav-store">STORE</a></li>
+    <li><a href="#" onclick="showPage('about')"  id="nav-about">ABOUT</a></li>
+    <li><a href="#" onclick="showPage('social')" id="nav-social">COMMUNITY</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="btn-lang" onclick="toggleLang()">AR / EN</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════
+     PAGE: HOME
+══════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <section id="hero">
+    <p class="eyebrow">VEXORIA DIGITAL &nbsp;·&nbsp; BUILDING THE RARE HUMAN</p>
+    <h1 class="hero-title">VEXORIA</h1>
+    <div class="divider">
+      <div class="dline"></div>
+      <div class="ddot"></div><div class="ddot" style="opacity:.5;transform:scale(.6)"></div><div class="ddot" style="opacity:.25;transform:scale(.4)"></div>
+      <div class="dline r"></div>
+    </div>
+    <p class="hero-sub">A space where <em>clarity meets depth</em> —<br>built for those who refuse to move through life<br>on borrowed assumptions.</p>
+    <div class="cta-wrap">
+      <a href="#" class="btn-p" onclick="showPage('articles')">READ THE ARTICLES</a>
+      <a href="#" class="btn-g" onclick="showPage('store')">EXPLORE THE STORE</a>
+    </div>
+    <div class="scroll-hint"><span>SCROLL</span><div class="sline"></div></div>
+  </section>
+
+  <div class="rule-wrap"><div class="rule"></div></div>
+
+  <!-- Problems -->
+  <section style="position:relative;z-index:1;padding:80px 0;">
+  <div class="sec" style="padding-top:0;padding-bottom:0;">
+    <span class="sec-label reveal">WHAT WE SOLVE</span>
+    <h2 class="sec-title reveal">Every Problem Has a Root</h2>
+    <p class="sec-body reveal">Most people treat symptoms. VEXORIA goes deeper — we decode the invisible patterns behind every struggle.</p>
+  </div>
+  <div class="ps-grid reveal" style="max-width:1240px;margin:50px auto 0;padding:0 60px;">
+    <div class="ps-card"><span class="ps-icon">🧠</span><span class="ps-tag">MIND</span><h3 class="ps-title">THINKING ERRORS</h3><p class="ps-text">The invisible cognitive distortions sabotaging your decisions every single day.</p></div>
+    <div class="ps-card"><span class="ps-icon">💰</span><span class="ps-tag">WEALTH</span><h3 class="ps-title">MONEY MINDSET</h3><p class="ps-text">Why most people stay broke — not because of lack of money, but wrong relationship with it.</p></div>
+    <div class="ps-card"><span class="ps-icon">👁️</span><span class="ps-tag">AWARENESS</span><h3 class="ps-title">SELF-DECEPTION</h3><p class="ps-text">The stories you tell yourself that feel like truth — how to see through them with clarity.</p></div>
+    <div class="ps-card"><span class="ps-icon">⚖️</span><span class="ps-tag">DISCIPLINE</span><h3 class="ps-title">WEAK WILL</h3><p class="ps-text">Why willpower fails — and ancient systems that build unbreakable discipline.</p></div>
+    <div class="ps-card"><span class="ps-icon">🌱</span><span class="ps-tag">GROWTH</span><h3 class="ps-title">WRONG UPBRINGING</h3><p class="ps-text">The beliefs planted in childhood that still run your adult life.</p></div>
+    <div class="ps-card"><span class="ps-icon">🔥</span><span class="ps-tag">EMOTION</span><h3 class="ps-title">REACTIVE LIVING</h3><p class="ps-text">Moving through life driven by emotion and fear — becoming the one who responds, never reacts.</p></div>
+  </div>
+  </section>
+
+  <div class="rule-wrap"><div class="rule"></div></div>
+
+  <!-- Quote -->
+  <section style="position:relative;z-index:1;text-align:center;padding:100px 40px;">
+    <span class="q-mark">"</span>
+    <p class="q-text reveal">Most people do not lack potential.<br>They lack the map.</p>
+    <span class="q-attr reveal">— VEXORIA</span>
+  </section>
+
+  <div class="rule-wrap"><div class="rule"></div></div>
+
+  <section id="closer"><p class="closer-text">THINK DEEPER &nbsp;·&nbsp; SEE FURTHER &nbsp;·&nbsp; BECOME RARE</p></section>
+
+  <footer>
+    <span class="foot-logo">VEXORIA</span>
+    <span class="foot-copy">Cognitive Architecture & Digital Identity</span>
+    <span style="font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:3px;color:var(--faint);">© VEXORIA DIGITAL</span>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE: ARTICLES
+══════════════════════════════════ -->
+<div class="page" id="page-articles">
+  <div style="padding-top:120px;">
+  <div class="sec">
+    <span class="sec-label reveal">KNOWLEDGE DROPS</span>
+    <h2 class="sec-title reveal">The Articles</h2>
+    <p class="sec-body reveal">Short. Sharp. Unforgettable. Each piece is a key — built to unlock something in you that was always there.</p>
+  </div>
+  <div class="articles-grid reveal" style="max-width:1240px;margin:0 auto;padding:0 60px 80px;">
+
+    <div class="art-card"><span class="art-lang">EN</span><span class="art-num">01</span><span class="art-tag">COGNITIVE</span><h3 class="art-title">Why You Keep Making the Same Mistakes</h3><p class="art-body">It's not weakness. It's a pattern your mind was never taught to see — until now.</p><span class="art-read">READ MORE →</span></div>
+
+    <div class="art-card"><span class="art-lang">AR</span><span class="art-num">02</span><span class="art-tag">إدراكي</span><h3 class="art-title-ar">لماذا تكرر نفس الأخطاء؟</h3><p class="art-body-ar">ليس ضعفاً — إنه نمط لم يتعلم عقلك رؤيته بعد.</p><span class="art-read">اقرأ المزيد →</span></div>
+
+    <div class="art-card"><span class="art-lang">EN</span><span class="art-num">03</span><span class="art-tag">STOICISM</span><h3 class="art-title">The Stoic's Secret to Unbreakable Calm</h3><p class="art-body">Marcus Aurelius ruled an empire and faced every chaos with silence. Here's exactly how.</p><span class="art-read">READ MORE →</span></div>
+
+    <div class="art-card"><span class="art-lang">AR</span><span class="art-num">04</span><span class="art-tag">رواقية</span><h3 class="art-title-ar">سر الرواقي في الهدوء المطلق</h3><p class="art-body-ar">ماركوس أوريليوس حكم إمبراطورية وواجه كل فوضى بصمت. هنا بالضبط كيف فعل ذلك.</p><span class="art-read">اقرأ المزيد →</span></div>
+
+    <div class="art-card"><span class="art-lang">EN</span><span class="art-num">05</span><span class="art-tag">STRATEGY</span><h3 class="art-title">How Chess Rewires Your Brain for Real Life</h3><p class="art-body">Ten moves ahead. Calculated patience. The board is just a metaphor — you are the game.</p><span class="art-read">READ MORE →</span></div>
+
+    <div class="art-card"><span class="art-lang">AR</span><span class="art-num">06</span><span class="art-tag">نادر</span><h3 class="art-title-ar">كيف تصبح The Rare One</h3><p class="art-body-ar">ليس الأذكى، ليس الأقوى — بل الشخص الذي يرى ما لا يراه الآخرون.</p><span class="art-read">اقرأ المزيد →</span></div>
+
+    <div class="art-card"><span class="art-lang">EN</span><span class="art-num">07</span><span class="art-tag">WEALTH</span><h3 class="art-title">The Money Mindset Nobody Taught You</h3><p class="art-body">Your relationship with money was built before you were 10. Here's how to rebuild it.</p><span class="art-read">READ MORE →</span></div>
+
+    <div class="art-card"><span class="art-lang">AR</span><span class="art-num">08</span><span class="art-tag">ثروة</span><h3 class="art-title-ar">عقلية المال التي لم يعلّمك إياها أحد</h3><p class="art-body-ar">علاقتك بالمال بُنيت قبل أن تبلغ العاشرة. إليك كيف تعيد بناءها من الصفر.</p><span class="art-read">اقرأ المزيد →</span></div>
+
+    <div class="art-card"><span class="art-lang">EN</span><span class="art-num">09</span><span class="art-tag">MASTERY</span><h3 class="art-title">The Warrior Monk: When Discipline Becomes Freedom</h3><p class="art-body">The martial arts tradition didn't train fighters. It trained minds.</p><span class="art-read">READ MORE →</span></div>
+
+    <div class="art-card"><span class="art-lang">AR</span><span class="art-num">10</span><span class="art-tag">إتقان</span><h3 class="art-title-ar">VEXORIA — طريقك إلى أعلى مستوى</h3><p class="art-body-ar">ليس تحفيزاً — إنه نظام. هنا نبني الإنسان النادر خطوة بخطوة.</p><span class="art-read">اقرأ المزيد →</span></div>
+
+    <div class="art-card"><span class="art-lang">EN</span><span class="art-num">11</span><span class="art-tag">PERCEPTION</span><h3 class="art-title">Perception Is Everything — And You Control It</h3><p class="art-body">Reality is filtered through your mind before you ever experience it. Change the filter.</p><span class="art-read">READ MORE →</span></div>
+
+    <div class="art-card"><span class="art-lang">AR</span><span class="art-num">12</span><span class="art-tag">إدراك</span><h3 class="art-title-ar">الإدراك هو كل شيء — وأنت تتحكم فيه</h3><p class="art-body-ar">الواقع يُصفَّى عبر عقلك قبل أن تعيشه. غيّر الفلتر — تغيّر الدنيا.</p><span class="art-read">اقرأ المزيد →</span></div>
+
+  </div>
+  </div>
+  <footer><span class="foot-logo">VEXORIA</span><span class="foot-copy">Cognitive Architecture & Digital Identity</span><span style="font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:3px;color:var(--faint);">© VEXORIA DIGITAL</span></footer>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE: STORE
+══════════════════════════════════ -->
+<div class="page" id="page-store">
+  <div style="padding-top:120px;">
+  <div class="sec">
+    <span class="sec-label reveal">DIGITAL PRODUCTS</span>
+    <h2 class="sec-title reveal">The Store</h2>
+    <p class="sec-body reveal">Tools, guides and systems built to solve the problems at their root. Coming soon — and worth the wait.</p>
+  </div>
+  <div class="store-grid reveal" style="max-width:1240px;margin:0 auto;padding:0 60px;">
+
+    <div class="store-card"><span class="store-icon">📖</span><span class="store-tag">GUIDE</span><h3 class="store-title">THE MIND MAP</h3><p class="store-text">The complete guide to understanding how your mind works — and how to rewire it.</p><span class="store-price">COMING SOON</span><span class="store-soon">NOTIFY ME</span></div>
+
+    <div class="store-card"><span class="store-icon">⚔️</span><span class="store-tag">SYSTEM</span><h3 class="store-title">THE STOIC SYSTEM</h3><p class="store-text">A 30-day cognitive reset program based on Stoic philosophy and behavioral science.</p><span class="store-price">COMING SOON</span><span class="store-soon">NOTIFY ME</span></div>
+
+    <div class="store-card"><span class="store-icon">♟️</span><span class="store-tag">MASTERCLASS</span><h3 class="store-title">CHESS OF LIFE</h3><p class="store-text">Strategic thinking masterclass — how to think 10 moves ahead in every area of life.</p><span class="store-price">COMING SOON</span><span class="store-soon">NOTIFY ME</span></div>
+
+    <div class="store-card"><span class="store-icon">🔥</span><span class="store-tag">PROGRAM</span><h3 class="store-title">THE RARE ONE PROGRAM</h3><p class="store-text">The complete VEXORIA transformation system — from ordinary thinking to rare mastery.</p><span class="store-price">COMING SOON</span><span class="store-soon">NOTIFY ME</span></div>
+
+    <div class="store-card"><span class="store-icon">💰</span><span class="store-tag">GUIDE</span><h3 class="store-title">MONEY MIND RESET</h3><p class="store-text">Rebuild your relationship with money from the ground up using cognitive science.</p><span class="store-price">COMING SOON</span><span class="store-soon">NOTIFY ME</span></div>
+
+    <div class="store-card"><span class="store-icon">🧘</span><span class="store-tag">TOOLKIT</span><h3 class="store-title">THE STILL WATER KIT</h3><p class="store-text">Daily tools for mental clarity, emotional mastery, and unshakeable inner peace.</p><span class="store-price">COMING SOON</span><span class="store-soon">NOTIFY ME</span></div>
+
+  </div>
+
+  <!-- Payment methods -->
+  <div class="pay-wrap" style="max-width:1240px;margin:0 auto;padding:0 60px 80px;">
+    <div class="rule" style="margin-bottom:40px;"></div>
+    <span class="pay-title">ACCEPTED PAYMENT METHODS</span>
+    <div class="pay-grid">
+      <div class="pay-card"><span class="pay-icon">💳</span><span class="pay-name">PAYPAL</span></div>
+      <div class="pay-card"><span class="pay-icon">💛</span><span class="pay-name">INSTAPAY</span></div>
+      <div class="pay-card"><span class="pay-icon">🔶</span><span class="pay-name">BINANCE</span></div>
+      <div class="pay-card"><span class="pay-icon">💎</span><span class="pay-name">CRYPTO</span></div>
+      <div class="pay-card"><span class="pay-icon">🏦</span><span class="pay-name">BANK TRANSFER</span></div>
+      <div class="pay-card"><span class="pay-icon">📱</span><span class="pay-name">VODAFONE CASH</span></div>
+      <div class="pay-card"><span class="pay-icon">🛍️</span><span class="pay-name">SHOPIFY PAY</span></div>
+    </div>
+  </div>
+  </div>
+  <footer><span class="foot-logo">VEXORIA</span><span class="foot-copy">Cognitive Architecture & Digital Identity</span><span style="font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:3px;color:var(--faint);">© VEXORIA DIGITAL</span></footer>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE: ABOUT
+══════════════════════════════════ -->
+<div class="page" id="page-about">
+  <div style="padding-top:120px;">
+  <div class="sec">
+    <span class="sec-label reveal">ABOUT VEXORIA</span>
+    <h2 class="sec-title reveal">Building The Rare Human</h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>VEXORIA is not a page. Not a brand. Not content.</p>
+        <p>It is a <em>system</em> — engineered from the ground up to do one thing: build the rare kind of human being that the world has almost forgotten how to produce.</p>
+        <p>We live in an age of noise. An age where motivation is sold cheap, advice is recycled endlessly, and most people move through their lives never once questioning the invisible software running their decisions.</p>
+        <p><em>VEXORIA exists to change that.</em></p>
+        <p>Using Stoic philosophy, cognitive psychology, behavioral science, and the wisdom of history's greatest minds — translated not into theory, but into tools you can use today.</p>
+        <p>This is the home of <em>The Rare One.</em></p>
+      </div>
+      <div class="reveal">
+        <span class="sec-label">THE IDENTITIES</span>
+        <ul class="id-list">
+          <li>The Architect</li><li>The Illuminator</li><li>The Decoder</li>
+          <li>The Awakener</li><li>The Surgeon of Thought</li><li>The Reader</li>
+          <li>The Chess Master</li><li>The Warrior Monk</li><li>The Stoic</li>
+          <li>The Philosopher</li><li>The Still Water</li><li>The Observer</li>
+          <li>The Detached</li><li>The Grounded</li><li>The Seeker</li>
+          <li>The Sage</li><li>The Renaissance Man</li><li>The Strategist</li>
+          <li>The Alchemist</li><li>The Sovereign</li>
+          <li style="color:var(--gold);font-style:normal;">The Rare One 🖤</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quote -->
+  <section style="position:relative;z-index:1;text-align:center;padding:80px 40px;">
+    <span class="q-mark">"</span>
+    <p class="q-text reveal">We do not teach success.<br>We teach understanding —<br>and true understanding<br>brings everything else in its wake.</p>
+    <span class="q-attr reveal">— VEXORIA</span>
+  </section>
+  </div>
+  <footer><span class="foot-logo">VEXORIA</span><span class="foot-copy">Cognitive Architecture & Digital Identity</span><span style="font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:3px;color:var(--faint);">© VEXORIA DIGITAL</span></footer>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE: SOCIAL / COMMUNITY
+══════════════════════════════════ -->
+<div class="page" id="page-social">
+  <div style="padding-top:120px;">
+  <div class="sec">
+    <span class="sec-label reveal">JOIN THE COMMUNITY</span>
+    <h2 class="sec-title reveal">Find VEXORIA Everywhere</h2>
+    <p class="sec-body reveal">A space built on respect, depth and love — where every mind is heard and together we think, grow, and become rare.</p>
+  </div>
+  <div class="social-grid reveal" style="max-width:1240px;margin:0 auto;padding:0 60px 80px;">
+
+    <a href="https://www.facebook.com/vexoria.07" target="_blank" class="soc-card">
+      <span class="soc-icon">📘</span><span class="soc-name">FACEBOOK</span>
+      <span class="soc-handle">vexoria.07</span>
+      <span class="soc-desc">Main page — content, articles & updates</span>
+      <span class="soc-join">FOLLOW →</span>
+    </a>
+
+    <a href="https://www.instagram.com/vexoria07/" target="_blank" class="soc-card">
+      <span class="soc-icon">📸</span><span class="soc-name">INSTAGRAM</span>
+      <span class="soc-handle">@vexoria07</span>
+      <span class="soc-desc">Visual content & wisdom drops</span>
+      <span class="soc-join">FOLLOW →</span>
+    </a>
+
+    <a href="https://x.com/VEXORIA_07" target="_blank" class="soc-card">
+      <span class="soc-icon">✖️</span><span class="soc-name">X / TWITTER</span>
+      <span class="soc-handle">@VEXORIA_07</span>
+      <span class="soc-desc">Thoughts, threads & deep ideas</span>
+      <span class="soc-join">FOLLOW →</span>
+    </a>
+
+    <a href="https://www.tiktok.com/@vexoria_027" target="_blank" class="soc-card">
+      <span class="soc-icon">🎵</span><span class="soc-name">TIKTOK</span>
+      <span class="soc-handle">@vexoria_027</span>
+      <span class="soc-desc">Short-form cognitive content</span>
+      <span class="soc-join">FOLLOW →</span>
+    </a>
+
+    <a href="https://www.youtube.com/@VEXORIA07" target="_blank" class="soc-card">
+      <span class="soc-icon">▶️</span><span class="soc-name">YOUTUBE</span>
+      <span class="soc-handle">@VEXORIA07</span>
+      <span class="soc-desc">Deep-dive videos & masterclasses</span>
+      <span class="soc-join">SUBSCRIBE →</span>
+    </a>
+
+    <a href="https://www.threads.com/@vexoria07" target="_blank" class="soc-card">
+      <span class="soc-icon">🧵</span><span class="soc-name">THREADS</span>
+      <span class="soc-handle">@vexoria07</span>
+      <span class="soc-desc">Daily wisdom & conversations</span>
+      <span class="soc-join">FOLLOW →</span>
+    </a>
+
+    <a href="https://www.reddit.com/user/VEXORIA07/" target="_blank" class="soc-card">
+      <span class="soc-icon">🔴</span><span class="soc-name">REDDIT</span>
+      <span class="soc-handle">VEXORIA07</span>
+      <span class="soc-desc">Deep discussions & community</span>
+      <span class="soc-join">JOIN →</span>
+    </a>
+
+    <a href="https://www.pinterest.com/vexoria_07/" target="_blank" class="soc-card">
+      <span class="soc-icon">📌</span><span class="soc-name">PINTEREST</span>
+      <span class="soc-handle">vexoria_07</span>
+      <span class="soc-desc">Visual wisdom & inspiration boards</span>
+      <span class="soc-join">FOLLOW →</span>
+    </a>
+
+    <a href="https://t.me/vexoria_027" target="_blank" class="soc-card">
+      <span class="soc-icon">✈️</span><span class="soc-name">TELEGRAM</span>
+      <span class="soc-handle">@vexoria_027</span>
+      <span class="soc-desc">Exclusive channel content</span>
+      <span class="soc-join">JOIN →</span>
+    </a>
+
+    <a href="https://chat.whatsapp.com/KfoHDNzJpOJBlVzcWltbYp" target="_blank" class="soc-card">
+      <span class="soc-icon">💬</span><span class="soc-name">WHATSAPP</span>
+      <span class="soc-handle">VEXORIA Community</span>
+      <span class="soc-desc">Built on respect, depth & love</span>
+      <span class="soc-join">JOIN →</span>
+    </a>
+
+  </div>
+  </div>
+  <footer><span class="foot-logo">VEXORIA</span><span class="foot-copy">Cognitive Architecture & Digital Identity</span><span style="font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:3px;color:var(--faint);">© VEXORIA DIGITAL</span></footer>
+</div>
+
+<!-- ══ SCRIPTS ══ -->
+<script>
+// Page navigation
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const el=document.getElementById('nav-'+name);
+  if(el)el.classList.add('active');
+  window.scrollTo(0,0);
+  setTimeout(()=>{
+    document.querySelectorAll('.reveal').forEach(el=>{
+      const r=el.getBoundingClientRect();
+      if(r.top<window.innerHeight)el.classList.add('visible');
+    });
+  },100);
+  return false;
+}
+
+// Scroll reveal
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// Cursor
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.ps-card,.art-card,.store-card,.soc-card,.pay-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{curR.style.width='50px';curR.style.height='50px';curR.style.opacity='.25';});
+  el.addEventListener('mouseleave',()=>{curR.style.width='30px';curR.style.height='30px';curR.style.opacity='.45';});
+});
+
+// Language toggle
+let isAR=false;
+function toggleLang(){
+  isAR=!isAR;
+  document.documentElement.lang=isAR?'ar':'en';
+}
+
+// Particles
+const canvas=document.getElementById('bgc'),ctx=canvas.getContext('2d'),dpr=window.devicePixelRatio||1;
+function resize(){canvas.width=innerWidth*dpr;canvas.height=innerHeight*dpr;canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';ctx.resetTransform();ctx.scale(dpr,dpr);}
+resize();window.addEventListener('resize',resize);
+const W=()=>innerWidth,H=()=>innerHeight;
+const G=[[247,220,151],[201,160,48],[255,248,224],[123,80,16],[240,192,64]];
+class E{reset(i){this.x=Math.random()*W();this.y=i?Math.random()*H():H()+6;this.vx=(Math.random()-.5)*.4;this.vy=-(Math.random()*.65+.15);this.r=Math.random()*1.3+.2;this.a=Math.random()*.2+.025;this.c=G[Math.floor(Math.random()*G.length)];this.life=0;this.max=Math.random()*250+110;}constructor(){this.reset(true);}step(){this.x+=this.vx+Math.sin(this.life*.055)*.13;this.y+=this.vy;this.life++;const t=this.life/this.max;this.ca=t<.2?this.a*(t/.2):t>.72?this.a*((1-t)/.28):this.a;if(this.life>this.max)this.reset(false);}draw(){ctx.save();ctx.globalAlpha=this.ca;ctx.fillStyle=`rgb(${this.c[0]},${this.c[1]},${this.c[2]})`;ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fill();ctx.restore();}}
+class S{reset(i){this.x=Math.random()*W();this.y=i?Math.random()*H():H()+10;this.vx=(Math.random()-.5)*.3;this.vy=-(Math.random()*.5+.12);this.rot=Math.random()*Math.PI*2;this.vr=(Math.random()-.5)*.015;this.w=Math.random()*6.5+2;this.h=Math.random()*2.2+.4;this.a=Math.random()*.12+.018;this.c=G[Math.floor(Math.random()*G.length)];this.life=0;this.max=Math.random()*290+140;}constructor(){this.reset(true);}step(){this.x+=this.vx;this.y+=this.vy;this.rot+=this.vr;this.life++;const t=this.life/this.max;this.ca=t<.15?this.a*(t/.15):t>.65?this.a*((1-t)/.35):this.a;if(this.life>this.max)this.reset(false);}draw(){ctx.save();ctx.translate(this.x,this.y);ctx.rotate(this.rot);ctx.globalAlpha=this.ca;ctx.fillStyle=`rgb(${this.c[0]},${this.c[1]},${this.c[2]})`;ctx.beginPath();ctx.moveTo(0,-this.h);ctx.lineTo(this.w,0);ctx.lineTo(0,this.h);ctx.lineTo(-this.w*.38,0);ctx.closePath();ctx.fill();ctx.restore();}}
+const parts=[];
+for(let i=0;i<55;i++)parts.push(new E());
+for(let i=0;i<25;i++)parts.push(new S());
+function loop(){ctx.clearRect(0,0,W(),H());ctx.fillStyle='#030302';ctx.fillRect(0,0,W(),H());const g=ctx.createRadialGradient(W()*.5,H()*.3,0,W()*.5,H()*.3,W()*.42);g.addColorStop(0,'rgba(38,24,7,.11)');g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.fillRect(0,0,W(),H());parts.forEach(p=>{p.step();p.draw();});requestAnimationFrame(loop);}
+loop();
+</script>
+</body>
+</html>
