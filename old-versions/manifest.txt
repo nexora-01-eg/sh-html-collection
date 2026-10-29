@@ -1,0 +1,54 @@
+﻿selim_v5.html  ->  old-versions\
+selim_dashboard_v4.html  ->  old-versions\
+selim_dashboard_v3.html  ->  old-versions\
+selim_dashboard_v2.html  ->  old-versions\
+lava_station.html  ->  old-versions\
+lava-station.html  ->  old-versions\
+nexora-business-growth-platform-11.html  ->  old-versions\
+nexora-business-growth-platform-9.html  ->  old-versions\
+nexora-business-growth-platform-6.html  ->  old-versions\
+nexora-business-growth-platform-3.html  ->  old-versions\
+v15.html  ->  old-versions\
+sddsds.html  ->  old-versions\
+dd.html  ->  old-versions\
+gjkgj.html  ->  old-versions\
+nexora-business-growth-platform-2.html  ->  old-versions\
+nexora-business-growth-platform-13.html  ->  old-versions\
+nexora-business-growth-platform-8.html  ->  old-versions\
+nexora-business-growth-platform-12.html  ->  old-versions\
+nexora-business-growth-platform-4.html  ->  old-versions\
+dkddd.html  ->  old-versions\
+nnn.html  ->  old-versions\
+nexora-business-growth-platform-10.html  ->  old-versions\
+nexora-business-growth-platform-5.html  ->  old-versions\
+nexora-ceo-os-4.html  ->  old-versions\
+v3 ceo.html  ->  old-versions\
+nexora-ceo-os-3.html  ->  old-versions\
+nexora-ceo-os-2.html  ->  old-versions\
+nexora-digital-growth-infrastructure.html  ->  old-versions\
+menu.html  ->  old-versions\
+shadowx-medical-v4.html  ->  old-versions\
+shadowx-medical-v3.html  ->  old-versions\
+shadowx-medical.html  ->  old-versions\
+vexoria-v4.html  ->  old-versions\
+vexoria.html  ->  old-versions\
+vexoria-v3.html  ->  old-versions\
+vexoria-v2.html  ->  old-versions\
+vexoria-website.html  ->  old-versions\
+vexoria-full.html  ->  old-versions\
+VEXORIA_mobile_menu_fixed.html  ->  old-versions\
+VEXORIA_mobile_fixed.html  ->  old-versions\
+VEXORIA_animations_upgrade.html  ->  old-versions\
+VEXORIA_logo_center_fixed.html  ->  old-versions\
+VEXORIA_v6_fixed.html  ->  old-versions\
+VEXORIA_v6 (1).html  ->  old-versions\
+VEXORIA_v6.html  ->  old-versions\
+VEXORIA_v5.html  ->  old-versions\
+VEXORIA_v4.html  ->  old-versions\
+VEXORIA_v3.html  ->  old-versions\
+VEXORIA_v2.html  ->  old-versions\
+vexoria-cognitive-architecture.html  ->  old-versions\
+vexoria-v5.html  ->  old-versions\
+RENAME: sdasdasdas.html -> nexora-digital-growth-infrastructure.html
+RENAME: vexoria-full (1).html -> vexoria-full.html
+RENAME: selim_v5 (1).html -> selim_v5.html

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منيو Pizza Slice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBE9A8;
+    --cream-light:#FFF6DC;
+    --red:#C8102E;
+    --red-dark:#8C0E22;
+    --maroon:#5C0A16;
+    --ink:#241208;
+    --gold:#D8A53D;
+    --green:#1E7A4C;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    background-image:
+      radial-gradient(circle at 10% 8%, rgba(255,255,255,.35), transparent 35%),
+      radial-gradient(circle at 90% 92%, rgba(255,255,255,.25), transparent 40%);
+    font-family:'Tajawal',sans-serif;
+    color:var(--ink);
+  }
+  h1,h2,h3,.display{font-family:'Lalezar',sans-serif; letter-spacing:.5px;}
+
+  /* ===== Header ===== */
+  .hero{
+    background:
+      linear-gradient(160deg, rgba(36,18,8,.88) 0%, rgba(92,10,22,.86) 55%, rgba(140,14,34,.82) 100%),
+      url('https://images.pexels.com/photos/6068717/pexels-photo-6068717.jpeg?auto=compress&cs=tinysrgb&w=1400') center 38% / cover no-repeat;
+    color:var(--cream-light);
+    padding:46px 20px 30px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+    border-bottom:6px solid var(--gold);
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(200,16,46,.35), transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(216,165,61,.18), transparent 45%);
+  }
+  .hero-content{position:relative; z-index:2;}
+  .logo-script{
+    font-family:'Lalezar',sans-serif;
+    font-size:clamp(40px,9vw,68px);
+    color:var(--gold);
+    text-shadow:0 0 18px rgba(216,165,61,.45), 2px 2px 0 rgba(0,0,0,.4);
+    margin:0;
+    line-height:1;
+  }
+  .logo-sub{
+    margin:4px 0 0;
+    letter-spacing:8px;
+    font-size:13px;
+    color:var(--cream-light);
+    opacity:.85;
+  }
+  .hero-tag{
+    margin-top:14px;
+    font-size:14px;
+    color:var(--cream);
+    opacity:.8;
+  }
+  .hero-phone{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-top:16px;
+    background:var(--red);
+    color:#fff;
+    padding:9px 22px;
+    border-radius:999px;
+    font-weight:800;
+    font-size:18px;
+    text-decoration:none;
+    box-shadow:0 6px 18px rgba(200,16,46,.4);
+  }
+
+  /* ===== Nav ===== */
+  .nav-wrap{
+    position:sticky; top:0; z-index:50;
+    background:var(--ink);
+    border-bottom:3px solid var(--gold);
+  }
+  .nav{
+    display:flex;
+    overflow-x:auto;
+    gap:8px;
+    padding:10px 14px;
+    scrollbar-width:none;
+  }
+  .nav::-webkit-scrollbar{display:none;}
+  .nav button{
+    flex:0 0 auto;
+    background:transparent;
+    border:1.5px solid rgba(216,165,61,.5);
+    color:var(--cream-light);
+    padding:8px 16px;
+    border-radius:999px;
+    font-family:'Tajawal',sans-serif;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:.2s;
+  }
+  .nav button.active, .nav button:hover{
+    background:var(--red);
+    border-color:var(--red);
+    color:#fff;
+  }
+
+  /* ===== Sections ===== */
+  main{max-width:880px; margin:0 auto; padding:18px 14px 60px;}
+  section{margin-top:34px; scroll-margin-top:64px;}
+  .section-photo{
+    width:100%;
+    height:150px;
+    object-fit:cover;
+    border-radius:16px;
+    display:block;
+    box-shadow:0 6px 16px rgba(36,18,8,.25);
+    margin-bottom:-26px;
+  }
+  .section-banner-wrap{
+    position:relative;
+    display:flex;
+    justify-content:flex-end;
+    padding-inline-end:10px;
+  }
+  .section-banner{
+    display:inline-block;
+    background:var(--red);
+    color:#fff;
+    font-family:'Lalezar',sans-serif;
+    font-size:26px;
+    padding:9px 28px 9px 40px;
+    border-radius:6px 22px 6px 22px;
+    position:relative;
+    box-shadow:0 5px 0 var(--red-dark);
+    margin-bottom:6px;
+  }
+  .section-note{
+    font-size:13px;
+    color:var(--maroon);
+    margin:6px 0 14px;
+    font-weight:700;
+  }
+  .size-legend{
+    display:flex;
+    gap:8px;
+    margin:10px 0 14px;
+    justify-content:flex-end;
+  }
+  .size-legend span{
+    background:var(--green);
+    color:#fff;
+    font-weight:800;
+    font-size:13px;
+    padding:4px 14px;
+    border-radius:7px;
+    min-width:38px;
+    text-align:center;
+  }
+
+  .item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    padding:13px 6px;
+    border-bottom:1.5px dashed rgba(92,10,22,.25);
+  }
+  .item:last-child{border-bottom:none;}
+  .item-info{flex:1; min-width:0;}
+  .item-name{
+    font-weight:800;
+    font-size:16.5px;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .new-tag{
+    background:var(--red);
+    color:#fff;
+    font-size:10px;
+    font-weight:800;
+    padding:2px 8px;
+    border-radius:999px;
+    transform:translateY(-1px);
+  }
+  .item-desc{
+    font-size:12.5px;
+    color:#6b4a30;
+    margin-top:3px;
+    line-height:1.5;
+  }
+  .prices{
+    display:flex;
+    gap:6px;
+    flex:0 0 auto;
+  }
+  .price-pill{
+    background:var(--red);
+    color:#fff;
+    font-weight:800;
+    font-size:15px;
+    min-width:46px;
+    text-align:center;
+    padding:7px 0;
+    border-radius:999px;
+    box-shadow:0 3px 0 var(--red-dark);
+  }
+  .price-pill.empty{
+    background:transparent;
+    box-shadow:none;
+    color:rgba(92,10,22,.3);
+  }
+
+  /* Addons */
+  .addon-card{
+    background:var(--cream-light);
+    border:1.5px solid rgba(92,10,22,.18);
+    border-radius:14px;
+    padding:16px 18px;
+    margin-bottom:14px;
+  }
+  .addon-title{
+    font-family:'Lalezar',sans-serif;
+    font-size:19px;
+    color:var(--maroon);
+    margin:0 0 10px;
+  }
+  .addon-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:7px 0;
+    font-size:14.5px;
+    border-bottom:1px dashed rgba(92,10,22,.15);
+  }
+  .addon-row:last-child{border-bottom:none;}
+  .addon-row .prices .price-pill{min-width:40px; font-size:13px; padding:5px 0;}
+
+  /* Footer */
+  footer{
+    background:linear-gradient(160deg,var(--maroon), var(--ink));
+    color:var(--cream-light);
+    text-align:center;
+    padding:34px 20px 26px;
+    margin-top:10px;
+    border-top:6px solid var(--gold);
+  }
+  footer .logo-script{font-size:30px; margin-bottom:14px;}
+  .contact-list{list-style:none; padding:0; margin:0 0 16px; display:flex; flex-direction:column; gap:6px;}
+  .contact-list a{color:var(--cream-light); text-decoration:none; font-weight:700; font-size:15px; letter-spacing:1px; direction:ltr; display:inline-block;}
+  .contact-list a:hover{color:var(--gold);}
+  .address{font-size:14px; opacity:.85; max-width:360px; margin:0 auto;}
+  .fasting-note{
+    text-align:center;
+    background:var(--green);
+    color:#fff;
+    font-weight:800;
+    font-size:13.5px;
+    padding:8px 14px;
+    border-radius:10px;
+    margin:14px 0;
+  }
+
+  @media (max-width:480px){
+    .item-name{font-size:15px;}
+    .price-pill{min-width:40px; font-size:13.5px;}
+    .section-banner{font-size:21px; padding:8px 22px 8px 32px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-content">
+    <p class="logo-script">P/Slice</p>
+    <p class="logo-sub">MENU</p>
+    <p class="hero-tag">بيتزا · فطائر · مكرونات · توربيدو</p>
+    <a class="hero-phone" href="tel:01064023302">📞 01064023302</a>
+  </div>
+</header>
+
+<div class="nav-wrap">
+  <nav class="nav" id="nav"></nav>
+</div>
+
+<main id="main"></main>
+
+<footer>
+  <p class="logo-script">P/Slice</p>
+  <ul class="contact-list" id="contactList"></ul>
+  <p class="address">📍 شارع عاطف السادات - أمام صيدلية أحمد وحيد</p>
+</footer>
+
+<script>
+const DATA = [
+  {
+    id:"pizza", title:"عشاق البيتزا", sizes:["XL","L","M"],
+    img:"https://images.pexels.com/photos/6068717/pexels-photo-6068717.jpeg?auto=compress&cs=tinysrgb&w=900",
+    note:"يوجد بيتزا صيامي",
+    items:[
+      {n:"تشيز", p:[200,130,75]},
+      {n:"تشيز LAVERS", new:1, p:[270,180,105]},
+      {n:"مرجريتا", p:[230,160,85]},
+      {n:"فورتشيز", p:[245,170,95]},
+      {n:"مشكل جبن", p:[270,180,105]},
+      {n:"مفروم", p:[290,180,120]},
+      {n:"سجق", p:[285,180,115]},
+      {n:"سوسيس", p:[285,180,115]},
+      {n:"بسطرمة", p:[310,200,130]},
+      {n:"لحوم (مشكل لحوم)", p:[310,200,130]},
+      {n:"ميكس لحوم", p:[310,200,130]},
+      {n:"سوبر بريم", p:[310,205,130]},
+      {n:"برجر", p:[295,190,115]},
+      {n:"سلامي", p:[295,190,115]},
+      {n:"رومي مدخن", p:[295,190,115]},
+      {n:"تشكن فونجي", p:[300,200,125]},
+      {n:"تشكن باربيكيو", p:[300,200,125]},
+      {n:"شاورما فراخ", p:[300,200,125]},
+      {n:"شيش طاووق", p:[290,195,120]},
+      {n:"استربس", p:[310,200,125]},
+      {n:"سوبر كرانشي", p:[310,200,125]},
+      {n:"تشيكن رانش", p:[300,200,130]},
+      {n:"كرسبي", p:[240,175,100]},
+      {n:"ميكس فراخ", p:[310,200,130]},
+      {n:"سوبر فراخ", p:[310,200,130]},
+      {n:"فونجي", p:[250,180,100]},
+      {n:"تونة", p:[290,200,120]},
+      {n:"جمبري", p:[485,385,220]},
+      {n:"سي فود", p:[495,385,220]},
+      {n:"كالزوني", p:[180,120,85]},
+      {n:"سوبر سوبريم اكسترا", p:[310,210,135]},
+      {n:"حلواني", p:[310,200,130]},
+      {n:"فرجينيا", p:[310,200,130]},
+      {n:"فور سيزون", p:[360,null,null]},
+    ]
+  },
+  {
+    id:"fatayer", title:"عشاق الفطائر", sizes:["L","M"],
+    img:"https://images.pexels.com/photos/30616452/pexels-photo-30616452.jpeg?auto=compress&cs=tinysrgb&w=900",
+    items:[
+      {n:"رومي", p:[200,125]},
+      {n:"كيري", p:[250,155]},
+      {n:"تشيز LAVERS", new:1, p:[270,165]},
+      {n:"جبن", p:[270,165]},
+      {n:"مفروم", p:[270,165]},
+      {n:"سجق", p:[270,165]},
+      {n:"بسطرمة", p:[280,180]},
+      {n:"سوسيس", p:[270,165]},
+      {n:"مشكل لحوم", p:[280,175]},
+      {n:"ميكس لحوم", p:[290,175]},
+      {n:"سلامي", p:[270,165]},
+      {n:"برجر", new:1, p:[270,165]},
+      {n:"سوبر سوبريم", p:[290,175]},
+      {n:"رومي مدخن", p:[270,165]},
+      {n:"تشكن فونجي", p:[280,165]},
+      {n:"شاورما فراخ", p:[270,165]},
+      {n:"شيش طاووق", p:[265,160]},
+      {n:"كرسبي", p:[230,135]},
+      {n:"ميكس فراخ", p:[280,175]},
+      {n:"مشروم", p:[230,135]},
+      {n:"تونة", p:[280,175]},
+      {n:"جمبري", p:[460,290]},
+      {n:"سي فود", p:[470,300]},
+      {n:"سوبر سوبريم اكسترا", p:[295,175]},
+      {n:"سجق كيري", p:[290,175]},
+      {n:"فراخ كيري", p:[295,180]},
+      {n:"سوبر فراخ", p:[285,175]},
+      {n:"حلواني", p:[290,175]},
+      {n:"سوبر كرانشي", p:[290,175]},
+      {n:"تشيكن رانش او صوص تيستي", new:1, p:[290,175]},
+      {n:"استربس", p:[290,170]},
+      {n:"بسطرمة كيري", new:1, p:[300,185]},
+      {n:"فراخ باربيكيو", p:[290,175]},
+      {n:"كريسبي كيري", new:1, p:[250,155]},
+      {n:"فرجينيا", p:[295,175]},
+      {n:"سجق بسطرمة كيري", new:1, p:[310,205]},
+      {n:"مشلتت فلاحي", p:[165,null]},
+    ]
+  },
+  {
+    id:"helw", title:"عشاق فطائر الحلو", sizes:["L","M"],
+    img:"https://images.pexels.com/photos/2223247/pexels-photo-2223247.jpeg?auto=compress&cs=tinysrgb&w=900",
+    items:[
+      {n:"بغاشة فانيليا", p:[90,50]},
+      {n:"بغاشة", desc:"سكر بلدي وسمن بلدي", p:[85,45]},
+      {n:"كاسترد", desc:"سكر بلدي وسمن بلدي وكاسترد", p:[90,55]},
+      {n:"زبيب وجوزة الهند", desc:"سكر بلدي وسمن بلدي وزبيب وجوز هند وعسل", p:[130,70]},
+      {n:"بغاشة قشطة", desc:"سكر بلدي وسمن بلدي وقشطة وكريز وعسل", p:[100,65]},
+      {n:"قشطة ملوكي", desc:"سكر بلدي وسمن بلدي وقشطة وخوخ وكريز وعسل", p:[115,75]},
+      {n:"مكسرات", desc:"سكر بلدي وسمن بلدي وقشطة وخوخ وكريز وعسل ومكسرات", p:[185,110]},
+      {n:"فواكة", desc:"سكر بلدي وسمن بلدي وقشطة وكريز وعسل وفواكه الموسم", p:[185,110]},
+      {n:"وايت شوكلت", p:[180,110]},
+      {n:"مكس شيكولاتة", new:1, p:[180,110]},
+      {n:"شيكولاتة أوريو", new:1, p:[180,110]},
+      {n:"شيكولاتة بالمكسرات", desc:"سكر بلدي وسمن بلدي وشيكولاتة ومكسرات", p:[180,110]},
+      {n:"شيكولاتة موز", desc:"سكر بلدي وسمن بلدي وموز وشيكولاتة", p:[180,110]},
+      {n:"شيكولاتة فواكه", desc:"سكر بلدي وسمن بلدي وشيكولاتة وفواكه", p:[180,110]},
+      {n:"تفاح", desc:"سكر بلدي وسمن بلدي وتفاح وقشطة وعسل ومكسرات", p:[140,90]},
+      {n:"قرفة", desc:"سكر بلدي وسمن بلدي وقرفة وعسل", p:[80,50]},
+      {n:"موز", desc:"سكر بلدي وسمن بلدي وموز وقشطة ومكسرات وعسل", p:[130,90]},
+      {n:"بلح", desc:"سكر بلدي وسمن بلدي وبلح وقشطة ومكسرات وعسل", p:[130,85]},
+      {n:"قمبلة", desc:"سكر بلدي وسمن بلدي وبيسبوسة وقشطة وعسل ومكسرات", p:[180,110]},
+      {n:"صلاح", p:[200,130]},
+      {n:"لوتس", p:[240,140]},
+      {n:"رول لوتس", p:[110,null]},
+      {n:"أم علي", p:[70,null]},
+      {n:"رول شيكولاتة مكسرات", p:[90,null]},
+      {n:"رول بستاشيو", new:1, p:[120,null]},
+      {n:"بستاشيو", new:1, p:[240,140]},
+      {n:"فورسيزون حلو", p:[270,null]},
+    ]
+  },
+  {
+    id:"toribido", title:"عشاق التوربيدو", sizes:[],
+    img:"https://images.pexels.com/photos/34593405/pexels-photo-34593405.jpeg?auto=compress&cs=tinysrgb&w=900",
+    items:[
+      {n:"تشكن", p:[220]},
+      {n:"لحوم", p:[220]},
+      {n:"سي فود", p:[390]},
+      {n:"جبن", p:[210]},
+      {n:"مفروم", p:[210]},
+      {n:"سوبر بريم", p:[220]},
+      {n:"سوسيس", p:[195]},
+      {n:"سجق", p:[200]},
+      {n:"جمبري", p:[390]},
+      {n:"ميكس فراخ", p:[220]},
+      {n:"سوبر كرانشي", p:[210]},
+      {n:"شاورما فراخ", p:[220]},
+      {n:"سوبر فراخ", p:[220]},
+      {n:"فراخ كيري", p:[220]},
+      {n:"بسطرمة كيري", p:[230]},
+      {n:"سجق كيري", p:[220]},
+    ]
+  },
+  {
+    id:"rolls", title:"رولز بيتزا", sizes:["L","M"],
+    img:"https://images.pexels.com/photos/30139583/pexels-photo-30139583.jpeg?auto=compress&cs=tinysrgb&w=900",
+    items:[
+      {n:"سجق", p:[120,75]},
+      {n:"مفروم", p:[120,75]},
+      {n:"سوسيس", p:[120,75]},
+      {n:"مشكل لحوم", p:[130,95]},
+      {n:"مشكل جبن", p:[110,75]},
+      {n:"فراخ", p:[120,85]},
+      {n:"جمبري", p:[210,150]},
+      {n:"سي فود", p:[210,150]},
+      {n:"سوبر سوبريم", p:[130,90]},
+      {n:"سوبر فراخ", p:[130,95]},
+      {n:"ميكس فراخ", p:[130,95]},
+      {n:"رولز حلواني", p:[125,90]},
+    ]
+  },
+  {
+    id:"pasta", title:"عشاق المكرونات", sizes:[],
+    img:"https://images.pexels.com/photos/7837671/pexels-photo-7837671.jpeg?auto=compress&cs=tinysrgb&w=900",
+    items:[
+      {n:"أربيتا", desc:"صوص أحمر، فلفل ألوان، بصل، جبن", p:[60]},
+      {n:"اسباجتي صوص", desc:"اسباجتي، صوص أحمر، موزاريلا", p:[70]},
+      {n:"نچرسكو فراخ", desc:"فتم فراخ، صوص أبيض، خضروات، بشاميل، موزاريلا", p:[120]},
+      {n:"نچرسكو لحمة", desc:"فتم مفروم، صوص أبيض، خضروات، بشاميل، موزاريلا", p:[120]},
+      {n:"نچرسكو سجق", p:[110]},
+      {n:"نچرسكو سوسيس", p:[110]},
+      {n:"فرن لحمة", desc:"فتم مفروم، صوص أحمر، بشاميل، موزاريلا", p:[120]},
+      {n:"فرن سجق", p:[100]},
+      {n:"فرن سوسيس", p:[100]},
+      {n:"اسباجتي بولونيز", desc:"اسباجتي، صوص أحمر، رومي", p:[100]},
+      {n:"باستا مكس لحوم", desc:"فتم لحمة، سجق، سوسيس، بشاميل، موزاريلا", p:[120]},
+      {n:"باستا ميكس جبنة", desc:"شيدر، رومي، خليط صوص أبيض، موزاريلا", p:[110]},
+      {n:"باستا جمبري", desc:"جمبري، صوص أحمر، خضروات، موزاريلا", p:[175]},
+      {n:"جمبري صوص أبيض", p:[200]},
+      {n:"باستا سي فود صوص أحمر", desc:"جمبري، سبيط، صوص أحمر، مشروم، موزاريلا", p:[185]},
+      {n:"باستا سي فود", desc:"جمبري، سبيط، صوص أبيض، مشروم، موزاريلا", p:[210]},
+      {n:"باستا ميكس فراخ", p:[120]},
+      {n:"باستا استرس", p:[120]},
+      {n:"باستا كريسبي", p:[90]},
+    ]
+  },
+  {
+    id:"drinks", title:"المقبلات والمشروبات", sizes:[],
+    img:"https://images.pexels.com/photos/4109234/pexels-photo-4109234.jpeg?auto=compress&cs=tinysrgb&w=900",
+    items:[
+      {n:"مياة معدنية", p:[10]},
+      {n:"كانز", p:[20]},
+      {n:"بطاطس (M / L)", p:["20 / 40"]},
+      {n:"بطاطس رانش", p:[35]},
+      {n:"بطاطس بيج تيستي", p:[40]},
+      {n:"سبيرو اسبانس", p:[18]},
+    ]
+  },
+];
+
+const ADDONS = [
+  {title:"إضافة كراست محشي", rows:[{n:"كراست", v:"M ٣٠ / L ٤٥ / X ٧٥"}]},
+  {title:"إضافة شرقي", rows:[{n:"إضافة شرقي", v:"M ١٥ / L ٢٥ / X ٢٥"}]},
+  {title:"إضافة صوص (رانش - باربكيو - سويت تشيلي)", rows:[
+      {n:"علبة صوص", v:"٤٥ جنيه"},
+      {n:"إضافة للطلب", v:"M ١٥ / L ٢٥ / X ٣٥"},
+  ]},
+  {title:"إضافات الفطاير", rows:[
+      {n:"جبنة", v:"M ٣٠ / L ٤٥"},
+      {n:"لحوم", v:"M ٤٠ / L ٦٠"},
+      {n:"جمبري", v:"M ٨٠ / L ١٤٠"},
+  ]},
+  {title:"إضافات البيتزا", rows:[
+      {n:"جبنة", v:"M ٢٥ / L ٣٥ / X ٥٠"},
+      {n:"لحوم", v:"M ٢٥ / L ٤٠ / X ٦٠"},
+      {n:"جمبري", v:"M ٦٠ / L ٨٠ / X ١٤٠"},
+  ]},
+];
+
+const CONTACTS = ["01064023302","01021166148","01274282676","01005679741","0482050083"];
+
+function priceCell(v){
+  if(v===null || v===undefined) return '<span class="price-pill empty">—</span>';
+  return `<span class="price-pill">${v}</span>`;
+}
+
+function renderNav(){
+  const nav = document.getElementById('nav');
+  nav.innerHTML = DATA.map((s,i)=>`<button data-id="${s.id}" class="${i===0?'active':''}">${s.title}</button>`).join('')
+    + `<button data-id="addons">الإضافات</button>`;
+  nav.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.getElementById(btn.dataset.id).scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+}
+
+function renderMain(){
+  const main = document.getElementById('main');
+  let html = '';
+  DATA.forEach(sec=>{
+    html += `<section id="${sec.id}">
+      ${sec.img? `<img class="section-photo" src="${sec.img}" alt="${sec.title}" loading="lazy">`:''}
+      <div class="section-banner-wrap"><div class="section-banner">${sec.title}</div></div>
+      ${sec.note? `<div class="fasting-note">${sec.note}</div>`:''}
+      ${sec.sizes.length? `<div class="size-legend">${sec.sizes.map(s=>`<span>${s}</span>`).join('')}</div>` : ''}
+      <div class="item-list">
+      ${sec.items.map(it=>`
+        <div class="item">
+          <div class="item-info">
+            <div class="item-name">${it.n} ${it.new?'<span class="new-tag">جديد</span>':''}</div>
+            ${it.desc? `<div class="item-desc">${it.desc}</div>`:''}
+          </div>
+          <div class="prices">${it.p.map(p=> typeof p==='string'? `<span class="price-pill">${p}</span>` : priceCell(p)).join('')}</div>
+        </div>
+      `).join('')}
+      </div>
+    </section>`;
+  });
+
+  html += `<section id="addons">
+    <div class="section-banner">الإضافات</div>
+    ${ADDONS.map(card=>`
+      <div class="addon-card">
+        <p class="addon-title">${card.title}</p>
+        ${card.rows.map(r=>`
+          <div class="addon-row"><span>${r.n}</span><span>${r.v}</span></div>
+        `).join('')}
+      </div>
+    `).join('')}
+  </section>`;
+
+  main.innerHTML = html;
+}
+
+function renderFooter(){
+  const list = document.getElementById('contactList');
+  list.innerHTML = CONTACTS.map(n=>`<li><a href="tel:${n}">📞 ${n}</a></li>`).join('');
+}
+
+function setupScrollSpy(){
+  const sections = [...DATA.map(s=>s.id), 'addons'];
+  const navBtns = document.querySelectorAll('.nav button');
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        navBtns.forEach(b=>b.classList.remove('active'));
+        const btn = document.querySelector(`.nav button[data-id="${entry.target.id}"]`);
+        if(btn) btn.classList.add('active');
+      }
+    });
+  }, {rootMargin:'-100px 0px -70% 0px'});
+  sections.forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) observer.observe(el);
+  });
+}
+
+renderNav();
+renderMain();
+renderFooter();
+setupScrollSpy();
+</script>
+</body>
+</html>
