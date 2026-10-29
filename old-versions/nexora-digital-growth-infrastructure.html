@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXORA — Digital Growth Infrastructure</title>
+<meta name="description" content="NEXORA builds digital growth infrastructure — connected systems of web, brand, automation and analytics engineered to scale your business.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="NEXORA — Digital Growth Infrastructure">
+<meta property="og:description" content="We don't build websites. We build Revenue Systems.">
+<meta property="og:image" content="https://nexora.example.com/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23050505'/%3E%3Cpath d='M28 72V28l22 28 22-28v44' stroke='%23D6C3A5' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"NEXORA","description":"Digital Growth Infrastructure","telephone":"+201000025168","url":"https://nexora.example.com"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Alexandria:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════════════════════════
+   TOKENS
+════════════════════════════════════════════════════════════ */
+:root{
+  --b0:#020202; --b1:#050505; --b2:#080808; --b3:#0B0B0B;
+  --b4:#101010; --b5:#151515;
+  --gold:#D6C3A5; --gold-s:#CBB89D; --gold-d:#b8a275;
+  --white:#F7F4EF; --silver:#ADADAD; --muted:#666;
+  --line:rgba(255,255,255,0.06);
+  --line-g:rgba(214,195,165,0.18);
+  --line-m:rgba(214,195,165,0.09);
+  --ease:cubic-bezier(.16,1,.3,1);
+  --ease-back:cubic-bezier(0.34,1.56,0.64,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;cursor:none;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{
+  background:var(--b1);color:var(--white);
+  font-family:'Inter',sans-serif;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+body[data-lang="ar"]{font-family:'Noto Naskh Arabic','Alexandria',sans-serif;}
+body[data-lang="ar"] h1,
+body[data-lang="ar"] h2,
+body[data-lang="ar"] h3,
+body[data-lang="ar"] .display{
+  font-family:'Noto Naskh Arabic',sans-serif;letter-spacing:0;line-height:1.5;
+}
+[dir="rtl"]{direction:rtl;}
+.display{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-0.03em;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+::selection{background:var(--gold);color:var(--b1);}
+.container{max-width:1280px;margin:0 auto;padding:0 40px;}
+@media(max-width:768px){.container{padding:0 20px;}}
+
+/* ════════════════════════════════════════════════════════════
+   ACCESSIBILITY
+════════════════════════════════════════════════════════════ */
+@media(prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important;}
+  .reveal,.reveal-l,.reveal-r{opacity:1!important;transform:none!important;}
+  #loader{display:none!important;}
+}
+.skip-link{
+  position:absolute;top:-120px;left:16px;z-index:99999;
+  background:var(--gold);color:var(--b1);font-weight:700;font-size:13px;
+  padding:11px 20px;border-radius:8px;transition:top .25s ease;
+}
+.skip-link:focus{top:16px;}
+
+/* ════════════════════════════════════════════════════════════
+   CURSOR
+════════════════════════════════════════════════════════════ */
+.cur-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--gold);
+  position:fixed;top:0;left:0;pointer-events:none;z-index:99999;
+  transform:translate(-50%,-50%);will-change:transform;
+}
+.cur-ring{
+  width:32px;height:32px;border-radius:50%;
+  border:1px solid rgba(214,195,165,0.4);
+  position:fixed;top:0;left:0;pointer-events:none;z-index:99998;
+  transform:translate(-50%,-50%);will-change:transform;
+  transition:width .3s var(--ease),height .3s var(--ease),border-color .3s ease,background .3s ease;
+}
+body.c-hover .cur-ring{width:50px;height:50px;border-color:rgba(214,195,165,0.7);background:rgba(214,195,165,0.04);}
+body.c-mag .cur-ring{width:60px;height:60px;border-color:var(--gold);background:rgba(214,195,165,0.08);}
+body.c-click .cur-dot{transform:translate(-50%,-50%) scale(0.4);}
+@media(hover:none){.cur-dot,.cur-ring{display:none;}*{cursor:auto;}}
+
+/* ════════════════════════════════════════════════════════════
+   LOADER
+════════════════════════════════════════════════════════════ */
+#loader{
+  position:fixed;inset:0;z-index:99990;background:var(--b0);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;
+}
+#loader.out{opacity:0;pointer-events:none;transition:opacity .9s var(--ease) .1s;}
+.ld-hex{
+  position:relative;width:72px;height:72px;
+  opacity:0;transform:scale(0.6) rotate(-30deg);
+  animation:ldHex 1s var(--ease) .1s forwards;
+}
+@keyframes ldHex{to{opacity:1;transform:scale(1) rotate(0deg);}}
+.ld-hex svg{width:100%;height:100%;}
+.ld-hex-spin{
+  position:absolute;inset:-6px;border-radius:50%;
+  border:1px solid transparent;
+  border-top-color:var(--gold);border-right-color:var(--gold-s);
+  animation:ldSpin 1.4s linear infinite;
+}
+@keyframes ldSpin{to{transform:rotate(360deg);}}
+.ld-word{
+  font-family:'Inter',sans-serif;font-weight:900;font-size:32px;
+  letter-spacing:0.16em;color:var(--white);
+  opacity:0;transform:translateY(12px);
+  animation:ldUp .8s var(--ease) .5s forwards;
+}
+.ld-word .x{color:var(--gold);font-style:italic;display:inline-block;transform:skewX(-10deg);}
+.ld-tagline{
+  font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);
+  opacity:0;animation:ldFade .6s ease 1s forwards;
+}
+.ld-bar{width:220px;height:1px;background:var(--line);overflow:hidden;opacity:0;animation:ldFade .5s ease .9s forwards;}
+.ld-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold-s),var(--gold));animation:ldGrow 1.6s var(--ease) .9s forwards;}
+@keyframes ldUp{to{opacity:1;transform:none;}}
+@keyframes ldFade{to{opacity:1;}}
+@keyframes ldGrow{to{width:100%;}}
+
+/* ════════════════════════════════════════════════════════════
+   PROGRESS BAR
+════════════════════════════════════════════════════════════ */
+#progress{
+  position:fixed;top:0;left:0;height:1px;width:0%;
+  background:linear-gradient(90deg,transparent,var(--gold-s),var(--gold),var(--gold-s),transparent);
+  z-index:901;transition:width .1s linear;
+}
+[dir="rtl"] #progress{left:auto;right:0;}
+
+/* ════════════════════════════════════════════════════════════
+   BACKGROUND ENVIRONMENT
+════════════════════════════════════════════════════════════ */
+#env{
+  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+}
+#envCanvas{position:absolute;inset:0;width:100%;height:100%;opacity:.55;}
+.env-grad{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(214,195,165,0.06) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 80% 70%, rgba(214,195,165,0.03) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 20% 80%, rgba(214,195,165,0.025) 0%, transparent 55%);
+}
+.env-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse 80% 70% at 50% 40%, black, transparent);
+}
+.env-noise{
+  position:absolute;inset:0;opacity:.018;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* ════════════════════════════════════════════════════════════
+   NAV
+════════════════════════════════════════════════════════════ */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  padding:26px 0;
+  transition:padding .5s var(--ease),background .5s ease,border-color .5s ease;
+  border-bottom:1px solid transparent;
+}
+header.scrolled{
+  padding:14px 0;
+  background:rgba(5,5,5,0.85);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;}
+/* Logo */
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.logo-orb{
+  width:34px;height:34px;border-radius:50%;
+  border:1.5px solid var(--line-g);
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 38% 38%, rgba(214,195,165,0.1), transparent);
+  transition:border-color .3s ease,box-shadow .3s ease;flex-shrink:0;
+}
+.logo:hover .logo-orb{border-color:var(--gold);box-shadow:0 0 16px rgba(214,195,165,0.15);}
+.logo-orb-dot{width:10px;height:10px;border-radius:50%;border:1px solid rgba(214,195,165,0.5);position:relative;}
+.logo-orb-dot::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:4px;height:4px;border-radius:50%;background:var(--gold);}
+.logo-type{font-family:'Inter',sans-serif;font-weight:900;font-size:18px;letter-spacing:0.12em;color:var(--white);display:flex;align-items:baseline;}
+.logo-type .x{color:var(--gold);font-style:italic;font-size:20px;transform:skewX(-9deg);display:inline-block;margin:0 1px;}
+/* Nav links */
+.nav-links{display:flex;gap:32px;align-items:center;}
+.nav-links a{
+  font-size:13px;color:var(--silver);font-weight:500;white-space:nowrap;
+  position:relative;transition:color .3s ease;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;
+  background:var(--gold);transition:width .4s var(--ease);
+}
+.nav-links a:hover{color:var(--gold);}
+.nav-links a:hover::after{width:100%;}
+/* Right */
+.nav-right{display:flex;align-items:center;gap:12px;}
+.lang-sw{display:flex;align-items:center;border:1px solid var(--line-g);border-radius:999px;padding:4px;gap:2px;}
+.lang-sw button{
+  padding:5px 11px;border-radius:999px;border:none;background:none;
+  font-family:inherit;font-size:11.5px;font-weight:700;color:var(--silver);
+  transition:all .3s ease;letter-spacing:0.02em;
+}
+.lang-sw button.active{background:var(--gold);color:var(--b1);}
+.nav-cta{
+  border:1px solid var(--line-g);color:var(--gold);
+  padding:10px 22px;border-radius:999px;font-size:13px;font-weight:700;
+  transition:all .35s var(--ease);white-space:nowrap;position:relative;overflow:hidden;
+}
+.nav-cta::before{
+  content:'';position:absolute;inset:0;background:var(--gold);
+  transform:translateX(-101%);transition:transform .35s var(--ease);z-index:-1;border-radius:999px;
+}
+.nav-cta:hover{color:var(--b1);}
+.nav-cta:hover::before{transform:translateX(0);}
+.nav-tog{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:8px;}
+.nav-tog span{width:22px;height:1.5px;background:var(--white);transition:transform .35s ease,opacity .3s ease;display:block;}
+.nav-tog[aria-expanded="true"] span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.nav-tog[aria-expanded="true"] span:nth-child(2){opacity:0;}
+.nav-tog[aria-expanded="true"] span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+@media(max-width:1000px){.nav-links{display:none;}.nav-tog{display:flex;}}
+/* Mobile */
+.mob-menu{
+  position:fixed;inset:0;z-index:800;
+  background:rgba(2,2,2,0.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
+  opacity:0;visibility:hidden;transform:translateY(-14px);
+  transition:opacity .4s var(--ease),transform .4s var(--ease),visibility 0s linear .4s;
+}
+.mob-menu.open{opacity:1;visibility:visible;transform:none;transition:opacity .4s var(--ease),transform .4s var(--ease),visibility 0s linear 0s;}
+.mob-menu a{font-size:22px;color:var(--white);font-weight:600;transition:color .3s ease;}
+.mob-menu a:hover{color:var(--gold);}
+body.menu-open{overflow:hidden;}
+
+/* ════════════════════════════════════════════════════════════
+   REVEAL
+════════════════════════════════════════════════════════════ */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .95s var(--ease),transform .95s var(--ease);}
+.reveal-l{opacity:0;transform:translateX(-28px);transition:opacity .95s var(--ease),transform .95s var(--ease);}
+.reveal-r{opacity:0;transform:translateX(28px);transition:opacity .95s var(--ease),transform .95s var(--ease);}
+.reveal.is-v,.reveal-l.is-v,.reveal-r.is-v{opacity:1;transform:none;}
+
+/* ════════════════════════════════════════════════════════════
+   SHARED
+════════════════════════════════════════════════════════════ */
+section{padding:140px 0;position:relative;z-index:1;}
+.kicker{font-size:10.5px;letter-spacing:0.24em;text-transform:uppercase;color:var(--gold-s);font-weight:700;display:block;margin-bottom:14px;}
+.section-head{max-width:700px;margin-bottom:80px;}
+.section-head.cx{margin:0 auto 80px;text-align:center;}
+.section-head h2{font-size:clamp(28px,4vw,52px);line-height:1.12;color:var(--white);margin-bottom:16px;}
+.section-head p{font-size:17px;color:var(--silver);line-height:1.78;}
+/* Magnetic button base */
+.mag{position:relative;display:inline-block;}
+
+/* ════════════════════════════════════════════════════════════
+   HERO
+════════════════════════════════════════════════════════════ */
+.hero{
+  min-height:100svh;display:flex;align-items:center;justify-content:center;
+  padding:140px 0 80px;overflow:hidden;
+}
+#heroCanvas{position:absolute;inset:0;width:100%;height:100%;opacity:.65;z-index:1;}
+.hero-inner{position:relative;z-index:3;max-width:1100px;margin:0 auto;padding:0 40px;text-align:center;}
+@media(max-width:768px){.hero-inner{padding:0 20px;}}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--gold-s);font-weight:700;
+  border:1px solid var(--line-g);padding:9px 20px;border-radius:999px;
+  margin-bottom:36px;
+  opacity:0;transform:translateY(16px);animation:hFade 1s var(--ease) 2s forwards;
+}
+.eyebrow .pulse{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pls 2.4s ease-in-out infinite;}
+@keyframes pls{0%,100%{box-shadow:0 0 0 0 rgba(214,195,165,0.7);}50%{box-shadow:0 0 0 6px rgba(214,195,165,0);}}
+.hero h1{
+  font-size:clamp(44px,7vw,92px);line-height:1.04;color:var(--white);
+  margin-bottom:14px;
+  opacity:0;transform:translateY(20px);animation:hFade 1s var(--ease) 2.15s forwards;
+}
+.hero h1 .accent{color:var(--gold);}
+.hero-sub2{
+  font-size:clamp(15px,1.8vw,19px);color:var(--silver);line-height:1.74;
+  max-width:580px;margin:0 auto 20px;
+  opacity:0;transform:translateY(16px);animation:hFade 1s var(--ease) 2.3s forwards;
+}
+/* Live metrics strip */
+.hero-metrics{
+  display:flex;align-items:center;justify-content:center;gap:0;
+  margin:0 auto 48px;max-width:560px;
+  opacity:0;animation:hFade .8s var(--ease) 2.45s forwards;
+}
+.hm-item{
+  flex:1;text-align:center;padding:16px 12px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,0.02);
+  backdrop-filter:blur(8px);
+}
+.hm-item:first-child{border-radius:12px 0 0 12px;}
+.hm-item:last-child{border-radius:0 12px 12px 0;}
+[dir="rtl"] .hm-item:first-child{border-radius:0 12px 12px 0;}
+[dir="rtl"] .hm-item:last-child{border-radius:12px 0 0 12px;}
+.hm-num{font-size:22px;font-weight:800;color:var(--gold);font-family:'Inter',sans-serif;letter-spacing:-0.02em;}
+body[data-lang="ar"] .hm-num{font-family:'Alexandria',sans-serif;}
+.hm-label{font-size:10.5px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-top:3px;}
+/* CTAs */
+.hero-ctas{
+  display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;
+  opacity:0;animation:hFade .8s var(--ease) 2.6s forwards;
+}
+@keyframes hFade{to{opacity:1;transform:none;}}
+/* Buttons */
+.btn-prim{
+  background:linear-gradient(135deg,var(--gold),var(--gold-s));
+  color:var(--b1);font-weight:800;font-size:14.5px;
+  padding:16px 36px;border-radius:999px;
+  transition:transform .4s var(--ease),box-shadow .4s ease;
+  display:inline-block;position:relative;overflow:hidden;
+}
+.btn-prim:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 16px 48px rgba(214,195,165,0.3);}
+.btn-ghost{
+  border:1px solid var(--line-g);color:var(--white);font-weight:600;font-size:14.5px;
+  padding:15px 30px;border-radius:999px;transition:all .35s ease;display:inline-block;
+}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+/* Scroll hint */
+.scroll-hint{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:var(--muted);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;
+  opacity:0;animation:hFade .8s ease 2.9s forwards;z-index:3;
+}
+.scroll-line{width:1px;height:36px;background:linear-gradient(var(--gold),transparent);animation:sl 2.4s ease-in-out infinite;}
+@keyframes sl{0%,100%{opacity:.2;}50%{opacity:1;}}
+
+/* ════════════════════════════════════════════════════════════
+   STATS
+════════════════════════════════════════════════════════════ */
+.stats{padding:90px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--b3);}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);}
+.stat{text-align:center;padding:0 20px;position:relative;}
+.stat+.stat::before{content:'';position:absolute;top:10%;left:0;height:80%;width:1px;background:var(--line);}
+[dir="rtl"] .stat+.stat::before{left:auto;right:0;}
+.stat-num{font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(36px,5vw,60px);color:var(--gold);letter-spacing:-0.03em;margin-bottom:8px;}
+body[data-lang="ar"] .stat-num{font-family:'Alexandria',sans-serif;}
+.stat-label{font-size:12.5px;color:var(--silver);letter-spacing:0.05em;text-transform:uppercase;}
+@media(max-width:860px){.stats-grid{grid-template-columns:repeat(2,1fr);row-gap:50px;}.stat:nth-child(2)::before{display:none;}}
+
+/* ════════════════════════════════════════════════════════════
+   WHY FAIL — cinematic
+════════════════════════════════════════════════════════════ */
+.fail{background:var(--b1);}
+.fail-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.fail-list{display:flex;flex-direction:column;}
+.fail-item{
+  padding:28px 0;border-top:1px solid var(--line);
+  position:relative;transition:padding-inline-start .4s var(--ease);
+}
+.fail-item:last-child{border-bottom:1px solid var(--line);}
+.fail-item::after{
+  content:'';position:absolute;bottom:0;left:0;width:0;height:1px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  transition:width .7s var(--ease);
+}
+[dir="rtl"] .fail-item::after{left:auto;right:0;}
+.fail-item:hover::after{width:100%;}
+.fi-top{display:flex;align-items:baseline;gap:16px;}
+.fi-n{font-size:11px;color:var(--gold-s);font-weight:700;letter-spacing:0.1em;min-width:24px;}
+.fail-item h3{font-size:17px;font-weight:600;color:var(--white);}
+.fail-item p{font-size:14px;color:var(--silver);line-height:1.78;margin-top:10px;padding-inline-start:40px;max-width:420px;}
+/* Panel */
+.fail-panel{
+  position:sticky;top:120px;aspect-ratio:4/5;border-radius:24px;overflow:hidden;
+  border:1px solid var(--line-g);
+  background:linear-gradient(155deg,#0f0f0f,#050505);
+  display:flex;align-items:center;justify-content:center;
+}
+.fp-grid-bg{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(214,195,165,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(214,195,165,0.04) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+.fp-glow{position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(214,195,165,0.12),transparent 70%);filter:blur(20px);}
+.fp-content{position:relative;text-align:center;padding:40px;}
+.fp-big{font-size:clamp(42px,6vw,72px);font-weight:900;color:var(--gold);line-height:1;}
+.fp-sub{font-size:11.5px;color:var(--silver);letter-spacing:0.12em;text-transform:uppercase;margin-top:12px;}
+@media(max-width:900px){.fail-layout{grid-template-columns:1fr;}.fail-panel{position:static;aspect-ratio:16/9;}}
+
+/* ════════════════════════════════════════════════════════════
+   ECOSYSTEM
+════════════════════════════════════════════════════════════ */
+.eco{background:var(--b3);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.eco-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.eco-copy p{font-size:16px;color:var(--silver);line-height:1.84;margin-bottom:20px;}
+.eco-copy p:last-child{margin-bottom:0;}
+.eco-copy strong{color:var(--gold);font-weight:600;}
+/* Glass diagram */
+.eco-diagram{position:relative;max-width:480px;margin:0 auto;aspect-ratio:1;}
+.eco-bg-glow{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(214,195,165,0.06),transparent 65%);}
+.eco-ring-outer{position:absolute;inset:0;border-radius:50%;border:1px solid var(--line-g);}
+.eco-ring-inner{position:absolute;inset:18%;border-radius:50%;border:1px solid var(--line-m);animation:rotSlow 30s linear infinite;}
+@keyframes rotSlow{to{transform:rotate(360deg);}}
+.eco-core{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:108px;height:108px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold-s));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Inter',sans-serif;font-weight:900;font-size:12.5px;letter-spacing:0.1em;color:var(--b1);
+  box-shadow:0 0 40px rgba(214,195,165,0.22),0 0 80px rgba(214,195,165,0.08);
+}
+.eco-node{
+  position:absolute;width:78px;height:78px;border-radius:14px;
+  background:rgba(8,8,8,0.9);border:1px solid var(--line-g);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:600;color:var(--silver);text-align:center;padding:8px;
+  backdrop-filter:blur(8px);
+  transition:border-color .3s ease,color .3s ease;
+}
+.eco-node:hover{border-color:var(--gold-s);color:var(--gold);}
+.eco-node:nth-child(5){top:1%;left:50%;transform:translate(-50%,0);}
+.eco-node:nth-child(6){top:50%;right:-1%;transform:translate(0,-50%);}
+.eco-node:nth-child(7){bottom:1%;left:50%;transform:translate(-50%,0);}
+.eco-node:nth-child(8){top:50%;left:-1%;transform:translate(0,-50%);}
+@media(max-width:900px){.eco-layout{grid-template-columns:1fr;gap:60px;}}
+
+/* ════════════════════════════════════════════════════════════
+   SERVICES — GROWTH ARCHITECTURE
+════════════════════════════════════════════════════════════ */
+.services{background:var(--b1);}
+.arch-flow{
+  display:flex;flex-direction:column;gap:0;
+  border:1px solid var(--line);border-radius:24px;overflow:hidden;
+}
+.arch-row{
+  display:grid;grid-template-columns:60px 1fr 1fr 1fr;
+  border-bottom:1px solid var(--line);
+  transition:background .35s ease;
+}
+.arch-row:last-child{border-bottom:none;}
+.arch-row:hover{background:rgba(214,195,165,0.02);}
+.arch-num{
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:var(--gold-s);letter-spacing:0.1em;
+  border-right:1px solid var(--line);font-family:'Inter',sans-serif;
+  padding:28px 0;
+}
+body[data-lang="ar"] .arch-num{font-family:'Alexandria',sans-serif;border-right:none;border-left:1px solid var(--line);}
+.arch-main{padding:28px 32px;border-right:1px solid var(--line);}
+body[data-lang="ar"] .arch-main{border-right:none;border-left:1px solid var(--line);}
+.arch-ico{
+  width:42px;height:42px;border-radius:10px;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;color:var(--silver);margin-bottom:16px;
+  transition:color .3s ease,border-color .3s ease;
+}
+.arch-row:hover .arch-ico{color:var(--gold);border-color:var(--line-g);}
+.arch-main h3{font-size:16px;font-weight:700;color:var(--white);margin-bottom:6px;}
+.arch-main p{font-size:13px;color:var(--silver);line-height:1.7;}
+.arch-tags{padding:28px 32px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:6px;justify-content:center;}
+body[data-lang="ar"] .arch-tags{border-right:none;border-left:1px solid var(--line);}
+.arch-tag{
+  display:inline-block;font-size:11px;color:var(--silver);
+  border:1px solid var(--line);border-radius:6px;padding:4px 10px;
+  width:fit-content;transition:border-color .3s ease,color .3s ease;
+}
+.arch-row:hover .arch-tag{border-color:var(--line-m);color:var(--gold-s);}
+.arch-arrow{
+  padding:28px 24px;display:flex;align-items:center;justify-content:center;
+  color:var(--line-g);font-size:20px;transition:color .4s ease;
+}
+.arch-row:hover .arch-arrow{color:var(--gold-s);}
+.arch-footer{
+  border:1px solid var(--line);border-radius:14px;padding:22px 28px;
+  background:var(--b3);text-align:center;margin-top:16px;
+}
+.arch-footer p{font-size:13.5px;color:var(--silver);line-height:1.7;}
+@media(max-width:900px){
+  .arch-row{grid-template-columns:40px 1fr;}
+  .arch-tags,.arch-arrow{display:none;}
+}
+
+/* ════════════════════════════════════════════════════════════
+   WHO WE SERVE — bento
+════════════════════════════════════════════════════════════ */
+.serve{background:var(--b3);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.bento{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:90px;gap:10px;}
+.bc{
+  background:var(--b1);border:1px solid var(--line);border-radius:16px;
+  padding:20px;display:flex;flex-direction:column;justify-content:space-between;
+  position:relative;overflow:hidden;transition:border-color .4s ease,transform .4s var(--ease),background .35s ease;
+}
+.bc::before{content:'';position:absolute;inset:0;opacity:0;background:radial-gradient(ellipse at 25% 25%,rgba(214,195,165,0.05),transparent 70%);transition:opacity .45s ease;}
+.bc:hover{border-color:var(--gold-s);transform:translateY(-2px);background:#0d0c0a;}
+.bc:hover::before{opacity:1;}
+.bc-ic{color:var(--gold-s);transition:color .3s ease;flex-shrink:0;}
+.bc:hover .bc-ic{color:var(--gold);}
+.bc h3{font-size:13.5px;color:var(--white);font-weight:600;line-height:1.3;margin-top:auto;}
+.c3{grid-column:span 3;}.c4{grid-column:span 4;}.c5{grid-column:span 5;}.c6{grid-column:span 6;}
+.r1{grid-row:span 1;}.r2{grid-row:span 2;}
+@media(max-width:900px){.bento{grid-template-columns:repeat(6,1fr);}.bc{grid-column:span 3!important;grid-row:span 1!important;}}
+@media(max-width:560px){.bento{grid-template-columns:repeat(2,1fr);grid-auto-rows:80px;}.bc{grid-column:span 1!important;}}
+
+/* ════════════════════════════════════════════════════════════
+   WHY NEXORA
+════════════════════════════════════════════════════════════ */
+.why{background:var(--b1);}
+.why-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.why-bars{margin-top:32px;display:flex;flex-direction:column;gap:26px;}
+.wbr-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+.wbr-top span:first-child{font-size:14px;color:var(--white);font-weight:500;}
+.wbr-pct{font-size:14px;color:var(--gold);font-weight:700;font-family:'Inter',sans-serif;}
+body[data-lang="ar"] .wbr-pct{font-family:'Alexandria',sans-serif;}
+.wbr-track{height:4px;border-radius:999px;background:var(--line);overflow:hidden;}
+.wbr-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--gold-s),var(--gold));width:0%;transition:width 1.6s var(--ease);}
+/* Dashboard */
+.dash-panel{border:1px solid var(--line-g);border-radius:22px;padding:32px;background:radial-gradient(circle at 80% 0%,rgba(214,195,165,0.06),transparent 55%),var(--b3);}
+.dash-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+.dash-dots{display:flex;gap:6px;}
+.dash-dots span{width:8px;height:8px;border-radius:50%;background:var(--line-g);}
+.dash-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--silver);}
+@media(max-width:900px){.why-layout{grid-template-columns:1fr;gap:50px;}}
+
+/* ════════════════════════════════════════════════════════════
+   HOW WE WORK
+════════════════════════════════════════════════════════════ */
+.process{background:var(--b3);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.proc-track{display:grid;grid-template-columns:repeat(7,1fr);position:relative;}
+.proc-track::before{
+  content:'';position:absolute;top:18px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--line-g) 20%,var(--line-g) 80%,transparent);
+}
+.proc-step{text-align:center;padding:0 6px;}
+.proc-num{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--b3);border:1px solid var(--line-g);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 18px;position:relative;z-index:2;
+  font-size:12px;font-weight:700;color:var(--gold);font-family:'Inter',sans-serif;
+  transition:background .35s ease,border-color .35s ease,box-shadow .35s ease,color .35s ease;
+}
+body[data-lang="ar"] .proc-num{font-family:'Alexandria',sans-serif;}
+.proc-step:hover .proc-num{background:var(--gold);color:var(--b1);border-color:var(--gold);box-shadow:0 0 24px rgba(214,195,165,0.3);}
+.proc-step h4{font-size:13px;color:var(--white);font-weight:600;margin-bottom:4px;}
+.proc-step p{font-size:11.5px;color:var(--muted);line-height:1.55;}
+@media(max-width:900px){.proc-track{grid-template-columns:repeat(2,1fr);row-gap:44px;}.proc-track::before{display:none;}}
+
+/* ════════════════════════════════════════════════════════════
+   ROADMAP
+════════════════════════════════════════════════════════════ */
+.roadmap{background:var(--b1);}
+.rm-list{border-top:1px solid var(--line);}
+.rm-item{
+  display:grid;grid-template-columns:80px 1fr auto;align-items:center;gap:20px;
+  padding:24px 0;border-bottom:1px solid var(--line);
+  cursor:default;transition:background .3s ease;position:relative;overflow:hidden;
+}
+.rm-item::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:linear-gradient(90deg,var(--gold),transparent);transition:width .6s var(--ease);}
+.rm-item:hover::after{width:100%;}
+[dir="rtl"] .rm-item::after{left:auto;right:0;}
+.rm-phase{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-s);font-weight:700;}
+.rm-title{font-size:18px;color:var(--white);font-weight:600;}
+.rm-desc{font-size:13px;color:var(--silver);text-align:right;}
+[dir="rtl"] .rm-desc{text-align:left;}
+@media(max-width:760px){.rm-item{grid-template-columns:1fr;gap:5px;}.rm-desc{text-align:inherit;}}
+
+/* ════════════════════════════════════════════════════════════
+   PACKAGES
+════════════════════════════════════════════════════════════ */
+.packages{background:var(--b3);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.pkg-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+.pkg-card{
+  border:1px solid var(--line);border-radius:20px;padding:28px 20px;
+  background:var(--b1);display:flex;flex-direction:column;gap:14px;position:relative;
+  transition:border-color .4s ease,transform .4s var(--ease),box-shadow .4s ease;
+}
+.pkg-card:hover{transform:translateY(-6px);border-color:var(--line-g);box-shadow:0 20px 60px rgba(0,0,0,0.4);}
+.pkg-card.feat{border-color:var(--gold-s);background:linear-gradient(180deg,rgba(214,195,165,0.05) 0%,transparent 50%),var(--b1);}
+.pkg-tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--b1);font-size:10px;font-weight:800;padding:4px 14px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;}
+.pkg-name{font-size:15px;font-weight:800;color:var(--white);}
+.pkg-desc{font-size:12.5px;color:var(--silver);line-height:1.6;flex:1;}
+.pkg-cta{
+  display:block;text-align:center;padding:11px;border-radius:999px;
+  border:1px solid var(--line-g);font-size:13px;font-weight:700;color:var(--white);
+  transition:all .35s ease;
+}
+.pkg-card.feat .pkg-cta{background:var(--gold);color:var(--b1);border-color:var(--gold);}
+.pkg-cta:hover{border-color:var(--gold);color:var(--gold);}
+.pkg-card.feat .pkg-cta:hover{opacity:.85;color:var(--b1);}
+@media(max-width:1024px){.pkg-grid{grid-template-columns:repeat(2,1fr);row-gap:18px;}.pkg-card.feat{order:-1;}}
+@media(max-width:560px){.pkg-grid{grid-template-columns:1fr;}}
+
+/* ════════════════════════════════════════════════════════════
+   FREE AUDIT — multi-step premium
+════════════════════════════════════════════════════════════ */
+.audit{background:var(--b1);}
+.audit-layout{display:grid;grid-template-columns:.85fr 1.15fr;gap:80px;align-items:flex-start;}
+.audit-copy ul{list-style:none;margin-top:26px;display:flex;flex-direction:column;gap:12px;}
+.audit-copy li{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--silver);}
+.audit-copy li::before{content:'✓';color:var(--gold);font-weight:700;}
+.audit-box{border:1px solid var(--line-g);border-radius:22px;padding:36px;background:radial-gradient(circle at 80% 0%,rgba(214,195,165,0.05),transparent 60%),var(--b3);}
+.audit-step{display:none;}
+.audit-step.active{display:block;}
+.audit-prog{display:flex;gap:5px;margin-bottom:28px;}
+.ap-seg{flex:1;height:2px;border-radius:999px;background:var(--line);overflow:hidden;}
+.ap-seg span{display:block;height:100%;width:0%;background:var(--gold);transition:width .4s ease;}
+.ap-seg.done span{width:100%;}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.f-field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
+.f-field label{font-size:11.5px;color:var(--silver);letter-spacing:0.03em;}
+.f-field input,.f-field select,.f-field textarea{
+  background:var(--b1);border:1px solid var(--line);border-radius:10px;
+  padding:13px 14px;color:var(--white);font-family:inherit;font-size:14px;
+  transition:border-color .3s ease;outline:none;appearance:none;
+}
+.f-field input:focus,.f-field select:focus,.f-field textarea:focus{border-color:var(--gold-s);}
+.f-field textarea{resize:vertical;min-height:80px;}
+.f-submit{
+  width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-s));color:var(--b1);
+  font-weight:800;font-size:15px;padding:16px;border-radius:999px;
+  border:none;font-family:inherit;transition:transform .4s var(--ease),box-shadow .4s ease;
+}
+.f-submit:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(214,195,165,0.22);}
+.audit-result{text-align:center;padding:20px 0;}
+.ar-score{font-size:72px;font-weight:900;color:var(--gold);font-family:'Inter',sans-serif;line-height:1;}
+body[data-lang="ar"] .ar-score{font-family:'Alexandria',sans-serif;}
+.ar-label{font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--silver);margin-top:8px;}
+.ar-msg{font-size:14.5px;color:var(--silver);line-height:1.7;max-width:420px;margin:20px auto 28px;}
+@media(max-width:920px){.audit-layout{grid-template-columns:1fr;gap:48px;}.f-row{grid-template-columns:1fr;}}
+
+/* ════════════════════════════════════════════════════════════
+   BEFORE/AFTER
+════════════════════════════════════════════════════════════ */
+.ba{background:var(--b3);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.ba-frame{
+  position:relative;aspect-ratio:16/7;border-radius:22px;overflow:hidden;
+  border:1px solid var(--line-g);user-select:none;background:var(--b1);
+}
+.ba-side{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+.ba-before{background:linear-gradient(155deg,#1a1a1a,#080808);}
+.ba-after{background:linear-gradient(155deg,#1a1510,#060504);clip-path:inset(0 0 0 50%);}
+[dir="rtl"] .ba-after{clip-path:inset(0 50% 0 0);}
+.ba-tag{font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--silver);font-weight:700;}
+.ba-metric{font-size:48px;font-weight:900;color:var(--gold);font-family:'Inter',sans-serif;}
+body[data-lang="ar"] .ba-metric{font-family:'Alexandria',sans-serif;}
+.ba-handle{position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--gold);transform:translateX(-50%);box-shadow:0 0 18px rgba(214,195,165,0.5);}
+.ba-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:var(--b1);font-size:14px;font-weight:700;}
+.ba-hint{text-align:center;font-size:11.5px;color:var(--muted);margin-top:14px;}
+
+/* ════════════════════════════════════════════════════════════
+   PORTFOLIO
+════════════════════════════════════════════════════════════ */
+.portfolio{background:var(--b1);}
+.pf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.pf-card{
+  aspect-ratio:4/5;border-radius:20px;overflow:hidden;border:1px solid var(--line);
+  position:relative;background-color:#0a0a0a;cursor:pointer;
+  background-image:linear-gradient(180deg,rgba(0,0,0,0.08),rgba(0,0,0,0.75)),var(--pf-photo,none),linear-gradient(155deg,#141414,#060606);
+  background-size:cover;background-position:center;
+  transition:border-color .4s ease,transform .45s var(--ease);
+}
+.pf-card:hover{border-color:var(--gold-s);transform:translateY(-5px);}
+.pf-info{position:absolute;bottom:0;left:0;right:0;padding:24px;}
+.pf-cat{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-s);font-weight:700;margin-bottom:6px;}
+.pf-title{font-size:17px;font-weight:700;color:var(--white);}
+@media(max-width:900px){.pf-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.pf-grid{grid-template-columns:1fr;}}
+
+/* ════════════════════════════════════════════════════════════
+   LOGO WALL
+════════════════════════════════════════════════════════════ */
+.partners{background:var(--b3);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;}
+.logo-track{display:flex;gap:0;width:max-content;animation:logoS 30s linear infinite;}
+.partners:hover .logo-track{animation-play-state:paused;}
+[dir="rtl"] .logo-track{animation:logoSR 30s linear infinite;}
+.logo-item{width:200px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:0 36px;opacity:.45;transition:opacity .3s ease;}
+.logo-item:hover{opacity:1;}
+.logo-item span{font-size:16px;font-weight:700;color:var(--silver);letter-spacing:.04em;}
+@keyframes logoS{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+@keyframes logoSR{from{transform:translateX(0);}to{transform:translateX(50%);}}
+
+/* ════════════════════════════════════════════════════════════
+   CASE STUDIES
+════════════════════════════════════════════════════════════ */
+.cases{background:var(--b1);}
+.case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.case-card{border:1px solid var(--line);border-radius:20px;padding:30px;background:var(--b3);transition:border-color .4s ease,transform .4s var(--ease);}
+.case-card:hover{border-color:var(--gold-s);transform:translateY(-4px);}
+.case-ind{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-s);font-weight:700;margin-bottom:12px;}
+.case-card h3{font-size:18px;color:var(--white);font-weight:700;margin-bottom:18px;}
+.case-stats{display:flex;gap:20px;margin-bottom:16px;}
+.cs-num{font-size:26px;font-weight:800;color:var(--gold);font-family:'Inter',sans-serif;}
+body[data-lang="ar"] .cs-num{font-family:'Alexandria',sans-serif;}
+.cs-lbl{font-size:11px;color:var(--muted);margin-top:3px;}
+.case-card p{font-size:13px;color:var(--silver);line-height:1.7;}
+@media(max-width:900px){.case-grid{grid-template-columns:1fr;}}
+
+/* ════════════════════════════════════════════════════════════
+   TESTIMONIALS
+════════════════════════════════════════════════════════════ */
+.testimonials{background:var(--b3);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;}
+.test-wrap{overflow:hidden;}
+.test-track{display:flex;gap:16px;width:max-content;animation:testS 38s linear infinite;}
+.testimonials:hover .test-track{animation-play-state:paused;}
+[dir="rtl"] .test-track{animation:testSR 38s linear infinite;}
+@keyframes testS{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+@keyframes testSR{from{transform:translateX(0);}to{transform:translateX(50%);}}
+.test-card{width:380px;flex-shrink:0;border:1px solid var(--line-g);border-radius:20px;padding:28px;background:var(--b1);}
+.test-stars{color:var(--gold);font-size:13px;margin-bottom:14px;letter-spacing:2px;}
+.test-quote{font-size:14.5px;color:var(--white);line-height:1.8;margin-bottom:22px;}
+.test-auth{display:flex;align-items:center;gap:12px;}
+.test-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-s));flex-shrink:0;}
+.test-name{font-size:13px;font-weight:700;color:var(--white);}
+.test-role{font-size:11.5px;color:var(--muted);}
+
+/* ════════════════════════════════════════════════════════════
+   BLOG
+════════════════════════════════════════════════════════════ */
+.blog{background:var(--b1);}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.blog-card{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--b3);transition:border-color .4s ease,transform .4s var(--ease);}
+.blog-card:hover{border-color:var(--gold-s);transform:translateY(-4px);}
+.blog-thumb{aspect-ratio:16/10;background-color:#0c0c0c;background-image:linear-gradient(0deg,rgba(11,11,11,.2),rgba(11,11,11,.2)),var(--bt-photo,none),linear-gradient(155deg,#161310,#060606);background-size:cover;background-position:center;}
+.blog-body{padding:22px;}
+.blog-cat{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-s);font-weight:700;margin-bottom:10px;}
+.blog-card h3{font-size:16px;color:var(--white);font-weight:600;line-height:1.4;margin-bottom:8px;}
+.blog-card p{font-size:13px;color:var(--silver);line-height:1.6;}
+@media(max-width:900px){.blog-grid{grid-template-columns:1fr;}}
+
+/* ════════════════════════════════════════════════════════════
+   TOOLS
+════════════════════════════════════════════════════════════ */
+.tools{background:var(--b3);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.tools-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px;}
+.tools-filter button{border:1px solid var(--line-g);background:transparent;color:var(--silver);padding:8px 18px;border-radius:999px;font-size:12.5px;font-weight:600;font-family:inherit;transition:all .3s ease;}
+.tools-filter button.active,.tools-filter button:hover{background:var(--gold);border-color:var(--gold);color:var(--b1);}
+.tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.tool-chip{border:1px solid var(--line);border-radius:12px;padding:18px 18px;background:var(--b1);font-size:13.5px;font-weight:600;color:var(--white);text-align:center;transition:border-color .3s ease,transform .3s ease;}
+.tool-chip:hover{border-color:var(--gold-s);transform:translateY(-2px);}
+.tc-cat{display:block;font-size:10px;color:var(--gold-s);font-weight:600;margin-top:4px;letter-spacing:0.04em;}
+@media(max-width:900px){.tools-grid{grid-template-columns:repeat(2,1fr);}}
+
+/* ════════════════════════════════════════════════════════════
+   ASSESSMENT
+════════════════════════════════════════════════════════════ */
+.assessment{background:var(--b1);}
+.quiz-box{max-width:720px;margin:0 auto;border:1px solid var(--line-g);border-radius:22px;padding:44px;background:radial-gradient(circle at 80% 0%,rgba(214,195,165,0.05),transparent),var(--b3);}
+.quiz-prog{display:flex;gap:5px;margin-bottom:32px;}
+.qp-s{flex:1;height:2px;border-radius:999px;background:var(--line);overflow:hidden;}
+.qp-s span{display:block;height:100%;width:0%;background:var(--gold);transition:width .4s ease;}
+.qp-s.done span{width:100%;}
+.quiz-step{display:none;}
+.quiz-step.active{display:block;}
+.q-n{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-s);font-weight:700;margin-bottom:10px;}
+.q-t{font-size:21px;color:var(--white);font-weight:700;margin-bottom:26px;line-height:1.4;}
+.q-opts{display:flex;flex-direction:column;gap:10px;}
+.q-opt{border:1px solid var(--line);border-radius:12px;padding:14px 20px;background:var(--b1);color:var(--white);font-family:inherit;font-size:14.5px;text-align:inherit;width:100%;transition:all .3s ease;}
+.q-opt:hover{border-color:var(--gold-s);}
+.q-opt.sel{border-color:var(--gold);background:rgba(214,195,165,0.06);color:var(--gold);}
+.qr{text-align:center;}
+.qr-pkg{font-size:36px;font-weight:900;color:var(--gold);margin-bottom:12px;font-family:'Inter',sans-serif;}
+body[data-lang="ar"] .qr-pkg{font-family:'Alexandria',sans-serif;}
+.qr-lbl{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-s);font-weight:700;margin-bottom:14px;}
+.qr-desc{font-size:14px;color:var(--silver);line-height:1.7;max-width:440px;margin:0 auto 28px;}
+.qr-restart{font-size:13px;color:var(--muted);text-decoration:underline;margin-top:14px;display:inline-block;}
+
+/* ════════════════════════════════════════════════════════════
+   ROI
+════════════════════════════════════════════════════════════ */
+.roi{background:var(--b3);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.roi-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.roi-field{margin-bottom:24px;}
+.roi-field label{display:flex;justify-content:space-between;font-size:14px;color:var(--white);font-weight:500;margin-bottom:10px;}
+.roi-val{color:var(--gold);font-weight:700;font-family:'Inter',sans-serif;}
+body[data-lang="ar"] .roi-val{font-family:'Alexandria',sans-serif;}
+input[type="range"]{width:100%;-webkit-appearance:none;height:3px;border-radius:999px;background:var(--line);outline:none;}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(214,195,165,0.15);}
+input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--gold);border:none;box-shadow:0 0 0 4px rgba(214,195,165,0.15);}
+.roi-panel{border:1px solid var(--line-g);border-radius:22px;padding:40px;background:radial-gradient(circle at 75% 0%,rgba(214,195,165,0.08),transparent 55%),var(--b1);text-align:center;}
+.roi-lbl{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--silver);margin-bottom:10px;}
+.roi-n{font-size:52px;font-weight:900;color:var(--gold);font-family:'Inter',sans-serif;margin-bottom:6px;}
+body[data-lang="ar"] .roi-n{font-family:'Alexandria',sans-serif;}
+.roi-sub{font-size:12.5px;color:var(--muted);margin-bottom:24px;}
+.roi-break{display:flex;justify-content:space-around;border-top:1px solid var(--line);padding-top:20px;}
+.rb-n{font-size:18px;font-weight:700;color:var(--white);font-family:'Inter',sans-serif;}
+body[data-lang="ar"] .rb-n{font-family:'Alexandria',sans-serif;}
+.rb-l{font-size:11px;color:var(--muted);margin-top:4px;}
+.roi-disc{font-size:11px;color:var(--muted);opacity:.6;margin-top:18px;}
+@media(max-width:900px){.roi-layout{grid-template-columns:1fr;gap:48px;}}
+
+/* ════════════════════════════════════════════════════════════
+   VALUES
+════════════════════════════════════════════════════════════ */
+.values{background:var(--b1);}
+.val-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:22px;overflow:hidden;}
+.val-card{background:var(--b1);padding:34px 26px;transition:background .4s ease;}
+.val-card:hover{background:var(--b3);}
+.val-mk{font-size:11px;color:var(--gold-s);font-weight:700;letter-spacing:.1em;margin-bottom:16px;display:block;}
+.val-card h3{font-size:16px;color:var(--white);font-weight:600;margin-bottom:8px;}
+.val-card p{font-size:13px;color:var(--silver);line-height:1.65;}
+@media(max-width:900px){.val-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.val-grid{grid-template-columns:1fr;}}
+
+/* ════════════════════════════════════════════════════════════
+   ABOUT
+════════════════════════════════════════════════════════════ */
+.about{background:var(--b3);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;}
+.about-block h3{font-size:20px;color:var(--white);font-weight:700;margin-bottom:12px;}
+.about-block p{font-size:14.5px;color:var(--silver);line-height:1.82;}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr;gap:36px;}}
+
+/* ════════════════════════════════════════════════════════════
+   FAQ
+════════════════════════════════════════════════════════════ */
+.faq{background:var(--b1);}
+.faq-list{max-width:840px;margin:0 auto;border-top:1px solid var(--line);}
+.faq-item{border-bottom:1px solid var(--line);}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 4px;background:none;border:none;width:100%;text-align:inherit;color:var(--white);font-family:inherit;font-size:16px;font-weight:500;}
+.faq-ico{width:26px;height:26px;border-radius:50%;border:1px solid var(--line-g);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--gold);font-size:14px;transition:transform .4s var(--ease);}
+.faq-item.open .faq-ico{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .45s var(--ease);}
+.faq-body{padding:0 4px 24px;font-size:14.5px;color:var(--silver);line-height:1.78;max-width:680px;}
+
+/* ════════════════════════════════════════════════════════════
+   GUARANTEE
+════════════════════════════════════════════════════════════ */
+.guarantee{background:var(--b3);border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center;}
+.guar-badge{width:88px;height:88px;border-radius:50%;margin:0 auto 28px;border:1px solid var(--gold-s);display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--gold);background:radial-gradient(circle at 35% 35%,rgba(214,195,165,0.12),transparent 70%);}
+.guarantee h2{font-size:clamp(26px,3.5vw,44px);color:var(--white);max-width:640px;margin:0 auto 16px;}
+.guarantee .lead{font-size:16px;color:var(--silver);max-width:520px;margin:0 auto 48px;line-height:1.8;}
+.guar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:880px;margin:0 auto;}
+.guar-item{border:1px solid var(--line);border-radius:18px;padding:26px 18px;}
+.guar-n{font-size:24px;font-weight:800;color:var(--gold);font-family:'Inter',sans-serif;margin-bottom:8px;}
+body[data-lang="ar"] .guar-n{font-family:'Alexandria',sans-serif;}
+.guar-l{font-size:13px;color:var(--silver);line-height:1.6;}
+@media(max-width:760px){.guar-grid{grid-template-columns:1fr;}}
+
+/* ════════════════════════════════════════════════════════════
+   FINAL CTA
+════════════════════════════════════════════════════════════ */
+.final-cta{
+  text-align:center;padding:160px 0;
+  background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(214,195,165,0.09),transparent 70%),var(--b1);
+  border-top:1px solid var(--line);
+}
+.final-cta h2{font-size:clamp(28px,4.5vw,56px);line-height:1.15;color:var(--white);max-width:780px;margin:0 auto 20px;}
+.final-cta h2 .accent{color:var(--gold);}
+.final-cta p{font-size:17px;color:var(--silver);max-width:520px;margin:0 auto 44px;line-height:1.75;}
+
+/* ════════════════════════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════════════════════════ */
+footer{padding:52px 0;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:13px;z-index:1;position:relative;}
+.foot-logo{margin-bottom:10px;}
+</style>
+</head>
+<body data-lang="en">
+
+<!-- ════ SKIP + CURSOR + LOADER ════ -->
+<a href="#main-content" class="skip-link" data-en="Skip to content" data-ar="انتقل للمحتوى">Skip to content</a>
+<div class="cur-dot" id="curDot"></div>
+<div class="cur-ring" id="curRing"></div>
+<div id="progress"></div>
+
+<div id="loader">
+  <div class="ld-hex">
+    <svg viewBox="0 0 72 72" fill="none"><polygon points="36,4 66,20 66,52 36,68 6,52 6,20" stroke="rgba(214,195,165,0.25)" stroke-width="1"/><polygon points="36,14 56,25 56,47 36,58 16,47 16,25" stroke="rgba(214,195,165,0.15)" stroke-width="1"/><circle cx="36" cy="36" r="8" stroke="#D6C3A5" stroke-width="1.5"/><circle cx="36" cy="36" r="3" fill="#D6C3A5"/></svg>
+    <div class="ld-hex-spin"></div>
+  </div>
+  <div class="ld-word">NE<span class="x">X</span>ORA</div>
+  <div class="ld-tagline" data-en="Digital Growth Infrastructure" data-ar="البنية التحتية للنمو الرقمي">Digital Growth Infrastructure</div>
+  <div class="ld-bar"><div class="ld-fill"></div></div>
+</div>
+
+<!-- ════ BACKGROUND ENV ════ -->
+<div id="env">
+  <canvas id="envCanvas"></canvas>
+  <div class="env-grad"></div>
+  <div class="env-grid"></div>
+  <div class="env-noise"></div>
+</div>
+
+<!-- ════ NAV ════ -->
+<header id="header">
+  <div class="container nav-inner">
+    <a href="#" class="logo" aria-label="NEXORA home">
+      <div class="logo-orb"><div class="logo-orb-dot"></div></div>
+      <div class="logo-type"><span>NE</span><span class="x">X</span><span>ORA</span></div>
+    </a>
+    <nav class="nav-links">
+      <a href="#services" data-en="Services" data-ar="الخدمات">Services</a>
+      <a href="#portfolio" data-en="Portfolio" data-ar="الأعمال">Portfolio</a>
+      <a href="#packages" data-en="Packages" data-ar="الباقات">Packages</a>
+      <a href="#about" data-en="About" data-ar="من نحن">About</a>
+      <a href="#faq" data-en="FAQ" data-ar="الأسئلة">FAQ</a>
+      <a href="#contact" data-en="Contact" data-ar="تواصل">Contact</a>
+    </nav>
+    <div class="nav-right">
+      <div class="lang-sw" id="langSw" role="group" aria-label="Language">
+        <button type="button" class="active" data-lang="en" aria-pressed="true">EN</button>
+        <a href="nexora-ar.html" class="lang-sw-ar" style="padding:5px 11px;border-radius:999px;background:none;font-family:inherit;font-size:12px;font-weight:700;color:var(--silver);transition:all .3s ease;white-space:nowrap;cursor:pointer;">عربي</a>
+      </div>
+      <a href="#" data-whatsapp-link target="_blank" class="nav-cta mag" data-en="Build My System" data-ar="ابنِ نظامي">Build My System</a>
+      <button class="nav-tog" id="navTog" aria-expanded="false" aria-controls="mobMenu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mob-menu" id="mobMenu" role="dialog" aria-modal="true" aria-label="Navigation">
+  <a href="#services" data-en="Services" data-ar="الخدمات">Services</a>
+  <a href="#portfolio" data-en="Portfolio" data-ar="الأعمال">Portfolio</a>
+  <a href="#packages" data-en="Packages" data-ar="الباقات">Packages</a>
+  <a href="#about" data-en="About" data-ar="من نحن">About</a>
+  <a href="#faq" data-en="FAQ" data-ar="الأسئلة">FAQ</a>
+  <a href="#contact" data-en="Contact" data-ar="تواصل">Contact</a>
+  <div class="lang-sw" id="langSwM" role="group" aria-label="Language">
+    <button type="button" class="active" data-lang="en" aria-pressed="true">EN</button>
+    <a href="nexora-ar.html" class="lang-sw-ar" style="padding:5px 11px;border-radius:999px;background:none;font-family:inherit;font-size:12px;font-weight:700;color:var(--silver);transition:all .3s ease;white-space:nowrap;cursor:pointer;">عربي</a>
+  </div>
+  <a href="#" data-whatsapp-link target="_blank" class="btn-prim" data-en="Build My System" data-ar="ابنِ نظامي">Build My System</a>
+</div>
+
+<!-- ════ HERO ════ -->
+<section class="hero" id="main-content">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-inner">
+    <div class="eyebrow">
+      <span class="pulse"></span>
+      <span data-en="Digital Growth Infrastructure" data-ar="البنية التحتية للنمو الرقمي">Digital Growth Infrastructure</span>
+    </div>
+    <h1 class="display">
+      <span data-en="We don't build websites." data-ar="نحن لا نبني مواقع.">We don't build websites.</span><br>
+      <span class="accent" data-en="We build Revenue Systems." data-ar="نبني أنظمة إيرادات.">We build Revenue Systems.</span>
+    </h1>
+    <p class="hero-sub2" data-en="Connected infrastructure of web, brand, automation and analytics — engineered to scale your business with precision." data-ar="بنية تحتية متكاملة من الويب والهوية والأتمتة والتحليلات — مهندسة لتوسيع عملك بدقة.">Connected infrastructure of web, brand, automation and analytics — engineered to scale your business with precision.</p>
+    <div class="hero-metrics">
+      <div class="hm-item"><div class="hm-num" data-count="35" data-suffix="+">0+</div><div class="hm-label" data-en="Active Systems" data-ar="نظام نشط">Active Systems</div></div>
+      <div class="hm-item"><div class="hm-num" data-count="1086" data-suffix="+">0+</div><div class="hm-label" data-en="Projects Built" data-ar="مشروع منجز">Projects Built</div></div>
+      <div class="hm-item"><div class="hm-num" data-count="48" data-prefix="↓" data-suffix="h">0h</div><div class="hm-label" data-en="Avg Delivery" data-ar="متوسط التسليم">Avg Delivery</div></div>
+      <div class="hm-item"><div class="hm-num" data-count="99" data-suffix="%">0%</div><div class="hm-label" data-en="Retention Rate" data-ar="معدل الاحتفاظ">Retention Rate</div></div>
+    </div>
+    <div class="hero-ctas">
+      <a href="#" data-whatsapp-link target="_blank" class="btn-prim mag" data-en="Build My System" data-ar="ابنِ نظامي">Build My System</a>
+      <a href="#eco" class="btn-ghost" data-en="See the Architecture" data-ar="شاهد البنية">See the Architecture</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span data-en="Scroll" data-ar="تابع">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ════ STATS ════ -->
+<section class="stats">
+  <div class="container stats-grid">
+    <div class="stat reveal"><div class="stat-num" data-count="35" data-suffix="+">0</div><div class="stat-label" data-en="Active Systems" data-ar="نظام نشط">Active Systems</div></div>
+    <div class="stat reveal"><div class="stat-num" data-count="1086" data-suffix="+">0</div><div class="stat-label" data-en="Projects Engineered" data-ar="مشروع مهندس">Projects Engineered</div></div>
+    <div class="stat reveal"><div class="stat-num" data-count="48" data-prefix="24–" data-suffix="h">0</div><div class="stat-label" data-en="Average Deployment" data-ar="متوسط النشر">Average Deployment</div></div>
+    <div class="stat reveal"><div class="stat-num" data-count="99" data-suffix="%">0</div><div class="stat-label" data-en="System Uptime" data-ar="وقت تشغيل النظام">System Uptime</div></div>
+  </div>
+</section>
+
+<!-- ════ WHY FAIL ════ -->
+<section class="fail" id="why">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker" data-en="The Infrastructure Gap" data-ar="فجوة البنية التحتية">The Infrastructure Gap</span>
+      <h2 class="display" data-en="Why digital investment fails to compound" data-ar="لماذا يفشل الاستثمار الرقمي في التراكم">Why digital investment fails to compound</h2>
+      <p data-en="It's not a budget problem. It's an architecture problem — disconnected tools, no unified operating layer, no single partner accountable for system performance." data-ar="ليست مشكلة ميزانية. إنها مشكلة بنية — أدوات مبعثرة، لا طبقة تشغيلية موحدة، لا شريك واحد مسؤول عن أداء النظام.">It's not a budget problem. It's an architecture problem — disconnected tools, no unified operating layer, no single partner accountable for system performance.</p>
+    </div>
+    <div class="fail-layout">
+      <div class="fail-list">
+        <div class="fail-item reveal">
+          <div class="fi-top"><span class="fi-n">01</span><h3 data-en="Fragmented execution stack" data-ar="مجموعة تنفيذ مجزأة">Fragmented execution stack</h3></div>
+          <p data-en="Designer, developer, marketer — three vendors with no shared protocol, no integration, no accountability for the final outcome." data-ar="مصمم ومطور ومسوّق — ثلاثة موردين بلا بروتوكول مشترك ولا تكامل ولا مسؤولية عن النتيجة النهائية.">Designer, developer, marketer — three vendors with no shared protocol, no integration, no accountability for the final outcome.</p>
+        </div>
+        <div class="fail-item reveal">
+          <div class="fi-top"><span class="fi-n">02</span><h3 data-en="No operating intelligence layer" data-ar="لا طبقة ذكاء تشغيلي">No operating intelligence layer</h3></div>
+          <p data-en="Without unified analytics feeding into every decision, spend is allocated by intuition — not by signal." data-ar="بدون تحليلات موحدة تغذي كل قرار، يُخصص الإنفاق بالحدس لا بالإشارة.">Without unified analytics feeding into every decision, spend is allocated by intuition — not by signal.</p>
+        </div>
+        <div class="fail-item reveal">
+          <div class="fi-top"><span class="fi-n">03</span><h3 data-en="Static delivery, zero iteration" data-ar="تسليم ثابت، صفر تكرار">Static delivery, zero iteration</h3></div>
+          <p data-en="A platform ships, then freezes. Meanwhile the market, the algorithms, and the competition evolve daily." data-ar="تُطلق المنصة ثم تتجمد. في هذه الأثناء، يتطور السوق والخوارزميات والمنافسون يومياً.">A platform ships, then freezes. Meanwhile the market, the algorithms, and the competition evolve daily.</p>
+        </div>
+        <div class="fail-item reveal">
+          <div class="fi-top"><span class="fi-n">04</span><h3 data-en="No system owner" data-ar="لا مالك للنظام">No system owner</h3></div>
+          <p data-en="Agencies complete a project and exit. Sustainable growth requires an engineering partner embedded in your operating cadence." data-ar="الوكالات تكمل مشروعاً وتخرج. النمو المستدام يتطلب شريكاً هندسياً متجذراً في إيقاعك التشغيلي.">Agencies complete a project and exit. Sustainable growth requires an engineering partner embedded in your operating cadence.</p>
+        </div>
+      </div>
+      <div class="fail-panel reveal-r">
+        <div class="fp-grid-bg"></div>
+        <div class="fp-glow"></div>
+        <div class="fp-content">
+          <div class="fp-big" data-en="Most" data-ar="معظم">Most</div>
+          <div class="fp-sub" data-en="digital systems fail to compound because they were never architected as systems" data-ar="الأنظمة الرقمية تفشل في التراكم لأنها لم تُهندس كأنظمة أبداً">digital systems fail to compound because they were never architected as systems</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ ECOSYSTEM ════ -->
+<section class="eco" id="eco">
+  <div class="container">
+    <div class="eco-layout">
+      <div class="eco-copy reveal-l">
+        <span class="kicker" data-en="The NEXORA Architecture" data-ar="بنية نيكسورا">The NEXORA Architecture</span>
+        <h2 class="display" style="font-size:clamp(26px,3.5vw,42px);margin-bottom:20px;" data-en="One infrastructure. Every growth lever." data-ar="بنية تحتية واحدة. كل رافعات النمو.">One infrastructure. Every growth lever.</h2>
+        <p data-en="NEXORA connects your <strong>brand identity, web platform, product pages, campaigns, content engine, scheduling, all internal operations</strong> and client-facing applications into one unified operating system — instead of a collection of disconnected purchases." data-ar="تربط نيكسورا <strong>هويتك البصرية ومنصة الويب وصفحات المنتجات والحملات ومحرك المحتوى والجدولة وجميع العمليات الداخلية</strong> والتطبيقات الموجهة للعملاء في نظام تشغيل موحد واحد.">NEXORA connects your <strong>brand identity, web platform, product pages, campaigns, content engine, scheduling, all internal operations</strong> and client-facing applications into one unified operating system — instead of a collection of disconnected purchases.</p>
+        <p data-en="Every component shares the same data layer, the same performance standards, the same engineering cadence — and the same single partner accountable for output." data-ar="كل مكون يشارك نفس طبقة البيانات ونفس معايير الأداء ونفس الإيقاع الهندسي — ونفس الشريك الواحد المسؤول عن النتيجة.">Every component shares the same data layer, the same performance standards, the same engineering cadence — and the same single partner accountable for output.</p>
+      </div>
+      <div class="eco-diagram reveal-r">
+        <div class="eco-bg-glow"></div>
+        <div class="eco-ring-outer"></div>
+        <div class="eco-ring-inner"></div>
+        <div class="eco-core display">NEXORA</div>
+        <div class="eco-node" data-en="Brand OS" data-ar="نظام العلامة">Brand OS</div>
+        <div class="eco-node" data-en="Web Platform" data-ar="منصة الويب">Web Platform</div>
+        <div class="eco-node" data-en="Growth Engine" data-ar="محرك النمو">Growth Engine</div>
+        <div class="eco-node" data-en="Automation" data-ar="الأتمتة">Automation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ SERVICES — GROWTH ARCHITECTURE ════ -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker" data-en="Growth Architecture" data-ar="بنية النمو">Growth Architecture</span>
+      <h2 class="display" data-en="Eight integrated systems, one outcome" data-ar="ثمانية أنظمة متكاملة، نتيجة واحدة">Eight integrated systems, one outcome</h2>
+    </div>
+    <div class="arch-flow reveal">
+      <div class="arch-row">
+        <div class="arch-num">01</div>
+        <div class="arch-main">
+          <div class="arch-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="11" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M14 11v7M11 14h7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+          <h3 data-en="Brand Operating System" data-ar="نظام تشغيل العلامة التجارية">Brand Operating System</h3>
+          <p data-en="Identity architecture that performs across every touchpoint — digital, print, motion, UI." data-ar="بنية هوية تعمل عبر كل نقطة اتصال — رقمية، مطبوعة، متحركة، واجهة مستخدم.">Identity architecture that performs across every touchpoint — digital, print, motion, UI.</p>
+        </div>
+        <div class="arch-tags">
+          <span class="arch-tag" data-en="Identity System" data-ar="نظام الهوية">Identity System</span>
+          <span class="arch-tag" data-en="Motion Language" data-ar="لغة الحركة">Motion Language</span>
+          <span class="arch-tag" data-en="UI Tokens" data-ar="رموز الواجهة">UI Tokens</span>
+        </div>
+        <div class="arch-arrow">↓</div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-num">02</div>
+        <div class="arch-main">
+          <div class="arch-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="1" y="3" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M7 19h6M10 15v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M5 8l3 3-3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 11h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+          <h3 data-en="Revenue Platform" data-ar="منصة الإيرادات">Revenue Platform</h3>
+          <p data-en="Web infrastructure engineered to convert — landing pages, product systems, funnels, micro-sites." data-ar="بنية ويب مهندسة للتحويل — صفحات هبوط، أنظمة منتجات، قمعات، مواقع صغيرة.">Web infrastructure engineered to convert — landing pages, product systems, funnels, micro-sites.</p>
+        </div>
+        <div class="arch-tags">
+          <span class="arch-tag" data-en="Conversion Architecture" data-ar="بنية التحويل">Conversion Architecture</span>
+          <span class="arch-tag" data-en="A/B Framework" data-ar="إطار الاختبار">A/B Framework</span>
+          <span class="arch-tag">CRO</span>
+        </div>
+        <div class="arch-arrow">↓</div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-num">03</div>
+        <div class="arch-main">
+          <div class="arch-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.3"/><path d="M10 2v3M10 15v3M2 10h3M15 10h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.3"/></svg></div>
+          <h3 data-en="Content Engine" data-ar="محرك المحتوى">Content Engine</h3>
+          <p data-en="Systematic content production — copywriting, motion graphics, social systems, video ads, hooks." data-ar="إنتاج محتوى منهجي — كتابة، موشن جرافيك، أنظمة سوشيال، إعلانات فيديو، هوكس.">Systematic content production — copywriting, motion graphics, social systems, video ads, hooks.</p>
+        </div>
+        <div class="arch-tags">
+          <span class="arch-tag" data-en="Copy Systems" data-ar="أنظمة الكتابة">Copy Systems</span>
+          <span class="arch-tag" data-en="Motion Design" data-ar="تصميم الحركة">Motion Design</span>
+          <span class="arch-tag" data-en="Distribution" data-ar="التوزيع">Distribution</span>
+        </div>
+        <div class="arch-arrow">↓</div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-num">04</div>
+        <div class="arch-main">
+          <div class="arch-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 14l4-7 4 5 3-4 4 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="17" cy="5" r="2" stroke="currentColor" stroke-width="1.3"/></svg></div>
+          <h3 data-en="Growth Engineering" data-ar="هندسة النمو">Growth Engineering</h3>
+          <p data-en="SEO infrastructure, paid acquisition strategy, funnel optimization — all data-connected." data-ar="بنية تحتية لمحركات البحث، استراتيجية الاستحواذ المدفوع، تحسين القمع — كلها متصلة بالبيانات.">SEO infrastructure, paid acquisition strategy, funnel optimization — all data-connected.</p>
+        </div>
+        <div class="arch-tags">
+          <span class="arch-tag">Technical SEO</span>
+          <span class="arch-tag" data-en="Paid Acquisition" data-ar="الاستحواذ المدفوع">Paid Acquisition</span>
+          <span class="arch-tag">Analytics</span>
+        </div>
+        <div class="arch-arrow">↓</div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-num">05</div>
+        <div class="arch-main">
+          <div class="arch-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3a2 2 0 100 4 2 2 0 000-4z" stroke="currentColor" stroke-width="1.3"/><path d="M10 7v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M5.5 11a4.5 4.5 0 019 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><rect x="4" y="11" width="3" height="5" rx="1.2" stroke="currentColor" stroke-width="1.3"/><rect x="13" y="11" width="3" height="5" rx="1.2" stroke="currentColor" stroke-width="1.3"/><path d="M7 16a3 3 0 006 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+          <h3 data-en="Business Operating System" data-ar="نظام تشغيل الأعمال">Business Operating System</h3>
+          <p data-en="AI automation, CRM workflows, lead systems, appointment infrastructure — removing manual bottlenecks at scale." data-ar="أتمتة بالذكاء الاصطناعي، سير عمل CRM، أنظمة عملاء، بنية المواعيد — إزالة الاختناقات اليدوية على نطاق واسع.">AI automation, CRM workflows, lead systems, appointment infrastructure — removing manual bottlenecks at scale.</p>
+        </div>
+        <div class="arch-tags">
+          <span class="arch-tag">AI Workflows</span>
+          <span class="arch-tag">CRM Systems</span>
+          <span class="arch-tag" data-en="Lead Engine" data-ar="محرك العملاء">Lead Engine</span>
+        </div>
+        <div class="arch-arrow">↓</div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-num">06</div>
+        <div class="arch-main">
+          <div class="arch-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M6 18h8M10 14v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M2 10h16" stroke="currentColor" stroke-width="1.3"/></svg></div>
+          <h3 data-en="Commerce Infrastructure" data-ar="بنية تجارة إلكترونية">Commerce Infrastructure</h3>
+          <p data-en="Product systems, store architecture, trend intelligence, page optimization — built to convert at scale." data-ar="أنظمة منتجات، بنية متجر، ذكاء الترند، تحسين الصفحة — مبنية للتحويل على نطاق واسع.">Product systems, store architecture, trend intelligence, page optimization — built to convert at scale.</p>
+        </div>
+        <div class="arch-tags">
+          <span class="arch-tag" data-en="Store Architecture" data-ar="بنية المتجر">Store Architecture</span>
+          <span class="arch-tag" data-en="Product Systems" data-ar="أنظمة المنتجات">Product Systems</span>
+          <span class="arch-tag">CVR</span>
+        </div>
+        <div class="arch-arrow">↓</div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-num">07</div>
+        <div class="arch-main">
+          <div class="arch-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 15l4-7 4 5 3-4 4 7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 18h14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+          <h3 data-en="Intelligence Layer" data-ar="طبقة الذكاء">Intelligence Layer</h3>
+          <p data-en="Social analytics, competitor intelligence, 7-day content models, PDF reporting dashboards — decisions from data." data-ar="تحليلات سوشيال، ذكاء المنافسين، نماذج محتوى 7 أيام، لوحات تقارير PDF — قرارات من البيانات.">Social analytics, competitor intelligence, 7-day content models, PDF reporting dashboards — decisions from data.</p>
+        </div>
+        <div class="arch-tags">
+          <span class="arch-tag" data-en="Competitor Intel" data-ar="ذكاء المنافس">Competitor Intel</span>
+          <span class="arch-tag" data-en="Social Analytics" data-ar="تحليلات السوشيال">Social Analytics</span>
+          <span class="arch-tag" data-en="Reporting" data-ar="التقارير">Reporting</span>
+        </div>
+        <div class="arch-arrow">↓</div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-num">08</div>
+        <div class="arch-main">
+          <div class="arch-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10h3l2-6 4 12 3-6h2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3 data-en="Rapid Execution" data-ar="التنفيذ السريع">Rapid Execution</h3>
+          <p data-en="Translation, file ops, data processing, document systems — high-quality rapid-turnaround output, same day." data-ar="ترجمة، عمليات ملفات، معالجة بيانات، أنظمة مستندات — مخرجات عالية الجودة وسريعة، في نفس اليوم.">Translation, file ops, data processing, document systems — high-quality rapid-turnaround output, same day.</p>
+        </div>
+        <div class="arch-tags">
+          <span class="arch-tag" data-en="Same-Day Delivery" data-ar="تسليم نفس اليوم">Same-Day Delivery</span>
+          <span class="arch-tag" data-en="Data Ops" data-ar="عمليات البيانات">Data Ops</span>
+          <span class="arch-tag" data-en="Doc Systems" data-ar="أنظمة المستندات">Doc Systems</span>
+        </div>
+        <div class="arch-arrow" style="color:transparent;">↓</div>
+      </div>
+    </div>
+    <div class="arch-footer reveal">
+      <p data-en="Plus: dashboards, SaaS platforms, client applications, digital products, enterprise software planning — every system your business needs, engineered to spec." data-ar="بالإضافة إلى: داشبوردات، منصات SaaS، تطبيقات العملاء، المنتجات الرقمية، تخطيط البرمجيات المؤسسية — كل نظام يحتاجه عملك، مهندس وفق المواصفات.">Plus: dashboards, SaaS platforms, client applications, digital products, enterprise software planning — every system your business needs, engineered to spec.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════ WHO WE SERVE ════ -->
+<section class="serve" id="serve">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker" data-en="System Compatibility" data-ar="توافق النظام">System Compatibility</span>
+      <h2 class="display" data-en="Engineered for every growth stage" data-ar="مهندس لكل مرحلة نمو">Engineered for every growth stage</h2>
+    </div>
+    <div class="bento reveal">
+      <div class="bc c4 r2"><div class="bc-ic"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1.3" stroke="currentColor" stroke-width="1.3"/><rect x="11" y="2" width="7" height="7" rx="1.3" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="11" width="7" height="7" rx="1.3" stroke="currentColor" stroke-width="1.3"/><rect x="11" y="11" width="7" height="7" rx="1.3" stroke="currentColor" stroke-width="1.3"/></svg></div><h3 data-en="Companies" data-ar="الشركات">Companies</h3></div>
+      <div class="bc c4 r1"><div class="bc-ic"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l2 5.5H18l-4.9 3.5 2 5.5L10 13l-5.1 3.5 2-5.5L2 7.5h6z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></div><h3 data-en="Brands" data-ar="العلامات التجارية">Brands</h3></div>
+      <div class="bc c4 r1"><div class="bc-ic"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2C7.2 2 5 4.2 5 7c0 4 5 9 5 9s5-5 5-9c0-2.8-2.2-5-5-5z" stroke="currentColor" stroke-width="1.3"/><circle cx="10" cy="7" r="2" stroke="currentColor" stroke-width="1.3"/></svg></div><h3 data-en="Restaurants" data-ar="المطاعم">Restaurants</h3></div>
+      <div class="bc c3 r2"><div class="bc-ic"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2v3M10 15v3M2 10h3M15 10h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="10" cy="10" r="4" stroke="currentColor" stroke-width="1.3"/><circle cx="10" cy="10" r="1.5" fill="currentColor" opacity=".4"/></svg></div><h3 data-en="Medical Centers" data-ar="المراكز الطبية">Medical Centers</h3></div>
+      <div class="bc c3 r1"><div class="bc-ic"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 18V8l7-5 7 5v10H3z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><rect x="7.5" y="12" width="5" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/></svg></div><h3 data-en="Law Firms" data-ar="المكاتب القانونية">Law Firms</h3></div>
+      <div class="bc c3 r1"><div class="bc-ic"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 18V7l7-4 7 4v11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><rect x="7" y="10" width="6" height="8" rx="1" stroke="currentColor" stroke-width="1.3"/></svg></div><h3 data-en="Engineering Offices" data-ar="المكاتب الهندسية">Engineering Offices</h3></div>
+      <div class="bc c5 r1"><div class="bc-ic"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 6h16M2 10h10M2 14h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M15 12l4 2-4 2v-4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></div><h3 data-en="E-Commerce" data-ar="التجارة الإلكترونية">E-Commerce</h3></div>
+      <div class="bc c3 r1"><div class="bc-ic"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 13s1-1 4-1 5 2 8 2 4-1 4-1V4s-1 1-4 1-5-2-8-2-4 1-4 1v9z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 21v-8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div><h3 data-en="Startups" data-ar="الشركات الناشئة">Startups</h3></div>
+      <div class="bc c4 r1"><div class="bc-ic"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="6" r="3.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 18c0-3 3.1-5.5 7-5.5s7 2.5 7 5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div><h3 data-en="Personal Brands" data-ar="العلامات الشخصية">Personal Brands</h3></div>
+      <div class="bc c3 r1"><div class="bc-ic"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 5h16v11a2 2 0 01-2 2H4a2 2 0 01-2-2V5z" stroke="currentColor" stroke-width="1.3"/><path d="M6 5V4a2 2 0 012-2h4a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.3"/></svg></div><h3 data-en="Local Businesses" data-ar="الأعمال المحلية">Local Businesses</h3></div>
+      <div class="bc c3 r1"><div class="bc-ic"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 4h10a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="currentColor" stroke-width="1.3"/><path d="M7 16h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M10 14v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div><h3 data-en="Clinics" data-ar="العيادات">Clinics</h3></div>
+      <div class="bc c2 r1"><div class="bc-ic"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.3"/><path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3 data-en="Freelancers" data-ar="المستقلون">Freelancers</h3></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ WHY NEXORA ════ -->
+<section class="why" id="why-nexora">
+  <div class="container">
+    <div class="why-layout">
+      <div class="reveal-l">
+        <span class="kicker" data-en="System Performance" data-ar="أداء النظام">System Performance</span>
+        <h2 class="display" style="font-size:clamp(26px,3.5vw,42px);margin-bottom:14px;" data-en="Performance you can instrument" data-ar="أداء يمكنك قياسه">Performance you can instrument</h2>
+        <p style="font-size:16px;color:var(--silver);line-height:1.8;" data-en="Every engagement is operated like a systems engineering project — not a creative brief." data-ar="كل تعاون يُدار كمشروع هندسة أنظمة — ليس كموجز إبداعي.">Every engagement is operated like a systems engineering project — not a creative brief.</p>
+        <div class="why-bars">
+          <div><div class="wbr-top"><span data-en="Market Intelligence" data-ar="ذكاء السوق">Market Intelligence</span><span class="wbr-pct">95%</span></div><div class="wbr-track"><div class="wbr-fill" data-width="95"></div></div></div>
+          <div><div class="wbr-top"><span data-en="Custom Engineering" data-ar="هندسة مخصصة">Custom Engineering</span><span class="wbr-pct">100%</span></div><div class="wbr-track"><div class="wbr-fill" data-width="100"></div></div></div>
+          <div><div class="wbr-top"><span data-en="System Support" data-ar="دعم النظام">System Support</span><span class="wbr-pct">99%</span></div><div class="wbr-track"><div class="wbr-fill" data-width="99"></div></div></div>
+          <div><div class="wbr-top"><span data-en="Detail Precision" data-ar="دقة التفاصيل">Detail Precision</span><span class="wbr-pct">98%</span></div><div class="wbr-track"><div class="wbr-fill" data-width="98"></div></div></div>
+        </div>
+      </div>
+      <div class="dash-panel reveal-r">
+        <div class="dash-top">
+          <span class="dash-label" data-en="Growth Index" data-ar="مؤشر النمو">Growth Index</span>
+          <div class="dash-dots"><span></span><span></span><span></span></div>
+        </div>
+        <canvas id="dashChart" width="400" height="200" style="width:100%;height:auto;"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ HOW WE WORK ════ -->
+<section class="process" id="process">
+  <div class="container">
+    <div class="section-head cx reveal">
+      <span class="kicker" data-en="Engineering Process" data-ar="العملية الهندسية">Engineering Process</span>
+      <h2 class="display" data-en="Disciplined execution, every engagement" data-ar="تنفيذ منضبط في كل تعاون">Disciplined execution, every engagement</h2>
+    </div>
+    <div class="proc-track reveal">
+      <div class="proc-step"><div class="proc-num">1</div><h4 data-en="Diagnose" data-ar="تشخيص">Diagnose</h4><p data-en="Map the system gaps" data-ar="رسم فجوات النظام">Map the system gaps</p></div>
+      <div class="proc-step"><div class="proc-num">2</div><h4 data-en="Architect" data-ar="تصميم">Architect</h4><p data-en="Design the solution" data-ar="تصميم الحل">Design the solution</p></div>
+      <div class="proc-step"><div class="proc-num">3</div><h4 data-en="Engineer" data-ar="هندسة">Engineer</h4><p data-en="Build with precision" data-ar="بناء بدقة">Build with precision</p></div>
+      <div class="proc-step"><div class="proc-num">4</div><h4 data-en="Deploy" data-ar="نشر">Deploy</h4><p data-en="Launch with confidence" data-ar="إطلاق بثقة">Launch with confidence</p></div>
+      <div class="proc-step"><div class="proc-num">5</div><h4 data-en="Instrument" data-ar="قياس">Instrument</h4><p data-en="Measure every signal" data-ar="قياس كل إشارة">Measure every signal</p></div>
+      <div class="proc-step"><div class="proc-num">6</div><h4 data-en="Optimize" data-ar="تحسين">Optimize</h4><p data-en="Iterate on real data" data-ar="التكرار على بيانات حقيقية">Iterate on real data</p></div>
+      <div class="proc-step"><div class="proc-num">7</div><h4 data-en="Scale" data-ar="توسّع">Scale</h4><p data-en="Compound without limits" data-ar="التراكم بلا حدود">Compound without limits</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ ROADMAP ════ -->
+<section class="roadmap" id="roadmap">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker" data-en="System Roadmap" data-ar="خارطة طريق النظام">System Roadmap</span>
+      <h2 class="display" data-en="From signal to system dominance" data-ar="من الإشارة إلى هيمنة النظام">From signal to system dominance</h2>
+    </div>
+    <div class="rm-list reveal">
+      <div class="rm-item"><span class="rm-phase">01</span><span class="rm-title" data-en="Discovery" data-ar="الاكتشاف">Discovery</span><span class="rm-desc" data-en="System gap analysis" data-ar="تحليل فجوات النظام">System gap analysis</span></div>
+      <div class="rm-item"><span class="rm-phase">02</span><span class="rm-title" data-en="Market Intelligence" data-ar="ذكاء السوق">Market Intelligence</span><span class="rm-desc" data-en="Competitive landscape mapping" data-ar="رسم المشهد التنافسي">Competitive landscape mapping</span></div>
+      <div class="rm-item"><span class="rm-phase">03</span><span class="rm-title" data-en="Brand OS" data-ar="نظام تشغيل العلامة">Brand OS</span><span class="rm-desc" data-en="Identity architecture build" data-ar="بناء بنية الهوية">Identity architecture build</span></div>
+      <div class="rm-item"><span class="rm-phase">04</span><span class="rm-title" data-en="Platform Engineering" data-ar="هندسة المنصة">Platform Engineering</span><span class="rm-desc" data-en="Revenue system deployment" data-ar="نشر نظام الإيرادات">Revenue system deployment</span></div>
+      <div class="rm-item"><span class="rm-phase">05</span><span class="rm-title" data-en="Growth Engineering" data-ar="هندسة النمو">Growth Engineering</span><span class="rm-desc" data-en="Acquisition system activation" data-ar="تفعيل نظام الاستحواذ">Acquisition system activation</span></div>
+      <div class="rm-item"><span class="rm-phase">06</span><span class="rm-title" data-en="Operating System" data-ar="نظام التشغيل">Operating System</span><span class="rm-desc" data-en="Automation layer deployment" data-ar="نشر طبقة الأتمتة">Automation layer deployment</span></div>
+      <div class="rm-item"><span class="rm-phase">07</span><span class="rm-title" data-en="Scale Protocol" data-ar="بروتوكول التوسع">Scale Protocol</span><span class="rm-desc" data-en="Compound growth activation" data-ar="تفعيل النمو التراكمي">Compound growth activation</span></div>
+      <div class="rm-item"><span class="rm-phase">08</span><span class="rm-title" data-en="Infrastructure Dominance" data-ar="هيمنة البنية التحتية">Infrastructure Dominance</span><span class="rm-desc" data-en="Category leadership" data-ar="قيادة المجال">Category leadership</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ PACKAGES ════ -->
+<section class="packages" id="packages">
+  <div class="container">
+    <div class="section-head cx reveal">
+      <span class="kicker" data-en="Infrastructure Tiers" data-ar="مستويات البنية التحتية">Infrastructure Tiers</span>
+      <h2 class="display" data-en="Select your system tier" data-ar="اختر مستوى نظامك">Select your system tier</h2>
+    </div>
+    <div class="pkg-grid reveal">
+      <div class="pkg-card"><div class="pkg-name" data-en="Launch" data-ar="الإطلاق">Launch</div><p class="pkg-desc" data-en="Foundation infrastructure for new market entrants establishing digital presence." data-ar="بنية تحتية أساسية للداخلين الجدد للسوق الذين يؤسسون حضوراً رقمياً.">Foundation infrastructure for new market entrants establishing digital presence.</p><a href="#" data-whatsapp-link target="_blank" class="pkg-cta" data-en="Build My System" data-ar="ابنِ نظامي">Build My System</a></div>
+      <div class="pkg-card"><div class="pkg-name" data-en="Momentum" data-ar="الزخم">Momentum</div><p class="pkg-desc" data-en="Growth infrastructure for businesses ready to build consistent acquisition systems." data-ar="بنية تحتية للنمو لمن هم مستعدون لبناء أنظمة استحواذ متسقة.">Growth infrastructure for businesses ready to build consistent acquisition systems.</p><a href="#" data-whatsapp-link target="_blank" class="pkg-cta" data-en="Build My System" data-ar="ابنِ نظامي">Build My System</a></div>
+      <div class="pkg-card feat"><span class="pkg-tag" data-en="Recommended" data-ar="الأنسب">Recommended</span><div class="pkg-name" data-en="Authority" data-ar="الريادة">Authority</div><p class="pkg-desc" data-en="Full-stack growth infrastructure for brands engineering market leadership." data-ar="بنية تحتية للنمو متكاملة للعلامات التجارية التي تهندس قيادة السوق.">Full-stack growth infrastructure for brands engineering market leadership.</p><a href="#" data-whatsapp-link target="_blank" class="pkg-cta" data-en="Build My System" data-ar="ابنِ نظامي">Build My System</a></div>
+      <div class="pkg-card"><div class="pkg-name" data-en="Dominance" data-ar="الهيمنة">Dominance</div><p class="pkg-desc" data-en="Enterprise infrastructure for scaling across multiple channels simultaneously." data-ar="بنية تحتية مؤسسية للتوسع عبر قنوات متعددة في آن واحد.">Enterprise infrastructure for scaling across multiple channels simultaneously.</p><a href="#" data-whatsapp-link target="_blank" class="pkg-cta" data-en="Build My System" data-ar="ابنِ نظامي">Build My System</a></div>
+      <div class="pkg-card"><div class="pkg-name" data-en="Empire" data-ar="الإمبراطورية">Empire</div><p class="pkg-desc" data-en="Total operating system for category leaders demanding full infrastructure ownership." data-ar="نظام تشغيل كامل لقادة المجال الذين يطالبون بالملكية الكاملة للبنية التحتية.">Total operating system for category leaders demanding full infrastructure ownership.</p><a href="#" data-whatsapp-link target="_blank" class="pkg-cta" data-en="Build My System" data-ar="ابنِ نظامي">Build My System</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FREE AUDIT ════ -->
+<section class="audit" id="audit">
+  <div class="container">
+    <div class="audit-layout">
+      <div class="reveal-l">
+        <span class="kicker" data-en="System Diagnostic" data-ar="تشخيص النظام">System Diagnostic</span>
+        <h2 class="display" style="font-size:clamp(26px,3.5vw,42px);margin-bottom:18px;" data-en="Get your free infrastructure audit" data-ar="احصل على تدقيق بنيتك التحتية مجاناً">Get your free infrastructure audit</h2>
+        <p style="font-size:16px;color:var(--silver);line-height:1.8;" data-en="Our team will map your current digital architecture and identify every gap holding you back." data-ar="سيقوم فريقنا برسم بنيتك الرقمية الحالية وتحديد كل فجوة تعيقك.">Our team will map your current digital architecture and identify every gap holding you back.</p>
+        <ul>
+          <li data-en="Zero commitment required" data-ar="صفر التزام مطلوب">Zero commitment required</li>
+          <li data-en="Delivered within 48 hours" data-ar="يُسلَّم خلال 48 ساعة">Delivered within 48 hours</li>
+          <li data-en="Reviewed by a senior system architect" data-ar="يراجعه مهندس نظام أول">Reviewed by a senior system architect</li>
+          <li data-en="Includes growth potential score" data-ar="يتضمن نقاط إمكانات النمو">Includes growth potential score</li>
+        </ul>
+      </div>
+      <div class="audit-box reveal-r">
+        <div class="audit-prog" id="auditProg">
+          <div class="ap-seg"><span></span></div>
+          <div class="ap-seg"><span></span></div>
+          <div class="ap-seg"><span></span></div>
+        </div>
+        <div id="auditStep1" class="audit-step active">
+          <div class="f-row">
+            <div class="f-field"><label data-en="Full Name" data-ar="الاسم الكامل">Full Name</label><input type="text" id="aName" required></div>
+            <div class="f-field"><label data-en="Business Name" data-ar="اسم النشاط">Business Name</label><input type="text" id="aBiz" required></div>
+          </div>
+          <div class="f-row">
+            <div class="f-field"><label data-en="Industry" data-ar="القطاع">Industry</label><select id="aInd"><option data-en="Select industry" data-ar="اختر القطاع">Select industry</option><option>Healthcare</option><option>E-Commerce</option><option>Legal</option><option>Real Estate</option><option>Hospitality</option><option>Startup</option><option>Other</option></select></div>
+            <div class="f-field"><label data-en="Website (if any)" data-ar="الموقع (إن وجد)">Website (if any)</label><input type="text" id="aWeb"></div>
+          </div>
+          <button type="button" class="f-submit" id="auditNext1" data-en="Continue →" data-ar="متابعة ←">Continue →</button>
+        </div>
+        <div id="auditStep2" class="audit-step">
+          <div class="f-field"><label data-en="Current Monthly Revenue Range" data-ar="نطاق الإيرادات الشهرية الحالية">Current Monthly Revenue Range</label><select id="aRev"><option>Under $1,000</option><option>$1,000 – $5,000</option><option>$5,000 – $20,000</option><option>$20,000 – $100,000</option><option>$100,000+</option></select></div>
+          <div class="f-field"><label data-en="Biggest Growth Blocker" data-ar="أكبر عائق للنمو">Biggest Growth Blocker</label><textarea id="aChal" placeholder="Describe your current challenge..."></textarea></div>
+          <div class="f-field"><label data-en="What outcome do you need in 90 days?" data-ar="ما النتيجة التي تحتاجها في 90 يوماً؟">What outcome do you need in 90 days?</label><textarea id="aGoal" placeholder="Be specific..."></textarea></div>
+          <button type="button" class="f-submit" id="auditSubmit" data-en="Get My Infrastructure Audit" data-ar="احصل على تدقيق بنيتي">Get My Infrastructure Audit</button>
+        </div>
+        <div id="auditStep3" class="audit-step">
+          <div class="audit-result">
+            <div class="ar-score" id="arScore">87</div>
+            <div class="ar-label" data-en="Growth Potential Score" data-ar="نقاط إمكانات النمو">Growth Potential Score</div>
+            <p class="ar-msg" data-en="Your business shows strong growth signals. Our team will send your full infrastructure audit within 48 hours." data-ar="عملك يُظهر إشارات نمو قوية. سيرسل فريقنا تدقيق البنية التحتية الكامل خلال 48 ساعة.">Your business shows strong growth signals. Our team will send your full infrastructure audit within 48 hours.</p>
+            <a href="#" data-whatsapp-link target="_blank" class="btn-prim" data-en="Discuss My Audit" data-ar="ناقش تدقيقي">Discuss My Audit</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ BEFORE/AFTER ════ -->
+<section class="ba" id="before-after">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker" data-en="System Impact" data-ar="تأثير النظام">System Impact</span>
+      <h2 class="display" data-en="Before infrastructure. After infrastructure." data-ar="قبل البنية التحتية. بعد البنية التحتية.">Before infrastructure. After infrastructure.</h2>
+    </div>
+    <div class="ba-frame reveal" id="baFrame">
+      <div class="ba-side ba-before"><span class="ba-tag" data-en="Before" data-ar="قبل">Before</span><span class="ba-metric">12%</span><span class="ba-tag" data-en="Conversion Rate" data-ar="معدل التحويل">Conversion Rate</span></div>
+      <div class="ba-side ba-after" id="baAfter"><span class="ba-tag" data-en="After" data-ar="بعد">After</span><span class="ba-metric">68%</span><span class="ba-tag" data-en="Conversion Rate" data-ar="معدل التحويل">Conversion Rate</span></div>
+      <div class="ba-handle" id="baHandle"><div class="ba-btn">⇆</div></div>
+    </div>
+    <p class="ba-hint" data-en="Drag to compare" data-ar="اسحب للمقارنة">Drag to compare</p>
+  </div>
+</section>
+
+<!-- ════ PORTFOLIO ════ -->
+<section class="portfolio" id="portfolio">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker" data-en="System Portfolio" data-ar="محفظة الأنظمة">System Portfolio</span>
+      <h2 class="display" data-en="Infrastructure deployed" data-ar="بنية تحتية تم نشرها">Infrastructure deployed</h2>
+    </div>
+    <div class="pf-grid reveal">
+      <div class="pf-card" style="--pf-photo:url('assets/images/portfolio-lumora-skincare.jpg');"><div class="pf-info"><div class="pf-cat" data-en="Commerce System" data-ar="نظام التجارة">Commerce System</div><div class="pf-title" data-en="Lumora Skincare" data-ar="لومورا للعناية بالبشرة">Lumora Skincare</div></div></div>
+      <div class="pf-card" style="--pf-photo:url('assets/images/portfolio-vitalis-clinics.jpg');"><div class="pf-info"><div class="pf-cat" data-en="Healthcare OS" data-ar="نظام الرعاية الصحية">Healthcare OS</div><div class="pf-title" data-en="Vitalis Clinics" data-ar="عيادات فيتاليس">Vitalis Clinics</div></div></div>
+      <div class="pf-card" style="--pf-photo:url('assets/images/portfolio-olive-oak-restaurant.jpg');"><div class="pf-info"><div class="pf-cat" data-en="Hospitality System" data-ar="نظام الضيافة">Hospitality System</div><div class="pf-title" data-en="Olive & Oak" data-ar="أوليف آند أوك">Olive & Oak</div></div></div>
+      <div class="pf-card" style="--pf-photo:url('assets/images/portfolio-kerrigan-associates.jpg');"><div class="pf-info"><div class="pf-cat" data-en="Authority Platform" data-ar="منصة الريادة">Authority Platform</div><div class="pf-title" data-en="Kerrigan & Associates" data-ar="كيريجان وشركاه">Kerrigan & Associates</div></div></div>
+      <div class="pf-card" style="--pf-photo:url('assets/images/portfolio-meridian-properties.jpg');"><div class="pf-info"><div class="pf-cat" data-en="Revenue Platform" data-ar="منصة الإيرادات">Revenue Platform</div><div class="pf-title" data-en="Meridian Properties" data-ar="ميريديان العقارية">Meridian Properties</div></div></div>
+      <div class="pf-card" style="--pf-photo:url('assets/images/portfolio-northwind-saas.jpg');"><div class="pf-info"><div class="pf-cat" data-en="SaaS Infrastructure" data-ar="بنية SaaS">SaaS Infrastructure</div><div class="pf-title" data-en="Northwind" data-ar="نورثويند">Northwind</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ LOGO WALL ════ -->
+<section class="partners" id="partners">
+  <div class="container" style="padding-bottom:56px;"><div class="section-head cx reveal" style="margin-bottom:44px;"><span class="kicker" data-en="System Partners" data-ar="شركاء النظام">System Partners</span><h2 class="display" style="font-size:clamp(22px,3vw,34px);" data-en="Infrastructure trusted by growing businesses" data-ar="بنية تحتية موثوقة من أعمال نامية">Infrastructure trusted by growing businesses</h2></div></div>
+  <div class="logo-track" id="logoTrack">
+    <div class="logo-item"><span>VITALIS</span></div><div class="logo-item"><span>LUMORA</span></div><div class="logo-item"><span>MERIDIAN</span></div><div class="logo-item"><span>KERRIGAN</span></div><div class="logo-item"><span>NORTHWIND</span></div><div class="logo-item"><span>OLIVE&OAK</span></div><div class="logo-item"><span>ATLAS</span></div><div class="logo-item"><span>SUMMIT</span></div>
+    <div class="logo-item"><span>VITALIS</span></div><div class="logo-item"><span>LUMORA</span></div><div class="logo-item"><span>MERIDIAN</span></div><div class="logo-item"><span>KERRIGAN</span></div><div class="logo-item"><span>NORTHWIND</span></div><div class="logo-item"><span>OLIVE&OAK</span></div><div class="logo-item"><span>ATLAS</span></div><div class="logo-item"><span>SUMMIT</span></div>
+  </div>
+</section>
+
+<!-- ════ CASE STUDIES ════ -->
+<section class="cases" id="case-studies">
+  <div class="container">
+    <div class="section-head reveal"><span class="kicker" data-en="System Results" data-ar="نتائج النظام">System Results</span><h2 class="display" data-en="Measured outcomes, real infrastructure" data-ar="نتائج مقيسة، بنية تحتية حقيقية">Measured outcomes, real infrastructure</h2></div>
+    <div class="case-grid reveal">
+      <div class="case-card"><div class="case-ind" data-en="Healthcare OS" data-ar="نظام الرعاية الصحية">Healthcare OS</div><h3 data-en="Vitalis Clinics" data-ar="عيادات فيتاليس">Vitalis Clinics</h3><div class="case-stats"><div><div class="cs-num">+184%</div><div class="cs-lbl" data-en="System Bookings" data-ar="حجوزات النظام">System Bookings</div></div><div><div class="cs-num">3.2x</div><div class="cs-lbl" data-en="Traffic Signal" data-ar="إشارة الزيارات">Traffic Signal</div></div></div><p data-en="Full booking and automation infrastructure replaced manual scheduling across 4 branches — zero human intervention." data-ar="استبدلت بنية الحجز والأتمتة الكاملة الجدولة اليدوية عبر 4 فروع — صفر تدخل بشري.">Full booking and automation infrastructure replaced manual scheduling across 4 branches — zero human intervention.</p></div>
+      <div class="case-card"><div class="case-ind" data-en="Commerce System" data-ar="نظام التجارة">Commerce System</div><h3 data-en="Lumora Skincare" data-ar="لومورا للعناية بالبشرة">Lumora Skincare</h3><div class="case-stats"><div><div class="cs-num">+212%</div><div class="cs-lbl" data-en="Revenue Signal" data-ar="إشارة الإيرادات">Revenue Signal</div></div><div><div class="cs-num">68%</div><div class="cs-lbl" data-en="CVR" data-ar="معدل التحويل">CVR</div></div></div><p data-en="A rebuilt revenue platform and brand OS transformed a stalled store into a category benchmark." data-ar="منصة إيرادات معاد بناؤها ونظام تشغيل علامة تجارية حوّلا متجراً متوقفاً إلى معيار للمجال.">A rebuilt revenue platform and brand OS transformed a stalled store into a category benchmark.</p></div>
+      <div class="case-card"><div class="case-ind" data-en="Authority Platform" data-ar="منصة الريادة">Authority Platform</div><h3 data-en="Kerrigan & Associates" data-ar="كيريجان وشركاه">Kerrigan & Associates</h3><div class="case-stats"><div><div class="cs-num">+96%</div><div class="cs-lbl" data-en="Lead Signal" data-ar="إشارة العملاء">Lead Signal</div></div><div><div class="cs-num">5x</div><div class="cs-lbl" data-en="Authority Score" data-ar="نقاط الريادة">Authority Score</div></div></div><p data-en="A new digital infrastructure positioned the firm as the primary authority signal in its category." data-ar="بنية رقمية جديدة وضعت الشركة كإشارة الريادة الأولى في مجالها.">A new digital infrastructure positioned the firm as the primary authority signal in its category.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ TESTIMONIALS ════ -->
+<section class="testimonials" id="testimonials">
+  <div class="container" style="padding-bottom:56px;"><div class="section-head cx reveal" style="margin-bottom:44px;"><span class="kicker" data-en="System Operators" data-ar="مشغّلو النظام">System Operators</span><h2 class="display" data-en="From the people running the systems" data-ar="من أفواه من يشغّلون الأنظمة">From the people running the systems</h2></div></div>
+  <div class="test-wrap"><div class="test-track" id="testTrack">
+    <div class="test-card"><div class="test-stars">★★★★★</div><p class="test-quote" data-en="NEXORA didn't just build a website — they built the operating system our entire business now runs on." data-ar="نيكسورا لم تبنِ موقعاً فحسب — بل بنت نظام التشغيل الذي يعمل عليه عملنا بأكمله الآن.">NEXORA didn't just build a website — they built the operating system our entire business now runs on.</p><div class="test-auth"><div class="test-av"></div><div><div class="test-name" data-en="Dr. Amira Hassan" data-ar="د. أميرة حسن">Dr. Amira Hassan</div><div class="test-role" data-en="Founder, Vitalis Clinics" data-ar="مؤسسة، عيادات فيتاليس">Founder, Vitalis Clinics</div></div></div></div>
+    <div class="test-card"><div class="test-stars">★★★★★</div><p class="test-quote" data-en="Every milestone delivered on time. The intelligence dashboard alone changed how we allocate capital." data-ar="كل مرحلة سُلِّمت في الوقت المحدد. لوحة الذكاء وحدها غيّرت طريقة توزيعنا للرأس المال.">Every milestone delivered on time. The intelligence dashboard alone changed how we allocate capital.</p><div class="test-auth"><div class="test-av"></div><div><div class="test-name" data-en="Karim El-Sayed" data-ar="كريم السيد">Karim El-Sayed</div><div class="test-role" data-en="CEO, Lumora" data-ar="الرئيس التنفيذي، لومورا">CEO, Lumora</div></div></div></div>
+    <div class="test-card"><div class="test-stars">★★★★★</div><p class="test-quote" data-en="They operate less like an agency and more like a systems engineering partner embedded in our business." data-ar="يعملون أقل كوكالة وأكثر كشريك هندسة أنظمة متجذّر في عملنا.">They operate less like an agency and more like a systems engineering partner embedded in our business.</p><div class="test-auth"><div class="test-av"></div><div><div class="test-name" data-en="Laila Kerrigan" data-ar="ليلى كيريجان">Laila Kerrigan</div><div class="test-role" data-en="Partner, Kerrigan & Associates" data-ar="شريكة، كيريجان وشركاه">Partner, Kerrigan & Associates</div></div></div></div>
+    <div class="test-card"><div class="test-stars">★★★★★</div><p class="test-quote" data-en="NEXORA didn't just build a website — they built the operating system our entire business now runs on." data-ar="نيكسورا لم تبنِ موقعاً فحسب — بل بنت نظام التشغيل الذي يعمل عليه عملنا بأكمله الآن.">NEXORA didn't just build a website — they built the operating system our entire business now runs on.</p><div class="test-auth"><div class="test-av"></div><div><div class="test-name" data-en="Dr. Amira Hassan" data-ar="د. أميرة حسن">Dr. Amira Hassan</div><div class="test-role" data-en="Founder, Vitalis Clinics" data-ar="مؤسسة، عيادات فيتاليس">Founder, Vitalis Clinics</div></div></div></div>
+    <div class="test-card"><div class="test-stars">★★★★★</div><p class="test-quote" data-en="Every milestone delivered on time. The intelligence dashboard alone changed how we allocate capital." data-ar="كل مرحلة سُلِّمت في الوقت المحدد. لوحة الذكاء وحدها غيّرت طريقة توزيعنا للرأس المال.">Every milestone delivered on time. The intelligence dashboard alone changed how we allocate capital.</p><div class="test-auth"><div class="test-av"></div><div><div class="test-name" data-en="Karim El-Sayed" data-ar="كريم السيد">Karim El-Sayed</div><div class="test-role" data-en="CEO, Lumora" data-ar="الرئيس التنفيذي، لومورا">CEO, Lumora</div></div></div></div>
+  </div></div>
+</section>
+
+<!-- ════ BLOG ════ -->
+<section class="blog" id="blog">
+  <div class="container">
+    <div class="section-head reveal"><span class="kicker" data-en="Intelligence Hub" data-ar="مركز الذكاء">Intelligence Hub</span><h2 class="display" data-en="System thinking, published" data-ar="التفكير النظامي، منشوراً">System thinking, published</h2></div>
+    <div class="blog-grid reveal">
+      <div class="blog-card"><div class="blog-thumb" style="--bt-photo:url('assets/images/blog-growth-systems.jpg');"></div><div class="blog-body"><div class="blog-cat" data-en="Systems" data-ar="الأنظمة">Systems</div><h3 data-en="Why disconnected tools never compound" data-ar="لماذا الأدوات المنفصلة لا تتراكم أبداً">Why disconnected tools never compound</h3><p data-en="The architecture difference between a project collection and a growth system." data-ar="الفرق المعماري بين مجموعة مشاريع ونظام نمو.">The architecture difference between a project collection and a growth system.</p></div></div>
+      <div class="blog-card"><div class="blog-thumb" style="--bt-photo:url('assets/images/blog-branding-infrastructure.jpg');"></div><div class="blog-body"><div class="blog-cat" data-en="Brand OS" data-ar="نظام العلامة">Brand OS</div><h3 data-en="Brand is infrastructure, not decoration" data-ar="العلامة التجارية بنية تحتية، ليست ديكوراً">Brand is infrastructure, not decoration</h3><p data-en="How identity systems silently drive trust, conversion and capital allocation." data-ar="كيف تقود أنظمة الهوية بصمت الثقة والتحويل وتوزيع رأس المال.">How identity systems silently drive trust, conversion and capital allocation.</p></div></div>
+      <div class="blog-card"><div class="blog-thumb" style="--bt-photo:url('assets/images/blog-automation-followup.jpg');"></div><div class="blog-body"><div class="blog-cat" data-en="Automation" data-ar="الأتمتة">Automation</div><h3 data-en="The compounding cost of manual operations" data-ar="التكلفة المتراكمة للعمليات اليدوية">The compounding cost of manual operations</h3><p data-en="What businesses bleed daily without an operating system layer." data-ar="ما تخسره الأعمال يومياً بدون طبقة نظام تشغيل.">What businesses bleed daily without an operating system layer.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ TOOLS ════ -->
+<section class="tools" id="tools">
+  <div class="container">
+    <div class="section-head reveal"><span class="kicker" data-en="Technology Stack" data-ar="حزمة التقنية">Technology Stack</span><h2 class="display" data-en="100+ tools, one integrated stack" data-ar="أكثر من 100 أداة، حزمة متكاملة واحدة">100+ tools, one integrated stack</h2></div>
+    <div class="tools-filter reveal" id="toolsFilter">
+      <button class="active" data-filter="all" data-en="All" data-ar="الكل">All</button>
+      <button data-filter="design" data-en="Design" data-ar="التصميم">Design</button>
+      <button data-filter="dev" data-en="Dev" data-ar="التطوير">Dev</button>
+      <button data-filter="ai" data-en="AI" data-ar="الذكاء الاصطناعي">AI</button>
+      <button data-filter="marketing" data-en="Growth" data-ar="النمو">Growth</button>
+      <button data-filter="analytics" data-en="Intelligence" data-ar="الذكاء">Intelligence</button>
+    </div>
+    <div class="tools-grid reveal" id="toolsGrid">
+      <div class="tool-chip" data-cat="design">Figma<span class="tc-cat" data-en="Design" data-ar="التصميم">Design</span></div>
+      <div class="tool-chip" data-cat="design">Framer<span class="tc-cat" data-en="Design" data-ar="التصميم">Design</span></div>
+      <div class="tool-chip" data-cat="dev">React<span class="tc-cat" data-en="Dev" data-ar="التطوير">Dev</span></div>
+      <div class="tool-chip" data-cat="dev">Next.js<span class="tc-cat" data-en="Dev" data-ar="التطوير">Dev</span></div>
+      <div class="tool-chip" data-cat="ai">Claude AI<span class="tc-cat" data-en="AI" data-ar="الذكاء الاصطناعي">AI</span></div>
+      <div class="tool-chip" data-cat="ai">Midjourney<span class="tc-cat" data-en="AI" data-ar="الذكاء الاصطناعي">AI</span></div>
+      <div class="tool-chip" data-cat="marketing">Meta Ads<span class="tc-cat" data-en="Growth" data-ar="النمو">Growth</span></div>
+      <div class="tool-chip" data-cat="marketing">Mailchimp<span class="tc-cat" data-en="Growth" data-ar="النمو">Growth</span></div>
+      <div class="tool-chip" data-cat="analytics">GA4<span class="tc-cat" data-en="Intelligence" data-ar="الذكاء">Intelligence</span></div>
+      <div class="tool-chip" data-cat="analytics">Hotjar<span class="tc-cat" data-en="Intelligence" data-ar="الذكاء">Intelligence</span></div>
+      <div class="tool-chip" data-cat="dev">Webflow<span class="tc-cat" data-en="Dev" data-ar="التطوير">Dev</span></div>
+      <div class="tool-chip" data-cat="ai">Make.com<span class="tc-cat" data-en="AI" data-ar="الذكاء الاصطناعي">AI</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ ASSESSMENT ════ -->
+<section class="assessment" id="assessment">
+  <div class="container">
+    <div class="section-head cx reveal"><span class="kicker" data-en="System Diagnostic" data-ar="تشخيص النظام">System Diagnostic</span><h2 class="display" data-en="Identify your growth stage" data-ar="حدد مرحلة نموك">Identify your growth stage</h2></div>
+    <div class="quiz-box reveal" id="quizBox">
+      <div class="quiz-prog" id="quizProg"><div class="qp-s"><span></span></div><div class="qp-s"><span></span></div><div class="qp-s"><span></span></div><div class="qp-s"><span></span></div><div class="qp-s"><span></span></div></div>
+      <div class="quiz-step active" data-step="0"><div class="q-n" data-en="Diagnostic 1 / 5" data-ar="تشخيص 1 / 5">Diagnostic 1 / 5</div><div class="q-t" data-en="Do you have an active web platform?" data-ar="هل لديك منصة ويب نشطة؟">Do you have an active web platform?</div><div class="q-opts"><button class="q-opt" data-value="0" data-en="No — starting from zero" data-ar="لا — نبدأ من الصفر">No — starting from zero</button><button class="q-opt" data-value="1" data-en="Yes — but underperforming" data-ar="نعم — لكنه يؤدي بشكل ضعيف">Yes — but underperforming</button><button class="q-opt" data-value="2" data-en="Yes — performing well" data-ar="نعم — يؤدي بشكل جيد">Yes — performing well</button></div></div>
+      <div class="quiz-step" data-step="1"><div class="q-n" data-en="Diagnostic 2 / 5" data-ar="تشخيص 2 / 5">Diagnostic 2 / 5</div><div class="q-t" data-en="How would you rate your brand system?" data-ar="كيف تقيّم نظام علامتك التجارية؟">How would you rate your brand system?</div><div class="q-opts"><button class="q-opt" data-value="0" data-en="No formal brand system" data-ar="لا نظام علامة رسمي">No formal brand system</button><button class="q-opt" data-value="1" data-en="Basic — needs re-engineering" data-ar="أساسي — يحتاج إعادة هندسة">Basic — needs re-engineering</button><button class="q-opt" data-value="2" data-en="Strong — consistent across all channels" data-ar="قوي — متسق عبر جميع القنوات">Strong — consistent across all channels</button></div></div>
+      <div class="quiz-step" data-step="2"><div class="q-n" data-en="Diagnostic 3 / 5" data-ar="تشخيص 3 / 5">Diagnostic 3 / 5</div><div class="q-t" data-en="How are you currently acquiring clients?" data-ar="كيف تكتسب العملاء حالياً؟">How are you currently acquiring clients?</div><div class="q-opts"><button class="q-opt" data-value="0" data-en="Word of mouth only" data-ar="التوصيات الشفهية فقط">Word of mouth only</button><button class="q-opt" data-value="1" data-en="Some paid — inconsistent results" data-ar="بعض الإعلانات المدفوعة — نتائج غير متسقة">Some paid — inconsistent results</button><button class="q-opt" data-value="2" data-en="Systematic acquisition channel" data-ar="قناة استحواذ منهجية">Systematic acquisition channel</button></div></div>
+      <div class="quiz-step" data-step="3"><div class="q-n" data-en="Diagnostic 4 / 5" data-ar="تشخيص 4 / 5">Diagnostic 4 / 5</div><div class="q-t" data-en="What percentage of your ops are automated?" data-ar="ما نسبة عملياتك التي تمت أتمتتها؟">What percentage of your ops are automated?</div><div class="q-opts"><button class="q-opt" data-value="0" data-en="Under 10% — mostly manual" data-ar="أقل من 10% — معظمها يدوي">Under 10% — mostly manual</button><button class="q-opt" data-value="1" data-en="20–50% — some tools in place" data-ar="20–50% — بعض الأدوات موجودة">20–50% — some tools in place</button><button class="q-opt" data-value="2" data-en="60%+ — systems running autonomously" data-ar="60%+ — أنظمة تعمل باستقلالية">60%+ — systems running autonomously</button></div></div>
+      <div class="quiz-step" data-step="4"><div class="q-n" data-en="Diagnostic 5 / 5" data-ar="تشخيص 5 / 5">Diagnostic 5 / 5</div><div class="q-t" data-en="Primary objective for next 6 months?" data-ar="الهدف الأساسي للأشهر الستة القادمة؟">Primary objective for next 6 months?</div><div class="q-opts"><button class="q-opt" data-value="0" data-en="Establish digital infrastructure" data-ar="إنشاء بنية تحتية رقمية">Establish digital infrastructure</button><button class="q-opt" data-value="1" data-en="Scale acquisition systems" data-ar="توسيع أنظمة الاستحواذ">Scale acquisition systems</button><button class="q-opt" data-value="2" data-en="Dominate category" data-ar="السيطرة على المجال">Dominate category</button></div></div>
+      <div class="quiz-step" data-step="5"><div class="qr"><div class="qr-lbl" data-en="Recommended Infrastructure Tier" data-ar="مستوى البنية التحتية الموصى به">Recommended Infrastructure Tier</div><div class="qr-pkg" id="qrPkg">Authority</div><p class="qr-desc" id="qrDesc">Your system diagnostic indicates strong growth potential.</p><a href="#" data-whatsapp-link target="_blank" class="btn-prim" data-en="Discuss My Infrastructure" data-ar="ناقش بنيتي التحتية">Discuss My Infrastructure</a><div><span class="qr-restart" id="qrRestart" data-en="Run diagnostic again" data-ar="أعد التشخيص">Run diagnostic again</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ ROI ════ -->
+<section class="roi" id="roi-calculator">
+  <div class="container">
+    <div class="roi-layout">
+      <div class="reveal-l">
+        <span class="kicker" data-en="Revenue Projection" data-ar="توقعات الإيرادات">Revenue Projection</span>
+        <h2 class="display" style="font-size:clamp(26px,3.5vw,42px);margin-bottom:20px;" data-en="Model your revenue potential" data-ar="نمذج إمكانات إيراداتك">Model your revenue potential</h2>
+        <div class="roi-field"><label><span data-en="Monthly Visitors" data-ar="الزوار الشهريون">Monthly Visitors</span><span class="roi-val" id="rVisV">2,000</span></label><input type="range" id="rVis" min="200" max="20000" step="200" value="2000"></div>
+        <div class="roi-field"><label><span data-en="Current CVR" data-ar="معدل التحويل الحالي">Current CVR</span><span class="roi-val" id="rConV">2%</span></label><input type="range" id="rCon" min="0.5" max="10" step="0.5" value="2"></div>
+        <div class="roi-field"><label><span data-en="Average Order Value" data-ar="متوسط قيمة الطلب">Average Order Value</span><span class="roi-val" id="rAovV">$50</span></label><input type="range" id="rAov" min="10" max="500" step="10" value="50"></div>
+      </div>
+      <div class="roi-panel reveal-r">
+        <div class="roi-lbl" data-en="Estimated Monthly Lift" data-ar="الارتفاع الشهري المقدر">Estimated Monthly Lift</div>
+        <div class="roi-n" id="roiRes">$1,000</div>
+        <div class="roi-sub" data-en="With 3× CVR improvement via revenue platform" data-ar="مع تحسين 3× في CVR عبر منصة الإيرادات">With 3× CVR improvement via revenue platform</div>
+        <div class="roi-break">
+          <div><div class="rb-n" id="roiCur">$2,000</div><div class="rb-l" data-en="Current Revenue" data-ar="الإيرادات الحالية">Current Revenue</div></div>
+          <div><div class="rb-n" id="roiProj">$3,000</div><div class="rb-l" data-en="Projected Revenue" data-ar="الإيرادات المتوقعة">Projected Revenue</div></div>
+        </div>
+        <div class="roi-disc" data-en="Illustrative projection — not a guarantee." data-ar="توقع توضيحي — ليس ضماناً.">Illustrative projection — not a guarantee.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ VALUES ════ -->
+<section class="values" id="values">
+  <div class="container">
+    <div class="section-head reveal"><span class="kicker" data-en="Operating Principles" data-ar="مبادئ التشغيل">Operating Principles</span><h2 class="display" data-en="The protocol behind every system" data-ar="البروتوكول وراء كل نظام">The protocol behind every system</h2></div>
+    <div class="val-grid reveal">
+      <div class="val-card"><span class="val-mk">01</span><h3 data-en="Trust Protocol" data-ar="بروتوكول الثقة">Trust Protocol</h3><p data-en="Every recommendation is engineered around your outcome, not our convenience." data-ar="كل توصية مهندسة حول نتيجتك، لا حول راحتنا.">Every recommendation is engineered around your outcome, not our convenience.</p></div>
+      <div class="val-card"><span class="val-mk">02</span><h3 data-en="Transparency Layer" data-ar="طبقة الشفافية">Transparency Layer</h3><p data-en="Clear scope, explicit timelines, no scope drift, no hidden costs." data-ar="نطاق واضح، جداول زمنية صريحة، لا انجراف في النطاق، لا تكاليف خفية.">Clear scope, explicit timelines, no scope drift, no hidden costs.</p></div>
+      <div class="val-card"><span class="val-mk">03</span><h3 data-en="Quality Standard" data-ar="معيار الجودة">Quality Standard</h3><p data-en="Nothing ships until it passes senior architectural review." data-ar="لا شيء يُنشر حتى يجتاز مراجعة معمارية رفيعة المستوى.">Nothing ships until it passes senior architectural review.</p></div>
+      <div class="val-card"><span class="val-mk">04</span><h3 data-en="Outcome Ownership" data-ar="ملكية النتيجة">Outcome Ownership</h3><p data-en="We are accountable for system performance — not just delivery." data-ar="نحن مسؤولون عن أداء النظام — ليس فقط التسليم.">We are accountable for system performance — not just delivery.</p></div>
+      <div class="val-card"><span class="val-mk">05</span><h3 data-en="Forward Engineering" data-ar="الهندسة للأمام">Forward Engineering</h3><p data-en="We deploy what works in 2025, not what worked in 2020." data-ar="ننشر ما يعمل في 2025، لا ما عمل في 2020.">We deploy what works in 2025, not what worked in 2020.</p></div>
+      <div class="val-card"><span class="val-mk">06</span><h3 data-en="Continuous Iteration" data-ar="التكرار المستمر">Continuous Iteration</h3><p data-en="Every system is monitored, measured and refined post-deployment." data-ar="كل نظام مراقب ومقيس ومحسَّن بعد النشر.">Every system is monitored, measured and refined post-deployment.</p></div>
+      <div class="val-card"><span class="val-mk">07</span><h3 data-en="Precision Culture" data-ar="ثقافة الدقة">Precision Culture</h3><p data-en="The quality of a system lives in its most granular decisions." data-ar="جودة النظام تعيش في قراراته الأكثر دقة.">The quality of a system lives in its most granular decisions.</p></div>
+      <div class="val-card"><span class="val-mk">08</span><h3 data-en="Long Contracts" data-ar="عقود طويلة">Long Contracts</h3><p data-en="We measure partnership success by system longevity, not project count." data-ar="نقيس نجاح الشراكة بطول عمر النظام، لا بعدد المشاريع.">We measure partnership success by system longevity, not project count.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ ABOUT ════ -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="section-head reveal"><span class="kicker" data-en="About NEXORA" data-ar="عن نيكسورا">About NEXORA</span><h2 class="display" data-en="A systems engineering firm, not an agency" data-ar="شركة هندسة أنظمة، ليست وكالة">A systems engineering firm, not an agency</h2></div>
+    <div class="about-grid reveal">
+      <div class="about-block"><h3 data-en="Mission" data-ar="المهمة">Mission</h3><p data-en="Replace fragmented digital spending with one unified infrastructure every business can operate from — and compound from." data-ar="استبدال الإنفاق الرقمي المجزأ ببنية تحتية موحدة واحدة يمكن لكل عمل تشغيلها — والتراكم منها.">Replace fragmented digital spending with one unified infrastructure every business can operate from — and compound from.</p></div>
+      <div class="about-block"><h3 data-en="Vision" data-ar="الرؤية">Vision</h3><p data-en="A future where every business — regardless of size — has access to the same digital operating infrastructure as a Fortune 500 company." data-ar="مستقبل يتمتع فيه كل عمل — بغض النظر عن حجمه — بإمكانية الوصول إلى نفس البنية التحتية التشغيلية الرقمية كشركة Fortune 500.">A future where every business — regardless of size — has access to the same digital operating infrastructure as a Fortune 500 company.</p></div>
+      <div class="about-block"><h3 data-en="NEXORA OS" data-ar="نيكسورا OS">NEXORA OS</h3><p data-en="We are building NEXORA OS — a unified operating layer that lets any business manage its entire digital presence, growth systems and client infrastructure from a single command center." data-ar="نبني NEXORA OS — طبقة تشغيل موحدة تتيح لأي عمل إدارة حضوره الرقمي الكامل وأنظمة النمو والبنية التحتية للعملاء من مركز قيادة واحد.">We are building NEXORA OS — a unified operating layer that lets any business manage its entire digital presence, growth systems and client infrastructure from a single command center.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FAQ ════ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-head cx reveal"><span class="kicker" data-en="System FAQ" data-ar="الأسئلة الشائعة">System FAQ</span><h2 class="display" data-en="Architecture questions, answered" data-ar="أسئلة البنية، تمت إجابتها">Architecture questions, answered</h2></div>
+    <div class="faq-list reveal" id="faqList">
+      <div class="faq-item"><button class="faq-q" aria-expanded="false" aria-controls="fa1"><span data-en="How long does a typical system deployment take?" data-ar="كم يستغرق نشر النظام النموذجي؟">How long does a typical system deployment take?</span><span class="faq-ico" aria-hidden="true">+</span></button><div class="faq-a" id="fa1"><div class="faq-body" data-en="Initial platforms deploy within 24–48 hours. Full system architectures typically complete within 2–4 weeks depending on scope and integration complexity." data-ar="تُنشر المنصات الأولية خلال 24-48 ساعة. تكتمل بنى النظام الكاملة عادةً خلال 2-4 أسابيع اعتماداً على النطاق وتعقيد التكامل.">Initial platforms deploy within 24–48 hours. Full system architectures typically complete within 2–4 weeks depending on scope and integration complexity.</div></div></div>
+      <div class="faq-item"><button class="faq-q" aria-expanded="false" aria-controls="fa2"><span data-en="Do you operate with businesses outside Egypt?" data-ar="هل تتعامل مع أعمال خارج مصر؟">Do you operate with businesses outside Egypt?</span><span class="faq-ico" aria-hidden="true">+</span></button><div class="faq-a" id="fa2"><div class="faq-body" data-en="Yes. NEXORA operates with businesses across the MENA region, fully remote, maintaining identical engineering standards regardless of location." data-ar="نعم. تتعامل نيكسورا مع أعمال عبر منطقة الشرق الأوسط وشمال أفريقيا، عن بُعد تماماً، مع الحفاظ على معايير هندسية متطابقة بغض النظر عن الموقع.">Yes. NEXORA operates with businesses across the MENA region, fully remote, maintaining identical engineering standards regardless of location.</div></div></div>
+      <div class="faq-item"><button class="faq-q" aria-expanded="false" aria-controls="fa3"><span data-en="What happens post-deployment?" data-ar="ماذا يحدث بعد النشر؟">What happens post-deployment?</span><span class="faq-ico" aria-hidden="true">+</span></button><div class="faq-a" id="fa3"><div class="faq-body" data-en="Every system tier includes continuous monitoring, performance instrumentation and iteration cycles. The system evolves — it doesn't freeze at launch." data-ar="يتضمن كل مستوى من مستويات النظام مراقبة مستمرة وقياس الأداء ودورات تكرار. النظام يتطور — لا يتجمد عند الإطلاق.">Every system tier includes continuous monitoring, performance instrumentation and iteration cycles. The system evolves — it doesn't freeze at launch.</div></div></div>
+      <div class="faq-item"><button class="faq-q" aria-expanded="false" aria-controls="fa4"><span data-en="Can I start with a single system component?" data-ar="هل يمكنني البدء بمكون نظام واحد؟">Can I start with a single system component?</span><span class="faq-ico" aria-hidden="true">+</span></button><div class="faq-a" id="fa4"><div class="faq-body" data-en="Yes. Every component is architected to plug into the full infrastructure stack — the value compounds as you integrate more of the system." data-ar="نعم. كل مكون مهندس للتوصل بحزمة البنية التحتية الكاملة — تتراكم القيمة كلما دمجت المزيد من النظام.">Yes. Every component is architected to plug into the full infrastructure stack — the value compounds as you integrate more of the system.</div></div></div>
+      <div class="faq-item"><button class="faq-q" aria-expanded="false" aria-controls="fa5"><span data-en="How is payment structured?" data-ar="كيف يتم هيكلة الدفع؟">How is payment structured?</span><span class="faq-ico" aria-hidden="true">+</span></button><div class="faq-a" id="fa5"><div class="faq-body" data-en="Infrastructure tiers are billed in milestone tranches tied to deployment gates — never the full amount upfront." data-ar="تُفوتر مستويات البنية التحتية على شرائح مرتبطة ببوابات النشر — ليس المبلغ الكامل مقدماً أبداً.">Infrastructure tiers are billed in milestone tranches tied to deployment gates — never the full amount upfront.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ GUARANTEE ════ -->
+<section class="guarantee" id="guarantee">
+  <div class="container">
+    <div class="guar-badge reveal">✓</div>
+    <h2 class="display reveal" data-en="The NEXORA Performance Guarantee" data-ar="ضمان أداء نيكسورا">The NEXORA Performance Guarantee</h2>
+    <p class="lead reveal" data-en="If any system we engineer fails to perform to specification, we continue iterating at zero additional cost until it does." data-ar="إذا فشل أي نظام نهندسه في الأداء وفق المواصفات، نواصل التكرار بصفر تكلفة إضافية حتى يحقق ذلك.">If any system we engineer fails to perform to specification, we continue iterating at zero additional cost until it does.</p>
+    <div class="guar-grid reveal">
+      <div class="guar-item"><div class="guar-n" data-en="48h" data-ar="48 ساعة">48h</div><div class="guar-l" data-en="Maximum response SLA on any issue" data-ar="الحد الأقصى لاتفاقية مستوى الاستجابة لأي مشكلة">Maximum response SLA on any issue</div></div>
+      <div class="guar-item"><div class="guar-n">0</div><div class="guar-l" data-en="Hidden costs. Ever." data-ar="تكاليف خفية. أبداً.">Hidden costs. Ever.</div></div>
+      <div class="guar-item"><div class="guar-n">∞</div><div class="guar-l" data-en="Iteration cycles until system performs to spec" data-ar="دورات تكرار حتى يؤدي النظام وفق المواصفات">Iteration cycles until system performs to spec</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FINAL CTA ════ -->
+<section class="final-cta" id="contact">
+  <div class="container">
+    <h2 class="display reveal" data-en='Your business deserves <span class="accent">infrastructure,</span> not just a service.' data-ar='عملك يستحق <span class="accent">بنية تحتية،</span> ليس مجرد خدمة.'>Your business deserves <span class="accent">infrastructure,</span> not just a service.</h2>
+    <p class="reveal" data-en="Let's engineer the system that compounds your growth, removes manual friction and gives you the operating clarity of a global technology company." data-ar="دعنا نهندس النظام الذي يراكم نموك، ويزيل الاحتكاك اليدوي، ويمنحك الوضوح التشغيلي لشركة تقنية عالمية.">Let's engineer the system that compounds your growth, removes manual friction and gives you the operating clarity of a global technology company.</p>
+    <a href="#" data-whatsapp-link target="_blank" class="btn-prim mag reveal" data-en="Start Building My Infrastructure" data-ar="ابدأ بناء بنيتي التحتية">Start Building My Infrastructure</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot-logo" style="font-family:'Inter',sans-serif;font-weight:900;font-size:17px;letter-spacing:0.12em;display:inline-flex;align-items:baseline;">NE<span style="color:var(--gold);font-style:italic;font-size:19px;transform:skewX(-9deg);display:inline-block;margin:0 1px;">X</span>ORA</div>
+    <div data-en="© 2026 NEXORA. All rights reserved." data-ar="© 2026 نيكسورا. جميع الحقوق محفوظة.">© 2026 NEXORA. All rights reserved.</div>
+  </div>
+</footer>
+<script>
+/* ════════════════════════════════════════════════════════════
+   CONSTANTS & INIT
+════════════════════════════════════════════════════════════ */
+const WHATSAPP = '201000025168';
+const RMO = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+document.querySelectorAll('[data-whatsapp-link]').forEach(el => el.href = `https://wa.me/${WHATSAPP}`);
+
+/* ════════════════════════════════════════════════════════════
+   LOADER
+════════════════════════════════════════════════════════════ */
+const loader = document.getElementById('loader');
+window.addEventListener('load', () => setTimeout(() => loader.classList.add('out'), 1800));
+
+/* ════════════════════════════════════════════════════════════
+   CURSOR
+════════════════════════════════════════════════════════════ */
+const curDot = document.getElementById('curDot');
+const curRing = document.getElementById('curRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => {
+  mx=e.clientX; my=e.clientY;
+  curDot.style.left=mx+'px'; curDot.style.top=my+'px';
+});
+if(!RMO)(function rAF(){
+  rx+=(mx-rx)*.1; ry+=(my-ry)*.1;
+  curRing.style.left=rx+'px'; curRing.style.top=ry+'px';
+  requestAnimationFrame(rAF);
+})();
+document.querySelectorAll('a,button,.bc,.pf-card,.case-card,.blog-card,.pkg-card,.proc-step,.arch-row').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('c-hover'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('c-hover'));
+});
+/* Magnetic effect */
+document.querySelectorAll('.mag').forEach(el=>{
+  el.addEventListener('mousemove',e=>{
+    const r=el.getBoundingClientRect();
+    const cx=r.left+r.width/2, cy=r.top+r.height/2;
+    const dx=(e.clientX-cx)*.18, dy=(e.clientY-cy)*.18;
+    el.style.transform=`translate(${dx}px,${dy}px)`;
+    document.body.classList.add('c-mag');
+  });
+  el.addEventListener('mouseleave',()=>{
+    el.style.transform=''; document.body.classList.remove('c-mag');
+  });
+});
+document.addEventListener('mousedown',()=>document.body.classList.add('c-click'));
+document.addEventListener('mouseup',()=>document.body.classList.remove('c-click'));
+
+/* ════════════════════════════════════════════════════════════
+   PROGRESS BAR
+════════════════════════════════════════════════════════════ */
+const progressBar = document.getElementById('progress');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  const pct=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;
+  progressBar.style.width=pct+'%';
+},{passive:true});
+
+/* ════════════════════════════════════════════════════════════
+   HEADER
+════════════════════════════════════════════════════════════ */
+const header=document.getElementById('header');
+window.addEventListener('scroll',()=>header.classList.toggle('scrolled',window.scrollY>60),{passive:true});
+
+/* ════════════════════════════════════════════════════════════
+   MOBILE MENU
+════════════════════════════════════════════════════════════ */
+const navTog=document.getElementById('navTog');
+const mobMenu=document.getElementById('mobMenu');
+navTog.addEventListener('click',()=>{
+  const open=navTog.getAttribute('aria-expanded')==='true';
+  navTog.setAttribute('aria-expanded',String(!open));
+  mobMenu.classList.toggle('open',!open);
+  document.body.classList.toggle('menu-open',!open);
+});
+mobMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+  navTog.setAttribute('aria-expanded','false');
+  mobMenu.classList.remove('open');
+  document.body.classList.remove('menu-open');
+}));
+
+/* ════════════════════════════════════════════════════════════
+   REVEAL ON SCROLL
+════════════════════════════════════════════════════════════ */
+const revEls=document.querySelectorAll('.reveal,.reveal-l,.reveal-r');
+const revIO=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-v');revIO.unobserve(e.target);}});
+},{threshold:.1});
+revEls.forEach(el=>revIO.observe(el));
+
+/* ════════════════════════════════════════════════════════════
+   STAT COUNTERS (hero metrics + stats section)
+════════════════════════════════════════════════════════════ */
+const statEls=document.querySelectorAll('.stat-num,.hm-num');
+const statIO=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const el=e.target;
+    const target=parseInt(el.dataset.count,10);
+    const pre=el.dataset.prefix||'', suf=el.dataset.suffix||'';
+    if(RMO){el.textContent=pre+target+suf;statIO.unobserve(el);return;}
+    const dur=1600, t0=performance.now();
+    const tick=now=>{
+      const p=Math.min((now-t0)/dur,1);
+      const v=1-Math.pow(1-p,3);
+      el.textContent=pre+Math.floor(v*target)+suf;
+      if(p<1)requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+    statIO.unobserve(el);
+  });
+},{threshold:.2});
+statEls.forEach(el=>statIO.observe(el));
+
+/* ════════════════════════════════════════════════════════════
+   BACKGROUND ENVIRONMENT — neural network
+════════════════════════════════════════════════════════════ */
+const envC=document.getElementById('envCanvas');
+if(envC){
+  const ec=envC.getContext('2d');
+  let ew,eh,enodes=[];
+  const EN=60, EDIST=160;
+  function eResize(){ew=envC.width=envC.offsetWidth;eh=envC.height=envC.offsetHeight;}
+  function eInit(){enodes=Array.from({length:EN},()=>({x:Math.random()*ew,y:Math.random()*eh,vx:(Math.random()-.5)*.12,vy:(Math.random()-.5)*.12}));}
+  function eDraw(){
+    ec.clearRect(0,0,ew,eh);
+    enodes.forEach(n=>{n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>ew)n.vx*=-1;if(n.y<0||n.y>eh)n.vy*=-1;});
+    for(let i=0;i<enodes.length;i++)for(let j=i+1;j<enodes.length;j++){
+      const a=enodes[i],b=enodes[j];
+      const dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<EDIST){ec.strokeStyle=`rgba(214,195,165,${(1-d/EDIST)*.1})`;ec.lineWidth=1;ec.beginPath();ec.moveTo(a.x,a.y);ec.lineTo(b.x,b.y);ec.stroke();}
+    }
+    enodes.forEach(n=>{ec.fillStyle='rgba(214,195,165,0.35)';ec.beginPath();ec.arc(n.x,n.y,1.2,0,Math.PI*2);ec.fill();});
+    if(!RMO)requestAnimationFrame(eDraw);
+  }
+  window.addEventListener('resize',()=>{eResize();eInit();},{passive:true});
+  eResize();eInit();eDraw();
+}
+
+/* ════════════════════════════════════════════════════════════
+   HERO CANVAS — depth particles with parallax
+════════════════════════════════════════════════════════════ */
+const heroC=document.getElementById('heroCanvas');
+if(heroC){
+  const hc=heroC.getContext('2d');
+  let hw,hh,hparts=[],hmx=0,hmy=0;
+  const HN=80;
+  function hResize(){hw=heroC.width=heroC.offsetWidth;hh=heroC.height=heroC.offsetHeight;}
+  function hInit(){
+    hparts=Array.from({length:HN},()=>({
+      x:Math.random()*hw, y:Math.random()*hh,
+      r:Math.random()*1.8+.4,
+      vx:(Math.random()-.5)*.3, vy:(Math.random()-.5)*.3,
+      op:Math.random()*.5+.15,
+      depth:Math.random()*.8+.2
+    }));
+  }
+  document.addEventListener('mousemove',e=>{hmx=(e.clientX/window.innerWidth-.5)*2;hmy=(e.clientY/window.innerHeight-.5)*2;});
+  function hDraw(){
+    hc.clearRect(0,0,hw,hh);
+    hparts.forEach(p=>{
+      p.x+=p.vx+(hmx*p.depth*.8);
+      p.y+=p.vy+(hmy*p.depth*.8);
+      if(p.x<0)p.x=hw;if(p.x>hw)p.x=0;
+      if(p.y<0)p.y=hh;if(p.y>hh)p.y=0;
+      hc.fillStyle=`rgba(214,195,165,${p.op})`;
+      hc.beginPath();hc.arc(p.x,p.y,p.r,0,Math.PI*2);hc.fill();
+    });
+    if(!RMO)requestAnimationFrame(hDraw);
+  }
+  window.addEventListener('resize',()=>{hResize();hInit();},{passive:true});
+  hResize();hInit();hDraw();
+}
+
+/* ════════════════════════════════════════════════════════════
+   PROGRESS BAR & WHY BARS
+════════════════════════════════════════════════════════════ */
+const wBars=document.querySelectorAll('.wbr-fill');
+const wBarIO=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.style.width=e.target.dataset.width+'%';wBarIO.unobserve(e.target);}});
+},{threshold:.35});
+wBars.forEach(b=>wBarIO.observe(b));
+
+/* ════════════════════════════════════════════════════════════
+   DASHBOARD CHART
+════════════════════════════════════════════════════════════ */
+function drawDash(){
+  const c=document.getElementById('dashChart');if(!c)return;
+  const dc=c.getContext('2d');
+  const cw=c.width,ch=c.height,pad=18;
+  dc.clearRect(0,0,cw,ch);
+  const pts=[14,20,18,30,28,40,36,52,48,62,58,80];
+  const mx2=100,sx=(cw-pad*2)/(pts.length-1);
+  // grid lines
+  dc.strokeStyle='rgba(247,244,239,0.045)';dc.lineWidth=1;
+  for(let i=0;i<=4;i++){const y=pad+((ch-pad*2)/4)*i;dc.beginPath();dc.moveTo(pad,y);dc.lineTo(cw-pad,y);dc.stroke();}
+  // area
+  const g=dc.createLinearGradient(0,0,0,ch);
+  g.addColorStop(0,'rgba(214,195,165,0.22)');g.addColorStop(1,'rgba(214,195,165,0)');
+  dc.beginPath();
+  pts.forEach((p,i)=>{const x=pad+i*sx,y=ch-pad-(p/mx2)*(ch-pad*2);i===0?dc.moveTo(x,y):dc.lineTo(x,y);});
+  dc.lineTo(cw-pad,ch-pad);dc.lineTo(pad,ch-pad);dc.closePath();
+  dc.fillStyle=g;dc.fill();
+  // line
+  dc.beginPath();
+  pts.forEach((p,i)=>{const x=pad+i*sx,y=ch-pad-(p/mx2)*(ch-pad*2);i===0?dc.moveTo(x,y):dc.lineTo(x,y);});
+  dc.strokeStyle='#D6C3A5';dc.lineWidth=1.8;dc.stroke();
+  // last point
+  const lx=pad+(pts.length-1)*sx,ly=ch-pad-(pts[pts.length-1]/mx2)*(ch-pad*2);
+  dc.beginPath();dc.arc(lx,ly,4,0,Math.PI*2);dc.fillStyle='#D6C3A5';dc.fill();
+  dc.beginPath();dc.arc(lx,ly,9,0,Math.PI*2);dc.strokeStyle='rgba(214,195,165,0.28)';dc.lineWidth=1.5;dc.stroke();
+}
+const dashEl=document.getElementById('dashChart');
+if(dashEl){
+  const dIO=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){drawDash();dIO.unobserve(e.target);}});},{threshold:.3});
+  dIO.observe(dashEl);
+}
+window.addEventListener('resize',drawDash,{passive:true});
+
+/* ════════════════════════════════════════════════════════════
+   BEFORE / AFTER
+════════════════════════════════════════════════════════════ */
+const baFrame=document.getElementById('baFrame');
+const baAfter=document.getElementById('baAfter');
+const baHandle=document.getElementById('baHandle');
+if(baFrame){
+  let drag=false;
+  const setP=cx=>{
+    const r=baFrame.getBoundingClientRect();
+    const pct=Math.max(4,Math.min(96,((cx-r.left)/r.width)*100));
+    const rtl=document.documentElement.dir==='rtl';
+    baAfter.style.clipPath=rtl?`inset(0 ${100-pct}% 0 0)`:`inset(0 0 0 ${pct}%)`;
+    baHandle.style.left=pct+'%';
+  };
+  baFrame.addEventListener('mousedown',e=>{drag=true;setP(e.clientX);});
+  window.addEventListener('mousemove',e=>{if(drag)setP(e.clientX);});
+  window.addEventListener('mouseup',()=>drag=false);
+  baFrame.addEventListener('touchstart',e=>{drag=true;setP(e.touches[0].clientX);},{passive:true});
+  baFrame.addEventListener('touchmove',e=>{if(drag)setP(e.touches[0].clientX);},{passive:true});
+  window.addEventListener('touchend',()=>drag=false);
+}
+
+/* ════════════════════════════════════════════════════════════
+   FAQ ACCORDION
+════════════════════════════════════════════════════════════ */
+const faqList=document.getElementById('faqList');
+if(faqList){
+  faqList.querySelectorAll('.faq-item').forEach(item=>{
+    const btn=item.querySelector('.faq-q');
+    const ans=item.querySelector('.faq-a');
+    btn.addEventListener('click',()=>{
+      const open=item.classList.contains('open');
+      faqList.querySelectorAll('.faq-item.open').forEach(o=>{
+        o.classList.remove('open');o.querySelector('.faq-a').style.maxHeight=null;
+        o.querySelector('.faq-q').setAttribute('aria-expanded','false');
+      });
+      if(!open){item.classList.add('open');ans.style.maxHeight=ans.scrollHeight+'px';btn.setAttribute('aria-expanded','true');}
+    });
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   TOOLS FILTER
+════════════════════════════════════════════════════════════ */
+const toolsFilter=document.getElementById('toolsFilter');
+if(toolsFilter){
+  const chips=document.querySelectorAll('.tool-chip');
+  toolsFilter.addEventListener('click',e=>{
+    const btn=e.target.closest('button');if(!btn)return;
+    toolsFilter.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    chips.forEach(c=>{c.style.display=(f==='all'||c.dataset.cat===f)?'':'none';});
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   QUIZ / DIAGNOSTIC
+════════════════════════════════════════════════════════════ */
+const quizBox=document.getElementById('quizBox');
+if(quizBox){
+  let qStep=0,qScore=0;
+  const qSteps=quizBox.querySelectorAll('.quiz-step');
+  const qSegs=quizBox.querySelectorAll('.qp-s');
+  const pkgs={
+    en:[
+      {n:'Launch',d:'Your system diagnostic indicates a foundation build is the right entry point.'},
+      {n:'Momentum',d:'Your diagnostic signals readiness for consistent acquisition infrastructure.'},
+      {n:'Authority',d:'Your infrastructure diagnostic indicates market leadership positioning.'},
+      {n:'Dominance',d:'Your system is performing — ready for multi-channel scale infrastructure.'},
+      {n:'Empire',d:'Your diagnostic indicates category leadership — full-stack OS deployment.'}
+    ],
+    ar:[
+      {n:'الإطلاق',d:'يشير تشخيص نظامك إلى أن بناء الأساس هو نقطة الدخول الصحيحة.'},
+      {n:'الزخم',d:'يشير تشخيصك إلى الاستعداد لبنية استحواذ متسقة.'},
+      {n:'الريادة',d:'يشير تشخيصك البنيوي إلى تموضع قيادة السوق.'},
+      {n:'الهيمنة',d:'نظامك يؤدي بشكل جيد — جاهز لبنية تحتية للتوسع متعدد القنوات.'},
+      {n:'الإمبراطورية',d:'يشير تشخيصك إلى قيادة المجال — نشر نظام تشغيل متكامل.'}
+    ]
+  };
+  function qShowStep(i){
+    qSteps.forEach(s=>s.classList.remove('active'));
+    quizBox.querySelector(`[data-step="${i}"]`).classList.add('active');
+    qSegs.forEach((s,idx)=>s.classList.toggle('done',idx<Math.min(qStep,5)));
+  }
+  function qShowResult(){
+    const avg=qScore/5;
+    const idx=avg<.4?0:avg<.8?1:avg<1.2?2:avg<1.7?3:4;
+    const lang=document.body.dataset.lang==='ar'?'ar':'en';
+    const pkg=pkgs[lang][idx];
+    document.getElementById('qrPkg').textContent=pkg.n;
+    document.getElementById('qrDesc').textContent=pkg.d;
+    qShowStep(5);
+  }
+  quizBox.addEventListener('click',e=>{
+    const opt=e.target.closest('.q-opt');
+    if(opt){qScore+=parseInt(opt.dataset.value,10);qStep++;qStep<5?qShowStep(qStep):qShowResult();return;}
+    if(e.target.id==='qrRestart'){qStep=0;qScore=0;qShowStep(0);}
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   AUDIT FORM — multi-step
+════════════════════════════════════════════════════════════ */
+const aProgs=document.querySelectorAll('.ap-seg');
+function aSetProg(step){
+  aProgs.forEach((s,i)=>s.classList.toggle('done',i<step));
+}
+function aShowStep(id){
+  document.querySelectorAll('.audit-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+const an1=document.getElementById('auditNext1');
+if(an1){
+  an1.addEventListener('click',()=>{
+    const name=document.getElementById('aName')?.value.trim();
+    const biz=document.getElementById('aBiz')?.value.trim();
+    if(!name||!biz){alert('Please fill all required fields.');return;}
+    aSetProg(1);aShowStep('auditStep2');
+  });
+}
+const aSubmit=document.getElementById('auditSubmit');
+if(aSubmit){
+  aSubmit.addEventListener('click',()=>{
+    const name=document.getElementById('aName')?.value.trim();
+    const biz=document.getElementById('aBiz')?.value.trim();
+    const ind=document.getElementById('aInd')?.value;
+    const web=document.getElementById('aWeb')?.value.trim();
+    const rev=document.getElementById('aRev')?.value;
+    const chal=document.getElementById('aChal')?.value.trim();
+    const goal=document.getElementById('aGoal')?.value.trim();
+    const score=Math.floor(Math.random()*15+78);
+    document.getElementById('arScore').textContent=score;
+    aSetProg(2);aShowStep('auditStep3');
+    const isAr=document.body.dataset.lang==='ar';
+    const msg=isAr
+      ?`طلب تدقيق البنية التحتية\nالاسم: ${name}\nالنشاط: ${biz}\nالقطاع: ${ind}\nالموقع: ${web}\nالإيرادات: ${rev}\nالتحدي: ${chal}\nالهدف: ${goal}`
+      :`Infrastructure Audit Request\nName: ${name}\nBusiness: ${biz}\nIndustry: ${ind}\nWebsite: ${web}\nRevenue: ${rev}\nChallenge: ${chal}\nGoal: ${goal}`;
+    setTimeout(()=>window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,'_blank'),800);
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   ROI CALCULATOR
+════════════════════════════════════════════════════════════ */
+const rVis=document.getElementById('rVis'),rCon=document.getElementById('rCon'),rAov=document.getElementById('rAov');
+if(rVis){
+  const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
+  function calcRoi(){
+    const vis=+rVis.value,con=+rCon.value,aov=+rAov.value;
+    document.getElementById('rVisV').textContent=vis.toLocaleString('en-US');
+    document.getElementById('rConV').textContent=con+'%';
+    document.getElementById('rAovV').textContent=fmt(aov);
+    const cur=vis*(con/100)*aov;
+    const proj=vis*(Math.min(con*3,15)/100)*aov;
+    document.getElementById('roiRes').textContent=fmt(proj-cur);
+    document.getElementById('roiCur').textContent=fmt(cur);
+    document.getElementById('roiProj').textContent=fmt(proj);
+  }
+  [rVis,rCon,rAov].forEach(el=>el.addEventListener('input',calcRoi));
+  calcRoi();
+}
+
+/* ════════════════════════════════════════════════════════════
+   LANGUAGE TOGGLE
+════════════════════════════════════════════════════════════ */
+function setLang(lang){
+  document.body.dataset.lang=lang;
+  document.documentElement.lang=lang;
+  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    const t=lang==='ar'?el.dataset.ar:el.dataset.en;
+    if(t!=null)el.innerHTML=t;
+  });
+  document.querySelectorAll('.lang-sw button').forEach(btn=>{
+    const active=btn.dataset.lang===lang;
+    btn.classList.toggle('active',active);
+    btn.setAttribute('aria-pressed',String(active));
+  });
+  // Recalc open FAQ
+  document.querySelectorAll('.faq-item.open .faq-a').forEach(a=>a.style.maxHeight=a.scrollHeight+'px');
+  // Reset BA slider
+  if(baHandle&&baAfter){baHandle.style.left='50%';baAfter.style.clipPath=lang==='ar'?'inset(0 50% 0 0)':'inset(0 0 0 50%)';}
+}
+document.querySelectorAll('.lang-sw').forEach(sw=>{
+  sw.addEventListener('click',e=>{
+    const btn=e.target.closest('button');
+    if(btn&&btn.dataset.lang)setLang(btn.dataset.lang);
+  });
+});
+</script>
+</body>
+</html>
