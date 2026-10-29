@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shadow X Medical — The Future Of Medical Presence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0A0A0F;
+  --bg2:#0B132B;
+  --blue:#00C8FF;
+  --blue-light:#A0F8FF;
+  --cyan:#7BFFFB;
+  --orange:#FF7A00;
+  --orange-glow:#FFAA33;
+  --white:#FFFFFF;
+  --gray:#B8C2D1;
+  --muted:#7E8A9A;
+  --glass:rgba(255,255,255,0.04);
+  --glass-hover:rgba(255,255,255,0.07);
+  --border:rgba(255,255,255,0.08);
+  --border-blue:rgba(0,200,255,0.2);
+  --glow-blue:rgba(0,200,255,0.15);
+  --font-display:'Syne',sans-serif;
+  --font-body:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--font-body);overflow-x:hidden;line-height:1.6}
+::selection{background:rgba(0,200,255,0.25)}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:4px}
+
+/* LOADER */
+#loader{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;transition:opacity 0.6s ease, visibility 0.6s ease}
+#loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.loader-logo{font-family:var(--font-display);font-size:32px;font-weight:800;letter-spacing:-0.02em;color:var(--white)}
+.loader-logo span{color:var(--blue)}
+.loader-bar{width:200px;height:1px;background:var(--border);border-radius:1px;overflow:hidden}
+.loader-bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:1px;transition:width 1.8s cubic-bezier(0.4,0,0.2,1)}
+.loader-glow{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(0,200,255,0.08) 0%,transparent 70%);animation:breathe 2s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:0.5}50%{transform:scale(1.1);opacity:1}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 0;transition:all 0.4s ease}
+nav.scrolled{background:rgba(10,10,15,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 0}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--font-display);font-size:20px;font-weight:800;letter-spacing:-0.02em;color:var(--white);text-decoration:none}
+.logo span{color:var(--blue)}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+.nav-links a{color:var(--gray);text-decoration:none;font-size:14px;font-weight:500;transition:color 0.2s;letter-spacing:0.01em}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{background:var(--orange);color:var(--white);border:none;padding:12px 24px;border-radius:16px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.3s ease;letter-spacing:0.01em;font-family:var(--font-body)}
+.nav-cta:hover{background:var(--orange-glow);transform:translateY(-1px);box-shadow:0 8px 30px rgba(255,122,0,0.35)}
+.nav-menu-btn{display:none;background:none;border:1px solid var(--border);color:var(--white);padding:8px 12px;border-radius:10px;cursor:pointer;font-size:18px}
+
+/* SECTIONS */
+section{padding:120px 0}
+.container{max-width:1280px;margin:0 auto;padding:0 40px}
+.section-label{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:20px}
+.section-label::before{content:'';width:20px;height:1px;background:var(--blue)}
+h1,h2,h3{font-family:var(--font-display);line-height:1.1;letter-spacing:-0.03em}
+h1{font-size:clamp(44px,6vw,88px);font-weight:800}
+h2{font-size:clamp(32px,4vw,56px);font-weight:700}
+h3{font-size:22px;font-weight:700}
+p{color:var(--gray);line-height:1.7}
+
+/* BUTTONS */
+.btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--orange),var(--orange-glow));color:var(--white);border:none;padding:16px 32px;border-radius:16px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s ease;text-decoration:none;font-family:var(--font-body);letter-spacing:0.01em}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 48px rgba(255,122,0,0.4)}
+.btn-secondary{display:inline-flex;align-items:center;gap:10px;background:var(--glass);color:var(--white);border:1px solid var(--border);padding:16px 32px;border-radius:16px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s ease;text-decoration:none;font-family:var(--font-body);backdrop-filter:blur(10px);letter-spacing:0.01em}
+.btn-secondary:hover{background:var(--glass-hover);border-color:var(--border-blue);transform:translateY(-2px);box-shadow:0 12px 40px var(--glow-blue)}
+
+/* GLASS CARD */
+.glass-card{background:var(--glass);border:1px solid var(--border);border-radius:24px;padding:36px;backdrop-filter:blur(20px);transition:all 0.3s ease}
+.glass-card:hover{background:var(--glass-hover);border-color:var(--border-blue);transform:translateY(-4px);box-shadow:0 24px 60px var(--glow-blue)}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;padding-top:120px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);animation:drift 8s ease-in-out infinite}
+.hero-orb-1{width:600px;height:600px;background:radial-gradient(circle,rgba(0,200,255,0.12) 0%,transparent 70%);top:-100px;right:-100px;animation-delay:0s}
+.hero-orb-2{width:400px;height:400px;background:radial-gradient(circle,rgba(123,255,251,0.08) 0%,transparent 70%);bottom:100px;left:-100px;animation-delay:3s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-20px) scale(1.05)}}
+
+/* Grid lines bg */
+.grid-lines{position:absolute;inset:0;opacity:0.03;background-image:linear-gradient(var(--blue) 1px,transparent 1px),linear-gradient(90deg,var(--blue) 1px,transparent 1px);background-size:80px 80px}
+
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.2);border-radius:100px;padding:8px 16px;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue);margin-bottom:28px}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+.hero-h1{margin-bottom:20px}
+.hero-h1 .line-blue{color:var(--blue)}
+.hero-sub{font-size:20px;color:var(--gray);margin-bottom:16px;font-weight:400;letter-spacing:-0.01em}
+.hero-desc{font-size:16px;color:var(--muted);margin-bottom:40px;max-width:480px;line-height:1.8}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:56px}
+.hero-stats{display:flex;gap:40px}
+.hero-stat-num{font-family:var(--font-display);font-size:28px;font-weight:800;color:var(--white);display:block}
+.hero-stat-num span{color:var(--orange)}
+.hero-stat-label{font-size:13px;color:var(--muted);font-weight:500}
+
+/* Hero Visual */
+.hero-visual{position:relative;height:520px}
+.hero-dashboard{position:absolute;top:40px;left:40px;right:0;background:rgba(11,19,43,0.7);border:1px solid var(--border);border-radius:24px;padding:28px;backdrop-filter:blur(20px);animation:float 4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.dash-title{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--white)}
+.dash-status{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--cyan);font-weight:600}
+.dash-status-dot{width:6px;height:6px;background:var(--cyan);border-radius:50%;animation:pulse 1.5s infinite}
+.dash-metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.dash-metric{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px}
+.dash-metric-val{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--white);display:block}
+.dash-metric-key{font-size:11px;color:var(--muted);font-weight:500}
+.dash-metric-up{font-size:11px;color:var(--cyan);font-weight:600}
+.dash-chart{height:80px;display:flex;align-items:flex-end;gap:5px}
+.dash-bar{flex:1;background:linear-gradient(180deg,rgba(0,200,255,0.5) 0%,rgba(0,200,255,0.1) 100%);border-radius:4px 4px 0 0;transition:height 0.3s}
+
+/* Floating cards on hero */
+.hero-float-card{position:absolute;background:rgba(11,19,43,0.85);border:1px solid var(--border-blue);border-radius:16px;padding:14px 18px;backdrop-filter:blur(20px);font-size:13px;font-weight:600;color:var(--white);white-space:nowrap;box-shadow:0 8px 32px rgba(0,200,255,0.12)}
+.hfc-1{top:0;right:20px;animation:float2 3.5s 1s ease-in-out infinite}
+.hfc-2{bottom:60px;left:0;animation:float2 4s 0.5s ease-in-out infinite}
+.hfc-icon{display:inline-block;margin-right:6px;color:var(--blue)}
+@keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* X GLOW */
+.hero-x{position:absolute;bottom:0;right:-20px;font-family:var(--font-display);font-size:280px;font-weight:800;color:transparent;-webkit-text-stroke:1px rgba(0,200,255,0.08);line-height:1;pointer-events:none;letter-spacing:-0.05em}
+
+/* TRUST BAR */
+#trust{padding:40px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.trust-inner{display:flex;align-items:center;gap:48px;overflow:hidden}
+.trust-label{font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.trust-logos{display:flex;gap:48px;animation:marquee 20s linear infinite;white-space:nowrap}
+.trust-logos:hover{animation-play-state:paused}
+.trust-logo-item{font-family:var(--font-display);font-size:14px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:0.05em;transition:color 0.2s}
+.trust-logo-item:hover{color:rgba(255,255,255,0.7)}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ABOUT */
+#about .about-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-image{border-radius:28px;overflow:hidden;position:relative;height:480px}
+.about-image-bg{width:100%;height:100%;background:linear-gradient(135deg,rgba(0,200,255,0.05) 0%,rgba(11,19,43,0.8) 100%);border:1px solid var(--border);border-radius:28px;display:flex;align-items:center;justify-content:center;position:relative}
+.about-image-visual{text-align:center}
+.about-big-x{font-family:var(--font-display);font-size:180px;font-weight:800;color:transparent;-webkit-text-stroke:1px rgba(0,200,255,0.3);line-height:1;letter-spacing:-0.05em}
+.about-tag{position:absolute;bottom:30px;left:30px;background:rgba(0,200,255,0.1);border:1px solid var(--border-blue);border-radius:12px;padding:12px 20px}
+.about-tag-text{font-size:13px;font-weight:600;color:var(--blue)}
+
+/* WHY US */
+#why{background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 50%,var(--bg) 100%)}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px}
+.why-card{position:relative;overflow:hidden}
+.why-card-icon{width:48px;height:48px;border-radius:12px;background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.15);display:flex;align-items:center;justify-content:center;margin-bottom:20px;transition:all 0.3s}
+.why-card:hover .why-card-icon{background:rgba(0,200,255,0.2);box-shadow:0 0 20px rgba(0,200,255,0.2)}
+.why-card svg{stroke:var(--blue);width:22px;height:22px}
+.why-card h3{margin-bottom:10px;font-size:18px}
+.why-card p{font-size:14px;line-height:1.7}
+.why-card-num{position:absolute;top:24px;right:24px;font-family:var(--font-display);font-size:48px;font-weight:800;color:rgba(255,255,255,0.03);line-height:1}
+
+/* SERVICES */
+#services{background:var(--bg)}
+.services-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px}
+.services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.service-card{background:var(--glass);border:1px solid var(--border);border-radius:20px;padding:28px;transition:all 0.3s ease;cursor:pointer;position:relative;overflow:hidden}
+.service-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(0,200,255,0.06) 0%,transparent 60%);opacity:0;transition:opacity 0.3s}
+.service-card:hover::before{opacity:1}
+.service-card:hover{border-color:var(--border-blue);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,0.3)}
+.service-icon{width:44px;height:44px;border-radius:12px;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.service-icon svg{stroke:var(--blue);width:20px;height:20px}
+.service-card h3{font-size:16px;margin-bottom:8px;font-family:var(--font-body);font-weight:600}
+.service-card p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.service-learn{font-size:12px;font-weight:600;color:var(--blue);letter-spacing:0.05em;text-transform:uppercase;display:flex;align-items:center;gap:4px}
+.service-learn::after{content:'→';transition:transform 0.2s}
+.service-card:hover .service-learn::after{transform:translateX(4px)}
+
+/* PACKAGE BUILDER */
+#builder{background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
+.builder-inner{display:grid;grid-template-columns:1fr 380px;gap:60px;align-items:start}
+.builder-services{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.builder-item{display:flex;align-items:center;gap:12px;background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:16px 20px;cursor:pointer;transition:all 0.2s;user-select:none}
+.builder-item.selected{background:rgba(0,200,255,0.08);border-color:rgba(0,200,255,0.3)}
+.builder-item.selected .builder-check{background:var(--blue);border-color:var(--blue);color:var(--bg)}
+.builder-check{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;transition:all 0.2s;color:transparent}
+.builder-item-name{font-size:14px;font-weight:500;color:var(--gray)}
+.builder-item.selected .builder-item-name{color:var(--white)}
+
+.builder-summary{background:var(--glass);border:1px solid var(--border);border-radius:24px;padding:36px;position:sticky;top:100px;backdrop-filter:blur(20px)}
+.builder-summary h3{font-size:18px;margin-bottom:4px}
+.builder-summary-sub{font-size:13px;color:var(--muted);margin-bottom:28px}
+.builder-selected-list{min-height:120px;margin-bottom:28px}
+.builder-selected-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--gray)}
+.builder-empty{font-size:14px;color:var(--muted);text-align:center;padding:32px 0}
+.builder-total-row{display:flex;align-items:center;justify-content:space-between;padding-top:20px;margin-bottom:28px}
+.builder-total-label{font-size:14px;color:var(--muted)}
+.builder-total-val{font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--orange)}
+.builder-cta{width:100%;background:linear-gradient(135deg,var(--orange),var(--orange-glow));color:var(--white);border:none;padding:16px;border-radius:16px;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.3s;font-family:var(--font-body)}
+.builder-cta:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(255,122,0,0.4)}
+
+/* PROCESS */
+#process{background:var(--bg)}
+.process-steps{display:grid;grid-template-columns:repeat(7,1fr);gap:0;margin-top:60px;position:relative}
+.process-steps::before{content:'';position:absolute;top:28px;left:calc(100%/14);right:calc(100%/14);height:1px;background:linear-gradient(90deg,transparent,var(--border-blue),transparent)}
+.process-step{text-align:center;position:relative;z-index:1}
+.process-dot{width:56px;height:56px;border-radius:50%;background:var(--glass);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-family:var(--font-display);font-size:15px;font-weight:800;color:var(--blue);transition:all 0.3s}
+.process-step:hover .process-dot{background:rgba(0,200,255,0.1);border-color:rgba(0,200,255,0.4);box-shadow:0 0 24px rgba(0,200,255,0.2)}
+.process-step-title{font-size:13px;font-weight:600;color:var(--white);margin-bottom:6px}
+.process-step-desc{font-size:11px;color:var(--muted);line-height:1.5}
+
+/* STATS */
+#stats{background:linear-gradient(135deg,rgba(0,200,255,0.03) 0%,rgba(11,19,43,0.5) 100%);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 0}
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:40px;text-align:center}
+.stat-num{font-family:var(--font-display);font-size:52px;font-weight:800;color:var(--white);display:block;line-height:1}
+.stat-num .stat-accent{color:var(--orange)}
+.stat-label{font-size:13px;color:var(--muted);font-weight:500;margin-top:8px}
+
+/* PORTFOLIO */
+#portfolio{background:var(--bg)}
+.portfolio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:60px}
+.portfolio-card{border-radius:24px;overflow:hidden;border:1px solid var(--border);background:var(--glass);transition:all 0.3s}
+.portfolio-card:hover{border-color:var(--border-blue);box-shadow:0 24px 60px rgba(0,200,255,0.1)}
+.portfolio-before-after{display:grid;grid-template-columns:1fr 1fr;height:220px}
+.portfolio-side{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:24px}
+.portfolio-side.before{background:rgba(30,30,40,0.5);border-right:1px solid var(--border)}
+.portfolio-side.after{background:linear-gradient(135deg,rgba(0,200,255,0.05) 0%,rgba(11,19,43,0.3) 100%)}
+.portfolio-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+.portfolio-label.after-label{color:var(--cyan)}
+.portfolio-metric{font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--white)}
+.portfolio-metric.after-metric{color:var(--blue)}
+.portfolio-metric-sub{font-size:12px;color:var(--muted)}
+.portfolio-body{padding:24px}
+.portfolio-tag{display:inline-block;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.15);border-radius:100px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--blue);margin-bottom:12px}
+.portfolio-body h3{font-size:18px;margin-bottom:6px}
+.portfolio-body p{font-size:13px;color:var(--muted)}
+
+/* TESTIMONIALS */
+#testimonials{background:var(--bg2)}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px}
+.testimonial-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:24px;padding:32px;transition:all 0.3s}
+.testimonial-card:hover{border-color:var(--border-blue);transform:translateY(-4px)}
+.testimonial-stars{display:flex;gap:4px;margin-bottom:20px}
+.testimonial-stars span{color:var(--orange-glow);font-size:14px}
+.testimonial-text{font-size:15px;color:var(--gray);line-height:1.7;margin-bottom:24px;font-style:italic}
+.testimonial-author{display:flex;align-items:center;gap:14px}
+.testimonial-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,rgba(0,200,255,0.3),rgba(123,255,251,0.2));border:1px solid rgba(0,200,255,0.2);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--blue);flex-shrink:0}
+.testimonial-name{font-size:14px;font-weight:700;color:var(--white);display:block}
+.testimonial-role{font-size:12px;color:var(--muted)}
+
+/* FAQ */
+#faq{background:var(--bg)}
+.faq-inner{display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start}
+.faq-list{margin-top:40px}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-question{display:flex;justify-content:space-between;align-items:center;padding:20px 0;cursor:pointer;font-size:16px;font-weight:500;color:var(--white);transition:color 0.2s;gap:20px}
+.faq-question:hover{color:var(--blue)}
+.faq-question-text{flex:1}
+.faq-toggle{width:28px;height:28px;border-radius:8px;background:var(--glass);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;color:var(--blue);transition:all 0.3s}
+.faq-item.open .faq-toggle{background:rgba(0,200,255,0.1);border-color:rgba(0,200,255,0.3);transform:rotate(45deg)}
+.faq-answer{font-size:15px;color:var(--muted);line-height:1.7;max-height:0;overflow:hidden;transition:max-height 0.4s ease, padding 0.4s ease}
+.faq-item.open .faq-answer{max-height:300px;padding-bottom:20px}
+
+/* CONTACT */
+#contact{background:linear-gradient(180deg,var(--bg2) 0%,var(--bg) 100%)}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.contact-info h2{margin-bottom:16px}
+.contact-info p{margin-bottom:36px}
+.contact-method{display:flex;align-items:center;gap:16px;padding:20px 0;border-bottom:1px solid var(--border)}
+.contact-method:last-child{border:none}
+.contact-method-icon{width:44px;height:44px;border-radius:12px;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.contact-method-icon svg{stroke:var(--blue);width:18px;height:18px}
+.contact-method-title{font-size:12px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:2px}
+.contact-method-val{font-size:15px;font-weight:600;color:var(--white)}
+
+.contact-form{background:var(--glass);border:1px solid var(--border);border-radius:24px;padding:40px;backdrop-filter:blur(20px)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{display:flex;flex-direction:column;gap:8px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase}
+.form-group input,.form-group select,.form-group textarea{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:16px;padding:14px 18px;font-size:15px;color:var(--white);font-family:var(--font-body);transition:all 0.2s;outline:none;width:100%}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--muted)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:rgba(0,200,255,0.4);background:rgba(0,200,255,0.04);box-shadow:0 0 0 3px rgba(0,200,255,0.08)}
+.form-group select option{background:var(--bg);color:var(--white)}
+.form-group textarea{resize:vertical;min-height:100px}
+.form-submit{width:100%;background:linear-gradient(135deg,var(--orange),var(--orange-glow));color:var(--white);border:none;padding:16px;border-radius:16px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s;font-family:var(--font-body);margin-top:8px}
+.form-submit:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(255,122,0,0.4)}
+
+/* FINAL CTA */
+#final-cta{padding:100px 0;text-align:center;position:relative;overflow:hidden}
+.fcta-orb{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none}
+.fcta-orb-1{width:500px;height:500px;background:radial-gradient(circle,rgba(0,200,255,0.1) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%)}
+.fcta-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.fcta-label{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--orange);margin-bottom:20px;background:rgba(255,122,0,0.08);border:1px solid rgba(255,122,0,0.2);border-radius:100px;padding:8px 16px}
+.fcta-inner h2{font-size:clamp(36px,5vw,68px);margin-bottom:16px}
+.fcta-inner p{font-size:18px;color:var(--muted);margin-bottom:40px}
+.fcta-btns{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+
+/* FOOTER */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:60px 0 32px}
+.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:48px}
+.footer-brand p{font-size:14px;color:var(--muted);line-height:1.7;margin-top:12px;max-width:280px}
+.footer-col h4{font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--white);margin-bottom:20px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+.footer-col ul li a{font-size:14px;color:var(--muted);text-decoration:none;transition:color 0.2s}
+.footer-col ul li a:hover{color:var(--blue)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:32px;border-top:1px solid var(--border)}
+.footer-bottom p{font-size:13px;color:var(--muted)}
+.footer-social{display:flex;gap:12px}
+.footer-social a{width:36px;height:36px;border-radius:10px;background:var(--glass);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;font-size:14px;transition:all 0.2s}
+.footer-social a:hover{border-color:var(--border-blue);color:var(--blue)}
+
+/* MOBILE NAV */
+.mobile-nav{position:fixed;inset:0;background:rgba(10,10,15,0.97);backdrop-filter:blur(20px);z-index:998;display:none;flex-direction:column;align-items:center;justify-content:center;gap:32px}
+.mobile-nav.open{display:flex}
+.mobile-nav a{font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--white);text-decoration:none;transition:color 0.2s}
+.mobile-nav a:hover{color:var(--blue)}
+.mobile-close{position:absolute;top:24px;right:24px;background:none;border:1px solid var(--border);color:var(--white);width:40px;height:40px;border-radius:12px;cursor:pointer;font-size:18px}
+
+/* REVEAL ANIMATIONS */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease, transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr;gap:60px}
+  .hero-visual{display:none}
+  .why-grid{grid-template-columns:repeat(2,1fr)}
+  .services-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-inner{grid-template-columns:1fr 1fr}
+  .stats-grid{grid-template-columns:repeat(3,1fr)}
+  .process-steps{grid-template-columns:repeat(4,1fr);gap:24px}
+  .process-steps::before{display:none}
+  .builder-inner{grid-template-columns:1fr}
+  .contact-inner{grid-template-columns:1fr}
+  .faq-inner{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  section{padding:80px 0}
+  .container{padding:0 24px}
+  .nav-links{display:none}
+  .nav-menu-btn{display:block}
+  .nav-inner{padding:0 24px}
+  .hero-btns{flex-direction:column;align-items:flex-start}
+  .hero-stats{gap:24px}
+  .why-grid,.services-grid,.testimonials-grid,.portfolio-grid{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .form-grid{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr}
+  .builder-services{grid-template-columns:1fr}
+  .services-header{flex-direction:column;align-items:flex-start;gap:20px}
+  .process-steps{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-glow"></div>
+  <div class="loader-logo">Shadow<span>X</span> Medical</div>
+  <div class="loader-bar"><div class="loader-bar-fill" id="loaderBar"></div></div>
+</div>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" onclick="closeMobileNav()">✕</button>
+  <a href="#hero" onclick="closeMobileNav()">Home</a>
+  <a href="#services" onclick="closeMobileNav()">Services</a>
+  <a href="#portfolio" onclick="closeMobileNav()">Portfolio</a>
+  <a href="#about" onclick="closeMobileNav()">About</a>
+  <a href="#contact" onclick="closeMobileNav()">Contact</a>
+  <a href="#contact" onclick="closeMobileNav()" style="color:var(--orange)">Book Consultation</a>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="logo">Shadow<span>X</span> Medical</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-cta" onclick="scrollToContact()">Book Consultation</button>
+    <button class="nav-menu-btn" onclick="openMobileNav()">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg">
+    <div class="grid-lines"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+  </div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content reveal">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Healthcare Digital Transformation
+        </div>
+        <h1 class="hero-h1">
+          The Future Of<br>
+          <span class="line-blue">Medical Presence</span>
+        </h1>
+        <p class="hero-sub">Everything You Need To Build Your Medical Presence In One Place.</p>
+        <p class="hero-desc">Shadow X Medical helps doctors, clinics and healthcare organizations build premium digital identities that inspire trust, improve visibility and accelerate growth.</p>
+        <div class="hero-btns">
+          <a href="#contact" class="btn-primary">Let's Build Your Medical Presence →</a>
+          <a href="#services" class="btn-secondary">Explore Our Solutions</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <span class="hero-stat-num"><span id="c1">0</span><span style="color:var(--orange)">+</span></span>
+            <span class="hero-stat-label">Successful Projects</span>
+          </div>
+          <div>
+            <span class="hero-stat-num"><span id="c2">0</span><span style="color:var(--orange)">%</span></span>
+            <span class="hero-stat-label">Client Satisfaction</span>
+          </div>
+          <div>
+            <span class="hero-stat-num"><span id="c3">0</span><span style="color:var(--orange)">+</span></span>
+            <span class="hero-stat-label">Healthcare Partners</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-x">X</div>
+        <div class="hero-dashboard">
+          <div class="dash-header">
+            <span class="dash-title">Medical Growth Dashboard</span>
+            <span class="dash-status"><span class="dash-status-dot"></span>Live</span>
+          </div>
+          <div class="dash-metric-row">
+            <div class="dash-metric">
+              <span class="dash-metric-val">+347%</span>
+              <span class="dash-metric-key">Online Visibility</span>
+              <span class="dash-metric-up">↑ this month</span>
+            </div>
+            <div class="dash-metric">
+              <span class="dash-metric-val">2,841</span>
+              <span class="dash-metric-key">New Appointments</span>
+              <span class="dash-metric-up">↑ 12% growth</span>
+            </div>
+            <div class="dash-metric">
+              <span class="dash-metric-val">98.4%</span>
+              <span class="dash-metric-key">Patient Trust</span>
+              <span class="dash-metric-up">↑ excellent</span>
+            </div>
+          </div>
+          <div class="dash-chart" id="dashChart"></div>
+        </div>
+        <div class="hero-float-card hfc-1">
+          <span class="hfc-icon">◆</span> AI Chatbot Active — 24/7
+        </div>
+        <div class="hero-float-card hfc-2">
+          <span class="hfc-icon">●</span> Premium Brand Launched
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div id="trust">
+  <div class="container">
+    <div class="trust-inner">
+      <span class="trust-label">Trusted By</span>
+      <div class="trust-logos" id="trustLogos">
+        <span class="trust-logo-item">CAIRO DENTAL CENTER</span>
+        <span class="trust-logo-item">NOVA CLINIC</span>
+        <span class="trust-logo-item">MEDLIFE IVF</span>
+        <span class="trust-logo-item">ALPHA ORTHOPEDIC</span>
+        <span class="trust-logo-item">DERMA ELITE</span>
+        <span class="trust-logo-item">VITAHEALTH GROUP</span>
+        <span class="trust-logo-item">LUXE AESTHETICS</span>
+        <span class="trust-logo-item">PRIME MEDICAL</span>
+        <span class="trust-logo-item">CAIRO DENTAL CENTER</span>
+        <span class="trust-logo-item">NOVA CLINIC</span>
+        <span class="trust-logo-item">MEDLIFE IVF</span>
+        <span class="trust-logo-item">ALPHA ORTHOPEDIC</span>
+        <span class="trust-logo-item">DERMA ELITE</span>
+        <span class="trust-logo-item">VITAHEALTH GROUP</span>
+        <span class="trust-logo-item">LUXE AESTHETICS</span>
+        <span class="trust-logo-item">PRIME MEDICAL</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-image reveal">
+        <div class="about-image-bg">
+          <div class="about-image-visual">
+            <div class="about-big-x">X</div>
+          </div>
+          <div class="about-tag">
+            <span class="about-tag-text">Healthcare Digital Transformation Company</span>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <span class="section-label">About Us</span>
+        <h2>We Don't Build Websites.<br>We Build Medical Brands.</h2>
+        <p style="margin-top:20px;margin-bottom:20px;font-size:17px">Shadow X Medical transforms healthcare businesses into premium digital brands that inspire trust and drive real growth.</p>
+        <p style="margin-bottom:32px">We combine branding, technology, AI and digital strategy to help medical professionals establish a presence that reflects the quality of their care — and converts visitors into patients.</p>
+        <p style="margin-bottom:40px">We are not a marketing agency. We are not a design studio. We are your long-term healthcare technology partner.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div class="glass-card" style="padding:24px">
+            <div style="font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--blue);margin-bottom:4px">5+</div>
+            <div style="font-size:13px;color:var(--muted)">Years of Experience</div>
+          </div>
+          <div class="glass-card" style="padding:24px">
+            <div style="font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--orange);margin-bottom:4px">24/7</div>
+            <div style="font-size:13px;color:var(--muted)">Partner Support</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="container">
+    <div style="text-align:center;max-width:600px;margin:0 auto" class="reveal">
+      <span class="section-label">Why Shadow X Medical</span>
+      <h2>Built Different.<br>For Healthcare.</h2>
+      <p style="margin-top:16px">Every feature, every service, every decision is built with one type of client in mind: the medical professional who refuses to settle for average.</p>
+    </div>
+    <div class="why-grid">
+      <div class="glass-card why-card reveal">
+        <span class="why-card-num">01</span>
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
+        </div>
+        <h3>Healthcare-Exclusive Focus</h3>
+        <p>We work only with medical professionals. No retail. No restaurants. Only healthcare — which means we understand your world better than anyone else.</p>
+      </div>
+      <div class="glass-card why-card reveal">
+        <span class="why-card-num">02</span>
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <h3>Premium Design Standards</h3>
+        <p>Every project is built to Apple-level standards. Clean, purposeful and conversion-driven. No templates, no shortcuts, no compromise on quality.</p>
+      </div>
+      <div class="glass-card why-card reveal">
+        <span class="why-card-num">03</span>
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><circle cx="12" cy="12" r="10"/></svg>
+        </div>
+        <h3>AI-Powered Solutions</h3>
+        <p>From intelligent chatbots to automation systems, we embed AI into your operations so your clinic works smarter — even when you're not watching.</p>
+      </div>
+      <div class="glass-card why-card reveal">
+        <span class="why-card-num">04</span>
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-2 2.5h3L12 7"/><path d="M10 14v-3"/><path d="M14 14v-3"/><path d="M8 14v-2"/><path d="M16 14v-2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 14v-2a6 6 0 0 1 12 0v2"/></svg>
+        </div>
+        <h3>Fast, Reliable Delivery</h3>
+        <p>Time matters in healthcare. Our structured process ensures every project is delivered on time without compromising quality or attention to detail.</p>
+      </div>
+      <div class="glass-card why-card reveal">
+        <span class="why-card-num">05</span>
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        </div>
+        <h3>Measurable Business Growth</h3>
+        <p>We track every metric that matters. More appointments, higher rankings, better conversion rates. We measure success in business outcomes, not just aesthetics.</p>
+      </div>
+      <div class="glass-card why-card reveal">
+        <span class="why-card-num">06</span>
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Long-Term Partnership</h3>
+        <p>We don't disappear after launch. We become part of your team — continuously improving your digital presence as your practice grows.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="services-header reveal">
+      <div>
+        <span class="section-label">What We Do</span>
+        <h2>Complete Medical<br>Digital Solutions</h2>
+      </div>
+      <a href="#builder" class="btn-secondary" style="white-space:nowrap">Build Your Package →</a>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></div>
+        <h3>Medical Branding</h3>
+        <p>Logo, visual identity and brand system designed to communicate trust and authority in healthcare.</p>
+        <span class="service-learn">Learn More</span>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
+        <h3>Premium Websites</h3>
+        <p>Conversion-focused medical websites built to the highest design standards. No templates.</p>
+        <span class="service-learn">Learn More</span>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></div>
+        <h3>Booking Systems</h3>
+        <p>Smart appointment management systems that fill your schedule without the administrative overhead.</p>
+        <span class="service-learn">Learn More</span>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+        <h3>Google SEO</h3>
+        <p>Dominate local search results. Be the first clinic patients find when they search for your specialty.</p>
+        <span class="service-learn">Learn More</span>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 8-9.04 9.06a2.82 2.82 0 1 0 3.98 3.98L16 12"/><circle cx="17" cy="7" r="5"/></svg></div>
+        <h3>AI Chatbot</h3>
+        <p>24/7 intelligent patient assistant that answers questions, books appointments and qualifies leads automatically.</p>
+        <span class="service-learn">Learn More</span>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12.2a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.5h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.15 6.15l1.77-1.77a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <h3>WhatsApp Business</h3>
+        <p>Professional WhatsApp setup with automated responses, broadcasts and patient follow-up sequences.</p>
+        <span class="service-learn">Learn More</span>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <h3>Medical Marketing</h3>
+        <p>Data-driven campaigns across Google and social platforms, designed specifically for healthcare conversion.</p>
+        <span class="service-learn">Learn More</span>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg></div>
+        <h3>Content Creation</h3>
+        <p>Premium medical content — photography, video, copywriting and social media — that positions you as the authority.</p>
+        <span class="service-learn">Learn More</span>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <h3>Analytics & Reporting</h3>
+        <p>Clear, real-time dashboards showing exactly how your digital presence performs and where to grow next.</p>
+        <span class="service-learn">Learn More</span>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+        <h3>Electronic Invoice</h3>
+        <p>Digital billing and invoicing systems compliant with healthcare financial standards, fully integrated.</p>
+        <span class="service-learn">Learn More</span>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>CRM Integration</h3>
+        <p>Patient relationship management systems that track every touchpoint and automate retention campaigns.</p>
+        <span class="service-learn">Learn More</span>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+        <h3>Workflow Automation</h3>
+        <p>Automate patient follow-ups, reminders, reports and internal tasks — saving your team hours every week.</p>
+        <span class="service-learn">Learn More</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGE BUILDER -->
+<section id="builder">
+  <div class="container">
+    <div style="text-align:center;max-width:600px;margin:0 auto 60px" class="reveal">
+      <span class="section-label">Package Builder</span>
+      <h2>Build Your Custom Solution</h2>
+      <p style="margin-top:16px">Select the services you need. We'll prepare a tailored consultation for your specific goals.</p>
+    </div>
+    <div class="builder-inner">
+      <div class="builder-services" id="builderServices">
+        <!-- Populated by JS -->
+      </div>
+      <div class="builder-summary">
+        <h3>Your Package</h3>
+        <p class="builder-summary-sub">Selected services summary</p>
+        <div class="builder-selected-list" id="builderList">
+          <div class="builder-empty">Select services to build your package</div>
+        </div>
+        <div class="builder-total-row">
+          <span class="builder-total-label">Services Selected</span>
+          <span class="builder-total-val" id="builderCount">0 services</span>
+        </div>
+        <button class="builder-cta" onclick="scrollToContact()">Book Free Consultation →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container">
+    <div style="text-align:center;max-width:600px;margin:0 auto 60px" class="reveal">
+      <span class="section-label">How We Work</span>
+      <h2>A Process Built For Results</h2>
+    </div>
+    <div class="process-steps">
+      <div class="process-step reveal"><div class="process-dot">01</div><div class="process-step-title">Discovery</div><div class="process-step-desc">Deep dive into your practice, goals and patients</div></div>
+      <div class="process-step reveal"><div class="process-dot">02</div><div class="process-step-title">Research</div><div class="process-step-desc">Market, competitors and audience analysis</div></div>
+      <div class="process-step reveal"><div class="process-dot">03</div><div class="process-step-title">Strategy</div><div class="process-step-desc">Custom digital roadmap built for your growth</div></div>
+      <div class="process-step reveal"><div class="process-dot">04</div><div class="process-step-title">Design</div><div class="process-step-desc">Premium visual system crafted for your brand</div></div>
+      <div class="process-step reveal"><div class="process-dot">05</div><div class="process-step-title">Development</div><div class="process-step-desc">Engineered to perform, convert and scale</div></div>
+      <div class="process-step reveal"><div class="process-dot">06</div><div class="process-step-title">Launch</div><div class="process-step-desc">Precise deployment with quality checks</div></div>
+      <div class="process-step reveal"><div class="process-dot">07</div><div class="process-step-title">Growth</div><div class="process-step-desc">Ongoing optimization and partnership</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div style="text-align:center" class="reveal">
+        <span class="stat-num"><span class="stat-counter" data-target="120">0</span><span class="stat-accent">+</span></span>
+        <div class="stat-label">Successful Projects</div>
+      </div>
+      <div style="text-align:center" class="reveal">
+        <span class="stat-num"><span class="stat-counter" data-target="98">0</span><span class="stat-accent">%</span></span>
+        <div class="stat-label">Client Satisfaction</div>
+      </div>
+      <div style="text-align:center" class="reveal">
+        <span class="stat-num"><span class="stat-counter" data-target="45">0</span><span class="stat-accent">+</span></span>
+        <div class="stat-label">Healthcare Partners</div>
+      </div>
+      <div style="text-align:center" class="reveal">
+        <span class="stat-num"><span class="stat-accent" style="font-family:var(--font-display);font-size:52px;font-weight:800">24/7</span></span>
+        <div class="stat-label">Support Availability</div>
+      </div>
+      <div style="text-align:center" class="reveal">
+        <span class="stat-num"><span class="stat-counter" data-target="5">0</span><span class="stat-accent">+</span></span>
+        <div class="stat-label">Years of Excellence</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="container">
+    <div style="text-align:center;max-width:600px;margin:0 auto 60px" class="reveal">
+      <span class="section-label">Case Studies</span>
+      <h2>Real Results For Real Clinics</h2>
+      <p style="margin-top:16px">We measure success in patient appointments, revenue growth and market authority — not just beautiful pixels.</p>
+    </div>
+    <div class="portfolio-grid">
+      <div class="portfolio-card reveal">
+        <div class="portfolio-before-after">
+          <div class="portfolio-side before">
+            <span class="portfolio-label">Before</span>
+            <span class="portfolio-metric">12</span>
+            <span class="portfolio-metric-sub">Monthly Appointments</span>
+          </div>
+          <div class="portfolio-side after">
+            <span class="portfolio-label after-label">After</span>
+            <span class="portfolio-metric after-metric">247</span>
+            <span class="portfolio-metric-sub">Monthly Appointments</span>
+          </div>
+        </div>
+        <div class="portfolio-body">
+          <span class="portfolio-tag">Dental Center · Cairo</span>
+          <h3>Cairo Dental Center</h3>
+          <p>Full brand overhaul, premium website, booking system and SEO campaign. 20x growth in appointments within 6 months.</p>
+        </div>
+      </div>
+      <div class="portfolio-card reveal">
+        <div class="portfolio-before-after">
+          <div class="portfolio-side before">
+            <span class="portfolio-label">Before</span>
+            <span class="portfolio-metric">3%</span>
+            <span class="portfolio-metric-sub">Online Visibility</span>
+          </div>
+          <div class="portfolio-side after">
+            <span class="portfolio-label after-label">After</span>
+            <span class="portfolio-metric after-metric">89%</span>
+            <span class="portfolio-metric-sub">Local Search Ranking</span>
+          </div>
+        </div>
+        <div class="portfolio-body">
+          <span class="portfolio-tag">Dermatology · Alexandria</span>
+          <h3>Derma Elite Clinic</h3>
+          <p>AI chatbot, WhatsApp automation and Google SEO strategy. Became the #1 dermatology clinic in local search within 4 months.</p>
+        </div>
+      </div>
+      <div class="portfolio-card reveal">
+        <div class="portfolio-before-after">
+          <div class="portfolio-side before">
+            <span class="portfolio-label">Before</span>
+            <span class="portfolio-metric">$0</span>
+            <span class="portfolio-metric-sub">Digital Presence</span>
+          </div>
+          <div class="portfolio-side after">
+            <span class="portfolio-label after-label">After</span>
+            <span class="portfolio-metric after-metric">340%</span>
+            <span class="portfolio-metric-sub">Revenue Growth</span>
+          </div>
+        </div>
+        <div class="portfolio-body">
+          <span class="portfolio-tag">IVF Center · Giza</span>
+          <h3>MedLife IVF Center</h3>
+          <p>Brand identity, premium website, patient management system and full digital marketing strategy. Launched and scaled from zero.</p>
+        </div>
+      </div>
+      <div class="portfolio-card reveal">
+        <div class="portfolio-before-after">
+          <div class="portfolio-side before">
+            <span class="portfolio-label">Before</span>
+            <span class="portfolio-metric">2.1★</span>
+            <span class="portfolio-metric-sub">Google Rating</span>
+          </div>
+          <div class="portfolio-side after">
+            <span class="portfolio-label after-label">After</span>
+            <span class="portfolio-metric after-metric">4.9★</span>
+            <span class="portfolio-metric-sub">Google Rating</span>
+          </div>
+        </div>
+        <div class="portfolio-body">
+          <span class="portfolio-tag">Orthopedic · Mansoura</span>
+          <h3>Alpha Orthopedic Center</h3>
+          <p>Reputation management, Google Business optimization, patient review automation and brand refresh. From forgettable to outstanding.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div style="text-align:center;max-width:600px;margin:0 auto 60px" class="reveal">
+      <span class="section-label">What They Say</span>
+      <h2>Doctors Who Chose Growth</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="testimonial-text">"Shadow X Medical completely transformed how patients perceive our clinic. Our bookings tripled in four months and we're now the most-reviewed dental center in Cairo."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">DM</div>
+          <div>
+            <span class="testimonial-name">Dr. Mohamed Hassan</span>
+            <span class="testimonial-role">Founder, Cairo Dental Center</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="testimonial-text">"The AI chatbot they built handles 80% of our patient inquiries automatically. We save 20+ hours per week and never miss a new patient. Worth every pound."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">NS</div>
+          <div>
+            <span class="testimonial-name">Dr. Nour Samir</span>
+            <span class="testimonial-role">Dermatologist, Derma Elite</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="testimonial-text">"We went from zero digital presence to being fully booked three months after launch. Shadow X Medical doesn't just build websites — they build businesses."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AK</div>
+          <div>
+            <span class="testimonial-name">Dr. Ahmed Khalil</span>
+            <span class="testimonial-role">Medical Director, MedLife IVF</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="faq-inner">
+      <div class="reveal">
+        <span class="section-label">FAQ</span>
+        <h2>Questions Worth Asking</h2>
+        <p style="margin-top:16px;margin-bottom:32px">Answers to what every medical professional wants to know before partnering with us.</p>
+        <a href="#contact" class="btn-secondary">Ask A Question →</a>
+      </div>
+      <div class="faq-list reveal" id="faqList">
+        <!-- JS populated -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="reveal">
+        <span class="section-label">Contact</span>
+        <h2>Start Your Transformation</h2>
+        <p style="margin-top:16px;margin-bottom:36px">Book a free 30-minute consultation. We'll analyze your current presence and present a clear growth plan — no commitment required.</p>
+        <div class="contact-method">
+          <div class="contact-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12.2a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.5h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.15 6.15l1.77-1.77a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div>
+            <span class="contact-method-title">Phone & WhatsApp</span>
+            <span class="contact-method-val">+20 100 000 0000</span>
+          </div>
+        </div>
+        <div class="contact-method">
+          <div class="contact-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div>
+            <span class="contact-method-title">Email</span>
+            <span class="contact-method-val">hello@shadowxmedical.com</span>
+          </div>
+        </div>
+        <div class="contact-method">
+          <div class="contact-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></div>
+          <div>
+            <span class="contact-method-title">Location</span>
+            <span class="contact-method-val">Cairo, Egypt — Serving the Middle East</span>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form reveal">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" placeholder="Dr. Your Name"/>
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="+20 xxx xxx xxxx"/>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="doctor@clinic.com"/>
+          </div>
+          <div class="form-group">
+            <label>Clinic Name</label>
+            <input type="text" placeholder="Your Clinic or Hospital"/>
+          </div>
+          <div class="form-group full">
+            <label>Medical Specialty</label>
+            <select>
+              <option value="" disabled selected>Select your specialty</option>
+              <option>General Practice</option>
+              <option>Dentistry</option>
+              <option>Dermatology</option>
+              <option>Plastic Surgery</option>
+              <option>Orthopedics</option>
+              <option>IVF & Fertility</option>
+              <option>Pediatrics</option>
+              <option>Ophthalmology</option>
+              <option>Cardiology</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label>Message</label>
+            <textarea placeholder="Tell us about your clinic and what you're looking to achieve..."></textarea>
+          </div>
+        </div>
+        <button class="form-submit" onclick="handleFormSubmit()">Book Free Consultation →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="final-cta">
+  <div class="fcta-orb fcta-orb-1"></div>
+  <div class="container">
+    <div class="fcta-inner reveal">
+      <div class="fcta-label">Ready To Transform?</div>
+      <h2>Build Your Medical Presence.<br><span style="color:var(--blue)">Start Today.</span></h2>
+      <p>Join 120+ medical professionals who chose to invest in their digital future. The consultation is free. The growth is real.</p>
+      <div class="fcta-btns">
+        <a href="#contact" class="btn-primary" style="font-size:18px;padding:18px 40px">Let's Build Together →</a>
+        <a href="#services" class="btn-secondary" style="font-size:18px;padding:18px 40px">Explore Services</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo" style="font-size:22px;display:inline-block;margin-bottom:12px">Shadow<span style="color:var(--blue)">X</span> Medical</div>
+        <p>The Future Of Medical Presence. We help healthcare professionals build premium digital identities that inspire trust and drive growth across the Middle East.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Medical Branding</a></li>
+          <li><a href="#services">Premium Websites</a></li>
+          <li><a href="#services">AI Solutions</a></li>
+          <li><a href="#services">SEO & Marketing</a></li>
+          <li><a href="#services">Booking Systems</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#portfolio">Case Studies</a></li>
+          <li><a href="#process">Our Process</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#contact">Book Consultation</a></li>
+          <li><a href="mailto:hello@shadowxmedical.com">hello@shadowxmedical.com</a></li>
+          <li><a href="tel:+201000000000">+20 100 000 0000</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Shadow X Medical. All rights reserved. Healthcare Digital Transformation Company.</p>
+      <div class="footer-social">
+        <a href="#" title="Instagram">In</a>
+        <a href="#" title="LinkedIn">Li</a>
+        <a href="#" title="X/Twitter">X</a>
+        <a href="#" title="WhatsApp">W</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── LOADER ───
+window.addEventListener('DOMContentLoaded', () => {
+  const bar = document.getElementById('loaderBar');
+  bar.style.width = '100%';
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hidden');
+    startHeroCounters();
+  }, 2000);
+});
+
+// ─── NAVBAR ───
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ─── MOBILE NAV ───
+function openMobileNav() { document.getElementById('mobileNav').classList.add('open'); }
+function closeMobileNav() { document.getElementById('mobileNav').classList.remove('open'); }
+
+// ─── SCROLL TO CONTACT ───
+function scrollToContact() {
+  document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ─── HERO COUNTERS ───
+function animateCount(el, target, duration) {
+  let start = 0;
+  const step = target / (duration / 16);
+  const run = () => {
+    start = Math.min(start + step, target);
+    el.textContent = Math.floor(start);
+    if (start < target) requestAnimationFrame(run);
+  };
+  requestAnimationFrame(run);
+}
+function startHeroCounters() {
+  setTimeout(() => {
+    animateCount(document.getElementById('c1'), 120, 1500);
+    animateCount(document.getElementById('c2'), 98, 1500);
+    animateCount(document.getElementById('c3'), 45, 1500);
+  }, 400);
+}
+
+// ─── DASH CHART ───
+const heights = [30, 45, 35, 60, 50, 75, 65, 90, 70, 88, 80, 95];
+const chart = document.getElementById('dashChart');
+if (chart) {
+  heights.forEach(h => {
+    const bar = document.createElement('div');
+    bar.className = 'dash-bar';
+    bar.style.height = h + '%';
+    chart.appendChild(bar);
+  });
+}
+
+// ─── REVEAL ON SCROLL ───
+const reveals = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(el => revealObserver.observe(el));
+
+// ─── STAT COUNTERS ───
+const statObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = parseInt(el.dataset.target);
+      animateCount(el, target, 1800);
+      statObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-counter').forEach(el => statObserver.observe(el));
+
+// ─── PACKAGE BUILDER ───
+const builderServices = [
+  'Medical Branding', 'Premium Website', 'Booking System',
+  'Google SEO', 'AI Chatbot', 'WhatsApp Business',
+  'Medical Marketing', 'Content Creation', 'Analytics Dashboard',
+  'Electronic Invoice', 'CRM Integration', 'Workflow Automation'
+];
+const selected = new Set();
+const bsContainer = document.getElementById('builderServices');
+const bsList = document.getElementById('builderList');
+const bsCount = document.getElementById('builderCount');
+
+builderServices.forEach(name => {
+  const item = document.createElement('div');
+  item.className = 'builder-item';
+  item.innerHTML = `<div class="builder-check">✓</div><span class="builder-item-name">${name}</span>`;
+  item.addEventListener('click', () => {
+    if (selected.has(name)) { selected.delete(name); item.classList.remove('selected'); }
+    else { selected.add(name); item.classList.add('selected'); }
+    updateBuilderSummary();
+  });
+  bsContainer.appendChild(item);
+});
+
+function updateBuilderSummary() {
+  if (selected.size === 0) {
+    bsList.innerHTML = '<div class="builder-empty">Select services to build your package</div>';
+    bsCount.textContent = '0 services';
+    return;
+  }
+  bsCount.textContent = selected.size + (selected.size === 1 ? ' service' : ' services');
+  bsList.innerHTML = '';
+  selected.forEach(name => {
+    const row = document.createElement('div');
+    row.className = 'builder-selected-item';
+    row.innerHTML = `<span>${name}</span><span style="color:var(--cyan);font-size:11px;font-weight:600">Selected</span>`;
+    bsList.appendChild(row);
+  });
+}
+
+// ─── FAQ ───
+const faqs = [
+  { q: 'What makes Shadow X Medical different from regular agencies?', a: 'We work exclusively with healthcare businesses. Every service, process and design decision is built with medical professionals in mind. We combine deep healthcare knowledge with premium technology to deliver results that generalist agencies cannot.' },
+  { q: 'How long does it take to launch a complete medical brand?', a: 'A full brand and website project typically takes 3–5 weeks from strategy to launch. Complex systems with AI chatbots and booking platforms take 6–8 weeks. We never rush quality, but we are always on schedule.' },
+  { q: 'Do you work with clinics outside Egypt?', a: 'Yes. We serve healthcare professionals across the Middle East including Egypt, UAE, Saudi Arabia, Kuwait and Jordan. Remote collaboration is seamless through our dedicated client portal.' },
+  { q: 'What is included in the free consultation?', a: 'A 30-minute call where we analyze your current digital presence, identify your biggest growth opportunities and present a clear roadmap — specific to your specialty and market. No sales pressure.' },
+  { q: 'Can I start with a single service and expand later?', a: 'Absolutely. Many clients begin with a website or branding project and add services as they grow. Our systems are built to integrate seamlessly, so expanding is always straightforward.' },
+  { q: 'Do you provide ongoing support after launch?', a: 'Yes. All our partners receive ongoing support, monthly performance reports and continuous optimization. We consider ourselves your long-term digital partner, not a vendor.' },
+];
+
+const faqList = document.getElementById('faqList');
+faqs.forEach((item, i) => {
+  const el = document.createElement('div');
+  el.className = 'faq-item';
+  el.innerHTML = `
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span class="faq-question-text">${item.q}</span>
+      <div class="faq-toggle">+</div>
+    </div>
+    <div class="faq-answer">${item.a}</div>
+  `;
+  faqList.appendChild(el);
+});
+
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ─── FORM SUBMIT ───
+function handleFormSubmit() {
+  const btn = document.querySelector('.form-submit');
+  btn.textContent = '✓ Request Sent — We\'ll Contact You Within 2 Hours';
+  btn.style.background = 'linear-gradient(135deg,rgba(0,200,255,0.3),rgba(0,200,255,0.15))';
+  btn.style.border = '1px solid rgba(0,200,255,0.3)';
+  btn.disabled = true;
+}
+</script>
+</body>
+</html>
